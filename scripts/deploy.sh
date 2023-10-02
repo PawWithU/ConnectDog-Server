@@ -24,25 +24,16 @@ if [ -z "$EXIST_BLUE" ]; then
   # 30초 동안 대기
   sleep 30
 
-  # blue가 문제없이 배포되었는지 현재 실행 여부를 확인
-  BLUE_HEALTH=$(sudo docker-compose -p ${DOCKER_APP_NAME}-blue -f docker-compose.blue.yml ps | grep Up)
+  # /home/ubuntu/deploy.log: 로그 파일에 "green 중단 시작"이라는 내용을 추가
+  echo "green 중단 시작 : $(date +%Y)-$(date +%m)-$(date +%d) $(date +%H):$(date +%M):$(date +%S)" >> /home/ubuntu/deploy.log
 
-  # blue가 현재 실행 중이지 않다면 -> 런타임 에러 또는 다른 이유로 배포가 되지 못한 상태
-  if [ -z "$BLUE_HEALTH" ]; then
-  # blue가 현재 실행되고 있는 경우에만 green을 종료
-  else
+  # docker-compose.green.yml 파일을 사용하여 connectdog-green 프로젝트의 컨테이너를 중지
+  sudo docker-compose -p ${DOCKER_APP_NAME}-green -f docker-compose.green.yml down
 
-    # /home/ubuntu/deploy.log: 로그 파일에 "green 중단 시작"이라는 내용을 추가
-    echo "green 중단 시작 : $(date +%Y)-$(date +%m)-$(date +%d) $(date +%H):$(date +%M):$(date +%S)" >> /home/ubuntu/deploy.log
+  # 사용하지 않는 이미지 삭제
+  sudo docker image prune -af
 
-    # docker-compose.green.yml 파일을 사용하여 connectdog-green 프로젝트의 컨테이너를 중지
-    sudo docker-compose -p ${DOCKER_APP_NAME}-green -f docker-compose.green.yml down
-
-    # 사용하지 않는 이미지 삭제
-    sudo docker image prune -af
-
-    echo "green 중단 완료 : $(date +%Y)-$(date +%m)-$(date +%d) $(date +%H):$(date +%M):$(date +%S)" >> /home/ubuntu/deploy.log
-  fi
+  echo "green 중단 완료 : $(date +%Y)-$(date +%m)-$(date +%d) $(date +%H):$(date +%M):$(date +%S)" >> /home/ubuntu/deploy.log
 
 # blue가 실행중이면 green up
 else
@@ -51,21 +42,18 @@ else
 
   sleep 30
 
-  GREEN_HEALTH=$(sudo docker-compose -p ${DOCKER_APP_NAME}-green -f docker-compose.green.yml ps | grep Up)
+  # /home/ubuntu/deploy.log: 로그 파일에 "blue 중단 시작"이라는 내용을 추가
+  echo "blue 중단 시작 : $(date +%Y)-$(date +%m)-$(date +%d) $(date +%H):$(date +%M):$(date +%S)" >> /home/ubuntu/deploy.log
 
-  if [ -z "$GREEN_HEALTH" ]; then
+  # docker-compose.blue.yml 파일을 사용하여 connectdog-blue 프로젝트의 컨테이너를 중지
+  sudo docker-compose -p ${DOCKER_APP_NAME}-blue -f docker-compose.blue.yml down
 
-  else
+  # 사용하지 않는 이미지 삭제
+  sudo docker image prune -af
 
-      # /home/ubuntu/deploy.log: 로그 파일에 "blue 중단 시작"이라는 내용을 추가
-      echo "blue 중단 시작 : $(date +%Y)-$(date +%m)-$(date +%d) $(date +%H):$(date +%M):$(date +%S)" >> /home/ubuntu/deploy.log
-
-      # docker-compose.blue.yml 파일을 사용하여 connectdog-green 프로젝트의 컨테이너를 중지
-      sudo docker-compose -p ${DOCKER_APP_NAME}-blue -f docker-compose.blue.yml down
-
-      # 사용하지 않는 이미지 삭제
-      sudo docker image prune -af
-
-      echo "blue 중단 완료 : $(date +%Y)-$(date +%m)-$(date +%d) $(date +%H):$(date +%M):$(date +%S)" >> /home/ubuntu/deploy.log
-  fi
+  echo "blue 중단 완료 : $(date +%Y)-$(date +%m)-$(date +%d) $(date +%H):$(date +%M):$(date +%S)" >> /home/ubuntu/deploy.log
 fi
+  echo "배포 종료  : $(date +%Y)-$(date +%m)-$(date +%d) $(date +%H):$(date +%M):$(date +%S)" >> /home/ubuntu/deploy.log
+
+  echo "===================== 배포 완료 =====================" >> /home/ubuntu/deploy.log
+  echo >> home/ubuntu/deploy.log
