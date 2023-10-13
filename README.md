@@ -11,7 +11,7 @@
 ## **🔍 System Architecture**
 
 
-<img src="https://github.com/PawWithU/ConnectDog-Server/assets/80199502/03130e71-db55-4e4c-b62c-f2a07c1c4d7d"  width="850">
+<img src="https://github.com/PawWithU/ConnectDog-Server/assets/80199502/514ad260-fcd4-4926-96d1-73fc43c1b880"  width="830">
 
 
 ## **💻 Technology**
@@ -111,6 +111,6 @@ Java
 
 ## **🐬 Git Flow**
 
-<img src="https://github.com/PawWithU/ConnectDog-Server/assets/80199502/e58226ea-fd36-4502-b22d-b16f8badca50"  width="700">
+<img src="https://github.com/PawWithU/ConnectDog-Server/assets/80199502/e58226ea-fd36-4502-b22d-b16f8badca50"  width="650">
 
 <br>
