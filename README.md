@@ -11,7 +11,7 @@
 ## **🔍 System Architecture**
 
 
-<img src="https://github.com/PawWithU/ConnectDog-Server/assets/80199502/514ad260-fcd4-4926-96d1-73fc43c1b880"  width="830">
+<img src="https://github.com/PawWithU/ConnectDog-Server/assets/80199502/417ba161-1366-49a0-955b-3fcaac8edb99"  width="830">
 
 
 ## **💻 Technology**
@@ -54,8 +54,8 @@
 - QueryDSL은 쿼리를 타입에 맞게 안전하게 생성 및 관리해 주는 라이브러리입니다. JPA는 복잡한 동적 쿼리를 구현하는 데 있어 한계가 있는데, QueryDSL은 자바 코드로 SQL문을 작성할 수 있어 컴파일 시에 오류가 발생해 잘못된 쿼리가 실행되는 것을 방지할 수 있습니다.
 - MariaDB는 MySQL 데이터베이스 시스템을 기반으로 한 서비스로, MySQL과 호환성이 높고 MySQL에서 찾을 수 없는 수많은 강력한 기능과 유용성, 보안 및 성능 개선사항이 함께 제공됩니다. 또한 MySQL에 비해 확장성이 뛰어나고 쿼리 속도가 더 빠르다는 장점이 있습니다. 비용이 저렴하고 성능이 더 좋으며 라이선스 문제가 없는 MariaDB를 이번 프로젝트에 사용합니다.
 - AWS EC2는 가상 컴퓨터를 임대 받아 그 위에 컴퓨터 애플리케이션들을 실행할 수 있게 하고, RDS는 관계형 데이터베이스를 제공하는 서비스로 DB의 설정, 운영, 백업 등의 기능을 편하게 이용할 수 있게 해줍니다.
-- JWT는 Json Web Token으로 Json 포맷을 이용하여 사용자에 대한 속성을 저장하는 Claim 기반의 Web Token입니다. 주로 클라이언트와 서버 사이에서 통신할 때 사용자의 인증 또는 인가 정보를 안전하게 주고받기 위해서 사용되며, 안전하고 효율적으로 Stateless한 서버를 구현할 수 있습니다.
-- Redis는 Key, Value 구조의 데이터를 저장하고 관리하는 오픈 소스 기반의 인메모리 데이터 구조 저장소입니다. 로그인 과정에서 발급되는 JWT인 Access Token과 Refresh Token 중 Refresh Token을 캐싱하여 사용자가 빠르게 Access Token을 재발급 받을 수 있게 하기 위해 Redis를 사용하였습니다. JWT로 구현된 Access Token은 탈취 당하더라도 유저 정보는 안전하지만, 이를 그대로 활용하여 로그인할 수 있기 때문에 만료 시간을 짧게 설정하고 Refresh Token을 이용하여 사용자의 불편을 줄였습니다.
+- JWT는 Json Web Token으로 Json 포맷을 이용하여 이동봉사자에 대한 속성을 저장하는 Claim 기반의 Web Token입니다. 주로 클라이언트와 서버 사이에서 통신할 때 이동봉사자의 인증 또는 인가 정보를 안전하게 주고받기 위해서 사용되며, 안전하고 효율적으로 Stateless한 서버를 구현할 수 있습니다.
+- Redis는 Key, Value 구조의 데이터를 저장하고 관리하는 오픈 소스 기반의 인메모리 데이터 구조 저장소입니다. 로그인 과정에서 발급되는 JWT인 Access Token과 Refresh Token 중 Refresh Token을 캐싱하여 이동봉사자가 빠르게 Access Token을 재발급 받을 수 있게 하기 위해 Redis를 사용하였습니다. JWT로 구현된 Access Token은 탈취 당하더라도 유저 정보는 안전하지만, 이를 그대로 활용하여 로그인할 수 있기 때문에 만료 시간을 짧게 설정하고 Refresh Token을 이용하여 이동봉사자의 불편을 줄였습니다.
 - 무료로 사용할 수 있으며 비밀 값을 Repository Secret에 넣어 안전하게 관리할 수 있는 Github Actions를 사용하여 CI/CD를 구현했습니다.
 - Github Actions를 통해 성공적으로 빌드된 프로젝트는 AWS S3에 업로드 되게 되고, Github Actions가 CodeDeploy에 배포를 요청하며, CodeDeploy는 S3로부터 zip 파일을 받아 배포를 진행합니다.
 - AWS S3에 압축 파일을 전송하여 CI/CD를 구현하는 것은 효율적이고 빠른 배포 프로세스를 갖게 되며, 일관성, 보안, 롤백 용이성 등 다양한 이점을 제공합니다.
@@ -67,7 +67,7 @@
 
 ## 🔖 Naming Rules
 
-Java
+#### `Java`
 - Class & Interface: `UpperCamelCase`
     - Class 이름은 일반적으로 명사, 명사구
     - Interface 이름은 명사, 명사구도 되지만 형용사, 형용사구도 됨
@@ -111,6 +111,6 @@ Java
 
 ## **🐬 Git Flow**
 
-<img src="https://github.com/PawWithU/ConnectDog-Server/assets/80199502/e58226ea-fd36-4502-b22d-b16f8badca50"  width="650">
+<img src="https://github.com/PawWithU/ConnectDog-AOS/assets/63611804/1e05edea-7b3a-49aa-8dd8-70faca37be28"  width="650">
 
 <br>
