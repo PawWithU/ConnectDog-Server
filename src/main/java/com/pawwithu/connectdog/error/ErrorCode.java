@@ -2,22 +2,23 @@ package com.pawwithu.connectdog.error;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
-import static org.springframework.http.HttpStatus.*;
 
 @Getter
 @RequiredArgsConstructor
 public enum ErrorCode {
 
-    INVALID_INPUT(BAD_REQUEST, "Invalid input provided"),
-    INTERNAL_ERROR(INTERNAL_SERVER_ERROR, "Internal server error");
+    TOKEN_NOT_EXIST("T1", "토큰이 존재하지 않습니다."),
+    TOKEN_IS_EXPIRED("T2", "만료된 토큰입니다."),
+    INVALID_TOKEN("T3", "잘못된 토큰입니다.");
 
-    private final int code;
+    private final String code;
     private final String message;
 
-    ErrorCode(HttpStatus code, String message) {
-        this.code = code.value();
-        this.message = message;
+    public String getCode() {
+        return code;
     }
 
+    public String getMessage() {
+        return message;
+    }
 }
