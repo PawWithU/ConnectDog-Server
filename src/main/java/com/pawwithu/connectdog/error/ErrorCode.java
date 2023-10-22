@@ -14,11 +14,4 @@ public enum ErrorCode {
     private final String code;
     private final String message;
 
-    public String getCode() {
-        return code;
-    }
-
-    public String getMessage() {
-        return message;
-    }
 }
