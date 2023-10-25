@@ -33,7 +33,7 @@ public class SignUpController {
     @PostMapping
     public ResponseEntity<Void> signUp(@RequestBody SignUpRequest signUpRequest) {
         authService.signUp(signUpRequest);
-        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+        return ResponseEntity.noContent().build();
     }
 
 }
