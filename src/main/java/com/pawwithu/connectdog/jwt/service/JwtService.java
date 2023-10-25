@@ -2,7 +2,10 @@ package com.pawwithu.connectdog.jwt.service;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
+import com.pawwithu.connectdog.domain.member.entity.Member;
 import com.pawwithu.connectdog.domain.member.repository.MemberRepository;
+import com.pawwithu.connectdog.error.exception.custom.TokenException;
+import com.pawwithu.connectdog.jwt.util.PasswordUtil;
 import com.pawwithu.connectdog.util.RedisUtil;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -10,10 +13,19 @@ import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.authority.mapping.GrantedAuthoritiesMapper;
+import org.springframework.security.core.authority.mapping.NullAuthoritiesMapper;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
 import java.util.Optional;
+
+import static com.pawwithu.connectdog.error.ErrorCode.ALREADY_LOGOUT_MEMBER;
+import static com.pawwithu.connectdog.error.ErrorCode.INVALID_TOKEN;
 
 @Service
 @RequiredArgsConstructor
@@ -44,6 +56,8 @@ public class JwtService {
     private final MemberRepository memberRepository;
 //    private final RedisTemplate<String, String> redisTemplate; // 빈 주입 충돌 -> 명시적으로 주입하면 되지만 여기선 쓰이지 않으므로 주석
     private final RedisUtil redisUtil;
+    private GrantedAuthoritiesMapper authoritiesMapper = new NullAuthoritiesMapper();
+
 
     // AccessToken & RefreshToken 생성 메소드 부분
     /**
@@ -152,11 +166,77 @@ public class JwtService {
      */
     public boolean isTokenValid(String token) {
         try {
+            if(redisUtil.hasKeyBlackList(token)) {
+                throw new TokenException(ALREADY_LOGOUT_MEMBER);
+            }
             JWT.require(Algorithm.HMAC512(secretKey)).build().verify(token);
             return true;
         } catch (Exception e) {
             log.info("유효하지 않은 토큰입니다. {}", e.getMessage());
             return false;
         }
+    }
+
+
+    // 토큰 재발급 시 사용할 메소드
+    /**
+     * AccessToken, RefreshToken 재발급 + 인증 + 응답 헤더에 보내기
+     */
+    private void reIssueRefreshAndAccessToken(HttpServletResponse response, String refreshToken, Long id) {
+        String newAccessToken = createAccessToken(id);
+        String newRefreshToken = createRefreshToken(id);
+        getAuthentication(newAccessToken);
+        redisUtil.delete(id);
+        updateRefreshToken(id, newRefreshToken);
+        sendAccessAndRefreshToken(response, newAccessToken, refreshToken);
+        log.info("AccessToken, RefreshToken 재발급 완료");
+    }
+
+    /**
+     * RefreshToken 검증 메소드
+     */
+    public boolean isRefreshTokenMatch(Long id, String refreshToken) {
+        log.info("RefreshToken 검증");
+        if (redisUtil.get(id).equals(refreshToken)) {
+            return true;
+        }
+        throw new TokenException(INVALID_TOKEN);
+    }
+
+    // 인증 처리/허가 메소드
+
+    /**
+     * [인증 처리 메소드]
+     * 인증 허가 처리된 객체를 SecurityContextHolder에 담기
+     */
+    public void getAuthentication(String accessToken) {
+        log.info("인증 처리 메소드 getAuthentication() 호출");
+        extractId(accessToken)
+                .ifPresent(id -> memberRepository.findById(id)
+                        .ifPresent(this::saveAuthentication));
+    }
+
+    /**
+     * [인증 허가 메소드]
+     * 파라미터의 유저 : 우리가 만든 회원 객체 / 빌더의 유저 : UserDetails의 User 객체
+     */
+    public void saveAuthentication(Member member) {
+        log.info("인증 허가 메소드 saveAuthentication() 호출");
+        String password = member.getPassword();
+        if (password == null) { // 소셜 로그인 유저의 비밀번호 임의로 설정 하여 소셜 로그인 유저도 인증 되도록 설정
+            password = PasswordUtil.generateRandomPassword();
+        }
+
+        UserDetails userDetailsUser = org.springframework.security.core.userdetails.User.builder()
+                .username(member.getEmail())
+                .password(password)
+                .roles(member.getRole().name())
+                .build();
+
+        Authentication authentication =
+                new UsernamePasswordAuthenticationToken(userDetailsUser, null,
+                        authoritiesMapper.mapAuthorities(userDetailsUser.getAuthorities()));
+
+        SecurityContextHolder.getContext().setAuthentication(authentication);
     }
 }
