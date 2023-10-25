@@ -1,6 +1,8 @@
 package com.pawwithu.connectdog.config;
 
 
+import jakarta.annotation.PostConstruct;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cache.annotation.CachingConfigurerSupport;
 import org.springframework.context.annotation.Bean;
@@ -11,12 +13,11 @@ import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.data.redis.connection.lettuce.LettuceConnectionFactory;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.repository.configuration.EnableRedisRepositories;
-import org.springframework.data.redis.serializer.GenericJackson2JsonRedisSerializer;
-import org.springframework.data.redis.serializer.RedisSerializationContext;
-import org.springframework.data.redis.serializer.StringRedisSerializer;
+import org.springframework.data.redis.serializer.*;
 
 import java.time.Duration;
 
+@Slf4j
 @Configuration
 @EnableRedisRepositories
 public class RedisConfig extends CachingConfigurerSupport {
@@ -25,6 +26,13 @@ public class RedisConfig extends CachingConfigurerSupport {
 
     @Value("${spring.data.redis.host}")
     private String host;
+
+    @PostConstruct // 해당 메서드는 객체의 모든 의존성이 주입된 직후에 자동으로 호출
+    public void printValues() {
+        log.info("Redis Host: " + host);
+        log.info("Redis Port: " + port);
+    }
+
 
     @Bean
     public RedisConnectionFactory redisConnectionFactory() {
@@ -36,7 +44,7 @@ public class RedisConfig extends CachingConfigurerSupport {
         RedisTemplate<Long, String> redisTemplate = new RedisTemplate<>();
 
         redisTemplate.setConnectionFactory(redisConnectionFactory);
-        redisTemplate.setKeySerializer(new StringRedisSerializer());
+        redisTemplate.setKeySerializer(new GenericToStringSerializer<Long>(Long.class)); // Long 타입에 대한 직렬화 도구로 GenericToStringSerializer 사용
         redisTemplate.setValueSerializer(new StringRedisSerializer());
 
         return redisTemplate;
