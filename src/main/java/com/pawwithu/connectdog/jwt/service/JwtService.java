@@ -166,10 +166,11 @@ public class JwtService {
      */
     public boolean isTokenValid(String token) {
         try {
+            JWT.require(Algorithm.HMAC512(secretKey)).build().verify(token);
+
             if(redisUtil.hasKeyBlackList(token)) {
                 throw new TokenException(ALREADY_LOGOUT_MEMBER);
             }
-            JWT.require(Algorithm.HMAC512(secretKey)).build().verify(token);
             return true;
         } catch (Exception e) {
             log.info("유효하지 않은 토큰입니다. {}", e.getMessage());
