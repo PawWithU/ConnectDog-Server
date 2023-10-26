@@ -26,6 +26,10 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
 	// Spring Security
 	implementation 'org.springframework.boot:spring-boot-starter-security'
+	// Spring Data Redis
+	implementation 'org.springframework.boot:spring-boot-starter-data-redis'
+	// jwt
+	implementation 'com.auth0:java-jwt:4.2.1'
 	// Validation
 	implementation 'org.springframework.boot:spring-boot-starter-validation'
 	// Spring Web
@@ -40,6 +44,8 @@ dependencies {
 	// test
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testImplementation 'org.springframework.security:spring-security-test'
+	// Swagger
+	implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.0.2'
 }
 
 tasks.named('test') {
