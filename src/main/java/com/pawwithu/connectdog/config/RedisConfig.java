@@ -21,7 +21,7 @@ import java.time.Duration;
 @Configuration
 @EnableRedisRepositories
 public class RedisConfig extends CachingConfigurerSupport {
-    @Value("${spring.data.redis.port:6379}") // 기본 값 6379 설정
+    @Value("${spring.data.redis.port}")
     private int port;
 
     @Value("${spring.data.redis.host}")
