@@ -1,6 +1,6 @@
 package com.pawwithu.connectdog.domain.auth.controller;
 
-import com.pawwithu.connectdog.domain.auth.dto.request.SignUpRequest;
+import com.pawwithu.connectdog.domain.auth.dto.request.VolunteerSignUpRequest;
 import com.pawwithu.connectdog.domain.auth.service.AuthService;
 import com.pawwithu.connectdog.error.dto.ErrorResponse;
 import io.swagger.v3.oas.annotations.Operation;
@@ -9,7 +9,6 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -31,8 +30,8 @@ public class SignUpController {
                     , content = @Content(schema = @Schema(implementation = ErrorResponse.class)))
             })
     @PostMapping
-    public ResponseEntity<Void> signUp(@RequestBody SignUpRequest signUpRequest) {
-        authService.signUp(signUpRequest);
+    public ResponseEntity<Void> signUp(@RequestBody VolunteerSignUpRequest volunteerSignUpRequest) {
+        authService.signUp(volunteerSignUpRequest);
         return ResponseEntity.noContent().build();
     }
 

@@ -1,8 +1,8 @@
 package com.pawwithu.connectdog.domain.auth.service;
 
-import com.pawwithu.connectdog.domain.auth.dto.request.SignUpRequest;
-import com.pawwithu.connectdog.domain.member.entity.Member;
-import com.pawwithu.connectdog.domain.member.repository.MemberRepository;
+import com.pawwithu.connectdog.domain.auth.dto.request.VolunteerSignUpRequest;
+import com.pawwithu.connectdog.domain.volunteer.entity.Volunteer;
+import com.pawwithu.connectdog.domain.volunteer.repository.VolunteerRepository;
 import com.pawwithu.connectdog.error.exception.custom.BadRequestException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -19,21 +19,21 @@ import static com.pawwithu.connectdog.error.ErrorCode.ALREADY_EXIST_NICKNAME;
 @RequiredArgsConstructor
 public class AuthService {
 
-    private final MemberRepository memberRepository;
+    private final VolunteerRepository volunteerRepository;
     private final PasswordEncoder passwordEncoder;
 
-    public void signUp(SignUpRequest signUpRequest) {
+    public void signUp(VolunteerSignUpRequest volunteerSignUpRequest) {
 
-        if (memberRepository.existsByEmail(signUpRequest.email())) {
+        if (volunteerRepository.existsByEmail(volunteerSignUpRequest.email())) {
             throw new BadRequestException(ALREADY_EXIST_EMAIL);
         }
-        if (memberRepository.existsByNickname(signUpRequest.nickname())) {
+        if (volunteerRepository.existsByNickname(volunteerSignUpRequest.nickname())) {
             throw new BadRequestException(ALREADY_EXIST_NICKNAME);
         }
 
-        Member member = signUpRequest.toEntity();
-        member.passwordEncode(passwordEncoder);
-        memberRepository.save(member);
+        Volunteer volunteer = volunteerSignUpRequest.toEntity();
+        volunteer.passwordEncode(passwordEncoder);
+        volunteerRepository.save(volunteer);
     }
 
 }
