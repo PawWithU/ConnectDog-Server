@@ -1,4 +1,4 @@
-package com.pawwithu.connectdog.jwt.util;
+package com.pawwithu.connectdog.util;
 
 import java.util.Random;
 

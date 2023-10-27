@@ -5,7 +5,7 @@ import com.auth0.jwt.algorithms.Algorithm;
 import com.pawwithu.connectdog.domain.member.entity.Member;
 import com.pawwithu.connectdog.domain.member.repository.MemberRepository;
 import com.pawwithu.connectdog.error.exception.custom.TokenException;
-import com.pawwithu.connectdog.jwt.util.PasswordUtil;
+import com.pawwithu.connectdog.util.PasswordUtil;
 import com.pawwithu.connectdog.util.RedisUtil;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
