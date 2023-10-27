@@ -17,9 +17,7 @@ public class Intermediary {
     private String password; // 비밀번호
     @Column(length = 20, nullable = false)
     private String name; // 중개자 이름/중개 단체명
-    @Column(columnDefinition = "TEXT")
     private String url; // 이동봉사 계정 링크
-    @Column(columnDefinition = "TEXT")
     private String authImage;   // 인증 사진
     @Enumerated(EnumType.STRING)
     private IntermediaryRole role;  // 권한
