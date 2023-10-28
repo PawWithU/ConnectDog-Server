@@ -1,7 +1,10 @@
 package com.pawwithu.connectdog.domain.auth.controller;
 
+import com.pawwithu.connectdog.domain.auth.dto.request.EmailRequest;
 import com.pawwithu.connectdog.domain.auth.dto.request.VolunteerSignUpRequest;
+import com.pawwithu.connectdog.domain.auth.dto.response.EmailResponse;
 import com.pawwithu.connectdog.domain.auth.service.AuthService;
+import com.pawwithu.connectdog.domain.auth.service.EmailService;
 import com.pawwithu.connectdog.error.dto.ErrorResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -18,10 +21,11 @@ import org.springframework.web.bind.annotation.RestController;
 @Tag(name = "Sign-Up", description = "Sign-Up API")
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/sign-up")
+@RequestMapping("/sign-up")
 public class SignUpController {
 
     private final AuthService authService;
+    private final EmailService emailService;
 
     @Operation(summary = "자체 회원가입", description = "이메일을 사용해 회원가입을 합니다.",
             responses = {@ApiResponse(responseCode = "204", description = "자체 회원가입 성공")
@@ -33,6 +37,13 @@ public class SignUpController {
     public ResponseEntity<Void> signUp(@RequestBody VolunteerSignUpRequest volunteerSignUpRequest) {
         authService.signUp(volunteerSignUpRequest);
         return ResponseEntity.noContent().build();
+    }
+
+    @Operation(summary = "이메일 인증번호 전송", description = "입력한 이메일로 인증번호를 전송합니다.")
+    @PostMapping("/email")
+    public ResponseEntity<EmailResponse> mailConfirm(@RequestBody EmailRequest emailRequest){
+        EmailResponse emailResponse = emailService.sendEmail(emailRequest);
+        return ResponseEntity.ok(emailResponse);
     }
 
 }
