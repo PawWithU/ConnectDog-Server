@@ -22,7 +22,7 @@ public class AuthService {
     private final VolunteerRepository volunteerRepository;
     private final PasswordEncoder passwordEncoder;
 
-    public void signUp(VolunteerSignUpRequest volunteerSignUpRequest) {
+    public void volunteerSignUp(VolunteerSignUpRequest volunteerSignUpRequest) {
 
         if (volunteerRepository.existsByEmail(volunteerSignUpRequest.email())) {
             throw new BadRequestException(ALREADY_EXIST_EMAIL);

@@ -26,15 +26,16 @@ public class SignUpController {
     private final AuthService authService;
     private final EmailService emailService;
 
-    @Operation(summary = "자체 회원가입", description = "이메일을 사용해 회원가입을 합니다.",
-            responses = {@ApiResponse(responseCode = "204", description = "자체 회원가입 성공")
+    @Operation(summary = "이동봉사자 자체 회원가입", description = "이동봉사자 자체 회원가입을 합니다.",
+            responses = {@ApiResponse(responseCode = "204", description = "이동봉사자 자체 회원가입 성공")
                     , @ApiResponse(responseCode = "400"
-                    , description = "1. 이미 존재하는 이메일입니다. \t\n 2. 이미 존재하는 사용자 닉네임입니다."
+                    , description = "V1, 이메일 형식에 맞지 않습니다. \t\n V1, 이메일은 필수 입력 값입니다. \t\n V1, 영문+숫자 10자 이상 또는 영문+숫자+특수기호 8자 이상을 입력해 주세요." +
+                    "\t\n V1, 닉네임은 한글, 숫자만 사용가능합니다. \t\n V1, 닉네임은 필수 입력 값입니다. \t\n V1, 2~10자의 닉네임이어야 합니다 \t\n A1, 이미 존재하는 이메일입니다. \t\n A2, 이미 존재하는 사용자 닉네임입니다."
                     , content = @Content(schema = @Schema(implementation = ErrorResponse.class)))
             })
-    @PostMapping("volunteers/sign-up")
-    public ResponseEntity<Void> signUp(@RequestBody VolunteerSignUpRequest volunteerSignUpRequest) {
-        authService.signUp(volunteerSignUpRequest);
+    @PostMapping("/volunteers/sign-up")
+    public ResponseEntity<Void> volunteerSignUp(@RequestBody @Valid VolunteerSignUpRequest volunteerSignUpRequest) {
+        authService.volunteerSignUp(volunteerSignUpRequest);
         return ResponseEntity.noContent().build();
     }
 
