@@ -17,7 +17,7 @@ public class Volunteer {
     private String password; // 비밀번호
     @Column(length = 15, nullable = false)
     private String nickname; // 닉네임
-    @Column(length = 10, nullable = false)
+    @Column(length = 10)
     private String name; // 이름
     private String phone; // 이동봉사자 휴대폰 번호
     @Enumerated(EnumType.STRING)
