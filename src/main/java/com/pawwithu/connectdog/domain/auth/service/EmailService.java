@@ -2,6 +2,8 @@ package com.pawwithu.connectdog.domain.auth.service;
 
 import com.pawwithu.connectdog.domain.auth.dto.request.EmailRequest;
 import com.pawwithu.connectdog.domain.auth.dto.response.EmailResponse;
+import com.pawwithu.connectdog.domain.intermediary.repository.IntermediaryRepository;
+import com.pawwithu.connectdog.domain.volunteer.repository.VolunteerRepository;
 import com.pawwithu.connectdog.error.exception.custom.BadRequestException;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
@@ -14,6 +16,7 @@ import org.thymeleaf.spring6.SpringTemplateEngine;
 import java.io.UnsupportedEncodingException;
 import java.util.Random;
 
+import static com.pawwithu.connectdog.error.ErrorCode.ALREADY_EXIST_EMAIL;
 import static com.pawwithu.connectdog.error.ErrorCode.EMAIL_SEND_ERROR;
 
 @Service
@@ -23,6 +26,8 @@ public class EmailService {
     private final JavaMailSender emailSender;
     private final SpringTemplateEngine templateEngine;
     private String authNum; //랜덤 인증 코드
+    private final VolunteerRepository volunteerRepository;
+    private final IntermediaryRepository intermediaryRepository;
 
     /**
      * 랜덤 인증 코드 생성
@@ -72,6 +77,13 @@ public class EmailService {
      * 메일 전송
      */
     public EmailResponse sendEmail(EmailRequest emailRequest) throws BadRequestException {
+        // 이메일 중복 검사
+        if (volunteerRepository.existsByEmail(emailRequest.email())) {
+            throw new BadRequestException(ALREADY_EXIST_EMAIL);
+        }
+        if (intermediaryRepository.existsByEmail(emailRequest.email())) {
+            throw new BadRequestException(ALREADY_EXIST_EMAIL);
+        }
         try{
             // 메일전송에 필요한 정보 설정
             MimeMessage emailForm = createEmailForm(emailRequest.email());

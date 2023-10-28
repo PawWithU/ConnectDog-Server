@@ -11,6 +11,7 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -39,9 +40,14 @@ public class SignUpController {
         return ResponseEntity.noContent().build();
     }
 
-    @Operation(summary = "이메일 인증번호 전송", description = "입력한 이메일로 인증번호를 전송합니다.")
+    @Operation(summary = "이메일 인증번호 전송", description = "입력한 이메일로 인증번호를 전송합니다.",
+            responses = {@ApiResponse(responseCode = "200", description = "이메일 인증번호 전송 성공")
+                    , @ApiResponse(responseCode = "400"
+                    , description = "V1, 이메일 형식에 맞지 않습니다. \t\n V1, 이메일은 필수 입력 값입니다. \t\n A1, 이미 존재하는 이메일입니다. \t\n A4, 이메일 인증 코드 전송을 실패했습니다."
+                    , content = @Content(schema = @Schema(implementation = ErrorResponse.class)))
+            })
     @PostMapping("/email")
-    public ResponseEntity<EmailResponse> mailConfirm(@RequestBody EmailRequest emailRequest){
+    public ResponseEntity<EmailResponse> mailConfirm(@RequestBody @Valid EmailRequest emailRequest){
         EmailResponse emailResponse = emailService.sendEmail(emailRequest);
         return ResponseEntity.ok(emailResponse);
     }
