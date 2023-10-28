@@ -35,7 +35,7 @@ public class SecurityConfig {
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(request ->
                         request.requestMatchers(mvcMatcherBuilder.pattern("/login")).permitAll()
-                                .requestMatchers(mvcMatcherBuilder.pattern("/api/sign-up")).permitAll()
+                                .requestMatchers(mvcMatcherBuilder.pattern("/sign-up/**")).permitAll()
                                 .requestMatchers(mvcMatcherBuilder.pattern("/h2-console/**")).permitAll()
                                 .requestMatchers(mvcMatcherBuilder.pattern("/css/**")).permitAll()
                                 .requestMatchers(mvcMatcherBuilder.pattern("/js/**")).permitAll()
@@ -45,8 +45,7 @@ public class SecurityConfig {
                                 .requestMatchers(mvcMatcherBuilder.pattern("/swagger-ui/**")).permitAll()
                                 .requestMatchers(mvcMatcherBuilder.pattern("/swagger-resources/**")).permitAll()
                                 .requestMatchers(mvcMatcherBuilder.pattern("/v3/api-docs/**")).permitAll()
-                                .requestMatchers(mvcMatcherBuilder.pattern("/api/sign-up/email")).permitAll()
-                                .requestMatchers(mvcMatcherBuilder.pattern("/api/members/userName/isDuplicated")).permitAll()
+                                .requestMatchers(mvcMatcherBuilder.pattern("/members/userName/isDuplicated")).permitAll()
                                 .anyRequest().authenticated());
 
         return http.build();
