@@ -16,13 +16,11 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @Tag(name = "Sign-Up", description = "Sign-Up API")
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/sign-up")
 public class SignUpController {
 
     private final AuthService authService;
@@ -34,7 +32,7 @@ public class SignUpController {
                     , description = "1. 이미 존재하는 이메일입니다. \t\n 2. 이미 존재하는 사용자 닉네임입니다."
                     , content = @Content(schema = @Schema(implementation = ErrorResponse.class)))
             })
-    @PostMapping
+    @PostMapping("volunteers/sign-up")
     public ResponseEntity<Void> signUp(@RequestBody VolunteerSignUpRequest volunteerSignUpRequest) {
         authService.signUp(volunteerSignUpRequest);
         return ResponseEntity.noContent().build();
@@ -46,7 +44,7 @@ public class SignUpController {
                     , description = "V1, 이메일 형식에 맞지 않습니다. \t\n V1, 이메일은 필수 입력 값입니다. \t\n A1, 이미 존재하는 이메일입니다. \t\n A4, 이메일 인증 코드 전송을 실패했습니다."
                     , content = @Content(schema = @Schema(implementation = ErrorResponse.class)))
             })
-    @PostMapping("/email")
+    @PostMapping(value = {"/volunteers/sign-up/email", "/intermediaries/sign-up/email"})
     public ResponseEntity<EmailResponse> mailConfirm(@RequestBody @Valid EmailRequest emailRequest){
         EmailResponse emailResponse = emailService.sendEmail(emailRequest);
         return ResponseEntity.ok(emailResponse);
