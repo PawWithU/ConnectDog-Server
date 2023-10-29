@@ -12,6 +12,9 @@ public enum ErrorCode {
     ALREADY_LOGOUT_MEMBER("A3", "이미 로그아웃한 회원입니다"),
     EMAIL_SEND_ERROR("A4", "이메일 인증 코드 전송을 실패했습니다."),
 
+    VOLUNTEER_NOT_FOUND("M1", "해당 이동봉사자를 찾을 수 없습니다."), // Member -> M (이동봉사자, 이동봉사 중개 통일)
+    INTERMEDIARY_NOT_FOUND("M2", "해당 이동봉사 중개를 찾을 수 없습니다."),
+
     TOKEN_NOT_EXIST("T1", "토큰이 존재하지 않습니다."),
     TOKEN_IS_EXPIRED("T2", "만료된 토큰입니다."),
     INVALID_TOKEN("T3", "잘못된 토큰입니다."),
