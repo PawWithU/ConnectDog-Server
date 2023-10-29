@@ -65,8 +65,8 @@ public class SignUpController {
                     , content = @Content(schema = @Schema(implementation = ErrorResponse.class)))
             })
     @PostMapping(value = {"/volunteers/sign-up/email", "/intermediaries/sign-up/email"})
-    public ResponseEntity<EmailResponse> mailConfirm(@RequestBody @Valid EmailRequest emailRequest){
-        EmailResponse emailResponse = emailService.sendEmail(emailRequest);
+    public ResponseEntity<EmailResponse> mailConfirm(@RequestBody @Valid EmailRequest request){
+        EmailResponse emailResponse = emailService.sendEmail(request);
         return ResponseEntity.ok(emailResponse);
     }
 
