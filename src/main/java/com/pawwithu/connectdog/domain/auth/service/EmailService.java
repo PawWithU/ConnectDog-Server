@@ -76,17 +76,17 @@ public class EmailService {
     /**
      * 메일 전송
      */
-    public EmailResponse sendEmail(EmailRequest emailRequest) throws BadRequestException {
+    public EmailResponse sendEmail(EmailRequest request) throws BadRequestException {
         // 이메일 중복 검사
-        if (volunteerRepository.existsByEmail(emailRequest.email())) {
+        if (volunteerRepository.existsByEmail(request.email())) {
             throw new BadRequestException(ALREADY_EXIST_EMAIL);
         }
-        if (intermediaryRepository.existsByEmail(emailRequest.email())) {
+        if (intermediaryRepository.existsByEmail(request.email())) {
             throw new BadRequestException(ALREADY_EXIST_EMAIL);
         }
         try{
             // 메일전송에 필요한 정보 설정
-            MimeMessage emailForm = createEmailForm(emailRequest.email());
+            MimeMessage emailForm = createEmailForm(request.email());
             emailSender.send(emailForm);
             return new EmailResponse(authNum);
         }catch (UnsupportedEncodingException | MessagingException e){

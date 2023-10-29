@@ -14,7 +14,10 @@ public enum ErrorCode {
 
     TOKEN_NOT_EXIST("T1", "토큰이 존재하지 않습니다."),
     TOKEN_IS_EXPIRED("T2", "만료된 토큰입니다."),
-    INVALID_TOKEN("T3", "잘못된 토큰입니다.");
+    INVALID_TOKEN("T3", "잘못된 토큰입니다."),
+
+    FILE_NOT_FOUND("F1", "파일이 존재하지 않습니다."),
+    INVALID_FILE_UPLOAD("F2", "파일 업로드에 실패했습니다.");
 
 
     private final String code;
