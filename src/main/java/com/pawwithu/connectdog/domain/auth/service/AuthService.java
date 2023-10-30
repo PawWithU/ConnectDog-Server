@@ -33,6 +33,9 @@ public class AuthService {
         if (volunteerRepository.existsByEmail(request.email())) {
             throw new BadRequestException(ALREADY_EXIST_EMAIL);
         }
+        if (intermediaryRepository.existsByEmail(request.email())) {
+            throw new BadRequestException(ALREADY_EXIST_EMAIL);
+        }
         if (volunteerRepository.existsByNickname(request.nickname())) {
             throw new BadRequestException(ALREADY_EXIST_NICKNAME);
         }
@@ -43,7 +46,11 @@ public class AuthService {
     }
 
     public void intermediarySignUp(IntermediarySignUpRequest request, MultipartFile file) {
+
         if (intermediaryRepository.existsByEmail(request.email())) {
+            throw new BadRequestException(ALREADY_EXIST_EMAIL);
+        }
+        if (volunteerRepository.existsByEmail(request.email())) {
             throw new BadRequestException(ALREADY_EXIST_EMAIL);
         }
         String authImage = fileService.uploadFile(file, "intermediary");
