@@ -3,6 +3,8 @@ package com.pawwithu.connectdog.config;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.pawwithu.connectdog.domain.auth.filter.CustomIntermediaryAuthFilter;
 import com.pawwithu.connectdog.domain.auth.filter.CustomVolunteerAuthFilter;
+import com.pawwithu.connectdog.domain.auth.handler.LoginFailureHandler;
+import com.pawwithu.connectdog.domain.auth.handler.LoginSuccessHandler;
 import com.pawwithu.connectdog.domain.auth.service.IntermediaryLoginService;
 import com.pawwithu.connectdog.domain.auth.service.VolunteerLoginService;
 import com.pawwithu.connectdog.domain.intermediary.repository.IntermediaryRepository;
@@ -15,6 +17,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Primary;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.ProviderManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
@@ -24,13 +27,11 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.web.authentication.logout.LogoutFilter;
 import org.springframework.security.web.servlet.util.matcher.MvcRequestMatcher;
 import org.springframework.web.servlet.handler.HandlerMappingIntrospector;
 
-import java.util.ArrayList;
 import java.util.Collections;
-import java.util.List;
 
 import static org.springframework.security.config.Customizer.withDefaults;
 
@@ -74,8 +75,10 @@ public class SecurityConfig {
                                 .requestMatchers(mvcMatcherBuilder.pattern("/v3/api-docs/**")).permitAll()
                                 .requestMatchers(mvcMatcherBuilder.pattern("/volunteers/nickname/isDuplicated")).permitAll()
                                 .anyRequest().authenticated())
-                .addFilterBefore(customVolunteerAuthFilter(), UsernamePasswordAuthenticationFilter.class)
-                .addFilterBefore(customIntermediaryAuthFilter(), UsernamePasswordAuthenticationFilter.class)
+                .addFilterAfter(customVolunteerAuthFilter(), LogoutFilter.class)
+//                .addFilterAfter(customIntermediaryAuthFilter(), LogoutFilter.class)
+                .addFilterBefore(jwtAuthenticationProcessingFilter(), CustomVolunteerAuthFilter.class)
+//                .addFilterBefore(jwtAuthenticationProcessingFilter(), CustomIntermediaryAuthFilter.class)
                 .exceptionHandling(exception -> exception
                         .authenticationEntryPoint(jwtAuthenticationEntryPoint)
                         .accessDeniedHandler(jwtAccessDeniedHandler));
@@ -89,6 +92,17 @@ public class SecurityConfig {
     }
 
     @Bean
+    public LoginSuccessHandler loginSuccessHandler() {
+        return new LoginSuccessHandler(jwtService, volunteerRepository, intermediaryRepository);
+    }
+
+    @Bean
+    public LoginFailureHandler loginFailureHandler() {
+        return new LoginFailureHandler();
+    }
+
+    @Bean
+    @Primary
     public AuthenticationManager volunteerAuthenticationManager() {
         DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
         provider.setUserDetailsService(volunteerLoginService);
@@ -108,6 +122,8 @@ public class SecurityConfig {
     public CustomVolunteerAuthFilter customVolunteerAuthFilter() {
         CustomVolunteerAuthFilter customVolunteerAuthFilter = new CustomVolunteerAuthFilter(objectMapper);
         customVolunteerAuthFilter.setAuthenticationManager(volunteerAuthenticationManager());
+        customVolunteerAuthFilter.setAuthenticationSuccessHandler(loginSuccessHandler());
+        customVolunteerAuthFilter.setAuthenticationFailureHandler(loginFailureHandler());
         return customVolunteerAuthFilter;
     }
 
@@ -115,7 +131,15 @@ public class SecurityConfig {
     public CustomIntermediaryAuthFilter customIntermediaryAuthFilter() {
         CustomIntermediaryAuthFilter customIntermediaryAuthFilter = new CustomIntermediaryAuthFilter(objectMapper);
         customIntermediaryAuthFilter.setAuthenticationManager(intermediaryAuthenticationManager());
+        customIntermediaryAuthFilter.setAuthenticationSuccessHandler(loginSuccessHandler());
+        customIntermediaryAuthFilter.setAuthenticationFailureHandler(loginFailureHandler());
         return customIntermediaryAuthFilter;
+    }
+
+    @Bean
+    public JwtAuthenticationProcessingFilter jwtAuthenticationProcessingFilter() {
+        JwtAuthenticationProcessingFilter jwtAuthenticationProcessingFilter = new JwtAuthenticationProcessingFilter(jwtService);
+        return jwtAuthenticationProcessingFilter;
     }
 
 }
