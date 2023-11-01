@@ -43,25 +43,19 @@ public class LoginSuccessHandler implements AuthenticationSuccessHandler {
         String roleName = role.substring(6, role.length()-1); // INTERMEDIARY, AUTH_INTERMEDIARY / VOLUNTEER, AUTH_VOLUNTEER
 
         Long id;
-        String accessToken;
-        String refreshToken;
         if ("INTERMEDIARY".equals(roleName) || "AUTH_INTERMEDIARY".equals(roleName)) {
             id = intermediaryRepository.findByEmail(email)
                     .map(Intermediary::getId)
                     .orElseThrow(() -> new BadRequestException(INTERMEDIARY_NOT_FOUND));
-
-            accessToken = jwtService.createIntermediaryAccessToken(id, roleName);
-            refreshToken = jwtService.createIntermediaryRefreshToken(id, roleName);
         } else if ("VOLUNTEER".equals(roleName) || "AUTH_VOLUNTEER".equals(roleName)) {
             id = volunteerRepository.findByEmail(email)
                     .map(Volunteer::getId)
                     .orElseThrow(() -> new BadRequestException(VOLUNTEER_NOT_FOUND));
-
-            accessToken = jwtService.createVolunteerAccessToken(id, roleName);
-            refreshToken = jwtService.createVolunteerRefreshToken(id, roleName);
         } else {
             throw new BadRequestException(INVALID_ROLE_NAME); // 다른 roleName 들어왔을 경우의 예외 처리
         }
+        String accessToken = jwtService.createAccessToken(id, roleName);
+        String refreshToken = jwtService.createRefreshToken(id, roleName);
 
         // JWT 서비스에서 토큰 정보 가져오기
         Map<String, String> tokenData = jwtService.sendAccessAndRefreshToken(roleName, accessToken, refreshToken);

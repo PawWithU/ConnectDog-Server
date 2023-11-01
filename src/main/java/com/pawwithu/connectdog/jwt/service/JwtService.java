@@ -67,21 +67,11 @@ public class JwtService {
     /**
      * AccessToken 생성 메소드
      */
-    public String createIntermediaryAccessToken(Long id, String roleName) {
+    public String createAccessToken(Long id, String roleName) {
         Date now = new Date();
         return JWT.create()
                 .withSubject(ACCESS_TOKEN_SUBJECT)
-                .withExpiresAt(new Date(now.getTime() + accessTokenExpirationPeriod)) // 토큰 만료 시간 설정
-                .withClaim(ID_CLAIM, id)
-                .withClaim(ROLE_CLAIM, roleName)
-                .sign(Algorithm.HMAC512(secretKey));
-    }
-
-    public String createVolunteerAccessToken(Long id, String roleName) {
-        Date now = new Date();
-        return JWT.create()
-                .withSubject(ACCESS_TOKEN_SUBJECT)
-                .withExpiresAt(new Date(now.getTime() + accessTokenExpirationPeriod)) // 토큰 만료 시간 설정
+                .withExpiresAt(new Date(now.getTime() + accessTokenExpirationPeriod))
                 .withClaim(ID_CLAIM, id)
                 .withClaim(ROLE_CLAIM, roleName)
                 .sign(Algorithm.HMAC512(secretKey));
@@ -90,17 +80,7 @@ public class JwtService {
     /**
      * RefreshToken 생성 메소드
      */
-    public String createIntermediaryRefreshToken(Long id, String roleName) {
-        Date now = new Date();
-        return JWT.create()
-                .withSubject(REFRESH_TOKEN_SUBJECT)
-                .withExpiresAt(new Date(now.getTime() + refreshTokenExpirationPeriod))
-                .withClaim(ID_CLAIM, id)
-                .withClaim(ROLE_CLAIM, roleName)
-                .sign(Algorithm.HMAC512(secretKey));
-    }
-
-    public String createVolunteerRefreshToken(Long id, String roleName) {
+    public String createRefreshToken(Long id, String roleName) {
         Date now = new Date();
         return JWT.create()
                 .withSubject(REFRESH_TOKEN_SUBJECT)
@@ -208,13 +188,13 @@ public class JwtService {
         switch (roleName) {
             case "INTERMEDIARY":
             case "AUTH_INTERMEDIARY":
-                newAccessToken = createIntermediaryAccessToken(id, roleName);
-                newRefreshToken = createIntermediaryRefreshToken(id, roleName);
+                newAccessToken = createAccessToken(id, roleName);
+                newRefreshToken = createRefreshToken(id, roleName);
                 break;
             case "VOLUNTEER":
             case "AUTH_VOLUNTEER":
-                newAccessToken = createVolunteerAccessToken(id, roleName);
-                newRefreshToken = createVolunteerRefreshToken(id, roleName);
+                newAccessToken = createAccessToken(id, roleName);
+                newRefreshToken = createRefreshToken(id, roleName);
                 break;
             default:
                 log.error("해당 ROLE_NAME을 가진 이동봉사자/중개를 찾을 수 없습니다.");
