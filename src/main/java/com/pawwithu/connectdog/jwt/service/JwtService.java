@@ -188,9 +188,6 @@ public class JwtService {
         switch (roleName) {
             case "INTERMEDIARY":
             case "AUTH_INTERMEDIARY":
-                newAccessToken = createAccessToken(id, roleName);
-                newRefreshToken = createRefreshToken(id, roleName);
-                break;
             case "VOLUNTEER":
             case "AUTH_VOLUNTEER":
                 newAccessToken = createAccessToken(id, roleName);
