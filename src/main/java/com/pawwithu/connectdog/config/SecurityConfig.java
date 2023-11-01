@@ -60,10 +60,10 @@ public class SecurityConfig {
                 .headers(headers -> headers.frameOptions(frameOptions -> frameOptions.disable()))
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(request ->
-                        request.requestMatchers(mvcMatcherBuilder.pattern("volunteers/login")).permitAll()
-                                .requestMatchers(mvcMatcherBuilder.pattern("intermediaries/login")).permitAll()
-                                .requestMatchers(mvcMatcherBuilder.pattern("volunteers/sign-up/**")).permitAll()
-                                .requestMatchers(mvcMatcherBuilder.pattern("intermediaries/sign-up/**")).permitAll()
+                        request.requestMatchers(mvcMatcherBuilder.pattern("/volunteers/login")).permitAll()
+                                .requestMatchers(mvcMatcherBuilder.pattern("/intermediaries/login")).permitAll()
+                                .requestMatchers(mvcMatcherBuilder.pattern("/volunteers/sign-up/**")).permitAll()
+                                .requestMatchers(mvcMatcherBuilder.pattern("/intermediaries/sign-up/**")).permitAll()
                                 .requestMatchers(mvcMatcherBuilder.pattern("/h2-console/**")).permitAll()
                                 .requestMatchers(mvcMatcherBuilder.pattern("/css/**")).permitAll()
                                 .requestMatchers(mvcMatcherBuilder.pattern("/js/**")).permitAll()
@@ -76,9 +76,9 @@ public class SecurityConfig {
                                 .requestMatchers(mvcMatcherBuilder.pattern("/volunteers/nickname/isDuplicated")).permitAll()
                                 .anyRequest().authenticated())
                 .addFilterAfter(customVolunteerAuthFilter(), LogoutFilter.class)
-//                .addFilterAfter(customIntermediaryAuthFilter(), LogoutFilter.class)
+                .addFilterAfter(customIntermediaryAuthFilter(), LogoutFilter.class)
                 .addFilterBefore(jwtAuthenticationProcessingFilter(), CustomVolunteerAuthFilter.class)
-//                .addFilterBefore(jwtAuthenticationProcessingFilter(), CustomIntermediaryAuthFilter.class)
+                .addFilterBefore(jwtAuthenticationProcessingFilter(), CustomIntermediaryAuthFilter.class)
                 .exceptionHandling(exception -> exception
                         .authenticationEntryPoint(jwtAuthenticationEntryPoint)
                         .accessDeniedHandler(jwtAccessDeniedHandler));

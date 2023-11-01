@@ -18,7 +18,7 @@ import java.util.Map;
 
 public class CustomVolunteerAuthFilter extends AbstractAuthenticationProcessingFilter {
 
-    private static final String DEFAULT_LOGIN_REQUEST_URL = "volunteers/login";
+    private static final String DEFAULT_LOGIN_REQUEST_URL = "/volunteers/login";
     private static final String HTTP_METHOD = "POST";
     private static final String CONTENT_TYPE = "application/json";
     private static final String USERNAME_KEY = "email"; // 회원 로그인 시 이메일 요청 JSON Key : "email"
