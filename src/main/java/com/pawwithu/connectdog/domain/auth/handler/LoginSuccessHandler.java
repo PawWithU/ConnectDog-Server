@@ -63,11 +63,13 @@ public class LoginSuccessHandler implements AuthenticationSuccessHandler {
             throw new BadRequestException(INVALID_ROLE_NAME); // 다른 roleName 들어왔을 경우의 예외 처리
         }
 
-        ResponseEntity<Map<String, String>> tokenResponse = jwtService.sendAccessAndRefreshToken(roleName, accessToken, refreshToken);
+        // JWT 서비스에서 토큰 정보 가져오기
+        Map<String, String> tokenData = jwtService.sendAccessAndRefreshToken(roleName, accessToken, refreshToken);
 
-        response.setStatus(tokenResponse.getStatusCodeValue());
+        // HTTP 응답 설정
+        response.setStatus(HttpServletResponse.SC_OK); // 상태 코드를 200 (OK)로 설정
         response.setContentType("application/json");
-        response.getWriter().write(new ObjectMapper().writeValueAsString(tokenResponse.getBody()));
+        response.getWriter().write(new ObjectMapper().writeValueAsString(tokenData));
 
         jwtService.updateRefreshToken(roleName, id, refreshToken);
 

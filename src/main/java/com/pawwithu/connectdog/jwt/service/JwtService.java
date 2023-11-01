@@ -113,15 +113,16 @@ public class JwtService {
     /**
      * 로그인 시 AccessToken + RefreshToken 바디에 실어서 보내기
      */
-    public ResponseEntity<Map<String, String>> sendAccessAndRefreshToken(String roleName, String accessToken, String refreshToken) {
+    public Map<String, String> sendAccessAndRefreshToken(String roleName, String accessToken, String refreshToken) {
         Map<String, String> tokens = new HashMap<>();
         tokens.put("roleName", roleName);
         tokens.put("accessToken", accessToken);
         tokens.put("refreshToken", refreshToken);
 
         log.info("Access Token, Refresh Token 전송 준비 완료");
-        return ResponseEntity.ok(tokens);
+        return tokens;
     }
+
 
     /**
      * 클라이언트 요청 헤더에서 RefreshToken 추출
