@@ -16,7 +16,6 @@ import java.util.Set;
 
 /**
  * Jwt 인증 필터
- * "/login" 이외의 URI 요청이 왔을 때 처리하는 필터
  */
 @RequiredArgsConstructor
 @Slf4j

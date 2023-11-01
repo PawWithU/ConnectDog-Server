@@ -39,8 +39,8 @@ public class LoginSuccessHandler implements AuthenticationSuccessHandler {
 
         String email = extractUsername(authentication);
         UserDetails userDetails = (UserDetails) authentication.getPrincipal();
-        String role = userDetails.getAuthorities().toString(); // ROLE_INTERMEDIARY, ROLE_AUTH_INTERMEDIARY / ROLE_USER, ROLE_AUTH_USER
-        String roleName = role.substring(6, role.length()-1); // INTERMEDIARY, AUTH_INTERMEDIARY / USER, AUTH_USER
+        String role = userDetails.getAuthorities().toString(); // ROLE_INTERMEDIARY, ROLE_AUTH_INTERMEDIARY / ROLE_VOLUNTEER, ROLE_AUTH_VOLUNTEER
+        String roleName = role.substring(6, role.length()-1); // INTERMEDIARY, AUTH_INTERMEDIARY / VOLUNTEER, AUTH_VOLUNTEER
 
         Long id;
         String accessToken;
@@ -52,7 +52,7 @@ public class LoginSuccessHandler implements AuthenticationSuccessHandler {
 
             accessToken = jwtService.createIntermediaryAccessToken(id, roleName);
             refreshToken = jwtService.createIntermediaryRefreshToken(id, roleName);
-        } else if ("USER".equals(roleName) || "AUTH_USER".equals(roleName)) {
+        } else if ("VOLUNTEER".equals(roleName) || "AUTH_VOLUNTEER".equals(roleName)) {
             id = volunteerRepository.findByEmail(email)
                     .map(Volunteer::getId)
                     .orElseThrow(() -> new BadRequestException(VOLUNTEER_NOT_FOUND));

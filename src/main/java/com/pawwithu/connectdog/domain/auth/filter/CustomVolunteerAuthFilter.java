@@ -24,12 +24,12 @@ public class CustomVolunteerAuthFilter extends AbstractAuthenticationProcessingF
     private static final String USERNAME_KEY = "email"; // 회원 로그인 시 이메일 요청 JSON Key : "email"
     private static final String PASSWORD_KEY = "password"; // 회원 로그인 시 비밀번호 요청 JSon Key : "password"
     private static final AntPathRequestMatcher DEFAULT_LOGIN_PATH_REQUEST_MATCHER =
-            new AntPathRequestMatcher(DEFAULT_LOGIN_REQUEST_URL, HTTP_METHOD); // "volunteers/login" + POST로 온 요청
+            new AntPathRequestMatcher(DEFAULT_LOGIN_REQUEST_URL, HTTP_METHOD); // "/volunteers/login" + POST로 온 요청
 
     private final ObjectMapper objectMapper;
 
     public CustomVolunteerAuthFilter(ObjectMapper objectMapper) {
-        super(DEFAULT_LOGIN_PATH_REQUEST_MATCHER); // "volunteers/login" + POST로 온 요청 처리
+        super(DEFAULT_LOGIN_PATH_REQUEST_MATCHER); // "/volunteers/login" + POST로 온 요청 처리
         this.objectMapper = objectMapper;
     }
 

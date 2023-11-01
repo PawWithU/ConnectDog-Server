@@ -210,8 +210,8 @@ public class JwtService {
                 newAccessToken = createIntermediaryAccessToken(id, roleName);
                 newRefreshToken = createIntermediaryRefreshToken(id, roleName);
                 break;
-            case "USER":
-            case "AUTH_USER":
+            case "VOLUNTEER":
+            case "AUTH_VOLUNTEER":
                 newAccessToken = createVolunteerAccessToken(id, roleName);
                 newRefreshToken = createVolunteerRefreshToken(id, roleName);
                 break;
@@ -261,8 +261,8 @@ public class JwtService {
                     case "AUTH_INTERMEDIARY":
                         intermediaryRepository.findById(id).ifPresent(this::saveIntermediaryAuthentication);
                         break;
-                    case "USER":
-                    case "AUTH_USER":
+                    case "VOLUNTEER":
+                    case "AUTH_VOLUNTEER":
                         volunteerRepository.findById(id).ifPresent(this::saveVolunteerAuthentication);
                         break;
                     default:
