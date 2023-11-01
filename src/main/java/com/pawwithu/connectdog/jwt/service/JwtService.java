@@ -11,12 +11,10 @@ import com.pawwithu.connectdog.error.exception.custom.TokenException;
 import com.pawwithu.connectdog.util.PasswordUtil;
 import com.pawwithu.connectdog.util.RedisUtil;
 import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.authority.mapping.GrantedAuthoritiesMapper;
@@ -187,9 +185,9 @@ public class JwtService {
         String newRefreshToken = null;
         switch (roleName) {
             case "INTERMEDIARY":
-            case "AUTH_INTERMEDIARY":
+//            case "AUTH_INTERMEDIARY":
             case "VOLUNTEER":
-            case "AUTH_VOLUNTEER":
+//            case "AUTH_VOLUNTEER":
                 newAccessToken = createAccessToken(id, roleName);
                 newRefreshToken = createRefreshToken(id, roleName);
                 break;
@@ -236,11 +234,11 @@ public class JwtService {
                 String roleName = roleNameOpt.get();
                 switch (roleName) {
                     case "INTERMEDIARY":
-                    case "AUTH_INTERMEDIARY":
+//                    case "AUTH_INTERMEDIARY":
                         intermediaryRepository.findById(id).ifPresent(this::saveIntermediaryAuthentication);
                         break;
                     case "VOLUNTEER":
-                    case "AUTH_VOLUNTEER":
+//                    case "AUTH_VOLUNTEER":
                         volunteerRepository.findById(id).ifPresent(this::saveVolunteerAuthentication);
                         break;
                     default:

@@ -43,19 +43,27 @@ public class LoginSuccessHandler implements AuthenticationSuccessHandler {
         String roleName = role.substring(6, role.length()-1); // INTERMEDIARY, AUTH_INTERMEDIARY / VOLUNTEER, AUTH_VOLUNTEER
 
         Long id;
+        String accessToken = null;
+        String refreshToken = null;
         if ("INTERMEDIARY".equals(roleName) || "AUTH_INTERMEDIARY".equals(roleName)) {
             id = intermediaryRepository.findByEmail(email)
                     .map(Intermediary::getId)
                     .orElseThrow(() -> new BadRequestException(INTERMEDIARY_NOT_FOUND));
+
+            accessToken = jwtService.createAccessToken(id, "INTERMEDIARY");
+            refreshToken = jwtService.createRefreshToken(id, "INTERMEDIARY");
+            jwtService.updateRefreshToken("INTERMEDIARY", id, refreshToken);
         } else if ("VOLUNTEER".equals(roleName) || "AUTH_VOLUNTEER".equals(roleName)) {
             id = volunteerRepository.findByEmail(email)
                     .map(Volunteer::getId)
                     .orElseThrow(() -> new BadRequestException(VOLUNTEER_NOT_FOUND));
+
+            accessToken = jwtService.createAccessToken(id, "VOLUNTEER");
+            refreshToken = jwtService.createRefreshToken(id, "VOLUNTEER");
+            jwtService.updateRefreshToken("VOLUNTEER", id, refreshToken);
         } else {
             throw new BadRequestException(INVALID_ROLE_NAME); // 다른 roleName 들어왔을 경우의 예외 처리
         }
-        String accessToken = jwtService.createAccessToken(id, roleName);
-        String refreshToken = jwtService.createRefreshToken(id, roleName);
 
         // JWT 서비스에서 토큰 정보 가져오기
         Map<String, String> tokenData = jwtService.sendAccessAndRefreshToken(roleName, accessToken, refreshToken);
@@ -65,7 +73,6 @@ public class LoginSuccessHandler implements AuthenticationSuccessHandler {
         response.setContentType("application/json");
         response.getWriter().write(new ObjectMapper().writeValueAsString(tokenData));
 
-        jwtService.updateRefreshToken(roleName, id, refreshToken);
 
         log.info("로그인에 성공하였습니다. 이메일 : {}", email);
         log.info("로그인에 성공하였습니다. AccessToken : {}", accessToken);
