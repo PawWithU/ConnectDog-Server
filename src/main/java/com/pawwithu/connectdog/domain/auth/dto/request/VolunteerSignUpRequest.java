@@ -21,7 +21,7 @@ public record VolunteerSignUpRequest(@Email(message="이메일 형식에 맞지 
                 .password(password)
                 .nickname(nickname)
                 .isOptionAgr(isOptionAgr)
-                .role(VolunteerRole.USER)
+                .role(VolunteerRole.VOLUNTEER)
                 .build();
     }
 }

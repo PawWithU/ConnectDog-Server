@@ -12,5 +12,6 @@ public interface VolunteerRepository extends JpaRepository<Volunteer, Long> {
     Optional<Volunteer> findBySocialTypeAndSocialId(SocialType socialType, String socialId);
     Boolean existsByEmail(String email);
     Boolean existsByNickname(String nickname);
+    Optional<Volunteer> findByEmail(String email);
 
 }

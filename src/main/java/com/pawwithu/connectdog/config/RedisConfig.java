@@ -40,11 +40,11 @@ public class RedisConfig extends CachingConfigurerSupport {
     }
 
     @Bean(name = "redisTemplate")
-    public RedisTemplate<Long, String> redisTemplate(RedisConnectionFactory redisConnectionFactory) {
-        RedisTemplate<Long, String> redisTemplate = new RedisTemplate<>();
+    public RedisTemplate<String, String> redisTemplate(RedisConnectionFactory redisConnectionFactory) {
+        RedisTemplate<String, String> redisTemplate = new RedisTemplate<>();
 
         redisTemplate.setConnectionFactory(redisConnectionFactory);
-        redisTemplate.setKeySerializer(new GenericToStringSerializer<Long>(Long.class)); // Long 타입에 대한 직렬화 도구로 GenericToStringSerializer 사용
+        redisTemplate.setKeySerializer(new StringRedisSerializer());
         redisTemplate.setValueSerializer(new StringRedisSerializer());
 
         return redisTemplate;
