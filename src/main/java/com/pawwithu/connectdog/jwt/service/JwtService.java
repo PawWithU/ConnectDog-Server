@@ -62,17 +62,24 @@ public class JwtService {
     private final RedisUtil redisUtil;
     private GrantedAuthoritiesMapper authoritiesMapper = new NullAuthoritiesMapper();
 
+
     /**
      * AccessToken 생성 메소드
      */
     public String createAccessToken(Long id, String roleName) {
         Date now = new Date();
-        return JWT.create()
-                .withSubject(ACCESS_TOKEN_SUBJECT)
-                .withExpiresAt(new Date(now.getTime() + accessTokenExpirationPeriod))
-                .withClaim(ID_CLAIM, id)
-                .withClaim(ROLE_CLAIM, roleName)
-                .sign(Algorithm.HMAC512(secretKey));
+
+        try {
+            return JWT.create()
+                    .withSubject(ACCESS_TOKEN_SUBJECT)
+                    .withExpiresAt(new Date(now.getTime() + accessTokenExpirationPeriod))
+                    .withClaim(ID_CLAIM, id)
+                    .withClaim(ROLE_CLAIM, roleName)
+                    .sign(Algorithm.HMAC512(secretKey));
+        } catch (Exception e) {
+            log.error("토큰 생성에 실패했습니다.");
+            throw new TokenException(TOKEN_NOT_CREATED);
+        }
     }
 
     /**
@@ -80,12 +87,18 @@ public class JwtService {
      */
     public String createRefreshToken(Long id, String roleName) {
         Date now = new Date();
-        return JWT.create()
-                .withSubject(REFRESH_TOKEN_SUBJECT)
-                .withExpiresAt(new Date(now.getTime() + refreshTokenExpirationPeriod))
-                .withClaim(ID_CLAIM, id)
-                .withClaim(ROLE_CLAIM, roleName)
-                .sign(Algorithm.HMAC512(secretKey));
+
+        try {
+            return JWT.create()
+                    .withSubject(REFRESH_TOKEN_SUBJECT)
+                    .withExpiresAt(new Date(now.getTime() + refreshTokenExpirationPeriod))
+                    .withClaim(ID_CLAIM, id)
+                    .withClaim(ROLE_CLAIM, roleName)
+                    .sign(Algorithm.HMAC512(secretKey));
+        } catch (Exception e) {
+            log.error("토큰 생성에 실패했습니다.");
+            throw new TokenException(TOKEN_NOT_CREATED);
+        }
     }
 
     /**
@@ -194,11 +207,6 @@ public class JwtService {
             default:
                 log.error("해당 ROLE_NAME을 가진 이동봉사자/중개를 찾을 수 없습니다.");
                 throw new BadRequestException(INVALID_ROLE_NAME); // 다른 roleName 들어왔을 경우의 예외 처리
-        }
-
-        if (newAccessToken == null || newRefreshToken == null) {
-            log.error("AccessToken or RefreshToken is null. roleName: " + roleName);
-            throw new BadRequestException(TOKEN_NOT_CREATED);
         }
 
         getAuthentication(newAccessToken);
