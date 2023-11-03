@@ -34,7 +34,7 @@ public class SignUpController {
             responses = {@ApiResponse(responseCode = "204", description = "이동봉사자 자체 회원가입 성공")
                     , @ApiResponse(responseCode = "400"
                     , description = "V1, 이메일 형식에 맞지 않습니다. \t\n V1, 이메일은 필수 입력 값입니다. \t\n V1, 영문+숫자 10자 이상 또는 영문+숫자+특수기호 8자 이상을 입력해 주세요. \t\n " +
-                    "V1, 닉네임은 한글, 숫자만 사용가능합니다. \t\n V1, 닉네임은 필수 입력 값입니다. \t\n V1, 2~10자의 닉네임이어야 합니다 \t\n A1, 이미 존재하는 이메일입니다. \t\n A2, 이미 존재하는 사용자 닉네임입니다."
+                    "V1, 닉네임은 한글, 숫자만 사용 가능합니다. \t\n V1, 닉네임은 필수 입력 값입니다. \t\n V1, 2~10자의 닉네임이어야 합니다 \t\n A1, 이미 등록된 이메일입니다. \t\n A2, 이미 사용 중인 닉네임입니다."
                     , content = @Content(schema = @Schema(implementation = ErrorResponse.class)))
             })
     @PostMapping("/volunteers/sign-up")
