@@ -47,14 +47,15 @@ public class SignUpController {
             responses = {@ApiResponse(responseCode = "204", description = "이동봉사 중개 자체 회원가입 성공")
                     , @ApiResponse(responseCode = "400"
                     , description = "V1, 이메일 형식에 맞지 않습니다. \t\n V1, 이메일은 필수 입력 값입니다. \t\n " +
-                    "V1, 영문+숫자 10자 이상 또는 영문+숫자+특수기호 8자 이상을 입력해 주세요. \t\n V1, url 형식을 입력해 주세요. \t\n " +
-                    "A1, 이미 존재하는 이메일입니다. \t\n F1, 파일이 존재하지 않습니다. \t\n F2, 파일 업로드에 실패했습니다."
+                    "V1, 영문+숫자 10자 이상 또는 영문+숫자+특수기호 8자 이상을 입력해 주세요. \t\n V1, 이름/단체명은 필수 입력 값입니다. \t\n V1, url 형식을 입력해 주세요. \t\n " +
+                    "V1, 50자 이하의 한줄 소개를 입력해 주세요. \t\n A1, 이미 등록된 이메일입니다. \t\n F1, 파일이 존재하지 않습니다. \t\n F2, 파일 업로드에 실패했습니다."
                     , content = @Content(schema = @Schema(implementation = ErrorResponse.class)))
             })
     @PostMapping(value = "/intermediaries/sign-up", consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.MULTIPART_FORM_DATA_VALUE})
     public ResponseEntity<Void> intermediarySignUp(@RequestPart @Valid IntermediarySignUpRequest request,
-                                                   @RequestPart(name = "file", required = false) MultipartFile file) {
-        authService.intermediarySignUp(request, file);
+                                                   @RequestPart(name = "authImage", required = false) MultipartFile authImage,
+                                                   @RequestPart(name = "profileImage", required = false) MultipartFile profileImage) {
+        authService.intermediarySignUp(request, authImage, profileImage);
         return ResponseEntity.noContent().build();
     }
 

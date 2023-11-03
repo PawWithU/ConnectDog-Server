@@ -17,7 +17,7 @@ public class Volunteer {
     private String password; // 비밀번호
     @Column(length = 15, nullable = false)
     private String nickname; // 닉네임
-    private Integer imageNum;   // 프로필 이미지 번호
+    private Integer profileImageNum;   // 프로필 이미지 번호
     @Column(length = 10)
     private String name; // 이름
     private String phone; // 이동봉사자 휴대폰 번호
@@ -30,11 +30,11 @@ public class Volunteer {
     private Boolean notification;   // 알림 true, false
 
     @Builder
-    public Volunteer(String email, String password, String nickname, Integer imageNum, VolunteerRole role, Boolean isOptionAgr, Boolean notification) {
+    public Volunteer(String email, String password, String nickname, Integer profileImageNum, VolunteerRole role, Boolean isOptionAgr, Boolean notification) {
         this.email = email;
         this.password = password;
         this.nickname = nickname;
-        this.imageNum = imageNum;
+        this.profileImageNum = profileImageNum;
         this.role = role;
         this.isOptionAgr = isOptionAgr;
         this.notification = notification;
