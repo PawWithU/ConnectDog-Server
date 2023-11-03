@@ -74,6 +74,7 @@ class SignUpControllerTest {
         VolunteerSignUpRequest request = new VolunteerSignUpRequest("email@naver.com",
                 "pasword12345",
                 "코넥독",
+                3,
                 false);
         //when
         ResultActions result = mockMvc.perform(
@@ -93,21 +94,24 @@ class SignUpControllerTest {
                 "pasword12345",
                 "이동봉사 단체",
                 "https://connectdog.site",
+                "안녕하세요 코넥독입니다.",
                 false);
 
-        MockMultipartFile file = new MockMultipartFile("file", "authImage.png", "multipart/form-data", "uploadFile".getBytes(StandardCharsets.UTF_8));
+        MockMultipartFile authImage = new MockMultipartFile("authImage", "authImage.png", "multipart/form-data", "uploadFile".getBytes(StandardCharsets.UTF_8));
+        MockMultipartFile profileImage = new MockMultipartFile("profileImage", "profileImage.png", "multipart/form-data", "uploadFile".getBytes(StandardCharsets.UTF_8));
         MockMultipartFile intermediarySignUpRequest = new MockMultipartFile("request", null, "application/json", objectMapper.writeValueAsString(request).getBytes(StandardCharsets.UTF_8));
 
         //when
         ResultActions result = mockMvc.perform(MockMvcRequestBuilders
                 .multipart(HttpMethod.POST, "/intermediaries/sign-up")
-                        .file(file)
+                        .file(authImage)
+                        .file(profileImage)
                         .file(intermediarySignUpRequest)
                         .accept(MediaType.APPLICATION_JSON)
                         .contentType(MediaType.MULTIPART_FORM_DATA));
 
         //then
         result.andExpect(status().isNoContent());
-        verify(authService, times(1)).intermediarySignUp(any(), any());
+        verify(authService, times(1)).intermediarySignUp(any(), any(), any());
     }
 }

@@ -45,7 +45,7 @@ public class AuthService {
         volunteerRepository.save(volunteer);
     }
 
-    public void intermediarySignUp(IntermediarySignUpRequest request, MultipartFile file) {
+    public void intermediarySignUp(IntermediarySignUpRequest request, MultipartFile authFile, MultipartFile profileFile) {
 
         if (intermediaryRepository.existsByEmail(request.email())) {
             throw new BadRequestException(ALREADY_EXIST_EMAIL);
@@ -53,11 +53,12 @@ public class AuthService {
         if (volunteerRepository.existsByEmail(request.email())) {
             throw new BadRequestException(ALREADY_EXIST_EMAIL);
         }
-        String authImage = fileService.uploadFile(file, "intermediary");
+        String authImage = fileService.uploadFile(authFile, "intermediary/authImage");
         if (authImage == null) {
             throw new BadRequestException(FILE_NOT_FOUND);
         }
-        Intermediary intermediary = IntermediarySignUpRequest.toEntity(request, authImage);
+        String profileImage = fileService.uploadFile(profileFile, "intermediary/profileImage");
+        Intermediary intermediary = IntermediarySignUpRequest.toEntity(request, authImage, profileImage);
         intermediary.passwordEncode(passwordEncoder);
         intermediaryRepository.save(intermediary);
     }
