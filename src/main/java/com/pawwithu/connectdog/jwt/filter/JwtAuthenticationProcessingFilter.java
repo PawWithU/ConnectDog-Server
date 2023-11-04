@@ -22,6 +22,7 @@ import java.util.Set;
 public class JwtAuthenticationProcessingFilter extends OncePerRequestFilter {
 
     private static final Set<String> NO_CHECK_URLS = new HashSet<>(Arrays.asList(
+            "/volunteers/social-login",
             "/volunteers/login", "/intermediaries/login",
             "/volunteers/sign-up", "/intermediaries/sign-up",
             "/volunteers/sign-up/email")); // 해당 uri로 들어오는 요청은 Filter 작동 X
