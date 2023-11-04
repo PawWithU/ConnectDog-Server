@@ -28,6 +28,8 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-security'
 	// Spring Data Redis
 	implementation 'org.springframework.boot:spring-boot-starter-data-redis'
+	// OAuth2 Client
+	implementation 'org.springframework.boot:spring-boot-starter-oauth2-client'
 	// jwt
 	implementation 'com.auth0:java-jwt:4.2.1'
 	// Validation
