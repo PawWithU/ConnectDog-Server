@@ -66,6 +66,7 @@ public class SecurityConfig {
                                 .requestMatchers(mvcMatcherBuilder.pattern("/volunteers/sign-up")).permitAll()
                                 .requestMatchers(mvcMatcherBuilder.pattern("/volunteers/sign-up/email")).permitAll()
                                 .requestMatchers(mvcMatcherBuilder.pattern("/intermediaries/sign-up/**")).permitAll()
+                                .requestMatchers(mvcMatcherBuilder.pattern("/reissue-token")).permitAll()
                                 .requestMatchers(mvcMatcherBuilder.pattern("/h2-console/**")).permitAll()
                                 .requestMatchers(mvcMatcherBuilder.pattern("/css/**")).permitAll()
                                 .requestMatchers(mvcMatcherBuilder.pattern("/js/**")).permitAll()
