@@ -72,24 +72,17 @@ public class AuthService {
         intermediaryRepository.save(intermediary);
     }
 
-    public LoginResponse volunteerSocialSignUp(SocialSignUpRequest socialSignUpRequest, HttpServletRequest request) {
+    public void volunteerSocialSignUp(String email, SocialSignUpRequest socialSignUpRequest) {
 
         if (volunteerRepository.existsByNickname(socialSignUpRequest.nickname())) {
             throw new BadRequestException(ALREADY_EXIST_NICKNAME);
         }
 
-        // AccessToken 으로 이동봉사자 찾기
-        String accessToken = jwtService.extractAccessToken(request).orElseThrow(() -> new TokenException(INVALID_TOKEN));
-        Long id = jwtService.extractId(accessToken).orElseThrow(() -> new TokenException(INVALID_TOKEN));
-        String roleName = jwtService.extractRoleName(accessToken).orElseThrow(() -> new TokenException(INVALID_TOKEN));
-        Volunteer volunteer = volunteerRepository.findById(id).orElseThrow(() -> new BadRequestException(VOLUNTEER_NOT_FOUND));
+        Volunteer volunteer = volunteerRepository.findByEmail(email).orElseThrow(() -> new BadRequestException(VOLUNTEER_NOT_FOUND));
+        log.info("volunteer: " + volunteer.getEmail());
 
         // 추가 정보 업데이트
         String nickname = socialSignUpRequest.nickname();
         volunteer.updateSocialVolunteer(nickname, VolunteerRole.VOLUNTEER); // GUEST -> VOLUNTEER
-
-        // 토큰 재발행
-        String refreshToken = redisUtil.get(roleName, id);
-        return jwtService.reIssueToken(refreshToken);
     }
 }

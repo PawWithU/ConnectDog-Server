@@ -1,6 +1,5 @@
 package com.pawwithu.connectdog.domain.oauth.service;
 
-import com.pawwithu.connectdog.domain.intermediary.entity.Intermediary;
 import com.pawwithu.connectdog.domain.oauth.dto.request.SocialLoginRequest;
 import com.pawwithu.connectdog.domain.oauth.dto.response.OAuthInfoResponse;
 import com.pawwithu.connectdog.domain.oauth.dto.response.LoginResponse;
@@ -16,6 +15,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
+import java.util.UUID;
 
 import static com.pawwithu.connectdog.error.ErrorCode.VOLUNTEER_NOT_FOUND;
 
@@ -61,7 +61,10 @@ public class OAuthService {
     }
 
     private Long saveVolunteer(SocialType socialType, String socialId) {
-        Volunteer createdVolunteer = new Volunteer(VolunteerRole.GUEST, socialType, socialId);
+        // 소셜 로그인 유저도 loginUser 사용 위한 email 랜덤 저장
+        String email = UUID.randomUUID() + "@socialUser.com";
+        log.info("email: " + email);
+        Volunteer createdVolunteer = new Volunteer(email, VolunteerRole.GUEST, socialType, socialId);
 
         return volunteerRepository.save(createdVolunteer).getId();
     }

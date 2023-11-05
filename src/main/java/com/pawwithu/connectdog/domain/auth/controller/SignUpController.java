@@ -7,7 +7,6 @@ import com.pawwithu.connectdog.domain.auth.dto.request.VolunteerSignUpRequest;
 import com.pawwithu.connectdog.domain.auth.dto.response.EmailResponse;
 import com.pawwithu.connectdog.domain.auth.service.AuthService;
 import com.pawwithu.connectdog.domain.auth.service.EmailService;
-import com.pawwithu.connectdog.domain.oauth.dto.response.LoginResponse;
 import com.pawwithu.connectdog.error.dto.ErrorResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -15,12 +14,12 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -82,9 +81,9 @@ public class SignUpController {
                     , content = @Content(schema = @Schema(implementation = ErrorResponse.class)))
             })
     @PatchMapping("/volunteers/sign-up/social")
-    public ResponseEntity<LoginResponse> volunteerSocialSignUp(@RequestBody SocialSignUpRequest socialSignUpRequest, HttpServletRequest request) {
-        LoginResponse response = authService.volunteerSocialSignUp(socialSignUpRequest, request);
-        return ResponseEntity.ok(response);
+    public ResponseEntity<Void> volunteerSocialSignUp(@AuthenticationPrincipal UserDetails loginUser, @RequestBody SocialSignUpRequest socialSignUpRequest) {
+        authService.volunteerSocialSignUp(loginUser.getUsername(), socialSignUpRequest);
+        return ResponseEntity.noContent().build();
     }
 
 }
