@@ -2,12 +2,19 @@ package com.pawwithu.connectdog.domain.auth.service;
 
 import com.pawwithu.connectdog.common.s3.FileService;
 import com.pawwithu.connectdog.domain.auth.dto.request.IntermediarySignUpRequest;
+import com.pawwithu.connectdog.domain.auth.dto.request.SocialSignUpRequest;
 import com.pawwithu.connectdog.domain.auth.dto.request.VolunteerSignUpRequest;
 import com.pawwithu.connectdog.domain.intermediary.entity.Intermediary;
 import com.pawwithu.connectdog.domain.intermediary.repository.IntermediaryRepository;
+import com.pawwithu.connectdog.domain.oauth.dto.response.LoginResponse;
 import com.pawwithu.connectdog.domain.volunteer.entity.Volunteer;
 import com.pawwithu.connectdog.domain.volunteer.repository.VolunteerRepository;
 import com.pawwithu.connectdog.error.exception.custom.BadRequestException;
+import com.pawwithu.connectdog.error.exception.custom.TokenException;
+import com.pawwithu.connectdog.jwt.service.JwtService;
+import com.pawwithu.connectdog.util.RedisUtil;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -27,6 +34,8 @@ public class AuthService {
     private final IntermediaryRepository intermediaryRepository;
     private final PasswordEncoder passwordEncoder;
     private final FileService fileService;
+    private final JwtService jwtService;
+    private final RedisUtil redisUtil;
 
     public void volunteerSignUp(VolunteerSignUpRequest request) {
 
@@ -61,5 +70,26 @@ public class AuthService {
         Intermediary intermediary = IntermediarySignUpRequest.toEntity(request, authImage, profileImage);
         intermediary.passwordEncode(passwordEncoder);
         intermediaryRepository.save(intermediary);
+    }
+
+    public LoginResponse volunteerSocialSignUp(SocialSignUpRequest socialSignUpRequest, HttpServletRequest request) {
+
+        if (volunteerRepository.existsByNickname(socialSignUpRequest.nickName())) {
+            throw new BadRequestException(ALREADY_EXIST_NICKNAME);
+        }
+
+        // AccessToken 으로 이동봉사자 찾기
+        String accessToken = jwtService.extractAccessToken(request).orElseThrow(() -> new TokenException(INVALID_TOKEN));
+        Long id = jwtService.extractId(accessToken).orElseThrow(() -> new TokenException(INVALID_TOKEN));
+        String roleName = jwtService.extractRoleName(accessToken).orElseThrow(() -> new TokenException(INVALID_TOKEN));
+        Volunteer volunteer = volunteerRepository.findById(id).orElseThrow(() -> new BadRequestException(VOLUNTEER_NOT_FOUND));
+
+        // 추가 정보 업데이트
+        String nickname = socialSignUpRequest.nickName();
+        volunteer.updateSocialVolunteer(nickname); // AUTH_VOLUNTEER 로 넣어줘야 하는지 확인
+
+        // 토큰 재발행
+        String refreshToken = redisUtil.get(roleName, id);
+        return jwtService.reIssueToken(refreshToken);
     }
 }

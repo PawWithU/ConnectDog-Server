@@ -51,4 +51,8 @@ public class Volunteer {
         this.password = passwordEncoder.encode(this.password);
     }
 
+    public void updateSocialVolunteer(String nickname) {
+        this.nickname = nickname;
+    }
+
 }
