@@ -297,15 +297,22 @@ public class JwtService {
     public void saveVolunteerAuthentication(Volunteer volunteer) {
         log.info("인증 허가 메소드 saveAuthentication() 호출");
         String password = volunteer.getPassword();
+        UserDetails userDetailsUser = null;
         if (password == null) { // 소셜 로그인 유저의 비밀번호 임의로 설정 하여 소셜 로그인 유저도 인증 되도록 설정
             password = PasswordUtil.generateRandomPassword();
-        }
 
-        UserDetails userDetailsUser = org.springframework.security.core.userdetails.User.builder()
-                .username(volunteer.getEmail())
-                .password(password)
-                .roles(volunteer.getRole().name())
-                .build();
+            userDetailsUser = org.springframework.security.core.userdetails.User.builder()
+                    .username(volunteer.getId() + volunteer.getRole().toString())
+                    .password(password)
+                    .roles(volunteer.getRole().name())
+                    .build();
+        } else {
+            userDetailsUser = org.springframework.security.core.userdetails.User.builder()
+                    .username(volunteer.getEmail())
+                    .password(password)
+                    .roles(volunteer.getRole().name())
+                    .build();
+        }
 
         Authentication authentication =
                 new UsernamePasswordAuthenticationToken(userDetailsUser, null,
