@@ -4,6 +4,7 @@ import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.pawwithu.connectdog.domain.intermediary.entity.Intermediary;
 import com.pawwithu.connectdog.domain.intermediary.repository.IntermediaryRepository;
+import com.pawwithu.connectdog.domain.oauth.dto.response.LoginResponse;
 import com.pawwithu.connectdog.domain.volunteer.entity.Volunteer;
 import com.pawwithu.connectdog.domain.volunteer.repository.VolunteerRepository;
 import com.pawwithu.connectdog.error.exception.custom.BadRequestException;
@@ -190,9 +191,28 @@ public class JwtService {
     }
 
     /**
+     * RefreshToken 검증 메소드
+     */
+    public boolean isRefreshTokenMatch(String roleName, Long id, String refreshToken) {
+
+        log.info("RefreshToken 검증");
+        if (redisUtil.get(roleName, id).equals(refreshToken)) {
+            return true;
+        }
+        throw new TokenException(INVALID_TOKEN);
+    }
+
+    /**
      * AccessToken, RefreshToken 재발급 + 인증 + 응답 바디에 보내기
      */
-    private void reIssueRefreshAndAccessToken(Long id, String roleName) {
+    public LoginResponse reIssueToken(String refreshToken) {
+
+        // AccessToken 으로 이동봉사자 찾기
+        Long id = extractId(refreshToken).orElseThrow(() -> new TokenException(INVALID_TOKEN));
+        String roleName = extractRoleName(refreshToken).orElseThrow(() -> new TokenException(INVALID_TOKEN));
+
+        Boolean isMatched = isRefreshTokenMatch(roleName, id, refreshToken);
+        if (!isMatched) { throw new TokenException(TOKEN_NOT_MATCHED); }
 
         String newAccessToken = null;
         String newRefreshToken = null;
@@ -212,19 +232,9 @@ public class JwtService {
         getAuthentication(newAccessToken);
         redisUtil.delete(roleName, id);
         updateRefreshToken(roleName, id, newRefreshToken);
-        sendAccessAndRefreshToken(roleName, newAccessToken, newRefreshToken);
         log.info("AccessToken, RefreshToken 재발급 완료");
-    }
 
-    /**
-     * RefreshToken 검증 메소드
-     */
-    public boolean isRefreshTokenMatch(String roleName, Long id, String refreshToken) {
-        log.info("RefreshToken 검증");
-        if (redisUtil.get(roleName, id).equals(refreshToken)) {
-            return true;
-        }
-        throw new TokenException(INVALID_TOKEN);
+        return LoginResponse.of(roleName, newAccessToken, newRefreshToken);
     }
 
     /**

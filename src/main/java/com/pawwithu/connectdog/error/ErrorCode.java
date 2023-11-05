@@ -22,6 +22,7 @@ public enum ErrorCode {
     TOKEN_IS_EXPIRED("T2", "만료된 토큰입니다."),
     INVALID_TOKEN("T3", "잘못된 토큰입니다."),
     TOKEN_NOT_CREATED("T4", "토큰 생성에 실패했습니다."),
+    TOKEN_NOT_MATCHED("T5", "해당 RefreshToken을 Redis에서 찾을 수 없습니다."),
 
     FILE_NOT_FOUND("F1", "파일이 존재하지 않습니다."),
     INVALID_FILE_UPLOAD("F2", "파일 업로드에 실패했습니다.");
