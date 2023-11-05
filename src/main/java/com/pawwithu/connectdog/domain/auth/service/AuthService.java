@@ -8,13 +8,13 @@ import com.pawwithu.connectdog.domain.intermediary.entity.Intermediary;
 import com.pawwithu.connectdog.domain.intermediary.repository.IntermediaryRepository;
 import com.pawwithu.connectdog.domain.oauth.dto.response.LoginResponse;
 import com.pawwithu.connectdog.domain.volunteer.entity.Volunteer;
+import com.pawwithu.connectdog.domain.volunteer.entity.VolunteerRole;
 import com.pawwithu.connectdog.domain.volunteer.repository.VolunteerRepository;
 import com.pawwithu.connectdog.error.exception.custom.BadRequestException;
 import com.pawwithu.connectdog.error.exception.custom.TokenException;
 import com.pawwithu.connectdog.jwt.service.JwtService;
 import com.pawwithu.connectdog.util.RedisUtil;
 import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -86,7 +86,7 @@ public class AuthService {
 
         // 추가 정보 업데이트
         String nickname = socialSignUpRequest.nickname();
-        volunteer.updateSocialVolunteer(nickname); // AUTH_VOLUNTEER 로 넣어줘야 하는지 확인
+        volunteer.updateSocialVolunteer(nickname, VolunteerRole.VOLUNTEER); // GUEST -> VOLUNTEER
 
         // 토큰 재발행
         String refreshToken = redisUtil.get(roleName, id);

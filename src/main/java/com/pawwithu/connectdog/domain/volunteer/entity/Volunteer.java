@@ -50,7 +50,8 @@ public class Volunteer {
         this.password = passwordEncoder.encode(this.password);
     }
 
-    public void updateSocialVolunteer(String nickname) {
+    public void updateSocialVolunteer(String nickname, VolunteerRole role) {
+        this.role = role;
         this.nickname = nickname;
     }
 
