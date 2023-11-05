@@ -1,7 +1,7 @@
 package com.pawwithu.connectdog.domain.oauth.controller;
 
 import com.pawwithu.connectdog.domain.oauth.dto.request.SocialLoginRequest;
-import com.pawwithu.connectdog.domain.oauth.dto.response.SocialLoginResponse;
+import com.pawwithu.connectdog.domain.oauth.dto.response.LoginResponse;
 import com.pawwithu.connectdog.domain.oauth.service.OAuthService;
 import com.pawwithu.connectdog.error.dto.ErrorResponse;
 import io.swagger.v3.oas.annotations.Operation;
@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-@Tag(name = "Auth", description = "Auth API")
+@Tag(name = "OAuth", description = "OAuth API")
 @RestController
 @RequiredArgsConstructor
 public class OAuthController {
@@ -29,11 +29,10 @@ public class OAuthController {
                     , description = ""
                     , content = @Content(schema = @Schema(implementation = ErrorResponse.class)))
             })
-    @PostMapping("/volunteers/social-login")
-    public ResponseEntity<SocialLoginResponse> volunteerSocialLogin(@RequestBody @Valid SocialLoginRequest request) {
-        SocialLoginResponse response = oAuthService.volunteerSocialLogin(request);
+    @PostMapping("/volunteers/login/social")
+    public ResponseEntity<LoginResponse> volunteerSocialLogin(@RequestBody @Valid SocialLoginRequest request) {
+        LoginResponse response = oAuthService.volunteerSocialLogin(request);
         return ResponseEntity.ok(response);
     }
 
-    // 소셜 로그인 추가 회원가입 (닉네임 입력) (추가 정보 입력 있나 보기)
 }

@@ -62,8 +62,9 @@ public class SecurityConfig {
                 .authorizeHttpRequests(request ->
                         request.requestMatchers(mvcMatcherBuilder.pattern("/volunteers/login")).permitAll()
                                 .requestMatchers(mvcMatcherBuilder.pattern("/intermediaries/login")).permitAll()
-                                .requestMatchers(mvcMatcherBuilder.pattern("/volunteers/social-login")).permitAll()
-                                .requestMatchers(mvcMatcherBuilder.pattern("/volunteers/sign-up/**")).permitAll()
+                                .requestMatchers(mvcMatcherBuilder.pattern("/volunteers/login/social")).permitAll()
+                                .requestMatchers(mvcMatcherBuilder.pattern("/volunteers/sign-up")).permitAll()
+                                .requestMatchers(mvcMatcherBuilder.pattern("/volunteers/sign-up/email")).permitAll()
                                 .requestMatchers(mvcMatcherBuilder.pattern("/intermediaries/sign-up/**")).permitAll()
                                 .requestMatchers(mvcMatcherBuilder.pattern("/h2-console/**")).permitAll()
                                 .requestMatchers(mvcMatcherBuilder.pattern("/css/**")).permitAll()

@@ -2,7 +2,7 @@ package com.pawwithu.connectdog.domain.oauth.service;
 
 import com.pawwithu.connectdog.domain.oauth.dto.request.SocialLoginRequest;
 import com.pawwithu.connectdog.domain.oauth.dto.response.OAuthInfoResponse;
-import com.pawwithu.connectdog.domain.oauth.dto.response.SocialLoginResponse;
+import com.pawwithu.connectdog.domain.oauth.dto.response.LoginResponse;
 import com.pawwithu.connectdog.domain.volunteer.entity.SocialType;
 import com.pawwithu.connectdog.domain.volunteer.entity.Volunteer;
 import com.pawwithu.connectdog.domain.volunteer.entity.VolunteerRole;
@@ -24,7 +24,7 @@ public class OAuthService {
     private final RequestOAuthInfoService requestOAuthInfoService;
     private final JwtService jwtService;
 
-    public SocialLoginResponse volunteerSocialLogin(SocialLoginRequest request) {
+    public LoginResponse volunteerSocialLogin(SocialLoginRequest request) {
         OAuthInfoResponse oAuthInfoResponse = requestOAuthInfoService.request(request);
         SocialType socialType = oAuthInfoResponse.getSocialType();
         String socialId = oAuthInfoResponse.getId();
@@ -36,7 +36,7 @@ public class OAuthService {
         String refreshToken = jwtService.createRefreshToken(id, roleName);
         jwtService.updateRefreshToken(roleName, id, refreshToken);
 
-        return SocialLoginResponse.of(roleName, accessToken, refreshToken);
+        return LoginResponse.of(roleName, accessToken, refreshToken);
     }
 
     private Long findOrSaveVolunteer(SocialType socialType, String socialId) {
