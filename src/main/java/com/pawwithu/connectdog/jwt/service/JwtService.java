@@ -302,7 +302,7 @@ public class JwtService {
             password = PasswordUtil.generateRandomPassword();
 
             userDetailsUser = org.springframework.security.core.userdetails.User.builder()
-                    .username(volunteer.getId() + volunteer.getRole().toString())
+                    .username(volunteer.getSocialId())
                     .password(password)
                     .roles(volunteer.getRole().name())
                     .build();
