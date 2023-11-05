@@ -22,6 +22,6 @@ public class NaverInfoResponse implements OAuthInfoResponse {
     }
     @Override
     public String getId() {
-        return null;
+        return response.getId();
     }
 }

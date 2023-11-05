@@ -40,8 +40,7 @@ public class Volunteer {
         this.notification = notification;
     }
 
-    public Volunteer(String nickname, VolunteerRole role, SocialType socialType, String socialId) {
-        this.nickname = nickname;
+    public Volunteer(VolunteerRole role, SocialType socialType, String socialId) {
         this.role = role;
         this.socialType = socialType;
         this.socialId = socialId;

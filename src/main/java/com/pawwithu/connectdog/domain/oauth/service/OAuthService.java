@@ -28,9 +28,11 @@ public class OAuthService {
         OAuthInfoResponse oAuthInfoResponse = requestOAuthInfoService.request(request);
         SocialType socialType = oAuthInfoResponse.getSocialType();
         String socialId = oAuthInfoResponse.getId();
+        log.info("socialId: " + socialId);
 
         String roleName = "VOLUNTEER";
         Long id = findOrSaveVolunteer(socialType, socialId); // Volunteer id 반환
+        log.info("id: " + id);
 
         String accessToken = jwtService.createAccessToken(id, roleName);
         String refreshToken = jwtService.createRefreshToken(id, roleName);
@@ -51,7 +53,7 @@ public class OAuthService {
     }
 
     private Long saveVolunteer(SocialType socialType, String socialId) {
-        Volunteer createdVolunteer = new Volunteer("랜덤?", VolunteerRole.VOLUNTEER, socialType, socialId);
+        Volunteer createdVolunteer = new Volunteer(VolunteerRole.VOLUNTEER, socialType, socialId);
 
         return volunteerRepository.save(createdVolunteer).getId();
     }

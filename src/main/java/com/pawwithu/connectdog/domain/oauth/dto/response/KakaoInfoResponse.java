@@ -17,6 +17,6 @@ public class KakaoInfoResponse implements OAuthInfoResponse {
     }
     @Override
     public String getId() {
-        return null;
+        return id;
     }
 }
