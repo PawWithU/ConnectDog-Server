@@ -26,7 +26,7 @@ public class AuthController {
     @Operation(summary = "토큰 재발행", description = "AccessToken, RefreshToken 재발행 합니다.",
             responses = {@ApiResponse(responseCode = "200", description = "토큰 재발행 성공")
                     , @ApiResponse(responseCode = "400"
-                    , description = "V1, 이메일은 필수 전송 값입니다. \t\n T3, 잘못된 토큰입니다. \t\n T5, 해당 RefreshToken을 Redis에서 찾을 수 없습니다."
+                    , description = "V1, RefreshToken은 필수 전송 값입니다. \t\n T3, 잘못된 토큰입니다. \t\n T5, 해당 RefreshToken을 Redis에서 찾을 수 없습니다."
                     , content = @Content(schema = @Schema(implementation = ErrorResponse.class)))
             })
     @PostMapping("/reissue-token")

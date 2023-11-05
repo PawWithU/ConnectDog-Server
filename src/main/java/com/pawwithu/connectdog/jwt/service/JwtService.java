@@ -207,7 +207,7 @@ public class JwtService {
      */
     public LoginResponse reIssueToken(String refreshToken) {
 
-        // AccessToken 으로 이동봉사자 찾기
+        // AccessToken 으로 이동봉사자 id, roleName 찾기
         Long id = extractId(refreshToken).orElseThrow(() -> new TokenException(INVALID_TOKEN));
         String roleName = extractRoleName(refreshToken).orElseThrow(() -> new TokenException(INVALID_TOKEN));
 
@@ -297,22 +297,15 @@ public class JwtService {
     public void saveVolunteerAuthentication(Volunteer volunteer) {
         log.info("인증 허가 메소드 saveAuthentication() 호출");
         String password = volunteer.getPassword();
-        UserDetails userDetailsUser = null;
         if (password == null) { // 소셜 로그인 유저의 비밀번호 임의로 설정 하여 소셜 로그인 유저도 인증 되도록 설정
             password = PasswordUtil.generateRandomPassword();
-
-            userDetailsUser = org.springframework.security.core.userdetails.User.builder()
-                    .username(volunteer.getSocialId())
-                    .password(password)
-                    .roles(volunteer.getRole().name())
-                    .build();
-        } else {
-            userDetailsUser = org.springframework.security.core.userdetails.User.builder()
-                    .username(volunteer.getEmail())
-                    .password(password)
-                    .roles(volunteer.getRole().name())
-                    .build();
         }
+
+        UserDetails userDetailsUser = org.springframework.security.core.userdetails.User.builder()
+                .username(volunteer.getEmail())
+                .password(password)
+                .roles(volunteer.getRole().name())
+                .build();
 
         Authentication authentication =
                 new UsernamePasswordAuthenticationToken(userDetailsUser, null,
