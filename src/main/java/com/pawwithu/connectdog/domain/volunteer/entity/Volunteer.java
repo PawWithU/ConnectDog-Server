@@ -15,7 +15,7 @@ public class Volunteer {
     private Long id;
     private String email; // 이메일
     private String password; // 비밀번호
-    @Column(length = 15, nullable = false)
+    @Column(length = 15)
     private String nickname; // 닉네임
     private Integer profileImageNum;   // 프로필 이미지 번호
     @Column(length = 10)
