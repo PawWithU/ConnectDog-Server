@@ -74,7 +74,7 @@ public class AuthService {
 
     public LoginResponse volunteerSocialSignUp(SocialSignUpRequest socialSignUpRequest, HttpServletRequest request) {
 
-        if (volunteerRepository.existsByNickname(socialSignUpRequest.nickName())) {
+        if (volunteerRepository.existsByNickname(socialSignUpRequest.nickname())) {
             throw new BadRequestException(ALREADY_EXIST_NICKNAME);
         }
 
@@ -85,7 +85,7 @@ public class AuthService {
         Volunteer volunteer = volunteerRepository.findById(id).orElseThrow(() -> new BadRequestException(VOLUNTEER_NOT_FOUND));
 
         // 추가 정보 업데이트
-        String nickname = socialSignUpRequest.nickName();
+        String nickname = socialSignUpRequest.nickname();
         volunteer.updateSocialVolunteer(nickname); // AUTH_VOLUNTEER 로 넣어줘야 하는지 확인
 
         // 토큰 재발행
