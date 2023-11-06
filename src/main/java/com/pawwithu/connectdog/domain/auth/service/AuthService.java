@@ -6,15 +6,10 @@ import com.pawwithu.connectdog.domain.auth.dto.request.SocialSignUpRequest;
 import com.pawwithu.connectdog.domain.auth.dto.request.VolunteerSignUpRequest;
 import com.pawwithu.connectdog.domain.intermediary.entity.Intermediary;
 import com.pawwithu.connectdog.domain.intermediary.repository.IntermediaryRepository;
-import com.pawwithu.connectdog.domain.oauth.dto.response.LoginResponse;
 import com.pawwithu.connectdog.domain.volunteer.entity.Volunteer;
 import com.pawwithu.connectdog.domain.volunteer.entity.VolunteerRole;
 import com.pawwithu.connectdog.domain.volunteer.repository.VolunteerRepository;
 import com.pawwithu.connectdog.error.exception.custom.BadRequestException;
-import com.pawwithu.connectdog.error.exception.custom.TokenException;
-import com.pawwithu.connectdog.jwt.service.JwtService;
-import com.pawwithu.connectdog.util.RedisUtil;
-import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -34,8 +29,6 @@ public class AuthService {
     private final IntermediaryRepository intermediaryRepository;
     private final PasswordEncoder passwordEncoder;
     private final FileService fileService;
-    private final JwtService jwtService;
-    private final RedisUtil redisUtil;
 
     public void volunteerSignUp(VolunteerSignUpRequest request) {
 
@@ -83,6 +76,8 @@ public class AuthService {
 
         // 추가 정보 업데이트
         String nickname = socialSignUpRequest.nickname();
-        volunteer.updateSocialVolunteer(nickname, VolunteerRole.VOLUNTEER); // GUEST -> VOLUNTEER
+        Integer profileImageNum = socialSignUpRequest.profileImageNum();
+        Boolean isOptionAgr = socialSignUpRequest.isOptionAgr();
+        volunteer.updateSocialVolunteer(nickname, VolunteerRole.VOLUNTEER, profileImageNum, isOptionAgr); // GUEST -> VOLUNTEER
     }
 }

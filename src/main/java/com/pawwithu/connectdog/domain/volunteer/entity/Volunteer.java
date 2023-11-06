@@ -51,9 +51,11 @@ public class Volunteer {
         this.password = passwordEncoder.encode(this.password);
     }
 
-    public void updateSocialVolunteer(String nickname, VolunteerRole role) {
-        this.role = role;
+    public void updateSocialVolunteer(String nickname, VolunteerRole role, Integer profileImageNum, Boolean isOptionAgr) {
         this.nickname = nickname;
+        this.role = role;
+        this.profileImageNum = profileImageNum;
+        this.isOptionAgr = isOptionAgr;
     }
 
 }
