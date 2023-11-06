@@ -15,7 +15,7 @@ public class Volunteer {
     private Long id;
     private String email; // 이메일
     private String password; // 비밀번호
-    @Column(length = 15, nullable = false)
+    @Column(length = 15)
     private String nickname; // 닉네임
     private Integer profileImageNum;   // 프로필 이미지 번호
     @Column(length = 10)
@@ -40,8 +40,22 @@ public class Volunteer {
         this.notification = notification;
     }
 
+    public Volunteer(String email, VolunteerRole role, SocialType socialType, String socialId) {
+        this.email = email;
+        this.role = role;
+        this.socialType = socialType;
+        this.socialId = socialId;
+    }
+
     public void passwordEncode(PasswordEncoder passwordEncoder) {
         this.password = passwordEncoder.encode(this.password);
+    }
+
+    public void updateSocialVolunteer(String nickname, VolunteerRole role, Integer profileImageNum, Boolean isOptionAgr) {
+        this.nickname = nickname;
+        this.role = role;
+        this.profileImageNum = profileImageNum;
+        this.isOptionAgr = isOptionAgr;
     }
 
 }

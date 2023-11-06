@@ -2,10 +2,12 @@ package com.pawwithu.connectdog.domain.auth.service;
 
 import com.pawwithu.connectdog.common.s3.FileService;
 import com.pawwithu.connectdog.domain.auth.dto.request.IntermediarySignUpRequest;
+import com.pawwithu.connectdog.domain.auth.dto.request.SocialSignUpRequest;
 import com.pawwithu.connectdog.domain.auth.dto.request.VolunteerSignUpRequest;
 import com.pawwithu.connectdog.domain.intermediary.entity.Intermediary;
 import com.pawwithu.connectdog.domain.intermediary.repository.IntermediaryRepository;
 import com.pawwithu.connectdog.domain.volunteer.entity.Volunteer;
+import com.pawwithu.connectdog.domain.volunteer.entity.VolunteerRole;
 import com.pawwithu.connectdog.domain.volunteer.repository.VolunteerRepository;
 import com.pawwithu.connectdog.error.exception.custom.BadRequestException;
 import lombok.RequiredArgsConstructor;
@@ -61,5 +63,21 @@ public class AuthService {
         Intermediary intermediary = IntermediarySignUpRequest.toEntity(request, authImage, profileImage);
         intermediary.passwordEncode(passwordEncoder);
         intermediaryRepository.save(intermediary);
+    }
+
+    public void volunteerSocialSignUp(String email, SocialSignUpRequest socialSignUpRequest) {
+
+        if (volunteerRepository.existsByNickname(socialSignUpRequest.nickname())) {
+            throw new BadRequestException(ALREADY_EXIST_NICKNAME);
+        }
+
+        Volunteer volunteer = volunteerRepository.findByEmail(email).orElseThrow(() -> new BadRequestException(VOLUNTEER_NOT_FOUND));
+        log.info("volunteer: " + volunteer.getEmail());
+
+        // 추가 정보 업데이트
+        String nickname = socialSignUpRequest.nickname();
+        Integer profileImageNum = socialSignUpRequest.profileImageNum();
+        Boolean isOptionAgr = socialSignUpRequest.isOptionAgr();
+        volunteer.updateSocialVolunteer(nickname, VolunteerRole.VOLUNTEER, profileImageNum, isOptionAgr); // GUEST -> VOLUNTEER
     }
 }

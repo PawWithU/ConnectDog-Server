@@ -7,7 +7,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public enum VolunteerRole {
 
-    VOLUNTEER("ROLE_VOLUNTEER"), AUTH_VOLUNTEER("ROLE_AUTH_VOLUNTEER");
+    GUEST("ROLE_GUEST"), VOLUNTEER("ROLE_VOLUNTEER"), AUTH_VOLUNTEER("ROLE_AUTH_VOLUNTEER");
 
     private final String key;
 
