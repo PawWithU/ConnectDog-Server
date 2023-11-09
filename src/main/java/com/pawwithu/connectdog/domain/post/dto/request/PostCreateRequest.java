@@ -1,4 +1,4 @@
-package com.pawwithu.connectdog.domain.post.dto;
+package com.pawwithu.connectdog.domain.post.dto.request;
 
 import com.pawwithu.connectdog.domain.dog.entity.Dog;
 import com.pawwithu.connectdog.domain.dog.entity.DogGender;
