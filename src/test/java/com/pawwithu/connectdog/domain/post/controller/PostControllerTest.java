@@ -1,10 +1,7 @@
 package com.pawwithu.connectdog.domain.post.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
-import com.pawwithu.connectdog.domain.dog.entity.DogGender;
-import com.pawwithu.connectdog.domain.dog.entity.DogSize;
-import com.pawwithu.connectdog.domain.post.dto.PostCreateRequest;
+import com.pawwithu.connectdog.domain.post.dto.response.PostGetHomeResponse;
 import com.pawwithu.connectdog.domain.post.service.PostService;
 import com.pawwithu.connectdog.utils.TestUserArgumentResolver;
 import org.junit.jupiter.api.BeforeEach;
@@ -13,21 +10,21 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.http.HttpMethod;
-import org.springframework.http.MediaType;
-import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
-import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.filter.CharacterEncodingFilter;
 
-import java.nio.charset.StandardCharsets;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @ExtendWith(MockitoExtension.class)
@@ -81,5 +78,27 @@ class PostControllerTest {
 //        result.andExpect(status().isNoContent());
 //        verify(postService, times(1)).createPost(any(), any(), any());
 //    }
+
+    @Test
+    void 홈_공고_5개_조회() throws Exception {
+        //given
+        List<PostGetHomeResponse> response = new ArrayList<>();
+        LocalDate startDate = LocalDate.of(2023, 10, 2);
+        LocalDate endDate = LocalDate.of(2023, 11, 7);
+        response.add(new PostGetHomeResponse("image1", "서울시 성북구", "서울시 중랑구",
+                startDate, endDate, "이동봉사 중개", true));
+        response.add(new PostGetHomeResponse("image2", "서울시 성북구", "서울시 중랑구",
+                startDate, endDate, "이동봉사 중개", false));
+
+        //when
+        given(postService.getHomePosts()).willReturn(response);
+        ResultActions result = mockMvc.perform(
+                get("/volunteers/posts/home")
+        );
+
+        //then
+        result.andExpect(status().isOk());
+        verify(postService, times(1)).getHomePosts();
+    }
 
 }

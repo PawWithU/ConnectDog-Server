@@ -5,9 +5,11 @@ import com.pawwithu.connectdog.domain.dog.entity.Dog;
 import com.pawwithu.connectdog.domain.dog.repository.DogRepository;
 import com.pawwithu.connectdog.domain.intermediary.entity.Intermediary;
 import com.pawwithu.connectdog.domain.intermediary.repository.IntermediaryRepository;
-import com.pawwithu.connectdog.domain.post.dto.PostCreateRequest;
+import com.pawwithu.connectdog.domain.post.dto.request.PostCreateRequest;
+import com.pawwithu.connectdog.domain.post.dto.response.PostGetHomeResponse;
 import com.pawwithu.connectdog.domain.post.entity.Post;
 import com.pawwithu.connectdog.domain.post.entity.PostImage;
+import com.pawwithu.connectdog.domain.post.repository.CustomPostRepository;
 import com.pawwithu.connectdog.domain.post.repository.PostImageRepository;
 import com.pawwithu.connectdog.domain.post.repository.PostRepository;
 import com.pawwithu.connectdog.error.exception.custom.BadRequestException;
@@ -34,6 +36,7 @@ public class PostService {
     private final IntermediaryRepository intermediaryRepository;
     private final PostRepository postRepository;
     private final PostImageRepository postImageRepository;
+    private final CustomPostRepository customPostRepository;
 
     public void createPost(String email, PostCreateRequest request, List<MultipartFile> fileList) {
 
@@ -62,5 +65,10 @@ public class PostService {
         // 공고 대표 이미지 업데이트
         post.updateMainImage(postImages.get(0));
 
+    }
+
+    public List<PostGetHomeResponse> getHomePosts() {
+        List<PostGetHomeResponse> homePosts = customPostRepository.getHomePosts();
+        return homePosts;
     }
 }

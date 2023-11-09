@@ -1,6 +1,7 @@
 package com.pawwithu.connectdog.domain.post.controller;
 
-import com.pawwithu.connectdog.domain.post.dto.PostCreateRequest;
+import com.pawwithu.connectdog.domain.post.dto.request.PostCreateRequest;
+import com.pawwithu.connectdog.domain.post.dto.response.PostGetHomeResponse;
 import com.pawwithu.connectdog.domain.post.service.PostService;
 import com.pawwithu.connectdog.error.dto.ErrorResponse;
 import io.swagger.v3.oas.annotations.Operation;
@@ -14,6 +15,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
@@ -43,5 +45,13 @@ public class PostController {
                                            @RequestPart(name = "files", required = false) List<MultipartFile> files) {
         postService.createPost(loginUser.getUsername(), request, files);
         return ResponseEntity.noContent().build();
+    }
+
+    @Operation(summary = "홈 화면 공고 5개 최신 순 조회", description = "홈 화면에서 공고 5개를 최신 순으로 조회합니다.",
+            responses = {@ApiResponse(responseCode = "200", description = "홈 화면 공고 5개 조회 성공")})
+    @GetMapping(value = "/volunteers/posts/home")
+    public ResponseEntity<List<PostGetHomeResponse>> getHomePosts() {
+        List<PostGetHomeResponse> homePosts = postService.getHomePosts();
+        return ResponseEntity.ok(homePosts);
     }
 }
