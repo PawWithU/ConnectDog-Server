@@ -95,6 +95,7 @@ class SignUpControllerTest {
                 "이동봉사 단체",
                 "https://connectdog.site",
                 "안녕하세요 코넥독입니다.",
+                "인스타그램",
                 false);
 
         MockMultipartFile authImage = new MockMultipartFile("authImage", "authImage.png", "multipart/form-data", "uploadFile".getBytes(StandardCharsets.UTF_8));

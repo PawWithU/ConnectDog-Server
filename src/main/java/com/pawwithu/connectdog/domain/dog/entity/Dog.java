@@ -2,10 +2,7 @@ package com.pawwithu.connectdog.domain.dog.entity;
 
 import com.pawwithu.connectdog.common.entity.BaseTimeEntity;
 import jakarta.persistence.*;
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -26,4 +23,12 @@ public class Dog extends BaseTimeEntity {
     @Column(length = 200)
     private String specifics; // 강아지 특이사항
 
+    @Builder
+    public Dog(String name, DogSize size, DogGender gender, Float weight, String specifics) {
+        this.name = name;
+        this.size = size;
+        this.gender = gender;
+        this.weight = weight;
+        this.specifics = specifics;
+    }
 }
