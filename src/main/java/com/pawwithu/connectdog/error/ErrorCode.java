@@ -25,7 +25,12 @@ public enum ErrorCode {
     TOKEN_NOT_MATCHED("T5", "해당 RefreshToken을 Redis에서 찾을 수 없습니다."),
 
     FILE_NOT_FOUND("F1", "파일이 존재하지 않습니다."),
-    INVALID_FILE_UPLOAD("F2", "파일 업로드에 실패했습니다.");
+    INVALID_FILE_UPLOAD("F2", "파일 업로드에 실패했습니다."),
+
+    INVALID_DOG_SIZE("D1", "잘못된 강아지 사이즈입니다."),
+    INVALID_DOG_GENDER("D2", "잘못된 강아지 성별입니다."),
+
+    INVALID_POST_STATUS("P1", "잘못된 공고 상태입니다.");
 
 
     private final String code;
