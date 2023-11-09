@@ -36,6 +36,7 @@ public class FileService {
         ObjectMetadata metadata = new ObjectMetadata();
 
         try (InputStream inputStream = multipartFile.getInputStream()) {
+            metadata.setContentLength(multipartFile.getSize());
             amazonS3Client.putObject(bucketName, savedFileName, inputStream, metadata);
         } catch (IOException e) {
             log.error("Failed to upload image", e);
