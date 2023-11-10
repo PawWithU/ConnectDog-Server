@@ -30,7 +30,8 @@ public enum ErrorCode {
     INVALID_DOG_SIZE("D1", "잘못된 강아지 사이즈입니다."),
     INVALID_DOG_GENDER("D2", "잘못된 강아지 성별입니다."),
 
-    INVALID_POST_STATUS("P1", "잘못된 공고 상태입니다.");
+    INVALID_POST_STATUS("P1", "잘못된 공고 상태입니다."),
+    POST_NOT_FOUND("P2", "해당 공고를 찾을 수 없습니다.");
 
 
     private final String code;
