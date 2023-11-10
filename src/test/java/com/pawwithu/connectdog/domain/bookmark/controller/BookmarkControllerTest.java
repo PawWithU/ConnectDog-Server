@@ -40,7 +40,7 @@ class BookmarkControllerTest {
     }
 
     @Test
-    void 이동봉사자_북마크_등록_및_삭제() throws Exception {
+    void 이동봉사자_북마크_등록() throws Exception {
         // given
         Long postId = 1L;
 
@@ -51,6 +51,21 @@ class BookmarkControllerTest {
 
         // then
         result.andExpect(status().isNoContent());
-        verify(bookmarkService, times(1)).clickBookmark(anyString(), anyLong());
+        verify(bookmarkService, times(1)).createBookmark(anyString(), anyLong());
+    }
+
+    @Test
+    void 이동봉사자_북마크_삭제() throws Exception {
+        // given
+        Long postId = 1L;
+
+        // when
+        ResultActions result = mockMvc.perform(
+                delete("/volunteers/bookmarks/{postId}", postId)
+        );
+
+        // then
+        result.andExpect(status().isNoContent());
+        verify(bookmarkService, times(1)).deleteBookmark(anyString(), anyLong());
     }
 }
