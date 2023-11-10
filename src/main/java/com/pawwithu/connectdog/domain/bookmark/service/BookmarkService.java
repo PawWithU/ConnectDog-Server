@@ -12,8 +12,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import static com.pawwithu.connectdog.error.ErrorCode.POST_NOT_FOUND;
-import static com.pawwithu.connectdog.error.ErrorCode.VOLUNTEER_NOT_FOUND;
+import static com.pawwithu.connectdog.error.ErrorCode.*;
 
 @Slf4j
 @Service
@@ -25,26 +24,12 @@ public class BookmarkService {
     private final VolunteerRepository volunteerRepository;
     private final PostRepository postRepository;
 
-    public void clickBookmark(String email, Long postId) {
+    public void createBookmark(String email, Long postId) {
         Volunteer volunteer = volunteerRepository.findByEmail(email).orElseThrow(() -> new BadRequestException(VOLUNTEER_NOT_FOUND));
         Post post = postRepository.findById(postId).orElseThrow(() -> new BadRequestException(POST_NOT_FOUND));
 
-        if (bookmarkStatus(volunteer, post)) {
-            deleteBookmark(volunteer, post);
-        } else {
-            createBookmark(volunteer, post);
-        }
-    }
+        if (bookmarkStatus(volunteer, post)) throw new BadRequestException(ALREADY_EXIST_BOOKMARK);
 
-    public Boolean bookmarkStatus(Volunteer volunteer, Post post) {
-        return bookmarkRepository.existsByVolunteerAndPost(volunteer, post);
-    }
-
-    public void deleteBookmark(Volunteer volunteer, Post post) {
-        bookmarkRepository.deleteByVolunteerAndPost(volunteer, post);
-    }
-
-    public void createBookmark(Volunteer volunteer, Post post) {
         Bookmark bookmark = Bookmark.builder()
                 .post(post)
                 .volunteer(volunteer)
@@ -52,4 +37,18 @@ public class BookmarkService {
 
         bookmarkRepository.save(bookmark);
     }
+
+    public void deleteBookmark(String email, Long postId) {
+        Volunteer volunteer = volunteerRepository.findByEmail(email).orElseThrow(() -> new BadRequestException(VOLUNTEER_NOT_FOUND));
+        Post post = postRepository.findById(postId).orElseThrow(() -> new BadRequestException(POST_NOT_FOUND));
+
+        if (!bookmarkStatus(volunteer, post)) throw new BadRequestException(NOT_FOUND_BOOKMARK);
+
+        bookmarkRepository.deleteByVolunteerAndPost(volunteer, post);
+    }
+
+    public Boolean bookmarkStatus(Volunteer volunteer, Post post) {
+        return bookmarkRepository.existsByVolunteerAndPost(volunteer, post);
+    }
+
 }
