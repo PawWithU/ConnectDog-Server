@@ -4,10 +4,7 @@ import com.pawwithu.connectdog.common.entity.BaseTimeEntity;
 import com.pawwithu.connectdog.domain.post.entity.Post;
 import com.pawwithu.connectdog.domain.volunteer.entity.Volunteer;
 import jakarta.persistence.*;
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -24,4 +21,10 @@ public class Bookmark extends BaseTimeEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "volunteer_id", nullable = false)
     private Volunteer volunteer;  // 이동봉사자 id
+
+    @Builder
+    public Bookmark(Post post, Volunteer volunteer) {
+        this.post = post;
+        this.volunteer = volunteer;
+    }
 }
