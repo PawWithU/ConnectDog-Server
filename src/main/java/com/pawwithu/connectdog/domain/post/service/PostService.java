@@ -6,7 +6,9 @@ import com.pawwithu.connectdog.domain.dog.repository.DogRepository;
 import com.pawwithu.connectdog.domain.intermediary.entity.Intermediary;
 import com.pawwithu.connectdog.domain.intermediary.repository.IntermediaryRepository;
 import com.pawwithu.connectdog.domain.post.dto.request.PostCreateRequest;
+import com.pawwithu.connectdog.domain.post.dto.request.PostSearchRequest;
 import com.pawwithu.connectdog.domain.post.dto.response.PostGetHomeResponse;
+import com.pawwithu.connectdog.domain.post.dto.response.PostSearchResponse;
 import com.pawwithu.connectdog.domain.post.entity.Post;
 import com.pawwithu.connectdog.domain.post.entity.PostImage;
 import com.pawwithu.connectdog.domain.post.repository.CustomPostRepository;
@@ -15,6 +17,7 @@ import com.pawwithu.connectdog.domain.post.repository.PostRepository;
 import com.pawwithu.connectdog.error.exception.custom.BadRequestException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -67,8 +70,15 @@ public class PostService {
 
     }
 
+    @Transactional(readOnly = true)
     public List<PostGetHomeResponse> getHomePosts() {
         List<PostGetHomeResponse> homePosts = customPostRepository.getHomePosts();
         return homePosts;
+    }
+
+    @Transactional(readOnly = true)
+    public List<PostSearchResponse> searchPosts(PostSearchRequest request, Pageable pageable) {
+        List<PostSearchResponse> searchPosts = customPostRepository.searchPosts(request, pageable);
+        return searchPosts;
     }
 }
