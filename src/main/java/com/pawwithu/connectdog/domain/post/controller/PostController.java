@@ -1,7 +1,9 @@
 package com.pawwithu.connectdog.domain.post.controller;
 
 import com.pawwithu.connectdog.domain.post.dto.request.PostCreateRequest;
+import com.pawwithu.connectdog.domain.post.dto.request.PostSearchRequest;
 import com.pawwithu.connectdog.domain.post.dto.response.PostGetHomeResponse;
+import com.pawwithu.connectdog.domain.post.dto.response.PostSearchResponse;
 import com.pawwithu.connectdog.domain.post.service.PostService;
 import com.pawwithu.connectdog.error.dto.ErrorResponse;
 import io.swagger.v3.oas.annotations.Operation;
@@ -11,6 +13,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -53,5 +56,17 @@ public class PostController {
     public ResponseEntity<List<PostGetHomeResponse>> getHomePosts() {
         List<PostGetHomeResponse> homePosts = postService.getHomePosts();
         return ResponseEntity.ok(homePosts);
+    }
+
+    @Operation(summary = "공고 필터 검색", description = "공고를 필터로 검색합니다.",
+            responses = {@ApiResponse(responseCode = "200", description = "공고 필터 검색 성공")
+                    , @ApiResponse(responseCode = "400"
+                    , description = "P1, 잘못된 공고 상태입니다. \t\n D1, 잘못된 강아지 사이즈입니다."
+                    , content = @Content(schema = @Schema(implementation = ErrorResponse.class)))
+            })
+    @GetMapping( "/volunteers/posts")
+    public ResponseEntity<List<PostSearchResponse>> searchPosts(PostSearchRequest request, Pageable pageable) {
+        List<PostSearchResponse> response = postService.searchPosts(request, pageable);
+        return ResponseEntity.ok(response);
     }
 }
