@@ -2,10 +2,7 @@ package com.pawwithu.connectdog.domain.review.entity;
 
 import com.pawwithu.connectdog.common.entity.BaseTimeEntity;
 import jakarta.persistence.*;
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -21,4 +18,10 @@ public class ReviewImage extends BaseTimeEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "review_id", nullable = false)
     private Review review; // 공고 id
+
+    @Builder
+    public ReviewImage(String image, Review review) {
+        this.image = image;
+        this.review = review;
+    }
 }
