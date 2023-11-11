@@ -17,13 +17,5 @@ public record PostSearchRequest(@RequestParam(value = "postStatus", required = f
                                 @RequestParam(value = "dogSize", required = false) DogSize dogSize,
                                 Boolean isKennel,
                                 String intermediaryName) {
-
-    public PostSearchRequest toEnumStatusAndSize(String postStatus, String dogSize) {
-        PostStatus status = (postStatus != null) ? PostStatus.create(postStatus) : null;
-        DogSize size = (dogSize != null) ? DogSize.create(dogSize) : null;
-        return new PostSearchRequest(
-                status, departureLoc, arrivalLoc,
-                startDate, endDate, size, isKennel, intermediaryName
-        );
-    }
+    
 }
