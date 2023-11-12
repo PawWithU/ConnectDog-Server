@@ -5,10 +5,7 @@ import com.pawwithu.connectdog.domain.intermediary.entity.Intermediary;
 import com.pawwithu.connectdog.domain.post.entity.Post;
 import com.pawwithu.connectdog.domain.volunteer.entity.Volunteer;
 import jakarta.persistence.*;
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -39,4 +36,15 @@ public class Application extends BaseTimeEntity {
     @JoinColumn(name = "volunteer_id", nullable = false)
     private Volunteer volunteer;  // 이동봉사자 id
 
+    @Builder
+    public Application(ApplicationStatus status, String volunteerName, String phone, String transportation, String content, Post post, Intermediary intermediary, Volunteer volunteer) {
+        this.status = status;
+        this.volunteerName = volunteerName;
+        this.phone = phone;
+        this.transportation = transportation;
+        this.content = content;
+        this.post = post;
+        this.intermediary = intermediary;
+        this.volunteer = volunteer;
+    }
 }

@@ -35,7 +35,7 @@ public class SignUpController {
             responses = {@ApiResponse(responseCode = "204", description = "이동봉사자 자체 회원가입 성공")
                     , @ApiResponse(responseCode = "400"
                     , description = "V1, 이메일 형식에 맞지 않습니다. \t\n V1, 이메일은 필수 입력 값입니다. \t\n V1, 영문+숫자 10자 이상 또는 영문+숫자+특수기호 8자 이상을 입력해 주세요. \t\n " +
-                    "V1, 닉네임은 한글, 숫자만 사용 가능합니다. \t\n V1, 닉네임은 필수 입력 값입니다. \t\n V1, 2~10자의 닉네임이어야 합니다. \t\n A1, 이미 등록된 이메일입니다. \t\n A2, 이미 사용 중인 닉네임입니다."
+                    "V1, 닉네임은 한글, 숫자만 사용 가능합니다. \t\n V1, 닉네임은 필수 입력 값입니다. \t\n V1, 닉네임은 2~10자로 입력해 주세요. \t\n A1, 이미 등록된 이메일입니다. \t\n A2, 이미 사용 중인 닉네임입니다."
                     , content = @Content(schema = @Schema(implementation = ErrorResponse.class)))
             })
     @PostMapping("/volunteers/sign-up")
@@ -49,7 +49,7 @@ public class SignUpController {
                     , @ApiResponse(responseCode = "400"
                     , description = "V1, 이메일 형식에 맞지 않습니다. \t\n V1, 이메일은 필수 입력 값입니다. \t\n " +
                     "V1, 영문+숫자 10자 이상 또는 영문+숫자+특수기호 8자 이상을 입력해 주세요. \t\n V1, 이름/단체명은 필수 입력 값입니다. \t\n V1, url 형식을 입력해 주세요. \t\n " +
-                    "V1, 50자 이하의 한줄 소개를 입력해 주세요. \t\n A1, 이미 등록된 이메일입니다. \t\n F1, 파일이 존재하지 않습니다. \t\n F2, 파일 업로드에 실패했습니다."
+                    "V1, 한줄 소개는 50자 이하로 입력해 주세요. \t\n A1, 이미 등록된 이메일입니다. \t\n F1, 파일이 존재하지 않습니다. \t\n F2, 파일 업로드에 실패했습니다."
                     , content = @Content(schema = @Schema(implementation = ErrorResponse.class)))
             })
     @PostMapping(value = "/intermediaries/sign-up", consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.MULTIPART_FORM_DATA_VALUE})
@@ -76,7 +76,7 @@ public class SignUpController {
             security = { @SecurityRequirement(name = "bearer-key") },
             responses = {@ApiResponse(responseCode = "204", description = "이동봉사자 소셜 로그인 추가 회원가입 성공")
                     , @ApiResponse(responseCode = "400"
-                    , description = "V1, 닉네임은 한글, 숫자만 사용 가능합니다. \t\n V1, 닉네임은 필수 입력 값입니다. \t\n V1, 2~10자의 닉네임이어야 합니다. \t\n A2, 이미 사용 중인 닉네임입니다. \t\n " +
+                    , description = "V1, 닉네임은 한글, 숫자만 사용 가능합니다. \t\n V1, 닉네임은 필수 입력 값입니다. \t\n V1, 닉네임은 2~10자로 입력해 주세요. \t\n A2, 이미 사용 중인 닉네임입니다. \t\n " +
                     "T3, 잘못된 토큰입니다. \t\n M1, 해당 이동봉사자를 찾을 수 없습니다."
                     , content = @Content(schema = @Schema(implementation = ErrorResponse.class)))
             })
