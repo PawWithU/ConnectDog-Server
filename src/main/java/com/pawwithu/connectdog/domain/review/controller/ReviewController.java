@@ -32,8 +32,7 @@ public class ReviewController {
     @Operation(summary = "후기 등록", description = "후기를 등록합니다.",
             responses = {@ApiResponse(responseCode = "204", description = "후기 등록 성공")
                     , @ApiResponse(responseCode = "400"
-                    , description = "" +
-                    "F1, 파일이 존재하지 않습니다. \t\n F2, 파일 업로드에 실패했습니다. \t\n M2, 해당 이동봉사 중개를 찾을 수 없습니다."
+                    , description = "F1, 파일이 존재하지 않습니다. \t\n F2, 파일 업로드에 실패했습니다. \t\n M2, 해당 이동봉사 중개를 찾을 수 없습니다. \t\n P2, 해당 공고를 찾을 수 없습니다."
                     , content = @Content(schema = @Schema(implementation = ErrorResponse.class)))
             })
     @PostMapping(value = "/volunteers/reviews/{postId}", consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.MULTIPART_FORM_DATA_VALUE})
@@ -43,5 +42,7 @@ public class ReviewController {
         reviewService.createReview(loginUser.getUsername(), postId, request, files);
         return ResponseEntity.noContent().build();
     }
+
+
 
 }
