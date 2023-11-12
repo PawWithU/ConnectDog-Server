@@ -7,6 +7,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -30,15 +31,17 @@ public class ReviewController {
     private final ReviewService reviewService;
 
     @Operation(summary = "후기 등록", description = "후기를 등록합니다.",
+            security = { @SecurityRequirement(name = "bearer-key") },
             responses = {@ApiResponse(responseCode = "204", description = "후기 등록 성공")
                     , @ApiResponse(responseCode = "400"
-                    , description = "F1, 파일이 존재하지 않습니다. \t\n F2, 파일 업로드에 실패했습니다. \t\n M2, 해당 이동봉사 중개를 찾을 수 없습니다. \t\n P2, 해당 공고를 찾을 수 없습니다."
+                    , description = "" +
+                    "V1, 20~300자의 내용이어야 합니다. \t\n F1, 파일이 존재하지 않습니다. \t\n F2, 파일 업로드에 실패했습니다. \t\n M2, 해당 이동봉사 중개를 찾을 수 없습니다."
                     , content = @Content(schema = @Schema(implementation = ErrorResponse.class)))
             })
-    @PostMapping(value = "/volunteers/reviews/{postId}", consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.MULTIPART_FORM_DATA_VALUE})
+    @PostMapping(value = "/volunteers/posts/{postId}/reviews", consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.MULTIPART_FORM_DATA_VALUE})
     public ResponseEntity<Void> createReview(@AuthenticationPrincipal UserDetails loginUser, @PathVariable("postId") Long postId,
-                                           @RequestPart @Valid ReviewCreateRequest request,
-                                           @RequestPart(name = "files", required = false) List<MultipartFile> files) {
+                                             @RequestPart @Valid ReviewCreateRequest request,
+                                             @RequestPart(name = "files", required = false) List<MultipartFile> files) {
         reviewService.createReview(loginUser.getUsername(), postId, request, files);
         return ResponseEntity.noContent().build();
     }
