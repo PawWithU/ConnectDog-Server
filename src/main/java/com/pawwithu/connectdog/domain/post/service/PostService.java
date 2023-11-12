@@ -1,6 +1,7 @@
 package com.pawwithu.connectdog.domain.post.service;
 
 import com.pawwithu.connectdog.common.s3.FileService;
+import com.pawwithu.connectdog.domain.bookmark.repository.BookmarkRepository;
 import com.pawwithu.connectdog.domain.dog.entity.Dog;
 import com.pawwithu.connectdog.domain.dog.repository.DogRepository;
 import com.pawwithu.connectdog.domain.intermediary.entity.Intermediary;
@@ -8,12 +9,15 @@ import com.pawwithu.connectdog.domain.intermediary.repository.IntermediaryReposi
 import com.pawwithu.connectdog.domain.post.dto.request.PostCreateRequest;
 import com.pawwithu.connectdog.domain.post.dto.request.PostSearchRequest;
 import com.pawwithu.connectdog.domain.post.dto.response.PostGetHomeResponse;
+import com.pawwithu.connectdog.domain.post.dto.response.PostGetOneResponse;
 import com.pawwithu.connectdog.domain.post.dto.response.PostSearchResponse;
 import com.pawwithu.connectdog.domain.post.entity.Post;
 import com.pawwithu.connectdog.domain.post.entity.PostImage;
 import com.pawwithu.connectdog.domain.post.repository.CustomPostRepository;
 import com.pawwithu.connectdog.domain.post.repository.PostImageRepository;
 import com.pawwithu.connectdog.domain.post.repository.PostRepository;
+import com.pawwithu.connectdog.domain.volunteer.entity.Volunteer;
+import com.pawwithu.connectdog.domain.volunteer.repository.VolunteerRepository;
 import com.pawwithu.connectdog.error.exception.custom.BadRequestException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -25,8 +29,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static com.pawwithu.connectdog.error.ErrorCode.FILE_NOT_FOUND;
-import static com.pawwithu.connectdog.error.ErrorCode.INTERMEDIARY_NOT_FOUND;
+import static com.pawwithu.connectdog.error.ErrorCode.*;
 
 @Slf4j
 @Service
@@ -37,9 +40,11 @@ public class PostService {
     private final FileService fileService;
     private final DogRepository dogRepository;
     private final IntermediaryRepository intermediaryRepository;
+    private final VolunteerRepository volunteerRepository;
     private final PostRepository postRepository;
     private final PostImageRepository postImageRepository;
     private final CustomPostRepository customPostRepository;
+    private final BookmarkRepository bookmarkRepository;
 
     public void createPost(String email, PostCreateRequest request, List<MultipartFile> fileList) {
 
@@ -80,5 +85,14 @@ public class PostService {
     public List<PostSearchResponse> searchPosts(PostSearchRequest request, Pageable pageable) {
         List<PostSearchResponse> searchPosts = customPostRepository.searchPosts(request, pageable);
         return searchPosts;
+    }
+
+    public PostGetOneResponse getOnePost(String email, Long postId) {
+        Volunteer volunteer = volunteerRepository.findByEmail(email).orElseThrow(() -> new BadRequestException(VOLUNTEER_NOT_FOUND));
+        PostGetOneResponse onePost = customPostRepository.getOnePost(volunteer.getId(), postId);
+        List<String> onePostImages = customPostRepository.getOnePostImages(postId);
+        Boolean isBookmark = bookmarkRepository.existsByVolunteerIdAndPostId(volunteer.getId(), postId);
+        PostGetOneResponse response = PostGetOneResponse.of(onePost, onePostImages, isBookmark);
+        return response;
     }
 }

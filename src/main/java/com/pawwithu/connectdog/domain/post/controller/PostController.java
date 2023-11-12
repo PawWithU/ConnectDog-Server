@@ -3,6 +3,7 @@ package com.pawwithu.connectdog.domain.post.controller;
 import com.pawwithu.connectdog.domain.post.dto.request.PostCreateRequest;
 import com.pawwithu.connectdog.domain.post.dto.request.PostSearchRequest;
 import com.pawwithu.connectdog.domain.post.dto.response.PostGetHomeResponse;
+import com.pawwithu.connectdog.domain.post.dto.response.PostGetOneResponse;
 import com.pawwithu.connectdog.domain.post.dto.response.PostSearchResponse;
 import com.pawwithu.connectdog.domain.post.service.PostService;
 import com.pawwithu.connectdog.error.dto.ErrorResponse;
@@ -18,10 +19,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestPart;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
@@ -68,5 +66,17 @@ public class PostController {
     public ResponseEntity<List<PostSearchResponse>> searchPosts(PostSearchRequest request, Pageable pageable) {
         List<PostSearchResponse> response = postService.searchPosts(request, pageable);
         return ResponseEntity.ok(response);
+    }
+
+    @Operation(summary = "공고 상세 보기", description = "공고 상세 정보를 조회합니다.",
+            responses = {@ApiResponse(responseCode = "200", description = "공고 상세 정보 조회 성공")
+                    , @ApiResponse(responseCode = "400"
+                    , description = "P1, 잘못된 공고 상태입니다. \t\n D1, 잘못된 강아지 사이즈입니다."
+                    , content = @Content(schema = @Schema(implementation = ErrorResponse.class)))
+            })
+    @GetMapping( "/volunteers/posts/{postId}")
+    public ResponseEntity<PostGetOneResponse> getOnePost(@AuthenticationPrincipal UserDetails loginUser, @PathVariable Long postId) {
+        PostGetOneResponse onePost = postService.getOnePost(loginUser.getUsername(), postId);
+        return ResponseEntity.ok(onePost);
     }
 }

@@ -10,4 +10,5 @@ public interface BookmarkRepository extends JpaRepository<Bookmark, Long> {
     void deleteByVolunteerAndPost(Volunteer volunteer, Post post);
 
     Boolean existsByVolunteerAndPost(Volunteer volunteer, Post post);
+    Boolean existsByVolunteerIdAndPostId(Long volunteerId, Long postId);
 }
