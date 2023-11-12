@@ -1,7 +1,10 @@
 package com.pawwithu.connectdog.domain.post.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.pawwithu.connectdog.domain.dog.entity.DogGender;
+import com.pawwithu.connectdog.domain.dog.entity.DogSize;
 import com.pawwithu.connectdog.domain.post.dto.response.PostGetHomeResponse;
+import com.pawwithu.connectdog.domain.post.dto.response.PostGetOneResponse;
 import com.pawwithu.connectdog.domain.post.dto.response.PostSearchResponse;
 import com.pawwithu.connectdog.domain.post.service.PostService;
 import com.pawwithu.connectdog.utils.TestUserArgumentResolver;
@@ -23,7 +26,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -136,6 +139,31 @@ class PostControllerTest {
         //then
         result.andExpect(status().isOk());
         verify(postService, times(1)).searchPosts(any(), any());
+    }
+
+    @Test
+    void 공고_상세_보기() throws Exception {
+        //given
+        Long postId = 1L;
+        LocalDate startDate = LocalDate.of(2023, 10, 2);
+        LocalDate endDate = LocalDate.of(2023, 11, 7);
+        List<String> images = new ArrayList<>();
+        images.add("image1");
+        images.add("image2");
+        PostGetOneResponse response = new PostGetOneResponse("mainImage", images, "모집중", "서울시 성북구", "서울시 중랑구",
+                startDate, endDate, "12:00", true, "이동봉사 공고", "봄이", DogSize.SMALL.getKey(),
+                DogGender.FEMALE.getKey(), 5.1f, "ㄱㅇㅇ", 1L, "profileImage", "이동봉사 중개", true);
+
+
+        //when
+        given(postService.getOnePost(anyString(), anyLong())).willReturn(response);
+        ResultActions result = mockMvc.perform(
+                get("/volunteers/posts/{postId}", postId)
+        );
+
+        //then
+        result.andExpect(status().isOk());
+        verify(postService, times(1)).getOnePost(anyString(), anyLong());
     }
 
 }

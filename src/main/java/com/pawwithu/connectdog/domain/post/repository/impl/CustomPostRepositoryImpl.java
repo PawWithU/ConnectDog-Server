@@ -1,8 +1,10 @@
 package com.pawwithu.connectdog.domain.post.repository.impl;
 
+import com.pawwithu.connectdog.domain.bookmark.repository.BookmarkRepository;
 import com.pawwithu.connectdog.domain.dog.entity.DogSize;
 import com.pawwithu.connectdog.domain.post.dto.request.PostSearchRequest;
 import com.pawwithu.connectdog.domain.post.dto.response.PostGetHomeResponse;
+import com.pawwithu.connectdog.domain.post.dto.response.PostGetOneResponse;
 import com.pawwithu.connectdog.domain.post.dto.response.PostSearchResponse;
 import com.pawwithu.connectdog.domain.post.entity.PostStatus;
 import com.pawwithu.connectdog.domain.post.repository.CustomPostRepository;
@@ -10,6 +12,7 @@ import com.querydsl.core.types.Projections;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
 import org.springframework.util.StringUtils;
@@ -24,10 +27,13 @@ import static com.pawwithu.connectdog.domain.post.entity.QPostImage.postImage;
 
 @Repository
 @RequiredArgsConstructor
+@Slf4j
 public class CustomPostRepositoryImpl implements CustomPostRepository {
 
     private final JPAQueryFactory queryFactory;
+    private final BookmarkRepository bookmarkRepository;
 
+    // 홈 화면 공고 5개 조회
     @Override
     public List<PostGetHomeResponse> getHomePosts() {
         return queryFactory
@@ -42,6 +48,7 @@ public class CustomPostRepositoryImpl implements CustomPostRepository {
                         .fetch();
     }
 
+    // 공고 필터 검색
     @Override
     public List<PostSearchResponse> searchPosts(PostSearchRequest request, Pageable pageable) {
         return queryFactory
@@ -51,12 +58,40 @@ public class CustomPostRepositoryImpl implements CustomPostRepository {
                 .from(post)
                 .join(post.intermediary, intermediary)
                 .join(post.mainImage, postImage)
-                .join(post.dog, dog)
                 .where(allFilterSearch(request, pageable))
                 .orderBy(post.endDate.asc(), post.createdDate.desc())
                 .offset(pageable.getOffset())   // 페이지 번호
                 .limit(pageable.getPageSize())  // 페이지 사이즈
                 .fetch();
+    }
+
+    // 대표 이미지를 제외한 공고 이미지 조회
+    @Override
+    public List<String> getOnePostImages(Long postId) {
+        return queryFactory
+                .select(postImage.image)
+                .from(postImage)
+                .join(postImage.post, post)
+                .where(postImage.post.id.eq(postId)
+                        .and(post.mainImage.id.ne(postImage.id)))
+                .fetch();
+    }
+
+    // 공고 상세 조회 (대표 이미지를 제외한 다른 이미지 포함 X)
+    @Override
+    public PostGetOneResponse getOnePost(Long volunteerId, Long postId) {
+        return queryFactory
+                .select(Projections.constructor(PostGetOneResponse.class,
+                        postImage.image, post.status, post.departureLoc, post.arrivalLoc,
+                        post.startDate, post.endDate, post.pickUpTime, post.isKennel, post.content,
+                        dog.name, dog.size, dog.gender, dog.weight, dog.specifics,
+                        intermediary.id, intermediary.profileImage, intermediary.name))
+                .from(post)
+                .join(post.intermediary, intermediary)
+                .join(post.mainImage, postImage)
+                .join(post.dog, dog)
+                .where(post.id.eq(postId))
+                .fetchOne();
     }
 
     // 모든 필터 검색
