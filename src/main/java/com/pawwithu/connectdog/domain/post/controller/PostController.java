@@ -71,7 +71,7 @@ public class PostController {
     @Operation(summary = "공고 상세 보기", description = "공고 상세 정보를 조회합니다.",
             responses = {@ApiResponse(responseCode = "200", description = "공고 상세 정보 조회 성공")
                     , @ApiResponse(responseCode = "400"
-                    , description = "P1, 잘못된 공고 상태입니다. \t\n D1, 잘못된 강아지 사이즈입니다."
+                    , description = "M1, 해당 이동봉사자를 찾을 수 없습니다."
                     , content = @Content(schema = @Schema(implementation = ErrorResponse.class)))
             })
     @GetMapping( "/volunteers/posts/{postId}")

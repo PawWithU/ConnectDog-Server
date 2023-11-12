@@ -10,8 +10,12 @@ import java.util.List;
 
 public interface CustomPostRepository {
 
+    // 홈 화면 공고 5개 조회
     List<PostGetHomeResponse> getHomePosts();
+    // 공고 필터 검색
     List<PostSearchResponse> searchPosts(PostSearchRequest request, Pageable pageable);
-    PostGetOneResponse getOnePost(Long volunteerId, Long postId);
+    // 대표 이미지를 제외한 공고 이미지 조회
     List<String> getOnePostImages(Long postId);
+    // 공고 상세 조회 (대표 이미지를 제외한 다른 이미지 포함 X)
+    PostGetOneResponse getOnePost(Long volunteerId, Long postId);
 }

@@ -33,6 +33,7 @@ public class CustomPostRepositoryImpl implements CustomPostRepository {
     private final JPAQueryFactory queryFactory;
     private final BookmarkRepository bookmarkRepository;
 
+    // 홈 화면 공고 5개 조회
     @Override
     public List<PostGetHomeResponse> getHomePosts() {
         return queryFactory
@@ -47,6 +48,7 @@ public class CustomPostRepositoryImpl implements CustomPostRepository {
                         .fetch();
     }
 
+    // 공고 필터 검색
     @Override
     public List<PostSearchResponse> searchPosts(PostSearchRequest request, Pageable pageable) {
         return queryFactory
@@ -63,6 +65,7 @@ public class CustomPostRepositoryImpl implements CustomPostRepository {
                 .fetch();
     }
 
+    // 대표 이미지를 제외한 공고 이미지 조회
     @Override
     public List<String> getOnePostImages(Long postId) {
         return queryFactory
@@ -74,6 +77,7 @@ public class CustomPostRepositoryImpl implements CustomPostRepository {
                 .fetch();
     }
 
+    // 공고 상세 조회 (대표 이미지를 제외한 다른 이미지 포함 X)
     @Override
     public PostGetOneResponse getOnePost(Long volunteerId, Long postId) {
         return queryFactory

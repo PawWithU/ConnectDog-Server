@@ -89,8 +89,11 @@ public class PostService {
 
     public PostGetOneResponse getOnePost(String email, Long postId) {
         Volunteer volunteer = volunteerRepository.findByEmail(email).orElseThrow(() -> new BadRequestException(VOLUNTEER_NOT_FOUND));
+        // 공고 조회 (대표 이미지 포함)
         PostGetOneResponse onePost = customPostRepository.getOnePost(volunteer.getId(), postId);
+        // 공고 이미지 조회 (대표 이미지 제외)
         List<String> onePostImages = customPostRepository.getOnePostImages(postId);
+        // 북마크 여부
         Boolean isBookmark = bookmarkRepository.existsByVolunteerIdAndPostId(volunteer.getId(), postId);
         PostGetOneResponse response = PostGetOneResponse.of(onePost, onePostImages, isBookmark);
         return response;

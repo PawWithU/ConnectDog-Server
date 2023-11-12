@@ -30,6 +30,7 @@ public record PostGetOneResponse(String mainImage, List<String> images, String p
                 intermediaryId, intermediaryProfileImage, intermediaryName, null);
     }
 
+    // 공고 이미지, 북마크 여부를 포함한 생성자
     public static PostGetOneResponse of(PostGetOneResponse response, List<String> images, Boolean isBookmark) {
         return new PostGetOneResponse(response.mainImage, images, response.postStatus, response.departureLoc, response.arrivalLoc,
                 response.startDate, response.endDate, response.pickUpTime, response.isKennel, response.content,
