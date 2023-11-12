@@ -81,7 +81,7 @@ public class SignUpController {
                     , content = @Content(schema = @Schema(implementation = ErrorResponse.class)))
             })
     @PatchMapping("/volunteers/sign-up/social")
-    public ResponseEntity<Void> volunteerSocialSignUp(@AuthenticationPrincipal UserDetails loginUser, @RequestBody SocialSignUpRequest socialSignUpRequest) {
+    public ResponseEntity<Void> volunteerSocialSignUp(@AuthenticationPrincipal UserDetails loginUser, @RequestBody @Valid SocialSignUpRequest socialSignUpRequest) {
         authService.volunteerSocialSignUp(loginUser.getUsername(), socialSignUpRequest);
         return ResponseEntity.noContent().build();
     }
