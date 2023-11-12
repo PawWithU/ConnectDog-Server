@@ -4,8 +4,10 @@ import com.pawwithu.connectdog.common.s3.FileService;
 import com.pawwithu.connectdog.domain.post.entity.Post;
 import com.pawwithu.connectdog.domain.post.repository.PostRepository;
 import com.pawwithu.connectdog.domain.review.dto.request.ReviewCreateRequest;
+import com.pawwithu.connectdog.domain.review.dto.response.ReviewGetResponse;
 import com.pawwithu.connectdog.domain.review.entity.Review;
 import com.pawwithu.connectdog.domain.review.entity.ReviewImage;
+import com.pawwithu.connectdog.domain.review.repository.CustomReviewRepository;
 import com.pawwithu.connectdog.domain.review.repository.ReviewImageRepository;
 import com.pawwithu.connectdog.domain.review.repository.ReviewRepository;
 import com.pawwithu.connectdog.domain.volunteer.entity.Volunteer;
@@ -33,6 +35,7 @@ public class ReviewService {
     private final PostRepository postRepository;
     private final ReviewRepository reviewRepository;
     private final ReviewImageRepository reviewImageRepository;
+    private final CustomReviewRepository customReviewRepository;
 
     public void createReview(String email, Long postId, ReviewCreateRequest request, List<MultipartFile> fileList) {
 
@@ -58,5 +61,15 @@ public class ReviewService {
 
         // 후기 대표 이미지 업데이트
         review.updateMainImage(reviewImages.get(0));
+    }
+
+    public ReviewGetResponse getOneReview(String email, Long reviewId) {
+        Volunteer volunteer = volunteerRepository.findByEmail(email).orElseThrow(() -> new BadRequestException(VOLUNTEER_NOT_FOUND));
+        // 후기 조회 (대표 이미지 포함)
+        ReviewGetResponse oneReview = customReviewRepository.getOneReview(volunteer.getId(), reviewId);
+        // 후기 이미지 조회 (대표 이미지 제외)
+        List<String> oneReviewImages = customReviewRepository.getOneReviewImages(reviewId);
+        ReviewGetResponse response = ReviewGetResponse.of(oneReview, oneReviewImages);
+        return response;
     }
 }
