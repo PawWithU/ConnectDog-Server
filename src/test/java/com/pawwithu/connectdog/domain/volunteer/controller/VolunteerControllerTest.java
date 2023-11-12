@@ -1,6 +1,7 @@
 package com.pawwithu.connectdog.domain.volunteer.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.pawwithu.connectdog.domain.volunteer.dto.request.AdditionalAuthRequest;
 import com.pawwithu.connectdog.domain.volunteer.dto.request.NicknameRequest;
 import com.pawwithu.connectdog.domain.volunteer.dto.response.NicknameResponse;
 import com.pawwithu.connectdog.domain.volunteer.service.VolunteerService;
@@ -17,6 +18,8 @@ import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.filter.CharacterEncodingFilter;
 
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -59,5 +62,22 @@ class VolunteerControllerTest {
         //then
         result.andExpect(status().isOk());
         verify(volunteerService, times(1)).isNicknameDuplicated(request);
+    }
+
+    @Test
+    void 이동봉사자_추가_인증() throws Exception {
+        //given
+        AdditionalAuthRequest request = new AdditionalAuthRequest("하노정", "01010101010");
+
+        //when
+        ResultActions result = mockMvc.perform(
+                post("/volunteers/additional-auth")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(request))
+        );
+
+        //then
+        result.andExpect(status().isNoContent());
+        verify(volunteerService, times(1)).additionalAuth(anyString(), any());
     }
 }
