@@ -36,7 +36,7 @@ public class CustomReviewRepositoryImpl implements CustomReviewRepository {
                 .fetch();
     }
 
-    // 후기 상세 조회 (대표 이미지를 제외한 다른 이미지 포함 X)
+    // 후기 단건 조회 (대표 이미지를 제외한 다른 이미지 포함 X)
     @Override
     public ReviewGetResponse getOneReview(Long id, Long reviewId) {
         return queryFactory
@@ -49,6 +49,7 @@ public class CustomReviewRepositoryImpl implements CustomReviewRepository {
                 .join(review.mainImage, reviewImage)
                 .join(review.post, post)
                 .join(review.post.dog, dog)
+                .join(review.post.intermediary, intermediary)
                 .where(review.id.eq(reviewId))
                 .fetchOne();
     }
