@@ -43,7 +43,8 @@ public class VolunteerController {
             security = { @SecurityRequirement(name = "bearer-key") },
             responses = {
                     @ApiResponse(responseCode = "204", description = "이름, 전화번호 추가 인증 성공")
-                    , @ApiResponse(responseCode = "400", description = "V1, 유효하지 않은 휴대전화 번호입니다.", content = @Content(schema = @Schema(implementation = ErrorResponse.class)))})
+                    , @ApiResponse(responseCode = "400", description = "V1, 이름은 필수 입력 값입니다. \t\n V1, 휴대전화 번호는 필수 입력 값입니다. \t\n V1, 유효하지 않은 휴대전화 번호입니다.",
+                    content = @Content(schema = @Schema(implementation = ErrorResponse.class)))})
     @PostMapping("/additional-auth")
     public ResponseEntity<Void> additionalAuth(@AuthenticationPrincipal UserDetails loginUser,
                                                @RequestBody @Valid AdditionalAuthRequest request) {

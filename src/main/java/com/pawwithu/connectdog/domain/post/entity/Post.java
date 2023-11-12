@@ -59,4 +59,8 @@ public class Post extends BaseTimeEntity {
     public void updateMainImage(PostImage mainImage) {
         this.mainImage = mainImage;
     }
+
+    public void updateStatus(PostStatus status) {
+        this.status = status;
+    }
 }

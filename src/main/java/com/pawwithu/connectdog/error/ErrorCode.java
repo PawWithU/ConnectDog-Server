@@ -34,7 +34,9 @@ public enum ErrorCode {
     POST_NOT_FOUND("P2", "해당 공고를 찾을 수 없습니다."),
 
     ALREADY_EXIST_BOOKMARK("B1", "이미 등록된 북마크입니다."),
-    NOT_FOUND_BOOKMARK("B2", "등록되지 않은 북마크입니다.");
+    NOT_FOUND_BOOKMARK("B2", "등록되지 않은 북마크입니다."),
+
+    ALREADY_EXIST_APPLICATION("AP1", "이미 신청된 공고입니다.");
 
 
     private final String code;

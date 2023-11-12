@@ -7,7 +7,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public enum ApplicationStatus {
 
-    WAITING("대기중"), PROGRESSING("진행중"), COMPLETED("봉사 완료");
+    WAITING("승인 대기중"), PROGRESSING("진행중"), COMPLETED("봉사 완료");
 
     private final String key;
 }
