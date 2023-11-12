@@ -17,7 +17,7 @@ public class ReviewImage extends BaseTimeEntity {
     private String image; // 후기 사진
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "review_id", nullable = false)
-    private Review review; // 공고 id
+    private Review review; // 후기 id
 
     @Builder
     public ReviewImage(String image, Review review) {

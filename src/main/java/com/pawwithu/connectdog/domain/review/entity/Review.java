@@ -2,7 +2,6 @@ package com.pawwithu.connectdog.domain.review.entity;
 
 import com.pawwithu.connectdog.common.entity.BaseTimeEntity;
 import com.pawwithu.connectdog.domain.post.entity.Post;
-import com.pawwithu.connectdog.domain.post.entity.PostImage;
 import com.pawwithu.connectdog.domain.volunteer.entity.Volunteer;
 import jakarta.persistence.*;
 import lombok.*;
@@ -26,17 +25,16 @@ public class Review extends BaseTimeEntity {
     private Volunteer volunteer; // 이동봉사자 id
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "mainImage_id")
-    private PostImage mainImage; // 대표 이미지
+    private ReviewImage mainImage; // 대표 이미지
 
     @Builder
-    public Review(String content, Post post, Volunteer volunteer, PostImage mainImage) {
+    public Review(String content, Post post, Volunteer volunteer) {
         this.content = content;
         this.post = post;
         this.volunteer = volunteer;
-        this.mainImage = mainImage;
     }
 
-    public void updateMainImage(ReviewImage reviewImage) {
+    public void updateMainImage(ReviewImage mainImage) {
         this.mainImage = mainImage;
     }
 }
