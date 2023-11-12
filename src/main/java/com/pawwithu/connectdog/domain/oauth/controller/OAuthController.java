@@ -26,7 +26,7 @@ public class OAuthController {
     @Operation(summary = "이동봉사자 소셜 로그인", description = "이동봉사자 소셜 로그인을 합니다.",
             responses = {@ApiResponse(responseCode = "204", description = "이동봉사자 소셜 로그인 성공")
                     , @ApiResponse(responseCode = "400"
-                    , description = "V1, AccessToken은 필수 입력 값입니다. \t\n V1, provider는 필수 전송 값입니다. \t\n M1, 해당 이동봉사자를 찾을 수 없습니다."
+                    , description = "V1, AccessToken은 필수 입력 값입니다. \t\n V1, provider는 필수 입력 값입니다. \t\n M1, 해당 이동봉사자를 찾을 수 없습니다."
                     , content = @Content(schema = @Schema(implementation = ErrorResponse.class)))
             })
     @PostMapping("/volunteers/login/social")

@@ -32,7 +32,7 @@ public class VolunteerController {
     @Operation(summary = "닉네임 중복 여부 확인", description = "닉네임 중복 여부를 확인합니다.",
             responses = {
                     @ApiResponse(responseCode = "200", description = "닉네임 중복 여부 확인 성공")
-                    , @ApiResponse(responseCode = "400", description = "V1, 닉네임은 한글, 숫자만 사용가능합니다. \t\n V1, 닉네임은 필수 입력 값입니다. \t\n V1, 2~10자의 닉네임이어야 합니다.", content = @Content(schema = @Schema(implementation = ErrorResponse.class)))})
+                    , @ApiResponse(responseCode = "400", description = "V1, 닉네임은 한글, 숫자만 사용가능합니다. \t\n V1, 닉네임은 필수 입력 값입니다. \t\n V1, 닉네임은 2~10자로 입력해 주세요.", content = @Content(schema = @Schema(implementation = ErrorResponse.class)))})
     @PostMapping("/nickname/isDuplicated")
     public ResponseEntity<NicknameResponse> isNicknameDuplicated(@RequestBody @Valid NicknameRequest request) {
         NicknameResponse response = volunteerService.isNicknameDuplicated(request);

@@ -15,7 +15,7 @@ public record IntermediarySignUpRequest(@Email(message="이메일 형식에 맞�
                                         String name,
                                         @Pattern(regexp = "^(http|https)://[a-zA-Z0-9-.]+\\.[a-zA-Z]{2,}(/\\S*)?$",
                                                 message = "url 형식을 입력해 주세요.") String url,
-                                        @Size(max=50, message = "50자 이하의 한줄 소개를 입력해 주세요.")
+                                        @Size(max=50, message = "한줄 소개는 50자 이하로 입력해 주세요.")
                                         String intro,
                                         String contact,
                                         Boolean isOptionAgr) {

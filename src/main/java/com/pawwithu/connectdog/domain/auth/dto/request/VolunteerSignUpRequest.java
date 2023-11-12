@@ -13,7 +13,7 @@ public record VolunteerSignUpRequest(@Email(message="이메일 형식에 맞지 
                                              message = "영문+숫자 10자 이상 또는 영문+숫자+특수기호 8자 이상을 입력해 주세요.") String password,
                                      @Pattern(regexp = "^[가-힣0-9]*$", message = "닉네임은 한글, 숫자만 사용 가능합니다.")
                                      @NotBlank(message = "닉네임은 필수 입력 값입니다.")
-                                     @Size(min=2, max=10, message = "2~10자의 닉네임이어야 합니다.")
+                                     @Size(min=2, max=10, message = "닉네임은 2~10자로 입력해 주세요.")
                                      String nickname,
                                      Integer profileImageNum,
                                      Boolean isOptionAgr) {
