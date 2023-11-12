@@ -59,4 +59,8 @@ public class Volunteer extends BaseTimeEntity {
         this.isOptionAgr = isOptionAgr;
     }
 
+    public void updateNameAndPhone(String name, String phone) {
+        this.name = name;
+        this.phone = phone;
+    }
 }

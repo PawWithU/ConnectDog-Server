@@ -87,6 +87,7 @@ public class PostService {
         return searchPosts;
     }
 
+    @Transactional(readOnly = true)
     public PostGetOneResponse getOnePost(String email, Long postId) {
         Volunteer volunteer = volunteerRepository.findByEmail(email).orElseThrow(() -> new BadRequestException(VOLUNTEER_NOT_FOUND));
         // 공고 조회 (대표 이미지 포함)
