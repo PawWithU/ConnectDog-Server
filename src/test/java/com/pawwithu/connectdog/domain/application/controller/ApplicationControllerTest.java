@@ -2,7 +2,9 @@ package com.pawwithu.connectdog.domain.application.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.pawwithu.connectdog.domain.application.dto.request.VolunteerApplyRequest;
+import com.pawwithu.connectdog.domain.application.dto.response.ApplicationWaitingResponse;
 import com.pawwithu.connectdog.domain.application.service.ApplicationService;
+import com.pawwithu.connectdog.domain.post.dto.response.PostGetHomeResponse;
 import com.pawwithu.connectdog.utils.TestUserArgumentResolver;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -17,9 +19,15 @@ import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.filter.CharacterEncodingFilter;
 
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
+
 import static org.mockito.ArgumentMatchers.*;
+import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -59,5 +67,27 @@ class ApplicationControllerTest {
         //then
         result.andExpect(status().isNoContent());
         verify(applicationService, times(1)).volunteerApply(anyString(), anyLong(), any());
+    }
+
+    @Test
+    void 이동봉사_승인_대기중_목록_조회() throws Exception {
+        //given
+        List<ApplicationWaitingResponse> response = new ArrayList<>();
+        LocalDate startDate = LocalDate.of(2023, 10, 2);
+        LocalDate endDate = LocalDate.of(2023, 11, 7);
+        response.add(new ApplicationWaitingResponse("image1", "서울시 성북구", "서울시 중랑구",
+                startDate, endDate, "이동봉사 중개", true, 1L));
+        response.add(new ApplicationWaitingResponse("image2", "서울시 성북구", "서울시 중랑구",
+                startDate, endDate, "이동봉사 중개", false, 2L));
+
+        //when
+        given(applicationService.getWaitingApplications(anyString(), any())).willReturn(response);
+        ResultActions result = mockMvc.perform(
+                get("/volunteers/applications/waiting")
+        );
+
+        //then
+        result.andExpect(status().isOk());
+        verify(applicationService, times(1)).getWaitingApplications(anyString(), any());
     }
 }
