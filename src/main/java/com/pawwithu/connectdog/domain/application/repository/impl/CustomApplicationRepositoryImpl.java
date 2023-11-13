@@ -1,5 +1,6 @@
 package com.pawwithu.connectdog.domain.application.repository.impl;
 
+import com.pawwithu.connectdog.domain.application.dto.response.ApplicationProgressingResponse;
 import com.pawwithu.connectdog.domain.application.dto.response.ApplicationWaitingResponse;
 import com.pawwithu.connectdog.domain.application.entity.ApplicationStatus;
 import com.pawwithu.connectdog.domain.application.repository.CustomApplicationRepository;
@@ -35,6 +36,24 @@ public class CustomApplicationRepositoryImpl implements CustomApplicationReposit
                 .join(application.post.intermediary, intermediary)
                 .join(application.post.mainImage, postImage)
                 .where(application.status.eq(ApplicationStatus.WAITING)
+                        .and(application.volunteer.id.eq(volunteerId)))
+                .orderBy(application.createdDate.desc())
+                .offset(pageable.getOffset())   // 페이지 번호
+                .limit(pageable.getPageSize())  // 페이지 사이즈
+                .fetch();
+    }
+
+    @Override
+    public List<ApplicationProgressingResponse> getProgressingApplications(Long volunteerId, Pageable pageable) {
+        return queryFactory
+                .select(Projections.constructor(ApplicationProgressingResponse.class,
+                        postImage.image, post.departureLoc, post.arrivalLoc, post.startDate, post.endDate,
+                        intermediary.name, post.isKennel))
+                .from(application)
+                .join(application.post, post)
+                .join(application.post.intermediary, intermediary)
+                .join(application.post.mainImage, postImage)
+                .where(application.status.eq(ApplicationStatus.PROGRESSING)
                         .and(application.volunteer.id.eq(volunteerId)))
                 .orderBy(application.createdDate.desc())
                 .offset(pageable.getOffset())   // 페이지 번호

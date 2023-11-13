@@ -1,6 +1,7 @@
 package com.pawwithu.connectdog.domain.application.service;
 
 import com.pawwithu.connectdog.domain.application.dto.request.VolunteerApplyRequest;
+import com.pawwithu.connectdog.domain.application.dto.response.ApplicationProgressingResponse;
 import com.pawwithu.connectdog.domain.application.dto.response.ApplicationWaitingResponse;
 import com.pawwithu.connectdog.domain.application.entity.Application;
 import com.pawwithu.connectdog.domain.application.repository.ApplicationRepository;
@@ -59,5 +60,12 @@ public class ApplicationService {
         Volunteer volunteer = volunteerRepository.findByEmail(email).orElseThrow(() -> new BadRequestException(VOLUNTEER_NOT_FOUND));
         List<ApplicationWaitingResponse> waitingApplications = customApplicationRepository.getWaitingApplications(volunteer.getId(), pageable);
         return waitingApplications;
+    }
+
+    public List<ApplicationProgressingResponse> getProgressingApplications(String email, Pageable pageable) {
+        // 이동봉사자
+        Volunteer volunteer = volunteerRepository.findByEmail(email).orElseThrow(() -> new BadRequestException(VOLUNTEER_NOT_FOUND));
+        List<ApplicationProgressingResponse> progressingApplications = customApplicationRepository.getProgressingApplications(volunteer.getId(), pageable);
+        return progressingApplications;
     }
 }
