@@ -132,6 +132,7 @@ class PostControllerTest {
 //                        .param("dogSize", DogSize.SMALL.getKey())
                         .param("isKennel", "false")
                         .param("intermediaryName", "이동봉사 중개")
+                        .param("orderCondition", "마감순")
                         .param("page", "0")
                         .param("size", "2")
         );
