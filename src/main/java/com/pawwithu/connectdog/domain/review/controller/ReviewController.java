@@ -1,7 +1,8 @@
 package com.pawwithu.connectdog.domain.review.controller;
 
 import com.pawwithu.connectdog.domain.review.dto.request.ReviewCreateRequest;
-import com.pawwithu.connectdog.domain.review.dto.response.ReviewGetResponse;
+import com.pawwithu.connectdog.domain.review.dto.response.ReviewGetAllResponse;
+import com.pawwithu.connectdog.domain.review.dto.response.ReviewGetOneResponse;
 import com.pawwithu.connectdog.domain.review.service.ReviewService;
 import com.pawwithu.connectdog.error.dto.ErrorResponse;
 import io.swagger.v3.oas.annotations.Operation;
@@ -12,6 +13,7 @@ import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -45,16 +47,27 @@ public class ReviewController {
 
     @Operation(summary = "후기 단건 조회", description = "후기 단건 조회합니다.",
             security = { @SecurityRequirement(name = "bearer-key") },
-            responses = { @ApiResponse(responseCode = "200", description = "후기 단건 조회 성공")
+            responses = {@ApiResponse(responseCode = "200", description = "후기 단건 조회 성공")
                     , @ApiResponse(responseCode = "400"
                     , description = "M1, 해당 이동봉사자를 찾을 수 없습니다."
                     , content = @Content(schema = @Schema(implementation = ErrorResponse.class)))
             })
     @GetMapping("/volunteers/reviews/{reviewId}")
-    public ResponseEntity<ReviewGetResponse> getOneReview(@AuthenticationPrincipal UserDetails loginUser, @PathVariable Long reviewId) {
-        ReviewGetResponse response = reviewService.getOneReview(loginUser.getUsername(), reviewId);
+    public ResponseEntity<ReviewGetOneResponse> getOneReview(@AuthenticationPrincipal UserDetails loginUser, @PathVariable Long reviewId) {
+        ReviewGetOneResponse response = reviewService.getOneReview(loginUser.getUsername(), reviewId);
         return ResponseEntity.ok(response);
     }
 
+    @Operation(summary = "후기 전체 조회", description = "후기 전체를 최신 순으로 조회합니다.",
+            responses = {@ApiResponse(responseCode = "200", description = "후기 전체 조회 성공")
+                    , @ApiResponse(responseCode = "400"
+                    , description = ""
+                    , content = @Content(schema = @Schema(implementation = ErrorResponse.class)))
+            })
+    @GetMapping(value = "/volunteers/reviews")
+    public ResponseEntity<List<ReviewGetAllResponse>> getAllReviews(Pageable pageable) {
+        List<ReviewGetAllResponse> reviews = reviewService.getAllReviews(pageable);
+        return ResponseEntity.ok(reviews);
+    }
 
 }
