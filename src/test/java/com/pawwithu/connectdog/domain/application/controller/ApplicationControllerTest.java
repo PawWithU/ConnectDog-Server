@@ -2,9 +2,9 @@ package com.pawwithu.connectdog.domain.application.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.pawwithu.connectdog.domain.application.dto.request.VolunteerApplyRequest;
+import com.pawwithu.connectdog.domain.application.dto.response.ApplicationProgressingResponse;
 import com.pawwithu.connectdog.domain.application.dto.response.ApplicationWaitingResponse;
 import com.pawwithu.connectdog.domain.application.service.ApplicationService;
-import com.pawwithu.connectdog.domain.post.dto.response.PostGetHomeResponse;
 import com.pawwithu.connectdog.utils.TestUserArgumentResolver;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -89,5 +89,27 @@ class ApplicationControllerTest {
         //then
         result.andExpect(status().isOk());
         verify(applicationService, times(1)).getWaitingApplications(anyString(), any());
+    }
+
+    @Test
+    void 이동봉사_진행중_목록_조회() throws Exception {
+        //given
+        List<ApplicationProgressingResponse> response = new ArrayList<>();
+        LocalDate startDate = LocalDate.of(2023, 10, 2);
+        LocalDate endDate = LocalDate.of(2023, 11, 7);
+        response.add(new ApplicationProgressingResponse("image1", "서울시 성북구", "서울시 중랑구",
+                startDate, endDate, "이동봉사 중개", true));
+        response.add(new ApplicationProgressingResponse("image2", "서울시 성북구", "서울시 중랑구",
+                startDate, endDate, "이동봉사 중개", false));
+
+        //when
+        given(applicationService.getProgressingApplications(anyString(), any())).willReturn(response);
+        ResultActions result = mockMvc.perform(
+                get("/volunteers/applications/progressing")
+        );
+
+        //then
+        result.andExpect(status().isOk());
+        verify(applicationService, times(1)).getProgressingApplications(anyString(), any());
     }
 }
