@@ -4,7 +4,8 @@ import com.pawwithu.connectdog.common.s3.FileService;
 import com.pawwithu.connectdog.domain.post.entity.Post;
 import com.pawwithu.connectdog.domain.post.repository.PostRepository;
 import com.pawwithu.connectdog.domain.review.dto.request.ReviewCreateRequest;
-import com.pawwithu.connectdog.domain.review.dto.response.ReviewGetResponse;
+import com.pawwithu.connectdog.domain.review.dto.response.ReviewGetAllResponse;
+import com.pawwithu.connectdog.domain.review.dto.response.ReviewGetOneResponse;
 import com.pawwithu.connectdog.domain.review.entity.Review;
 import com.pawwithu.connectdog.domain.review.entity.ReviewImage;
 import com.pawwithu.connectdog.domain.review.repository.CustomReviewRepository;
@@ -15,6 +16,7 @@ import com.pawwithu.connectdog.domain.volunteer.repository.VolunteerRepository;
 import com.pawwithu.connectdog.error.exception.custom.BadRequestException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -63,13 +65,20 @@ public class ReviewService {
         review.updateMainImage(reviewImages.get(0));
     }
 
-    public ReviewGetResponse getOneReview(String email, Long reviewId) {
+    @Transactional(readOnly = true)
+    public ReviewGetOneResponse getOneReview(String email, Long reviewId) {
         Volunteer volunteer = volunteerRepository.findByEmail(email).orElseThrow(() -> new BadRequestException(VOLUNTEER_NOT_FOUND));
         // 후기 조회 (대표 이미지 포함)
-        ReviewGetResponse oneReview = customReviewRepository.getOneReview(volunteer.getId(), reviewId);
+        ReviewGetOneResponse oneReview = customReviewRepository.getOneReview(volunteer.getId(), reviewId);
         // 후기 이미지 조회 (대표 이미지 제외)
         List<String> oneReviewImages = customReviewRepository.getOneReviewImages(reviewId);
-        ReviewGetResponse response = ReviewGetResponse.of(oneReview, oneReviewImages);
+        ReviewGetOneResponse response = ReviewGetOneResponse.of(oneReview, oneReviewImages);
         return response;
+    }
+
+    @Transactional(readOnly = true)
+    public List<ReviewGetAllResponse> getAllReviews(Pageable pageable) {
+        List<ReviewGetAllResponse> reviews = customReviewRepository.getAllReviews(pageable);
+        return reviews;
     }
 }

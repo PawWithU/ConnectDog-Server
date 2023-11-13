@@ -1,11 +1,13 @@
 package com.pawwithu.connectdog.domain.review.repository.impl;
 
-import com.pawwithu.connectdog.domain.review.dto.response.ReviewGetResponse;
+import com.pawwithu.connectdog.domain.review.dto.response.ReviewGetAllResponse;
+import com.pawwithu.connectdog.domain.review.dto.response.ReviewGetOneResponse;
 import com.pawwithu.connectdog.domain.review.repository.CustomReviewRepository;
 import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -38,9 +40,9 @@ public class CustomReviewRepositoryImpl implements CustomReviewRepository {
 
     // 후기 단건 조회 (대표 이미지를 제외한 다른 이미지 포함 X)
     @Override
-    public ReviewGetResponse getOneReview(Long id, Long reviewId) {
+    public ReviewGetOneResponse getOneReview(Long id, Long reviewId) {
         return queryFactory
-                .select(Projections.constructor(ReviewGetResponse.class,
+                .select(Projections.constructor(ReviewGetOneResponse.class,
                         dog.name, volunteer.nickname, reviewImage.image,
                         post.startDate, post.endDate, post.departureLoc, post.arrivalLoc,
                         intermediary.name, review.content))
@@ -52,5 +54,28 @@ public class CustomReviewRepositoryImpl implements CustomReviewRepository {
                 .join(review.post.intermediary, intermediary)
                 .where(review.id.eq(reviewId))
                 .fetchOne();
+    }
+
+    // 후기 전체 조회
+    @Override
+    public List<ReviewGetAllResponse> getAllReviews(Pageable pageable) {
+        // 리뷰 정보와 함께 리뷰 ID를 조회
+        List<ReviewGetAllResponse> reviews = queryFactory
+                .select(Projections.constructor(ReviewGetAllResponse.class,
+                        dog.name, volunteer.nickname, reviewImage.image,
+                        post.startDate, post.endDate, post.departureLoc, post.arrivalLoc,
+                        intermediary.name, review.content))
+                .from(review)
+                .join(review.volunteer, volunteer)
+                .join(review.mainImage, reviewImage)
+                .join(review.post, post)
+                .join(review.post.dog, dog)
+                .join(review.post.intermediary, intermediary)
+                .orderBy(review.createdDate.desc())
+                .offset(pageable.getOffset()) // 페이지 번호
+                .limit(pageable.getPageSize()) // 페이지 사이즈
+                .fetch();
+
+        return reviews;
     }
 }
