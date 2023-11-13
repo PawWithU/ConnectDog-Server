@@ -34,7 +34,6 @@ import static com.pawwithu.connectdog.domain.post.entity.QPostImage.postImage;
 public class CustomPostRepositoryImpl implements CustomPostRepository {
 
     private final JPAQueryFactory queryFactory;
-    private final BookmarkRepository bookmarkRepository;
 
     // 홈 화면 공고 5개 조회
     @Override

@@ -1,6 +1,7 @@
 package com.pawwithu.connectdog.domain.application.controller;
 
 import com.pawwithu.connectdog.domain.application.dto.request.VolunteerApplyRequest;
+import com.pawwithu.connectdog.domain.application.dto.response.ApplicationWaitingResponse;
 import com.pawwithu.connectdog.domain.application.service.ApplicationService;
 import com.pawwithu.connectdog.error.dto.ErrorResponse;
 import io.swagger.v3.oas.annotations.Operation;
@@ -11,13 +12,13 @@ import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @Tag(name = "Application", description = "Application API")
 @RestController
@@ -41,5 +42,18 @@ public class ApplicationController {
                                                @RequestBody @Valid VolunteerApplyRequest request) {
         applicationService.volunteerApply(loginUser.getUsername(), postId, request);
         return ResponseEntity.noContent().build();
+    }
+
+    @Operation(summary = "봉사 관리 - 승인 대기중", description = "이동봉사 승인 대기중 목록을 조회합니다.",
+            responses = {@ApiResponse(responseCode = "200", description = "이동봉사 승인 대기중 목록 조회 성공")
+                    , @ApiResponse(responseCode = "400"
+                    , description = "M1, 해당 이동봉사자를 찾을 수 없습니다."
+                    , content = @Content(schema = @Schema(implementation = ErrorResponse.class)))
+            })
+    @GetMapping( "/volunteers/applications/waiting")
+    public ResponseEntity<List<ApplicationWaitingResponse>> getWaitingApplications(@AuthenticationPrincipal UserDetails loginUser,
+                                                                           Pageable pageable) {
+        List<ApplicationWaitingResponse> response = applicationService.getWaitingApplications(loginUser.getUsername(), pageable);
+        return ResponseEntity.ok(response);
     }
 }

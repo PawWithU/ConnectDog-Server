@@ -1,20 +1,24 @@
 package com.pawwithu.connectdog.domain.application.service;
 
 import com.pawwithu.connectdog.domain.application.dto.request.VolunteerApplyRequest;
+import com.pawwithu.connectdog.domain.application.dto.response.ApplicationWaitingResponse;
 import com.pawwithu.connectdog.domain.application.entity.Application;
 import com.pawwithu.connectdog.domain.application.repository.ApplicationRepository;
+import com.pawwithu.connectdog.domain.application.repository.CustomApplicationRepository;
 import com.pawwithu.connectdog.domain.intermediary.entity.Intermediary;
 import com.pawwithu.connectdog.domain.post.entity.Post;
 import com.pawwithu.connectdog.domain.post.entity.PostStatus;
 import com.pawwithu.connectdog.domain.post.repository.PostRepository;
 import com.pawwithu.connectdog.domain.volunteer.entity.Volunteer;
 import com.pawwithu.connectdog.domain.volunteer.repository.VolunteerRepository;
-import com.pawwithu.connectdog.error.ErrorCode;
 import com.pawwithu.connectdog.error.exception.custom.BadRequestException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 import static com.pawwithu.connectdog.error.ErrorCode.*;
 
@@ -27,6 +31,7 @@ public class ApplicationService {
     private final VolunteerRepository volunteerRepository;
     private final PostRepository postRepository;
     private final ApplicationRepository applicationRepository;
+    private final CustomApplicationRepository customApplicationRepository;
 
     public void volunteerApply(String email, Long postId, VolunteerApplyRequest request) {
         // 이동봉사자
@@ -47,5 +52,12 @@ public class ApplicationService {
 
         // 공고 상태 승인 대기 중으로 변경
         post.updateStatus(PostStatus.WAITING);
+    }
+
+    public List<ApplicationWaitingResponse> getWaitingApplications(String email, Pageable pageable) {
+        // 이동봉사자
+        Volunteer volunteer = volunteerRepository.findByEmail(email).orElseThrow(() -> new BadRequestException(VOLUNTEER_NOT_FOUND));
+        List<ApplicationWaitingResponse> waitingApplications = customApplicationRepository.getWaitingApplications(volunteer.getId(), pageable);
+        return waitingApplications;
     }
 }
