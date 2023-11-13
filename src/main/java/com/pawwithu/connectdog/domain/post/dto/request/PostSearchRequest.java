@@ -16,6 +16,7 @@ public record PostSearchRequest(@RequestParam(value = "postStatus", required = f
                                 LocalDate endDate,
                                 @RequestParam(value = "dogSize", required = false) DogSize dogSize,
                                 Boolean isKennel,
-                                String intermediaryName) {
+                                String intermediaryName,
+                                String orderCondition) {
     
 }

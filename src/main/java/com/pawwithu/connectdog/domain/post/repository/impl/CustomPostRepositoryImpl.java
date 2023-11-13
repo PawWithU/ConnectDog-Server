@@ -8,6 +8,8 @@ import com.pawwithu.connectdog.domain.post.dto.response.PostGetOneResponse;
 import com.pawwithu.connectdog.domain.post.dto.response.PostSearchResponse;
 import com.pawwithu.connectdog.domain.post.entity.PostStatus;
 import com.pawwithu.connectdog.domain.post.repository.CustomPostRepository;
+import com.querydsl.core.types.Order;
+import com.querydsl.core.types.OrderSpecifier;
 import com.querydsl.core.types.Projections;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
@@ -18,6 +20,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.util.StringUtils;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 import static com.pawwithu.connectdog.domain.dog.entity.QDog.dog;
@@ -51,6 +54,7 @@ public class CustomPostRepositoryImpl implements CustomPostRepository {
     // 공고 필터 검색
     @Override
     public List<PostSearchResponse> searchPosts(PostSearchRequest request, Pageable pageable) {
+
         return queryFactory
                 .select(Projections.constructor(PostSearchResponse.class,
                         postImage.image, post.departureLoc, post.arrivalLoc, post.startDate, post.endDate,
@@ -59,7 +63,7 @@ public class CustomPostRepositoryImpl implements CustomPostRepository {
                 .join(post.intermediary, intermediary)
                 .join(post.mainImage, postImage)
                 .where(allFilterSearch(request, pageable))
-                .orderBy(post.endDate.asc(), post.createdDate.desc())
+                .orderBy(createOrderSpecifier(request.orderCondition()))
                 .offset(pageable.getOffset())   // 페이지 번호
                 .limit(pageable.getPageSize())  // 페이지 사이즈
                 .fetch();
@@ -143,4 +147,22 @@ public class CustomPostRepositoryImpl implements CustomPostRepository {
         return StringUtils.hasText(intermediaryName) ? post.intermediary.name.contains(intermediaryName) : null;
     }
 
+    // 정렬 필터
+    private OrderSpecifier[] createOrderSpecifier(String orderCondition) {
+        // default = 마감순 -> 최신순
+        OrderSpecifier[] defaultOrder = {
+                new OrderSpecifier(Order.ASC, post.endDate),
+                new OrderSpecifier(Order.DESC, post.createdDate)
+        };
+
+        // 정렬 조건 X: default
+        if (!StringUtils.hasText(orderCondition))
+            return defaultOrder;
+        // "최신순": 최신순 -> 마감순, 나머지: default
+        return orderCondition.equals("최신순")
+                ? new OrderSpecifier[]{
+                        new OrderSpecifier(Order.DESC, post.createdDate),
+                        new OrderSpecifier(Order.ASC, post.endDate)}
+                : defaultOrder;
+    }
 }
