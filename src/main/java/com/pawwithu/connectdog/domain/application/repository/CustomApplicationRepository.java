@@ -12,5 +12,5 @@ public interface CustomApplicationRepository {
 
     List<ApplicationWaitingResponse> getWaitingApplications(Long volunteerId, Pageable pageable);
     List<ApplicationProgressingResponse> getProgressingApplications(Long volunteerId, Pageable pageable);
-    Optional<Application> findByIdWithPost(Long applicationId);
+    Optional<Application> findByIdAndVolunteerIdWithPost(Long applicationId, Long volunteerId);
 }

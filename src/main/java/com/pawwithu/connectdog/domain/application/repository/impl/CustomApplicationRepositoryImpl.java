@@ -64,12 +64,13 @@ public class CustomApplicationRepositoryImpl implements CustomApplicationReposit
     }
 
     @Override
-    public Optional<Application> findByIdWithPost(Long applicationId) {
+    public Optional<Application> findByIdAndVolunteerIdWithPost(Long applicationId, Long volunteerId) {
         return Optional.ofNullable(queryFactory
                 .select(application)
                 .from(application)
                 .join(application.post, post).fetchJoin()
-                .where(application.id.eq(applicationId))
+                .where(application.id.eq(applicationId)
+                        .and(application.volunteer.id.eq(volunteerId)))
                 .fetchOne());
     }
 }

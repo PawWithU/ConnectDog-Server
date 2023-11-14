@@ -79,8 +79,9 @@ public class ApplicationController {
                     , content = @Content(schema = @Schema(implementation = ErrorResponse.class)))
             })
     @GetMapping( "/volunteers/applications/{applicationId}")
-    public ResponseEntity<ApplicationGetOneResponse> getOneApplication(@PathVariable Long applicationId) {
-        ApplicationGetOneResponse response = applicationService.getOneApplication(applicationId);
+    public ResponseEntity<ApplicationGetOneResponse> getOneApplication(@AuthenticationPrincipal UserDetails loginUser,
+                                                                       @PathVariable Long applicationId) {
+        ApplicationGetOneResponse response = applicationService.getOneApplication(loginUser.getUsername(), applicationId);
         return ResponseEntity.ok(response);
     }
 
@@ -91,8 +92,9 @@ public class ApplicationController {
                     , content = @Content(schema = @Schema(implementation = ErrorResponse.class)))
             })
     @DeleteMapping( "/volunteers/applications/{applicationId}")
-    public ResponseEntity<Void> deleteApplication(@PathVariable Long applicationId) {
-        applicationService.deleteApplication(applicationId);
+    public ResponseEntity<Void> deleteApplication(@AuthenticationPrincipal UserDetails loginUser,
+                                                  @PathVariable Long applicationId) {
+        applicationService.deleteApplication(loginUser.getUsername(), applicationId);
         return ResponseEntity.noContent().build();
     }
 
