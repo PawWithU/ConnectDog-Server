@@ -56,6 +56,7 @@ public class ApplicationService {
         post.updateStatus(PostStatus.WAITING);
     }
 
+    @Transactional(readOnly = true)
     public List<ApplicationWaitingResponse> getWaitingApplications(String email, Pageable pageable) {
         // 이동봉사자
         Volunteer volunteer = volunteerRepository.findByEmail(email).orElseThrow(() -> new BadRequestException(VOLUNTEER_NOT_FOUND));
@@ -63,6 +64,7 @@ public class ApplicationService {
         return waitingApplications;
     }
 
+    @Transactional(readOnly = true)
     public List<ApplicationProgressingResponse> getProgressingApplications(String email, Pageable pageable) {
         // 이동봉사자
         Volunteer volunteer = volunteerRepository.findByEmail(email).orElseThrow(() -> new BadRequestException(VOLUNTEER_NOT_FOUND));
@@ -70,12 +72,20 @@ public class ApplicationService {
         return progressingApplications;
     }
 
-    public ApplicationGetOneResponse getOneApplication(String email, Long applicationId) {
-        // 이동봉사자
-        Volunteer volunteer = volunteerRepository.findByEmail(email).orElseThrow(() -> new BadRequestException(VOLUNTEER_NOT_FOUND));
+    @Transactional(readOnly = true)
+    public ApplicationGetOneResponse getOneApplication(Long applicationId) {
         // 신청 내역
         Application application = applicationRepository.findById(applicationId).orElseThrow(() -> new BadRequestException(APPLICATION_NOT_FOUND));
         ApplicationGetOneResponse oneApplication = ApplicationGetOneResponse.from(application);
         return oneApplication;
+    }
+
+    public void deleteApplication(Long applicationId) {
+        // 신청 내역 + post
+        Application application = customApplicationRepository.findByIdWithPost(applicationId).orElseThrow(() -> new BadRequestException(APPLICATION_NOT_FOUND));
+        applicationRepository.delete(application);
+        // 신청 취소 시: 공고 승인 대기중 -> 모집중
+        Post post = application.getPost();
+        post.updateStatus(PostStatus.RECRUITING);
     }
 }

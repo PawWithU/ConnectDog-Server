@@ -2,6 +2,7 @@ package com.pawwithu.connectdog.domain.application.repository.impl;
 
 import com.pawwithu.connectdog.domain.application.dto.response.ApplicationProgressingResponse;
 import com.pawwithu.connectdog.domain.application.dto.response.ApplicationWaitingResponse;
+import com.pawwithu.connectdog.domain.application.entity.Application;
 import com.pawwithu.connectdog.domain.application.entity.ApplicationStatus;
 import com.pawwithu.connectdog.domain.application.repository.CustomApplicationRepository;
 import com.querydsl.core.types.Projections;
@@ -12,6 +13,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 import static com.pawwithu.connectdog.domain.application.entity.QApplication.application;
 import static com.pawwithu.connectdog.domain.intermediary.entity.QIntermediary.intermediary;
@@ -59,5 +61,15 @@ public class CustomApplicationRepositoryImpl implements CustomApplicationReposit
                 .offset(pageable.getOffset())   // 페이지 번호
                 .limit(pageable.getPageSize())  // 페이지 사이즈
                 .fetch();
+    }
+
+    @Override
+    public Optional<Application> findByIdWithPost(Long applicationId) {
+        return Optional.ofNullable(queryFactory
+                .select(application)
+                .from(application)
+                .join(application.post, post).fetchJoin()
+                .where(application.id.eq(applicationId))
+                .fetchOne());
     }
 }
