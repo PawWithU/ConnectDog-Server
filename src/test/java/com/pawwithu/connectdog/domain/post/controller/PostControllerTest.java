@@ -5,7 +5,9 @@ import com.pawwithu.connectdog.domain.dog.entity.DogGender;
 import com.pawwithu.connectdog.domain.dog.entity.DogSize;
 import com.pawwithu.connectdog.domain.post.dto.response.PostGetHomeResponse;
 import com.pawwithu.connectdog.domain.post.dto.response.PostGetOneResponse;
+import com.pawwithu.connectdog.domain.post.dto.response.PostRecruitingGetResponse;
 import com.pawwithu.connectdog.domain.post.dto.response.PostSearchResponse;
+import com.pawwithu.connectdog.domain.post.entity.PostStatus;
 import com.pawwithu.connectdog.domain.post.service.PostService;
 import com.pawwithu.connectdog.utils.TestUserArgumentResolver;
 import org.junit.jupiter.api.BeforeEach;
@@ -165,6 +167,30 @@ class PostControllerTest {
         //then
         result.andExpect(status().isOk());
         verify(postService, times(1)).getOnePost(anyString(), anyLong());
+    }
+
+    @Test
+    void 이동봉사_중개_모집중_공고_목록_조회() throws Exception {
+        //given
+        Pageable pageable = PageRequest.of(0, 2);
+        List<PostRecruitingGetResponse> response = new ArrayList<>();
+        LocalDate startDate = LocalDate.of(2023, 10, 2);
+        LocalDate endDate = LocalDate.of(2023, 11, 7);
+        response.add(new PostRecruitingGetResponse(1L, PostStatus.RECRUITING, "image1", "포포1", "서울시 성북구", "서울시 중랑구",
+                startDate, endDate));
+        response.add(new PostRecruitingGetResponse(2L, PostStatus.EXPIRED, "image2", "포포2", "서울시 성북구", "서울시 중랑구",
+                startDate, endDate));
+
+
+        //when
+        given(postService.getRecruitingPosts(anyString(), any())).willReturn(response);
+        ResultActions result = mockMvc.perform(
+                get("/intermediaries/posts/recruiting")
+        );
+
+        //then
+        result.andExpect(status().isOk());
+        verify(postService, times(1)).getRecruitingPosts(anyString(), any());
     }
 
 }
