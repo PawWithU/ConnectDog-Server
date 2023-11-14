@@ -10,6 +10,7 @@ import com.pawwithu.connectdog.domain.post.dto.request.PostCreateRequest;
 import com.pawwithu.connectdog.domain.post.dto.request.PostSearchRequest;
 import com.pawwithu.connectdog.domain.post.dto.response.PostGetHomeResponse;
 import com.pawwithu.connectdog.domain.post.dto.response.PostGetOneResponse;
+import com.pawwithu.connectdog.domain.post.dto.response.PostRecruitingGetResponse;
 import com.pawwithu.connectdog.domain.post.dto.response.PostSearchResponse;
 import com.pawwithu.connectdog.domain.post.entity.Post;
 import com.pawwithu.connectdog.domain.post.entity.PostImage;
@@ -98,5 +99,12 @@ public class PostService {
         Boolean isBookmark = bookmarkRepository.existsByVolunteerIdAndPostId(volunteer.getId(), postId);
         PostGetOneResponse response = PostGetOneResponse.of(onePost, onePostImages, isBookmark);
         return response;
+    }
+
+    @Transactional(readOnly = true)
+    public List<PostRecruitingGetResponse> getRecruitingPosts(String email, Pageable pageable) {
+        Intermediary intermediary = intermediaryRepository.findByEmail(email).orElseThrow(() -> new BadRequestException(INTERMEDIARY_NOT_FOUND));
+        List<PostRecruitingGetResponse> recruitingPosts = customPostRepository.getRecruitingPosts(intermediary.getId(), pageable);
+        return recruitingPosts;
     }
 }

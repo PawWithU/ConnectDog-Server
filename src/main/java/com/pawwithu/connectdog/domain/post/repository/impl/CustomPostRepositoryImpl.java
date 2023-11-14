@@ -1,10 +1,10 @@
 package com.pawwithu.connectdog.domain.post.repository.impl;
 
-import com.pawwithu.connectdog.domain.bookmark.repository.BookmarkRepository;
 import com.pawwithu.connectdog.domain.dog.entity.DogSize;
 import com.pawwithu.connectdog.domain.post.dto.request.PostSearchRequest;
 import com.pawwithu.connectdog.domain.post.dto.response.PostGetHomeResponse;
 import com.pawwithu.connectdog.domain.post.dto.response.PostGetOneResponse;
+import com.pawwithu.connectdog.domain.post.dto.response.PostRecruitingGetResponse;
 import com.pawwithu.connectdog.domain.post.dto.response.PostSearchResponse;
 import com.pawwithu.connectdog.domain.post.entity.PostStatus;
 import com.pawwithu.connectdog.domain.post.repository.CustomPostRepository;
@@ -20,7 +20,6 @@ import org.springframework.stereotype.Repository;
 import org.springframework.util.StringUtils;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.List;
 
 import static com.pawwithu.connectdog.domain.dog.entity.QDog.dog;
@@ -95,6 +94,23 @@ public class CustomPostRepositoryImpl implements CustomPostRepository {
                 .join(post.dog, dog)
                 .where(post.id.eq(postId))
                 .fetchOne();
+    }
+
+    @Override
+    public List<PostRecruitingGetResponse> getRecruitingPosts(Long intermediaryId, Pageable pageable) {
+        return queryFactory
+                .select(Projections.constructor(PostRecruitingGetResponse.class,
+                        post.id, post.status, postImage.image, dog.name, post.departureLoc, post.arrivalLoc,
+                        post.startDate, post.endDate))
+                .from(post)
+                .join(post.mainImage, postImage)
+                .join(post.dog, dog)
+                .where(post.intermediary.id.eq(intermediaryId)
+                        .and(post.status.in(PostStatus.RECRUITING, PostStatus.EXPIRED)))
+                .orderBy(post.createdDate.desc())
+                .offset(pageable.getOffset())   // 페이지 번호
+                .limit(pageable.getPageSize())  // 페이지 사이즈
+                .fetch();
     }
 
     // 모든 필터 검색

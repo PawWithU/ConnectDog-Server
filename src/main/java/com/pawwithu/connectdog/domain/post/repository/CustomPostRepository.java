@@ -3,6 +3,7 @@ package com.pawwithu.connectdog.domain.post.repository;
 import com.pawwithu.connectdog.domain.post.dto.request.PostSearchRequest;
 import com.pawwithu.connectdog.domain.post.dto.response.PostGetHomeResponse;
 import com.pawwithu.connectdog.domain.post.dto.response.PostGetOneResponse;
+import com.pawwithu.connectdog.domain.post.dto.response.PostRecruitingGetResponse;
 import com.pawwithu.connectdog.domain.post.dto.response.PostSearchResponse;
 import org.springframework.data.domain.Pageable;
 
@@ -18,4 +19,5 @@ public interface CustomPostRepository {
     List<String> getOnePostImages(Long postId);
     // 공고 상세 조회 (대표 이미지를 제외한 다른 이미지 포함 X)
     PostGetOneResponse getOnePost(Long volunteerId, Long postId);
+    List<PostRecruitingGetResponse> getRecruitingPosts(Long intermediaryId, Pageable pageable);
 }
