@@ -28,8 +28,7 @@ import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @ExtendWith(MockitoExtension.class)
@@ -121,13 +120,28 @@ class ApplicationControllerTest {
         Long applicationId = 1L;
 
         //when
-        given(applicationService.getOneApplication(anyString(), anyLong())).willReturn(response);
+        given(applicationService.getOneApplication(anyLong())).willReturn(response);
         ResultActions result = mockMvc.perform(
                 get("/volunteers/applications/{applicationId}", applicationId)
         );
 
         //then
         result.andExpect(status().isOk());
-        verify(applicationService, times(1)).getOneApplication(anyString(), anyLong());
+        verify(applicationService, times(1)).getOneApplication(anyLong());
+    }
+
+    @Test
+    void 이동봉사_신청_취소() throws Exception {
+        //given
+        Long applicationId = 1L;
+
+        //when
+        ResultActions result = mockMvc.perform(
+                delete("/volunteers/applications/{applicationId}", applicationId)
+        );
+
+        //then
+        result.andExpect(status().isNoContent());
+        verify(applicationService, times(1)).deleteApplication(anyLong());
     }
 }
