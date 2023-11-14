@@ -12,10 +12,9 @@ public record ReviewCreateRequest(@NotBlank(message = "후기 내용은 필수 �
 
     public static Review reviewToEntity(ReviewCreateRequest request, Volunteer volunteer, Post post) {
         return Review.builder()
-                .content(request.content())
+                .content(request.content)
                 .volunteer(volunteer)
                 .post(post)
                 .build();
     }
-
 }

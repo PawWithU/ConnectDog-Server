@@ -57,14 +57,14 @@ class ReviewControllerTest {
     void 후기_등록() throws Exception {
         // given
         Long postId = 1L;
-        ReviewCreateRequest reviewCreateRequest = new ReviewCreateRequest("이동봉사 리뷰입니다.");
+        ReviewCreateRequest reviewCreateRequest = new ReviewCreateRequest("이동봉사 리뷰 테스트 - 봄이는 귀엽고 예쁘고 차분하다!");
 
         MockMultipartFile files = new MockMultipartFile("files", "image1.png", "multipart/form-data", "uploadFile".getBytes(StandardCharsets.UTF_8));
         MockMultipartFile request = new MockMultipartFile("request", "", "application/json", objectMapper.registerModule(new JavaTimeModule()).writeValueAsString(reviewCreateRequest).getBytes(StandardCharsets.UTF_8));
 
         // when
         ResultActions result = mockMvc.perform(MockMvcRequestBuilders
-                .multipart(HttpMethod.POST, "/volunteers/reviews/{postId}", postId)
+                .multipart(HttpMethod.POST, "/volunteers/posts/{postId}/reviews", postId)
                 .file(request)
                 .file(files)
                 .accept(MediaType.APPLICATION_JSON)
