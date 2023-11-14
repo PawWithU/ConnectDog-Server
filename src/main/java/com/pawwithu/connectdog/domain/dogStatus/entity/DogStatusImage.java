@@ -2,10 +2,7 @@ package com.pawwithu.connectdog.domain.dogStatus.entity;
 
 import com.pawwithu.connectdog.common.entity.BaseTimeEntity;
 import jakarta.persistence.*;
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -21,4 +18,10 @@ public class DogStatusImage extends BaseTimeEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "dogStatus_id", nullable = false)
     private DogStatus dogStatus;  // 근황 id
+
+    @Builder
+    public DogStatusImage(String image, DogStatus dogStatus) {
+        this.image = image;
+        this.dogStatus = dogStatus;
+    }
 }
