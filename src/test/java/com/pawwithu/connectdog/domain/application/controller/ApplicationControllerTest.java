@@ -28,8 +28,7 @@ import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @ExtendWith(MockitoExtension.class)
@@ -129,5 +128,20 @@ class ApplicationControllerTest {
         //then
         result.andExpect(status().isOk());
         verify(applicationService, times(1)).getOneApplication(anyString(), anyLong());
+    }
+
+    @Test
+    void 이동봉사_신청_취소() throws Exception {
+        //given
+        Long applicationId = 1L;
+
+        //when
+        ResultActions result = mockMvc.perform(
+                delete("/volunteers/applications/{applicationId}", applicationId)
+        );
+
+        //then
+        result.andExpect(status().isNoContent());
+        verify(applicationService, times(1)).deleteApplication(anyString(), anyLong());
     }
 }

@@ -85,4 +85,17 @@ public class ApplicationController {
         return ResponseEntity.ok(response);
     }
 
+    @Operation(summary = "봉사 관리 - 승인 대기중 - 내 신청 내역 - 봉사 신청 취소", description = "내 신청 내역에서 봉사 신청을 취소합니다.",
+            responses = {@ApiResponse(responseCode = "204", description = "봉사 신청 취소 성공")
+                    , @ApiResponse(responseCode = "400"
+                    , description = "M1, 해당 이동봉사자를 찾을 수 없습니다. \t\n AP2, 해당 신청 내역을 찾을 수 없습니다."
+                    , content = @Content(schema = @Schema(implementation = ErrorResponse.class)))
+            })
+    @DeleteMapping( "/volunteers/applications/{applicationId}")
+    public ResponseEntity<Void> deleteApplication(@AuthenticationPrincipal UserDetails loginUser,
+                                                  @PathVariable Long applicationId) {
+        applicationService.deleteApplication(loginUser.getUsername(), applicationId);
+        return ResponseEntity.noContent().build();
+    }
+
 }
