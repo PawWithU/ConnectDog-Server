@@ -75,9 +75,9 @@ class ApplicationControllerTest {
         List<ApplicationWaitingResponse> response = new ArrayList<>();
         LocalDate startDate = LocalDate.of(2023, 10, 2);
         LocalDate endDate = LocalDate.of(2023, 11, 7);
-        response.add(new ApplicationWaitingResponse("image1", "서울시 성북구", "서울시 중랑구",
+        response.add(new ApplicationWaitingResponse(1L, "image1", "서울시 성북구", "서울시 중랑구",
                 startDate, endDate, "이동봉사 중개", true, 1L));
-        response.add(new ApplicationWaitingResponse("image2", "서울시 성북구", "서울시 중랑구",
+        response.add(new ApplicationWaitingResponse(2L, "image2", "서울시 성북구", "서울시 중랑구",
                 startDate, endDate, "이동봉사 중개", false, 2L));
 
         //when
@@ -97,9 +97,9 @@ class ApplicationControllerTest {
         List<ApplicationProgressingResponse> response = new ArrayList<>();
         LocalDate startDate = LocalDate.of(2023, 10, 2);
         LocalDate endDate = LocalDate.of(2023, 11, 7);
-        response.add(new ApplicationProgressingResponse("image1", "서울시 성북구", "서울시 중랑구",
+        response.add(new ApplicationProgressingResponse(1L, "image1", "서울시 성북구", "서울시 중랑구",
                 startDate, endDate, "이동봉사 중개", true));
-        response.add(new ApplicationProgressingResponse("image2", "서울시 성북구", "서울시 중랑구",
+        response.add(new ApplicationProgressingResponse(2L, "image2", "서울시 성북구", "서울시 중랑구",
                 startDate, endDate, "이동봉사 중개", false));
 
         //when

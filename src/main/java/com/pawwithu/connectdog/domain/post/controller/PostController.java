@@ -4,6 +4,7 @@ import com.pawwithu.connectdog.domain.post.dto.request.PostCreateRequest;
 import com.pawwithu.connectdog.domain.post.dto.request.PostSearchRequest;
 import com.pawwithu.connectdog.domain.post.dto.response.PostGetHomeResponse;
 import com.pawwithu.connectdog.domain.post.dto.response.PostGetOneResponse;
+import com.pawwithu.connectdog.domain.post.dto.response.PostRecruitingGetResponse;
 import com.pawwithu.connectdog.domain.post.dto.response.PostSearchResponse;
 import com.pawwithu.connectdog.domain.post.service.PostService;
 import com.pawwithu.connectdog.error.dto.ErrorResponse;
@@ -78,5 +79,17 @@ public class PostController {
     public ResponseEntity<PostGetOneResponse> getOnePost(@AuthenticationPrincipal UserDetails loginUser, @PathVariable Long postId) {
         PostGetOneResponse onePost = postService.getOnePost(loginUser.getUsername(), postId);
         return ResponseEntity.ok(onePost);
+    }
+
+    @Operation(summary = "봉사 관리 - 모집중, 모집 마감", description = "이동봉사 모집중, 모집 마감 목록을 조회합니다.",
+            responses = {@ApiResponse(responseCode = "200", description = "이동봉사 모집중, 모집 마감 목록 조회 성공")
+                    , @ApiResponse(responseCode = "400"
+                    , description = "M2, 해당 이동봉사 중개를 찾을 수 없습니다."
+                    , content = @Content(schema = @Schema(implementation = ErrorResponse.class)))
+            })
+    @GetMapping( "/intermediaries/posts/recruiting")
+    public ResponseEntity<List<PostRecruitingGetResponse>> getRecruitingPosts(@AuthenticationPrincipal UserDetails loginUser, Pageable pageable) {
+        List<PostRecruitingGetResponse> response = postService.getRecruitingPosts(loginUser.getUsername(), pageable);
+        return ResponseEntity.ok(response);
     }
 }
