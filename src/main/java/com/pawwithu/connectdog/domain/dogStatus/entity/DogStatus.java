@@ -4,10 +4,7 @@ import com.pawwithu.connectdog.common.entity.BaseTimeEntity;
 import com.pawwithu.connectdog.domain.intermediary.entity.Intermediary;
 import com.pawwithu.connectdog.domain.post.entity.Post;
 import jakarta.persistence.*;
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -26,4 +23,19 @@ public class DogStatus extends BaseTimeEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "intermediary_id", nullable = false)
     private Intermediary intermediary;  // 이동봉사 중개 id
+
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "mainImage_id")
+    private DogStatusImage mainImage; // 대표 이미지
+
+    @Builder
+    public DogStatus(String content, Post post, Intermediary intermediary) {
+        this.content = content;
+        this.post = post;
+        this.intermediary = intermediary;
+    }
+
+    public void updateMainImage(DogStatusImage mainImage) {
+        this.mainImage = mainImage;
+    }
 }

@@ -34,7 +34,8 @@ public class ReviewController {
             security = { @SecurityRequirement(name = "bearer-key") },
             responses = {@ApiResponse(responseCode = "204", description = "후기 등록 성공")
                     , @ApiResponse(responseCode = "400"
-                    , description = "V1, 내용은 20~300자로 입력해 주세요. \t\n F1, 파일이 존재하지 않습니다. \t\n F2, 파일 업로드에 실패했습니다. \t\n M2, 해당 이동봉사 중개를 찾을 수 없습니다."
+                    , description = "V1, 후기 내용은 필수 입력 값입니다. \t\n V1, 내용은 20~300자로 입력해 주세요. \t\n F1, 파일이 존재하지 않습니다. \t\n F2, 파일 업로드에 실패했습니다. \t\n " +
+                    "M1, 해당 이동봉사자를 찾을 수 없습니다. \t\n P2, 해당 공고를 찾을 수 없습니다."
                     , content = @Content(schema = @Schema(implementation = ErrorResponse.class)))
             })
     @PostMapping(value = "/volunteers/posts/{postId}/reviews", consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.MULTIPART_FORM_DATA_VALUE})
