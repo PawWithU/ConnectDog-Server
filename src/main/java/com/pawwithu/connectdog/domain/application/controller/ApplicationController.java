@@ -1,6 +1,7 @@
 package com.pawwithu.connectdog.domain.application.controller;
 
 import com.pawwithu.connectdog.domain.application.dto.request.VolunteerApplyRequest;
+import com.pawwithu.connectdog.domain.application.dto.response.ApplicationGetOneResponse;
 import com.pawwithu.connectdog.domain.application.dto.response.ApplicationProgressingResponse;
 import com.pawwithu.connectdog.domain.application.dto.response.ApplicationWaitingResponse;
 import com.pawwithu.connectdog.domain.application.service.ApplicationService;
@@ -70,4 +71,18 @@ public class ApplicationController {
         List<ApplicationProgressingResponse> response = applicationService.getProgressingApplications(loginUser.getUsername(), pageable);
         return ResponseEntity.ok(response);
     }
+
+    @Operation(summary = "봉사 관리 - 승인 대기중 - 내 신청 내역 단건 조회", description = "승인 대기중인 이동봉사 목록에서 내 신청 내역을 단건 조회합니다.",
+            responses = {@ApiResponse(responseCode = "200", description = "신청 내역 단건 조회 성공")
+                    , @ApiResponse(responseCode = "400"
+                    , description = "M1, 해당 이동봉사자를 찾을 수 없습니다. \t\n AP2, 해당 신청 내역을 찾을 수 없습니다."
+                    , content = @Content(schema = @Schema(implementation = ErrorResponse.class)))
+            })
+    @GetMapping( "/volunteers/applications/{applicationId}")
+    public ResponseEntity<ApplicationGetOneResponse> getOneApplication(@AuthenticationPrincipal UserDetails loginUser,
+                                                                       @PathVariable Long applicationId) {
+        ApplicationGetOneResponse response = applicationService.getOneApplication(loginUser.getUsername(), applicationId);
+        return ResponseEntity.ok(response);
+    }
+
 }

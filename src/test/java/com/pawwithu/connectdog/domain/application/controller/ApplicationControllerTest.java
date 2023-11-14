@@ -2,6 +2,7 @@ package com.pawwithu.connectdog.domain.application.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.pawwithu.connectdog.domain.application.dto.request.VolunteerApplyRequest;
+import com.pawwithu.connectdog.domain.application.dto.response.ApplicationGetOneResponse;
 import com.pawwithu.connectdog.domain.application.dto.response.ApplicationProgressingResponse;
 import com.pawwithu.connectdog.domain.application.dto.response.ApplicationWaitingResponse;
 import com.pawwithu.connectdog.domain.application.service.ApplicationService;
@@ -111,5 +112,22 @@ class ApplicationControllerTest {
         //then
         result.andExpect(status().isOk());
         verify(applicationService, times(1)).getProgressingApplications(anyString(), any());
+    }
+
+    @Test
+    void 이동봉사_신청내역_단건_조회() throws Exception {
+        //given
+        ApplicationGetOneResponse response = new ApplicationGetOneResponse("한호정", "01022223333", "자동차", "이동봉사 신청합니다.");
+        Long applicationId = 1L;
+
+        //when
+        given(applicationService.getOneApplication(anyString(), anyLong())).willReturn(response);
+        ResultActions result = mockMvc.perform(
+                get("/volunteers/applications/{applicationId}", applicationId)
+        );
+
+        //then
+        result.andExpect(status().isOk());
+        verify(applicationService, times(1)).getOneApplication(anyString(), anyLong());
     }
 }
