@@ -120,14 +120,14 @@ class ApplicationControllerTest {
         Long applicationId = 1L;
 
         //when
-        given(applicationService.getOneApplication(anyLong())).willReturn(response);
+        given(applicationService.getOneApplication(anyString(), anyLong())).willReturn(response);
         ResultActions result = mockMvc.perform(
                 get("/volunteers/applications/{applicationId}", applicationId)
         );
 
         //then
         result.andExpect(status().isOk());
-        verify(applicationService, times(1)).getOneApplication(anyLong());
+        verify(applicationService, times(1)).getOneApplication(anyString(), anyLong());
     }
 
     @Test
@@ -142,6 +142,6 @@ class ApplicationControllerTest {
 
         //then
         result.andExpect(status().isNoContent());
-        verify(applicationService, times(1)).deleteApplication(anyLong());
+        verify(applicationService, times(1)).deleteApplication(anyString(), anyLong());
     }
 }
