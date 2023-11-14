@@ -36,7 +36,8 @@ public enum ErrorCode {
     ALREADY_EXIST_BOOKMARK("B1", "이미 등록된 북마크입니다."),
     NOT_FOUND_BOOKMARK("B2", "등록되지 않은 북마크입니다."),
 
-    ALREADY_EXIST_APPLICATION("AP1", "이미 신청된 공고입니다.");
+    ALREADY_EXIST_APPLICATION("AP1", "이미 신청된 공고입니다."),
+    APPLICATION_NOT_FOUND("AP2", "해당 신청 내역을 찾을 수 없습니다.");
 
 
     private final String code;

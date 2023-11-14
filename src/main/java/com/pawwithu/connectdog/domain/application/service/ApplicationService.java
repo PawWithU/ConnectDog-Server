@@ -1,6 +1,7 @@
 package com.pawwithu.connectdog.domain.application.service;
 
 import com.pawwithu.connectdog.domain.application.dto.request.VolunteerApplyRequest;
+import com.pawwithu.connectdog.domain.application.dto.response.ApplicationGetOneResponse;
 import com.pawwithu.connectdog.domain.application.dto.response.ApplicationProgressingResponse;
 import com.pawwithu.connectdog.domain.application.dto.response.ApplicationWaitingResponse;
 import com.pawwithu.connectdog.domain.application.entity.Application;
@@ -67,5 +68,14 @@ public class ApplicationService {
         Volunteer volunteer = volunteerRepository.findByEmail(email).orElseThrow(() -> new BadRequestException(VOLUNTEER_NOT_FOUND));
         List<ApplicationProgressingResponse> progressingApplications = customApplicationRepository.getProgressingApplications(volunteer.getId(), pageable);
         return progressingApplications;
+    }
+
+    public ApplicationGetOneResponse getOneApplication(String email, Long applicationId) {
+        // 이동봉사자
+        Volunteer volunteer = volunteerRepository.findByEmail(email).orElseThrow(() -> new BadRequestException(VOLUNTEER_NOT_FOUND));
+        // 신청 내역
+        Application application = applicationRepository.findById(applicationId).orElseThrow(() -> new BadRequestException(APPLICATION_NOT_FOUND));
+        ApplicationGetOneResponse oneApplication = ApplicationGetOneResponse.from(application);
+        return oneApplication;
     }
 }
