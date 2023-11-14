@@ -31,7 +31,7 @@ public class CustomApplicationRepositoryImpl implements CustomApplicationReposit
     public List<ApplicationWaitingResponse> getWaitingApplications(Long volunteerId, Pageable pageable) {
         return queryFactory
                 .select(Projections.constructor(ApplicationWaitingResponse.class,
-                        postImage.image, post.departureLoc, post.arrivalLoc, post.startDate, post.endDate,
+                        post.id, postImage.image, post.departureLoc, post.arrivalLoc, post.startDate, post.endDate,
                         intermediary.name, post.isKennel, application.id))
                 .from(application)
                 .join(application.post, post)
@@ -49,7 +49,7 @@ public class CustomApplicationRepositoryImpl implements CustomApplicationReposit
     public List<ApplicationProgressingResponse> getProgressingApplications(Long volunteerId, Pageable pageable) {
         return queryFactory
                 .select(Projections.constructor(ApplicationProgressingResponse.class,
-                        postImage.image, post.departureLoc, post.arrivalLoc, post.startDate, post.endDate,
+                        post.id, postImage.image, post.departureLoc, post.arrivalLoc, post.startDate, post.endDate,
                         intermediary.name, post.isKennel))
                 .from(application)
                 .join(application.post, post)

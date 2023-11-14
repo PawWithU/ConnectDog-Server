@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 
 import java.time.LocalDate;
 
-public record ApplicationWaitingResponse(String mainImage, String departureLoc, String arrivalLoc,
+public record ApplicationWaitingResponse(Long postId, String mainImage, String departureLoc, String arrivalLoc,
                                          @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd", timezone = "Asia/Seoul")
                                          LocalDate startDate,
                                          @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd", timezone = "Asia/Seoul")
