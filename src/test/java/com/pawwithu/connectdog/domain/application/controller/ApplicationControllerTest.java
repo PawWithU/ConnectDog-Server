@@ -3,6 +3,7 @@ package com.pawwithu.connectdog.domain.application.controller;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.pawwithu.connectdog.domain.application.dto.request.VolunteerApplyRequest;
 import com.pawwithu.connectdog.domain.application.dto.response.ApplicationGetOneResponse;
+import com.pawwithu.connectdog.domain.application.dto.response.ApplicationIntermediaryWaitingResponse;
 import com.pawwithu.connectdog.domain.application.dto.response.ApplicationVolunteerProgressingResponse;
 import com.pawwithu.connectdog.domain.application.dto.response.ApplicationVolunteerWaitingResponse;
 import com.pawwithu.connectdog.domain.application.service.ApplicationService;
@@ -13,6 +14,8 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableHandlerMethodArgumentResolver;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
@@ -174,4 +177,29 @@ class ApplicationControllerTest {
         result.andExpect(status().isNoContent());
         verify(applicationService, times(1)).cancelApplication(anyString(), anyLong());
     }
+
+    @Test
+    void 이동봉사_중개_승인_대기중_공고_목록_조회() throws Exception {
+        //given
+        Pageable pageable = PageRequest.of(0, 2);
+        List<ApplicationIntermediaryWaitingResponse> response = new ArrayList<>();
+        LocalDate startDate = LocalDate.of(2023, 10, 2);
+        LocalDate endDate = LocalDate.of(2023, 11, 7);
+        response.add(new ApplicationIntermediaryWaitingResponse(1L, "image1", "포포1", startDate, endDate,
+                "서울시 성북구", "서울시 중랑구", "하노정", 1L));
+        response.add(new ApplicationIntermediaryWaitingResponse(2L, "image2", "포포2", startDate, endDate,
+                "서울시 성북구", "서울시 중랑구", "민경혁", 2L));
+
+
+        //when
+        given(applicationService.getIntermediaryWaitingApplications(anyString(), any())).willReturn(response);
+        ResultActions result = mockMvc.perform(
+                get("/intermediaries/applications/waiting")
+        );
+
+        //then
+        result.andExpect(status().isOk());
+        verify(applicationService, times(1)).getIntermediaryWaitingApplications(anyString(), any());
+    }
+
 }
