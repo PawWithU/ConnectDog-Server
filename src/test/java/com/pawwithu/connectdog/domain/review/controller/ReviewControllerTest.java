@@ -86,7 +86,7 @@ class ReviewControllerTest {
         images.add("image2");
 
         ReviewGetOneResponse response = new ReviewGetOneResponse("겨울이", "호짱", "mainImage", images, startDate, endDate,
-                "서울시 노원구", "서울시 성북구", "이동봉사 중개", "후기 작성 테스트입니다.");
+                "서울시 노원구", "서울시 성북구", "이동봉사 중개", "후기 조회 테스트입니다.");
 
         // when
         given(reviewService.getOneReview(anyString(), anyLong())).willReturn(response);
@@ -111,9 +111,9 @@ class ReviewControllerTest {
         images.add("image2");
 
         response.add(new ReviewGetAllResponse("봄이", "호짱", "mainImage", images, startDate, endDate,
-                "서울시 노원구", "서울시 성북구", "이동봉사 중개", "후기 작성 테스트입니다."));
+                "서울시 노원구", "서울시 성북구", "이동봉사 중개", "후기 조회 테스트입니다."));
         response.add(new ReviewGetAllResponse("겨울이", "호짱", "mainImage", images, startDate, endDate,
-                "서울시 노원구", "서울시 성북구", "이동봉사 중개", "후기 작성 테스트입니다."));
+                "서울시 노원구", "서울시 성북구", "이동봉사 중개", "후기 조회 테스트입니다."));
 
         // when
         given(reviewService.getAllReviews(any())).willReturn(response);
