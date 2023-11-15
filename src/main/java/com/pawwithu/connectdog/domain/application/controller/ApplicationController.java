@@ -1,9 +1,7 @@
 package com.pawwithu.connectdog.domain.application.controller;
 
 import com.pawwithu.connectdog.domain.application.dto.request.VolunteerApplyRequest;
-import com.pawwithu.connectdog.domain.application.dto.response.ApplicationGetOneResponse;
-import com.pawwithu.connectdog.domain.application.dto.response.ApplicationProgressingResponse;
-import com.pawwithu.connectdog.domain.application.dto.response.ApplicationWaitingResponse;
+import com.pawwithu.connectdog.domain.application.dto.response.*;
 import com.pawwithu.connectdog.domain.application.service.ApplicationService;
 import com.pawwithu.connectdog.error.dto.ErrorResponse;
 import io.swagger.v3.oas.annotations.Operation;
@@ -53,9 +51,9 @@ public class ApplicationController {
                     , content = @Content(schema = @Schema(implementation = ErrorResponse.class)))
             })
     @GetMapping( "/volunteers/applications/waiting")
-    public ResponseEntity<List<ApplicationWaitingResponse>> getWaitingApplications(@AuthenticationPrincipal UserDetails loginUser,
-                                                                           Pageable pageable) {
-        List<ApplicationWaitingResponse> response = applicationService.getWaitingApplications(loginUser.getUsername(), pageable);
+    public ResponseEntity<List<ApplicationVolunteerWaitingResponse>> getVolunteerWaitingApplications(@AuthenticationPrincipal UserDetails loginUser,
+                                                                                                     Pageable pageable) {
+        List<ApplicationVolunteerWaitingResponse> response = applicationService.getVolunteerWaitingApplications(loginUser.getUsername(), pageable);
         return ResponseEntity.ok(response);
     }
 
@@ -66,9 +64,9 @@ public class ApplicationController {
                     , content = @Content(schema = @Schema(implementation = ErrorResponse.class)))
             })
     @GetMapping( "/volunteers/applications/progressing")
-    public ResponseEntity<List<ApplicationProgressingResponse>> getProgressingApplications(@AuthenticationPrincipal UserDetails loginUser,
-                                                                                           Pageable pageable) {
-        List<ApplicationProgressingResponse> response = applicationService.getProgressingApplications(loginUser.getUsername(), pageable);
+    public ResponseEntity<List<ApplicationVolunteerProgressingResponse>> getVolunteerProgressingApplications(@AuthenticationPrincipal UserDetails loginUser,
+                                                                                                             Pageable pageable) {
+        List<ApplicationVolunteerProgressingResponse> response = applicationService.getVolunteerProgressingApplications(loginUser.getUsername(), pageable);
         return ResponseEntity.ok(response);
     }
 
@@ -124,4 +122,29 @@ public class ApplicationController {
         return ResponseEntity.noContent().build();
     }
 
+    @Operation(summary = "봉사 관리 - 승인 대기중 목록 조회", description = "이동봉사 승인 대기중 목록을 조회합니다.",
+            responses = {@ApiResponse(responseCode = "200", description = "이동봉사 승인 대기중 목록 조회 성공")
+                    , @ApiResponse(responseCode = "400"
+                    , description = "M2, 해당 이동봉사 중개를 찾을 수 없습니다."
+                    , content = @Content(schema = @Schema(implementation = ErrorResponse.class)))
+            })
+    @GetMapping( "/intermediaries/applications/waiting")
+    public ResponseEntity<List<ApplicationIntermediaryWaitingResponse>> getIntermediaryWaitingApplications(@AuthenticationPrincipal UserDetails loginUser,
+                                                                                                           Pageable pageable) {
+        List<ApplicationIntermediaryWaitingResponse> response = applicationService.getIntermediaryWaitingApplications(loginUser.getUsername(), pageable);
+        return ResponseEntity.ok(response);
+    }
+
+    @Operation(summary = "봉사 관리 - 진행중 목록 조회", description = "이동봉사 진행중 목록을 조회합니다.",
+            responses = {@ApiResponse(responseCode = "200", description = "이동봉사 진행중 목록 조회 성공")
+                    , @ApiResponse(responseCode = "400"
+                    , description = "M2, 해당 이동봉사 중개를 찾을 수 없습니다."
+                    , content = @Content(schema = @Schema(implementation = ErrorResponse.class)))
+            })
+    @GetMapping( "/intermediaries/applications/progressing")
+    public ResponseEntity<List<ApplicationIntermediaryProgressingResponse>> getIntermediaryProgressingApplications(@AuthenticationPrincipal UserDetails loginUser,
+                                                                                                                   Pageable pageable) {
+        List<ApplicationIntermediaryProgressingResponse> response = applicationService.getIntermediaryProgressingApplications(loginUser.getUsername(), pageable);
+        return ResponseEntity.ok(response);
+    }
 }

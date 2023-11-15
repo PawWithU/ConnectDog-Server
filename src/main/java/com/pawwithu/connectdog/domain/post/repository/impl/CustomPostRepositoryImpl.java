@@ -100,8 +100,8 @@ public class CustomPostRepositoryImpl implements CustomPostRepository {
     public List<PostRecruitingGetResponse> getRecruitingPosts(Long intermediaryId, Pageable pageable) {
         return queryFactory
                 .select(Projections.constructor(PostRecruitingGetResponse.class,
-                        post.id, post.status, postImage.image, dog.name, post.departureLoc, post.arrivalLoc,
-                        post.startDate, post.endDate))
+                        post.id, post.status, postImage.image, dog.name, post.startDate, post.endDate,
+                        post.departureLoc, post.arrivalLoc))
                 .from(post)
                 .join(post.mainImage, postImage)
                 .join(post.dog, dog)

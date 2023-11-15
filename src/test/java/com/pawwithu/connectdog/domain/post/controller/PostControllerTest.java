@@ -176,10 +176,10 @@ class PostControllerTest {
         List<PostRecruitingGetResponse> response = new ArrayList<>();
         LocalDate startDate = LocalDate.of(2023, 10, 2);
         LocalDate endDate = LocalDate.of(2023, 11, 7);
-        response.add(new PostRecruitingGetResponse(1L, PostStatus.RECRUITING, "image1", "포포1", "서울시 성북구", "서울시 중랑구",
-                startDate, endDate));
-        response.add(new PostRecruitingGetResponse(2L, PostStatus.EXPIRED, "image2", "포포2", "서울시 성북구", "서울시 중랑구",
-                startDate, endDate));
+        response.add(new PostRecruitingGetResponse(1L, PostStatus.RECRUITING, "image1", "포포1", startDate, endDate,
+                "서울시 성북구", "서울시 중랑구"));
+        response.add(new PostRecruitingGetResponse(2L, PostStatus.EXPIRED, "image2", "포포2", startDate, endDate,
+                "서울시 성북구", "서울시 중랑구"));
 
 
         //when
