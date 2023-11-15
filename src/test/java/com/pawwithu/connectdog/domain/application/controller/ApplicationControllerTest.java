@@ -159,4 +159,19 @@ class ApplicationControllerTest {
         result.andExpect(status().isNoContent());
         verify(applicationService, times(1)).confirmApplication(anyString(), anyLong());
     }
+
+    @Test
+    void 이동봉사_신청_반려() throws Exception {
+        //given
+        Long applicationId = 1L;
+
+        //when
+        ResultActions result = mockMvc.perform(
+                delete("/intermediaries/applications/{applicationId}", applicationId)
+        );
+
+        //then
+        result.andExpect(status().isNoContent());
+        verify(applicationService, times(1)).cancelApplication(anyString(), anyLong());
+    }
 }
