@@ -2,10 +2,7 @@ package com.pawwithu.connectdog.domain.application.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.pawwithu.connectdog.domain.application.dto.request.VolunteerApplyRequest;
-import com.pawwithu.connectdog.domain.application.dto.response.ApplicationGetOneResponse;
-import com.pawwithu.connectdog.domain.application.dto.response.ApplicationIntermediaryWaitingResponse;
-import com.pawwithu.connectdog.domain.application.dto.response.ApplicationVolunteerProgressingResponse;
-import com.pawwithu.connectdog.domain.application.dto.response.ApplicationVolunteerWaitingResponse;
+import com.pawwithu.connectdog.domain.application.dto.response.*;
 import com.pawwithu.connectdog.domain.application.service.ApplicationService;
 import com.pawwithu.connectdog.utils.TestUserArgumentResolver;
 import org.junit.jupiter.api.BeforeEach;
@@ -200,6 +197,30 @@ class ApplicationControllerTest {
         //then
         result.andExpect(status().isOk());
         verify(applicationService, times(1)).getIntermediaryWaitingApplications(anyString(), any());
+    }
+
+    @Test
+    void 이동봉사_중개_진행중_공고_목록_조회() throws Exception {
+        //given
+        Pageable pageable = PageRequest.of(0, 2);
+        List<ApplicationIntermediaryProgressingResponse> response = new ArrayList<>();
+        LocalDate startDate = LocalDate.of(2023, 10, 2);
+        LocalDate endDate = LocalDate.of(2023, 11, 7);
+        response.add(new ApplicationIntermediaryProgressingResponse(1L, "image1", "포포1", startDate, endDate,
+                "서울시 성북구", "서울시 중랑구", "하노정", 1L));
+        response.add(new ApplicationIntermediaryProgressingResponse(2L, "image2", "포포2", startDate, endDate,
+                "서울시 성북구", "서울시 중랑구", "민경혁", 2L));
+
+
+        //when
+        given(applicationService.getIntermediaryProgressingApplications(anyString(), any())).willReturn(response);
+        ResultActions result = mockMvc.perform(
+                get("/intermediaries/applications/progressing")
+        );
+
+        //then
+        result.andExpect(status().isOk());
+        verify(applicationService, times(1)).getIntermediaryProgressingApplications(anyString(), any());
     }
 
 }
