@@ -3,8 +3,8 @@ package com.pawwithu.connectdog.domain.application.controller;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.pawwithu.connectdog.domain.application.dto.request.VolunteerApplyRequest;
 import com.pawwithu.connectdog.domain.application.dto.response.ApplicationGetOneResponse;
-import com.pawwithu.connectdog.domain.application.dto.response.ApplicationProgressingResponse;
-import com.pawwithu.connectdog.domain.application.dto.response.ApplicationWaitingResponse;
+import com.pawwithu.connectdog.domain.application.dto.response.ApplicationVolunteerProgressingResponse;
+import com.pawwithu.connectdog.domain.application.dto.response.ApplicationVolunteerWaitingResponse;
 import com.pawwithu.connectdog.domain.application.service.ApplicationService;
 import com.pawwithu.connectdog.utils.TestUserArgumentResolver;
 import org.junit.jupiter.api.BeforeEach;
@@ -72,45 +72,45 @@ class ApplicationControllerTest {
     @Test
     void 이동봉사_승인_대기중_목록_조회() throws Exception {
         //given
-        List<ApplicationWaitingResponse> response = new ArrayList<>();
+        List<ApplicationVolunteerWaitingResponse> response = new ArrayList<>();
         LocalDate startDate = LocalDate.of(2023, 10, 2);
         LocalDate endDate = LocalDate.of(2023, 11, 7);
-        response.add(new ApplicationWaitingResponse(1L, "image1", "서울시 성북구", "서울시 중랑구",
+        response.add(new ApplicationVolunteerWaitingResponse(1L, "image1", "서울시 성북구", "서울시 중랑구",
                 startDate, endDate, "이동봉사 중개", true, 1L));
-        response.add(new ApplicationWaitingResponse(2L, "image2", "서울시 성북구", "서울시 중랑구",
+        response.add(new ApplicationVolunteerWaitingResponse(2L, "image2", "서울시 성북구", "서울시 중랑구",
                 startDate, endDate, "이동봉사 중개", false, 2L));
 
         //when
-        given(applicationService.getWaitingApplications(anyString(), any())).willReturn(response);
+        given(applicationService.getVolunteerWaitingApplications(anyString(), any())).willReturn(response);
         ResultActions result = mockMvc.perform(
                 get("/volunteers/applications/waiting")
         );
 
         //then
         result.andExpect(status().isOk());
-        verify(applicationService, times(1)).getWaitingApplications(anyString(), any());
+        verify(applicationService, times(1)).getVolunteerWaitingApplications(anyString(), any());
     }
 
     @Test
     void 이동봉사_진행중_목록_조회() throws Exception {
         //given
-        List<ApplicationProgressingResponse> response = new ArrayList<>();
+        List<ApplicationVolunteerProgressingResponse> response = new ArrayList<>();
         LocalDate startDate = LocalDate.of(2023, 10, 2);
         LocalDate endDate = LocalDate.of(2023, 11, 7);
-        response.add(new ApplicationProgressingResponse(1L, "image1", "서울시 성북구", "서울시 중랑구",
+        response.add(new ApplicationVolunteerProgressingResponse(1L, "image1", "서울시 성북구", "서울시 중랑구",
                 startDate, endDate, "이동봉사 중개", true));
-        response.add(new ApplicationProgressingResponse(2L, "image2", "서울시 성북구", "서울시 중랑구",
+        response.add(new ApplicationVolunteerProgressingResponse(2L, "image2", "서울시 성북구", "서울시 중랑구",
                 startDate, endDate, "이동봉사 중개", false));
 
         //when
-        given(applicationService.getProgressingApplications(anyString(), any())).willReturn(response);
+        given(applicationService.getVolunteerProgressingApplications(anyString(), any())).willReturn(response);
         ResultActions result = mockMvc.perform(
                 get("/volunteers/applications/progressing")
         );
 
         //then
         result.andExpect(status().isOk());
-        verify(applicationService, times(1)).getProgressingApplications(anyString(), any());
+        verify(applicationService, times(1)).getVolunteerProgressingApplications(anyString(), any());
     }
 
     @Test
