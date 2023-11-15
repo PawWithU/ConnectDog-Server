@@ -1,7 +1,7 @@
 package com.pawwithu.connectdog.domain.application.repository.impl;
 
-import com.pawwithu.connectdog.domain.application.dto.response.ApplicationProgressingResponse;
-import com.pawwithu.connectdog.domain.application.dto.response.ApplicationWaitingResponse;
+import com.pawwithu.connectdog.domain.application.dto.response.ApplicationVolunteerProgressingResponse;
+import com.pawwithu.connectdog.domain.application.dto.response.ApplicationVolunteerWaitingResponse;
 import com.pawwithu.connectdog.domain.application.entity.Application;
 import com.pawwithu.connectdog.domain.application.entity.ApplicationStatus;
 import com.pawwithu.connectdog.domain.application.repository.CustomApplicationRepository;
@@ -28,9 +28,9 @@ public class CustomApplicationRepositoryImpl implements CustomApplicationReposit
     private final JPAQueryFactory queryFactory;
 
     @Override
-    public List<ApplicationWaitingResponse> getWaitingApplications(Long volunteerId, Pageable pageable) {
+    public List<ApplicationVolunteerWaitingResponse> getVolunteerWaitingApplications(Long volunteerId, Pageable pageable) {
         return queryFactory
-                .select(Projections.constructor(ApplicationWaitingResponse.class,
+                .select(Projections.constructor(ApplicationVolunteerWaitingResponse.class,
                         post.id, postImage.image, post.departureLoc, post.arrivalLoc, post.startDate, post.endDate,
                         intermediary.name, post.isKennel, application.id))
                 .from(application)
@@ -46,9 +46,9 @@ public class CustomApplicationRepositoryImpl implements CustomApplicationReposit
     }
 
     @Override
-    public List<ApplicationProgressingResponse> getProgressingApplications(Long volunteerId, Pageable pageable) {
+    public List<ApplicationVolunteerProgressingResponse> getVolunteerProgressingApplications(Long volunteerId, Pageable pageable) {
         return queryFactory
-                .select(Projections.constructor(ApplicationProgressingResponse.class,
+                .select(Projections.constructor(ApplicationVolunteerProgressingResponse.class,
                         post.id, postImage.image, post.departureLoc, post.arrivalLoc, post.startDate, post.endDate,
                         intermediary.name, post.isKennel))
                 .from(application)

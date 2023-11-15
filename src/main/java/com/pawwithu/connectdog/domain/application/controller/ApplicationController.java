@@ -2,8 +2,8 @@ package com.pawwithu.connectdog.domain.application.controller;
 
 import com.pawwithu.connectdog.domain.application.dto.request.VolunteerApplyRequest;
 import com.pawwithu.connectdog.domain.application.dto.response.ApplicationGetOneResponse;
-import com.pawwithu.connectdog.domain.application.dto.response.ApplicationProgressingResponse;
-import com.pawwithu.connectdog.domain.application.dto.response.ApplicationWaitingResponse;
+import com.pawwithu.connectdog.domain.application.dto.response.ApplicationVolunteerProgressingResponse;
+import com.pawwithu.connectdog.domain.application.dto.response.ApplicationVolunteerWaitingResponse;
 import com.pawwithu.connectdog.domain.application.service.ApplicationService;
 import com.pawwithu.connectdog.error.dto.ErrorResponse;
 import io.swagger.v3.oas.annotations.Operation;
@@ -53,9 +53,9 @@ public class ApplicationController {
                     , content = @Content(schema = @Schema(implementation = ErrorResponse.class)))
             })
     @GetMapping( "/volunteers/applications/waiting")
-    public ResponseEntity<List<ApplicationWaitingResponse>> getWaitingApplications(@AuthenticationPrincipal UserDetails loginUser,
-                                                                           Pageable pageable) {
-        List<ApplicationWaitingResponse> response = applicationService.getWaitingApplications(loginUser.getUsername(), pageable);
+    public ResponseEntity<List<ApplicationVolunteerWaitingResponse>> getVolunteerWaitingApplications(@AuthenticationPrincipal UserDetails loginUser,
+                                                                                                     Pageable pageable) {
+        List<ApplicationVolunteerWaitingResponse> response = applicationService.getVolunteerWaitingApplications(loginUser.getUsername(), pageable);
         return ResponseEntity.ok(response);
     }
 
@@ -66,9 +66,9 @@ public class ApplicationController {
                     , content = @Content(schema = @Schema(implementation = ErrorResponse.class)))
             })
     @GetMapping( "/volunteers/applications/progressing")
-    public ResponseEntity<List<ApplicationProgressingResponse>> getProgressingApplications(@AuthenticationPrincipal UserDetails loginUser,
-                                                                                           Pageable pageable) {
-        List<ApplicationProgressingResponse> response = applicationService.getProgressingApplications(loginUser.getUsername(), pageable);
+    public ResponseEntity<List<ApplicationVolunteerProgressingResponse>> getVolunteerProgressingApplications(@AuthenticationPrincipal UserDetails loginUser,
+                                                                                                             Pageable pageable) {
+        List<ApplicationVolunteerProgressingResponse> response = applicationService.getVolunteerProgressingApplications(loginUser.getUsername(), pageable);
         return ResponseEntity.ok(response);
     }
 

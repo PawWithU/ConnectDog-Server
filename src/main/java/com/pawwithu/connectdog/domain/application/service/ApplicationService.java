@@ -2,8 +2,8 @@ package com.pawwithu.connectdog.domain.application.service;
 
 import com.pawwithu.connectdog.domain.application.dto.request.VolunteerApplyRequest;
 import com.pawwithu.connectdog.domain.application.dto.response.ApplicationGetOneResponse;
-import com.pawwithu.connectdog.domain.application.dto.response.ApplicationProgressingResponse;
-import com.pawwithu.connectdog.domain.application.dto.response.ApplicationWaitingResponse;
+import com.pawwithu.connectdog.domain.application.dto.response.ApplicationVolunteerProgressingResponse;
+import com.pawwithu.connectdog.domain.application.dto.response.ApplicationVolunteerWaitingResponse;
 import com.pawwithu.connectdog.domain.application.entity.Application;
 import com.pawwithu.connectdog.domain.application.entity.ApplicationStatus;
 import com.pawwithu.connectdog.domain.application.repository.ApplicationRepository;
@@ -60,18 +60,18 @@ public class ApplicationService {
     }
 
     @Transactional(readOnly = true)
-    public List<ApplicationWaitingResponse> getWaitingApplications(String email, Pageable pageable) {
+    public List<ApplicationVolunteerWaitingResponse> getVolunteerWaitingApplications(String email, Pageable pageable) {
         // 이동봉사자
         Volunteer volunteer = volunteerRepository.findByEmail(email).orElseThrow(() -> new BadRequestException(VOLUNTEER_NOT_FOUND));
-        List<ApplicationWaitingResponse> waitingApplications = customApplicationRepository.getWaitingApplications(volunteer.getId(), pageable);
+        List<ApplicationVolunteerWaitingResponse> waitingApplications = customApplicationRepository.getVolunteerWaitingApplications(volunteer.getId(), pageable);
         return waitingApplications;
     }
 
     @Transactional(readOnly = true)
-    public List<ApplicationProgressingResponse> getProgressingApplications(String email, Pageable pageable) {
+    public List<ApplicationVolunteerProgressingResponse> getVolunteerProgressingApplications(String email, Pageable pageable) {
         // 이동봉사자
         Volunteer volunteer = volunteerRepository.findByEmail(email).orElseThrow(() -> new BadRequestException(VOLUNTEER_NOT_FOUND));
-        List<ApplicationProgressingResponse> progressingApplications = customApplicationRepository.getProgressingApplications(volunteer.getId(), pageable);
+        List<ApplicationVolunteerProgressingResponse> progressingApplications = customApplicationRepository.getVolunteerProgressingApplications(volunteer.getId(), pageable);
         return progressingApplications;
     }
 
