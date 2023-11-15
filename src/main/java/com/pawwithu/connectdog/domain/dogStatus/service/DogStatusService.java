@@ -2,8 +2,10 @@ package com.pawwithu.connectdog.domain.dogStatus.service;
 
 import com.pawwithu.connectdog.common.s3.FileService;
 import com.pawwithu.connectdog.domain.dogStatus.dto.request.DogStatusCreateRequest;
+import com.pawwithu.connectdog.domain.dogStatus.dto.response.DogStatusGetOneResponse;
 import com.pawwithu.connectdog.domain.dogStatus.entity.DogStatus;
 import com.pawwithu.connectdog.domain.dogStatus.entity.DogStatusImage;
+import com.pawwithu.connectdog.domain.dogStatus.repository.CustomDogStatusRepository;
 import com.pawwithu.connectdog.domain.dogStatus.repository.DogStatusImageRepository;
 import com.pawwithu.connectdog.domain.dogStatus.repository.DogStatusRepository;
 import com.pawwithu.connectdog.domain.intermediary.entity.Intermediary;
@@ -33,6 +35,7 @@ public class DogStatusService {
     private final PostRepository postRepository;
     private final DogStatusRepository dogStatusRepository;
     private final DogStatusImageRepository dogStatusImageRepository;
+    private final CustomDogStatusRepository customDogStatusRepository;
 
     public void createDogStatus(String email, Long postId, DogStatusCreateRequest request, List<MultipartFile> fileList) {
 
@@ -58,5 +61,16 @@ public class DogStatusService {
 
         // 근황 대표 이미지 업데이트
         dogStatus.updateMainImage(dogStatusImages.get(0));
+    }
+
+    @Transactional(readOnly = true)
+    public DogStatusGetOneResponse getOneDogStatus(String email, Long dogStatusId) {
+        Intermediary intermediary = intermediaryRepository.findByEmail(email).orElseThrow(() -> new BadRequestException(INTERMEDIARY_NOT_FOUND));
+        // 근황 조회 (대표 이미지 포함)
+        DogStatusGetOneResponse oneDogStatus = customDogStatusRepository.getOneDogStatus(intermediary.getId(), dogStatusId);
+        // 근황 이미지 조회 (대표 이미지 제외)
+        List<String> oneDogStatusImages = customDogStatusRepository.getOneDogStatusImages(dogStatusId);
+        DogStatusGetOneResponse response = DogStatusGetOneResponse.of(oneDogStatus, oneDogStatusImages);
+        return response;
     }
 }
