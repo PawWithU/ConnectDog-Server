@@ -3,6 +3,7 @@ package com.pawwithu.connectdog.domain.dogStatus.controller;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.pawwithu.connectdog.domain.dogStatus.dto.request.DogStatusCreateRequest;
+import com.pawwithu.connectdog.domain.dogStatus.dto.response.DogStatusGetOneResponse;
 import com.pawwithu.connectdog.domain.dogStatus.service.DogStatusService;
 import com.pawwithu.connectdog.utils.TestUserArgumentResolver;
 import org.junit.jupiter.api.BeforeEach;
@@ -22,10 +23,15 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.filter.CharacterEncodingFilter;
 
 import java.nio.charset.StandardCharsets;
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 import static org.mockito.ArgumentMatchers.*;
+import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @ExtendWith(MockitoExtension.class)
@@ -67,5 +73,29 @@ class DogStatusControllerTest {
         // then
         result.andExpect(status().isNoContent());
         verify(dogStatusService, times(1)).createDogStatus(anyString(), anyLong(), any(), any());
+    }
+
+    @Test
+    void 근황_조회() throws Exception {
+        // given
+        Long dogStatusId = 1L;
+        LocalDate startDate = LocalDate.of(2023, 10, 2);
+        LocalDate endDate = LocalDate.of(2023, 11, 7);
+        List<String> images = new ArrayList<>();
+        images.add("image1");
+        images.add("image2");
+
+        DogStatusGetOneResponse response = new DogStatusGetOneResponse("겨울이", "호짱", "mainImage", images, startDate, endDate,
+                "서울시 노원구", "서울시 성북구", "근황 조회 테스트입니다.");
+
+        // when
+        given(dogStatusService.getOneDogStatus(anyString(), anyLong())).willReturn(response);
+        ResultActions result = mockMvc.perform(
+                get("/intermediaries/dogStatus/{dogStatusId}", dogStatusId)
+        );
+
+        // then
+        result.andExpect(status().isOk());
+        verify(dogStatusService, times(1)).getOneDogStatus(anyString(), anyLong());
     }
 }
