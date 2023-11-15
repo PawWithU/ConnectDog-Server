@@ -98,4 +98,30 @@ public class ApplicationController {
         return ResponseEntity.noContent().build();
     }
 
+    @Operation(summary = "봉사 관리 - 승인 대기중 - 이동봉사자 확인 - 봉사 신청 확정", description = "이동봉사자의 봉사 신청을 확정합니다.",
+            responses = {@ApiResponse(responseCode = "204", description = "봉사 신청 확정 성공")
+                    , @ApiResponse(responseCode = "400"
+                    , description = "M2, 해당 이동봉사 중개를 찾을 수 없습니다. \t\n AP2, 해당 신청 내역을 찾을 수 없습니다."
+                    , content = @Content(schema = @Schema(implementation = ErrorResponse.class)))
+            })
+    @PatchMapping( "/intermediaries/applications/{applicationId}")
+    public ResponseEntity<Void> confirmApplication(@AuthenticationPrincipal UserDetails loginUser,
+                                                  @PathVariable Long applicationId) {
+        applicationService.confirmApplication(loginUser.getUsername(), applicationId);
+        return ResponseEntity.noContent().build();
+    }
+
+    @Operation(summary = "봉사 관리 - 승인 대기중 - 이동봉사자 확인 - 봉사 신청 반려", description = "이동봉사자의 봉사 신청을 반려합니다.",
+            responses = {@ApiResponse(responseCode = "204", description = "봉사 신청 반려 성공")
+                    , @ApiResponse(responseCode = "400"
+                    , description = "M2, 해당 이동봉사 중개를 찾을 수 없습니다. \t\n AP2, 해당 신청 내역을 찾을 수 없습니다."
+                    , content = @Content(schema = @Schema(implementation = ErrorResponse.class)))
+            })
+    @DeleteMapping( "/intermediaries/applications/{applicationId}")
+    public ResponseEntity<Void> cancelApplication(@AuthenticationPrincipal UserDetails loginUser,
+                                                   @PathVariable Long applicationId) {
+        applicationService.cancelApplication(loginUser.getUsername(), applicationId);
+        return ResponseEntity.noContent().build();
+    }
+
 }

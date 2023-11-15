@@ -5,9 +5,11 @@ import com.pawwithu.connectdog.domain.application.dto.response.ApplicationGetOne
 import com.pawwithu.connectdog.domain.application.dto.response.ApplicationProgressingResponse;
 import com.pawwithu.connectdog.domain.application.dto.response.ApplicationWaitingResponse;
 import com.pawwithu.connectdog.domain.application.entity.Application;
+import com.pawwithu.connectdog.domain.application.entity.ApplicationStatus;
 import com.pawwithu.connectdog.domain.application.repository.ApplicationRepository;
 import com.pawwithu.connectdog.domain.application.repository.CustomApplicationRepository;
 import com.pawwithu.connectdog.domain.intermediary.entity.Intermediary;
+import com.pawwithu.connectdog.domain.intermediary.repository.IntermediaryRepository;
 import com.pawwithu.connectdog.domain.post.entity.Post;
 import com.pawwithu.connectdog.domain.post.entity.PostStatus;
 import com.pawwithu.connectdog.domain.post.repository.PostRepository;
@@ -34,6 +36,7 @@ public class ApplicationService {
     private final PostRepository postRepository;
     private final ApplicationRepository applicationRepository;
     private final CustomApplicationRepository customApplicationRepository;
+    private final IntermediaryRepository intermediaryRepository;
 
     public void volunteerApply(String email, Long postId, VolunteerApplyRequest request) {
         // 이동봉사자
@@ -88,7 +91,29 @@ public class ApplicationService {
         // 신청 내역 + post
         Application application = customApplicationRepository.findByIdAndVolunteerIdWithPost(applicationId, volunteer.getId()).orElseThrow(() -> new BadRequestException(APPLICATION_NOT_FOUND));
         applicationRepository.delete(application);
-        // 신청 취소 시: 공고 승인 대기중 -> 모집중
+        // 상태 업데이트 (승인 대기중 -> 모집중)
+        Post post = application.getPost();
+        post.updateStatus(PostStatus.RECRUITING);
+    }
+
+    public void confirmApplication(String email, Long applicationId) {
+        // 이동봉사 중개
+        Intermediary intermediary = intermediaryRepository.findByEmail(email).orElseThrow(() -> new BadRequestException(INTERMEDIARY_NOT_FOUND));
+        // 신청 내역 + post
+        Application application = customApplicationRepository.findByIdAndIntermediaryIdWithPost(applicationId, intermediary.getId()).orElseThrow(() -> new BadRequestException(APPLICATION_NOT_FOUND));
+        Post post = application.getPost();
+        // 상태 업데이트 (승인 대기중 -> 진행중)
+        application.updateStatus(ApplicationStatus.PROGRESSING);
+        post.updateStatus(PostStatus.PROGRESSING);
+    }
+
+    public void cancelApplication(String email, Long applicationId) {
+        // 이동봉사 중개
+        Intermediary intermediary = intermediaryRepository.findByEmail(email).orElseThrow(() -> new BadRequestException(INTERMEDIARY_NOT_FOUND));
+        // 신청 내역 + post
+        Application application = customApplicationRepository.findByIdAndIntermediaryIdWithPost(applicationId, intermediary.getId()).orElseThrow(() -> new BadRequestException(APPLICATION_NOT_FOUND));
+        applicationRepository.delete(application);
+        // 상태 업데이트 (승인 대기중 -> 모집중)
         Post post = application.getPost();
         post.updateStatus(PostStatus.RECRUITING);
     }
