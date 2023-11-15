@@ -1,10 +1,7 @@
 package com.pawwithu.connectdog.domain.application.service;
 
 import com.pawwithu.connectdog.domain.application.dto.request.VolunteerApplyRequest;
-import com.pawwithu.connectdog.domain.application.dto.response.ApplicationGetOneResponse;
-import com.pawwithu.connectdog.domain.application.dto.response.ApplicationIntermediaryWaitingResponse;
-import com.pawwithu.connectdog.domain.application.dto.response.ApplicationVolunteerProgressingResponse;
-import com.pawwithu.connectdog.domain.application.dto.response.ApplicationVolunteerWaitingResponse;
+import com.pawwithu.connectdog.domain.application.dto.response.*;
 import com.pawwithu.connectdog.domain.application.entity.Application;
 import com.pawwithu.connectdog.domain.application.entity.ApplicationStatus;
 import com.pawwithu.connectdog.domain.application.repository.ApplicationRepository;
@@ -124,5 +121,12 @@ public class ApplicationService {
         Intermediary intermediary = intermediaryRepository.findByEmail(email).orElseThrow(() -> new BadRequestException(INTERMEDIARY_NOT_FOUND));
         List<ApplicationIntermediaryWaitingResponse> waitingApplications = customApplicationRepository.getIntermediaryWaitingApplications(intermediary.getId(), pageable);
         return waitingApplications;
+    }
+
+    public List<ApplicationIntermediaryProgressingResponse> getIntermediaryProgressingApplications(String email, Pageable pageable) {
+        // 이동봉사 중개
+        Intermediary intermediary = intermediaryRepository.findByEmail(email).orElseThrow(() -> new BadRequestException(INTERMEDIARY_NOT_FOUND));
+        List<ApplicationIntermediaryProgressingResponse> progressingApplications = customApplicationRepository.getIntermediaryProgressingApplications(intermediary.getId(), pageable);
+        return progressingApplications;
     }
 }

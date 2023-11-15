@@ -1,5 +1,6 @@
 package com.pawwithu.connectdog.domain.application.repository.impl;
 
+import com.pawwithu.connectdog.domain.application.dto.response.ApplicationIntermediaryProgressingResponse;
 import com.pawwithu.connectdog.domain.application.dto.response.ApplicationIntermediaryWaitingResponse;
 import com.pawwithu.connectdog.domain.application.dto.response.ApplicationVolunteerProgressingResponse;
 import com.pawwithu.connectdog.domain.application.dto.response.ApplicationVolunteerWaitingResponse;
@@ -42,7 +43,7 @@ public class CustomApplicationRepositoryImpl implements CustomApplicationReposit
                 .join(application.post.mainImage, postImage)
                 .where(application.status.eq(ApplicationStatus.WAITING)
                         .and(application.volunteer.id.eq(volunteerId)))
-                .orderBy(application.createdDate.desc())
+                .orderBy(application.createdDate.desc())    // 신청 최신순
                 .offset(pageable.getOffset())   // 페이지 번호
                 .limit(pageable.getPageSize())  // 페이지 사이즈
                 .fetch();
@@ -60,7 +61,7 @@ public class CustomApplicationRepositoryImpl implements CustomApplicationReposit
                 .join(application.post.mainImage, postImage)
                 .where(application.status.eq(ApplicationStatus.PROGRESSING)
                         .and(application.volunteer.id.eq(volunteerId)))
-                .orderBy(application.createdDate.desc())
+                .orderBy(application.modifiedDate.desc())   // 신청 확정 최신순
                 .offset(pageable.getOffset())   // 페이지 번호
                 .limit(pageable.getPageSize())  // 페이지 사이즈
                 .fetch();
@@ -101,7 +102,26 @@ public class CustomApplicationRepositoryImpl implements CustomApplicationReposit
                 .join(application.volunteer, volunteer)
                 .where(application.status.eq(ApplicationStatus.WAITING)
                         .and(application.intermediary.id.eq(intermediaryId)))
-                .orderBy(application.createdDate.desc())
+                .orderBy(application.createdDate.desc())    // 신청 최신순
+                .offset(pageable.getOffset())   // 페이지 번호
+                .limit(pageable.getPageSize())  // 페이지 사이즈
+                .fetch();
+    }
+
+    @Override
+    public List<ApplicationIntermediaryProgressingResponse> getIntermediaryProgressingApplications(Long intermediaryId, Pageable pageable) {
+        return queryFactory
+                .select(Projections.constructor(ApplicationIntermediaryProgressingResponse.class,
+                        post.id, postImage.image, dog.name, post.startDate, post.endDate,
+                        post.departureLoc, post.arrivalLoc, volunteer.name, application.id))
+                .from(application)
+                .join(application.post, post)
+                .join(application.post.mainImage, postImage)
+                .join(application.post.dog, dog)
+                .join(application.volunteer, volunteer)
+                .where(application.status.eq(ApplicationStatus.PROGRESSING)
+                        .and(application.intermediary.id.eq(intermediaryId)))
+                .orderBy(application.modifiedDate.desc())   // 신청 확정 최신순
                 .offset(pageable.getOffset())   // 페이지 번호
                 .limit(pageable.getPageSize())  // 페이지 사이즈
                 .fetch();
