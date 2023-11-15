@@ -2,6 +2,7 @@ package com.pawwithu.connectdog.domain.application.controller;
 
 import com.pawwithu.connectdog.domain.application.dto.request.VolunteerApplyRequest;
 import com.pawwithu.connectdog.domain.application.dto.response.ApplicationGetOneResponse;
+import com.pawwithu.connectdog.domain.application.dto.response.ApplicationIntermediaryWaitingResponse;
 import com.pawwithu.connectdog.domain.application.dto.response.ApplicationVolunteerProgressingResponse;
 import com.pawwithu.connectdog.domain.application.dto.response.ApplicationVolunteerWaitingResponse;
 import com.pawwithu.connectdog.domain.application.service.ApplicationService;
@@ -123,5 +124,19 @@ public class ApplicationController {
         applicationService.cancelApplication(loginUser.getUsername(), applicationId);
         return ResponseEntity.noContent().build();
     }
+
+    @Operation(summary = "봉사 관리 - 승인 대기중 목록 조회", description = "이동봉사 승인 대기중 목록을 조회합니다.",
+            responses = {@ApiResponse(responseCode = "200", description = "이동봉사 승인 대기중 목록 조회 성공")
+                    , @ApiResponse(responseCode = "400"
+                    , description = "M1, 해당 이동봉사자를 찾을 수 없습니다."
+                    , content = @Content(schema = @Schema(implementation = ErrorResponse.class)))
+            })
+    @GetMapping( "/intermediaries/applications/waiting")
+    public ResponseEntity<List<ApplicationIntermediaryWaitingResponse>> getIntermediaryWaitingApplications(@AuthenticationPrincipal UserDetails loginUser,
+                                                                                                           Pageable pageable) {
+        List<ApplicationIntermediaryWaitingResponse> response = applicationService.getIntermediaryWaitingApplications(loginUser.getUsername(), pageable);
+        return ResponseEntity.ok(response);
+    }
+
 
 }

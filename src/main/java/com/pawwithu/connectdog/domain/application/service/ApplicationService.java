@@ -2,6 +2,7 @@ package com.pawwithu.connectdog.domain.application.service;
 
 import com.pawwithu.connectdog.domain.application.dto.request.VolunteerApplyRequest;
 import com.pawwithu.connectdog.domain.application.dto.response.ApplicationGetOneResponse;
+import com.pawwithu.connectdog.domain.application.dto.response.ApplicationIntermediaryWaitingResponse;
 import com.pawwithu.connectdog.domain.application.dto.response.ApplicationVolunteerProgressingResponse;
 import com.pawwithu.connectdog.domain.application.dto.response.ApplicationVolunteerWaitingResponse;
 import com.pawwithu.connectdog.domain.application.entity.Application;
@@ -116,5 +117,12 @@ public class ApplicationService {
         // 상태 업데이트 (승인 대기중 -> 모집중)
         Post post = application.getPost();
         post.updateStatus(PostStatus.RECRUITING);
+    }
+
+    public List<ApplicationIntermediaryWaitingResponse> getIntermediaryWaitingApplications(String email, Pageable pageable) {
+        // 이동봉사 중개
+        Intermediary intermediary = intermediaryRepository.findByEmail(email).orElseThrow(() -> new BadRequestException(INTERMEDIARY_NOT_FOUND));
+        List<ApplicationIntermediaryWaitingResponse> waitingApplications = customApplicationRepository.getIntermediaryWaitingApplications(intermediary.getId(), pageable);
+        return waitingApplications;
     }
 }

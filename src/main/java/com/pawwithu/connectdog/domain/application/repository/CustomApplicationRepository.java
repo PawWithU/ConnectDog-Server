@@ -1,5 +1,6 @@
 package com.pawwithu.connectdog.domain.application.repository;
 
+import com.pawwithu.connectdog.domain.application.dto.response.ApplicationIntermediaryWaitingResponse;
 import com.pawwithu.connectdog.domain.application.dto.response.ApplicationVolunteerProgressingResponse;
 import com.pawwithu.connectdog.domain.application.dto.response.ApplicationVolunteerWaitingResponse;
 import com.pawwithu.connectdog.domain.application.entity.Application;
@@ -14,4 +15,5 @@ public interface CustomApplicationRepository {
     List<ApplicationVolunteerProgressingResponse> getVolunteerProgressingApplications(Long volunteerId, Pageable pageable);
     Optional<Application> findByIdAndVolunteerIdWithPost(Long applicationId, Long volunteerId);
     Optional<Application> findByIdAndIntermediaryIdWithPost(Long applicationId, Long intermediaryId);
+    List<ApplicationIntermediaryWaitingResponse> getIntermediaryWaitingApplications(Long intermediaryId, Pageable pageable);
 }

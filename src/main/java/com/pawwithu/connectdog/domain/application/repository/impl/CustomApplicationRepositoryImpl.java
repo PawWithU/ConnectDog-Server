@@ -1,5 +1,6 @@
 package com.pawwithu.connectdog.domain.application.repository.impl;
 
+import com.pawwithu.connectdog.domain.application.dto.response.ApplicationIntermediaryWaitingResponse;
 import com.pawwithu.connectdog.domain.application.dto.response.ApplicationVolunteerProgressingResponse;
 import com.pawwithu.connectdog.domain.application.dto.response.ApplicationVolunteerWaitingResponse;
 import com.pawwithu.connectdog.domain.application.entity.Application;
@@ -16,9 +17,11 @@ import java.util.List;
 import java.util.Optional;
 
 import static com.pawwithu.connectdog.domain.application.entity.QApplication.application;
+import static com.pawwithu.connectdog.domain.dog.entity.QDog.dog;
 import static com.pawwithu.connectdog.domain.intermediary.entity.QIntermediary.intermediary;
 import static com.pawwithu.connectdog.domain.post.entity.QPost.post;
 import static com.pawwithu.connectdog.domain.post.entity.QPostImage.postImage;
+import static com.pawwithu.connectdog.domain.volunteer.entity.QVolunteer.volunteer;
 
 @Repository
 @RequiredArgsConstructor
@@ -83,5 +86,24 @@ public class CustomApplicationRepositoryImpl implements CustomApplicationReposit
                 .where(application.id.eq(applicationId)
                         .and(application.intermediary.id.eq(intermediaryId)))
                 .fetchOne());
+    }
+
+    @Override
+    public List<ApplicationIntermediaryWaitingResponse> getIntermediaryWaitingApplications(Long intermediaryId, Pageable pageable) {
+        return queryFactory
+                .select(Projections.constructor(ApplicationIntermediaryWaitingResponse.class,
+                        post.id, postImage.image, dog.name, post.startDate, post.endDate,
+                        post.departureLoc, post.arrivalLoc, volunteer.name, application.id))
+                .from(application)
+                .join(application.post, post)
+                .join(application.post.mainImage, postImage)
+                .join(application.post.dog, dog)
+                .join(application.volunteer, volunteer)
+                .where(application.status.eq(ApplicationStatus.WAITING)
+                        .and(application.intermediary.id.eq(intermediaryId)))
+                .orderBy(application.createdDate.desc())
+                .offset(pageable.getOffset())   // 페이지 번호
+                .limit(pageable.getPageSize())  // 페이지 사이즈
+                .fetch();
     }
 }
