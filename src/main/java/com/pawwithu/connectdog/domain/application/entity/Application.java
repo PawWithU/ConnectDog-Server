@@ -47,4 +47,8 @@ public class Application extends BaseTimeEntity {
         this.intermediary = intermediary;
         this.volunteer = volunteer;
     }
+
+    public void updateStatus(ApplicationStatus status) {
+        this.status = status;
+    }
 }

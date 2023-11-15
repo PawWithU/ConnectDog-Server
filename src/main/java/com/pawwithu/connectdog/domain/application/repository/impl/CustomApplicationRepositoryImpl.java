@@ -73,4 +73,15 @@ public class CustomApplicationRepositoryImpl implements CustomApplicationReposit
                         .and(application.volunteer.id.eq(volunteerId)))
                 .fetchOne());
     }
+
+    @Override
+    public Optional<Application> findByIdAndIntermediaryIdWithPost(Long applicationId, Long intermediaryId) {
+        return Optional.ofNullable(queryFactory
+                .select(application)
+                .from(application)
+                .join(application.post, post).fetchJoin()
+                .where(application.id.eq(applicationId)
+                        .and(application.intermediary.id.eq(intermediaryId)))
+                .fetchOne());
+    }
 }
