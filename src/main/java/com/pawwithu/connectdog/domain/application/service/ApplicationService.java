@@ -91,7 +91,7 @@ public class ApplicationService {
         // 신청 내역 + post
         Application application = customApplicationRepository.findByIdAndVolunteerIdWithPost(applicationId, volunteer.getId()).orElseThrow(() -> new BadRequestException(APPLICATION_NOT_FOUND));
         applicationRepository.delete(application);
-        // 신청 취소 시: 공고 승인 대기중 -> 모집중
+        // 상태 업데이트 (승인 대기중 -> 모집중)
         Post post = application.getPost();
         post.updateStatus(PostStatus.RECRUITING);
     }
@@ -105,5 +105,16 @@ public class ApplicationService {
         // 상태 업데이트 (승인 대기중 -> 진행중)
         application.updateStatus(ApplicationStatus.PROGRESSING);
         post.updateStatus(PostStatus.PROGRESSING);
+    }
+
+    public void cancelApplication(String email, Long applicationId) {
+        // 이동봉사 중개
+        Intermediary intermediary = intermediaryRepository.findByEmail(email).orElseThrow(() -> new BadRequestException(INTERMEDIARY_NOT_FOUND));
+        // 신청 내역 + post
+        Application application = customApplicationRepository.findByIdAndIntermediaryIdWithPost(applicationId, intermediary.getId()).orElseThrow(() -> new BadRequestException(APPLICATION_NOT_FOUND));
+        applicationRepository.delete(application);
+        // 상태 업데이트 (승인 대기중 -> 모집중)
+        Post post = application.getPost();
+        post.updateStatus(PostStatus.RECRUITING);
     }
 }
