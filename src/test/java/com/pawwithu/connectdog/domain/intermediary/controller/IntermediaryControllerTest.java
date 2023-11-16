@@ -105,6 +105,8 @@ class IntermediaryControllerTest {
         images.add("image1");
         images.add("image2");
 
+        response.add(new IntermediaryGetReviewsResponse("봄이", "호짱", "mainImage", images, startDate, endDate,
+                "서울시 노원구", "서울시 성북구", "이동봉사 중개", "후기 조회 테스트입니다."));
         response.add(new IntermediaryGetReviewsResponse("겨울이", "호짱", "mainImage", images, startDate, endDate,
                 "서울시 노원구", "서울시 성북구", "이동봉사 중개", "후기 조회 테스트입니다."));
 
