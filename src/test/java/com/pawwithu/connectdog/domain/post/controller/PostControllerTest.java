@@ -93,9 +93,9 @@ class PostControllerTest {
         List<PostGetHomeResponse> response = new ArrayList<>();
         LocalDate startDate = LocalDate.of(2023, 10, 2);
         LocalDate endDate = LocalDate.of(2023, 11, 7);
-        response.add(new PostGetHomeResponse("image1", "서울시 성북구", "서울시 중랑구",
+        response.add(new PostGetHomeResponse(1L, "image1", "서울시 성북구", "서울시 중랑구",
                 startDate, endDate, "이동봉사 중개", true));
-        response.add(new PostGetHomeResponse("image2", "서울시 성북구", "서울시 중랑구",
+        response.add(new PostGetHomeResponse(2L, "image2", "서울시 성북구", "서울시 중랑구",
                 startDate, endDate, "이동봉사 중개", false));
 
         //when
@@ -116,9 +116,9 @@ class PostControllerTest {
         List<PostSearchResponse> response = new ArrayList<>();
         LocalDate startDate = LocalDate.of(2023, 10, 2);
         LocalDate endDate = LocalDate.of(2023, 11, 7);
-        response.add(new PostSearchResponse("image1", "서울시 성북구", "서울시 중랑구",
+        response.add(new PostSearchResponse(1L, "image1", "서울시 성북구", "서울시 중랑구",
                 startDate, endDate, "이동봉사 중개", true));
-        response.add(new PostSearchResponse("image2", "서울시 성북구", "서울시 중랑구",
+        response.add(new PostSearchResponse(2L, "image2", "서울시 성북구", "서울시 중랑구",
                 startDate, endDate, "이동봉사 중개", false));
 
 
@@ -153,7 +153,7 @@ class PostControllerTest {
         List<String> images = new ArrayList<>();
         images.add("image1");
         images.add("image2");
-        PostGetOneResponse response = new PostGetOneResponse("mainImage", images, "모집중", "서울시 성북구", "서울시 중랑구",
+        PostGetOneResponse response = new PostGetOneResponse(1L, "mainImage", images, "모집중", "서울시 성북구", "서울시 중랑구",
                 startDate, endDate, "12:00", true, "이동봉사 공고", "봄이", DogSize.SMALL.getKey(),
                 DogGender.FEMALE.getKey(), 5.1f, "ㄱㅇㅇ", 1L, "profileImage", "이동봉사 중개", true);
 

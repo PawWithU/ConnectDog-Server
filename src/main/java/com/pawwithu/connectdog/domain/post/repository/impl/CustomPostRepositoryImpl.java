@@ -1,6 +1,7 @@
 package com.pawwithu.connectdog.domain.post.repository.impl;
 
 import com.pawwithu.connectdog.domain.dog.entity.DogSize;
+import com.pawwithu.connectdog.domain.intermediary.dto.response.IntermediaryGetPostsResponse;
 import com.pawwithu.connectdog.domain.post.dto.request.PostSearchRequest;
 import com.pawwithu.connectdog.domain.post.dto.response.PostGetHomeResponse;
 import com.pawwithu.connectdog.domain.post.dto.response.PostGetOneResponse;
@@ -39,7 +40,7 @@ public class CustomPostRepositoryImpl implements CustomPostRepository {
     public List<PostGetHomeResponse> getHomePosts() {
         return queryFactory
                         .select(Projections.constructor(PostGetHomeResponse.class,
-                                postImage.image, post.departureLoc, post.arrivalLoc, post.startDate, post.endDate,
+                                post.id, postImage.image, post.departureLoc, post.arrivalLoc, post.startDate, post.endDate,
                                 intermediary.name, post.isKennel))
                         .from(post)
                         .join(post.intermediary, intermediary)
@@ -55,7 +56,7 @@ public class CustomPostRepositoryImpl implements CustomPostRepository {
 
         return queryFactory
                 .select(Projections.constructor(PostSearchResponse.class,
-                        postImage.image, post.departureLoc, post.arrivalLoc, post.startDate, post.endDate,
+                        post.id, postImage.image, post.departureLoc, post.arrivalLoc, post.startDate, post.endDate,
                         intermediary.name, post.isKennel))
                 .from(post)
                 .join(post.intermediary, intermediary)
@@ -84,7 +85,7 @@ public class CustomPostRepositoryImpl implements CustomPostRepository {
     public PostGetOneResponse getOnePost(Long volunteerId, Long postId) {
         return queryFactory
                 .select(Projections.constructor(PostGetOneResponse.class,
-                        postImage.image, post.status, post.departureLoc, post.arrivalLoc,
+                        post.id, postImage.image, post.status, post.departureLoc, post.arrivalLoc,
                         post.startDate, post.endDate, post.pickUpTime, post.isKennel, post.content,
                         dog.name, dog.size, dog.gender, dog.weight, dog.specifics,
                         intermediary.id, intermediary.profileImage, intermediary.name))
@@ -111,6 +112,24 @@ public class CustomPostRepositoryImpl implements CustomPostRepository {
                 .offset(pageable.getOffset())   // 페이지 번호
                 .limit(pageable.getPageSize())  // 페이지 사이즈
                 .fetch();
+    }
+
+    @Override
+    public List<IntermediaryGetPostsResponse> getIntermediaryPosts(Long intermediaryId, Pageable pageable) {
+        return queryFactory
+                .select(Projections.constructor(IntermediaryGetPostsResponse.class,
+                        post.id, postImage.image, post.departureLoc, post.arrivalLoc, post.startDate, post.endDate,
+                        intermediary.name, post.isKennel))
+                .from(post)
+                .join(post.intermediary, intermediary)
+                .join(post.mainImage, postImage)
+                .where(post.intermediary.id.eq(intermediaryId)
+                        .and(post.status.eq(PostStatus.RECRUITING)))    // 모집중인 공고
+                .orderBy(post.createdDate.desc())   // 최신순
+                .offset(pageable.getOffset())   // 페이지 번호
+                .limit(pageable.getPageSize())  // 페이지 사이즈
+                .fetch();
+
     }
 
     // 모든 필터 검색
