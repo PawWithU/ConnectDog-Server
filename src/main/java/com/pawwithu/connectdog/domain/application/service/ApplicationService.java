@@ -6,11 +6,13 @@ import com.pawwithu.connectdog.domain.application.entity.Application;
 import com.pawwithu.connectdog.domain.application.entity.ApplicationStatus;
 import com.pawwithu.connectdog.domain.application.repository.ApplicationRepository;
 import com.pawwithu.connectdog.domain.application.repository.CustomApplicationRepository;
+import com.pawwithu.connectdog.domain.dogStatus.repository.DogStatusRepository;
 import com.pawwithu.connectdog.domain.intermediary.entity.Intermediary;
 import com.pawwithu.connectdog.domain.intermediary.repository.IntermediaryRepository;
 import com.pawwithu.connectdog.domain.post.entity.Post;
 import com.pawwithu.connectdog.domain.post.entity.PostStatus;
 import com.pawwithu.connectdog.domain.post.repository.PostRepository;
+import com.pawwithu.connectdog.domain.review.repository.ReviewRepository;
 import com.pawwithu.connectdog.domain.volunteer.entity.Volunteer;
 import com.pawwithu.connectdog.domain.volunteer.repository.VolunteerRepository;
 import com.pawwithu.connectdog.error.exception.custom.BadRequestException;
@@ -35,6 +37,8 @@ public class ApplicationService {
     private final ApplicationRepository applicationRepository;
     private final CustomApplicationRepository customApplicationRepository;
     private final IntermediaryRepository intermediaryRepository;
+    private final ReviewRepository reviewRepository;
+    private final DogStatusRepository dogStatusRepository;
 
     public void volunteerApply(String email, Long postId, VolunteerApplyRequest request) {
         // 이동봉사자
@@ -128,5 +132,19 @@ public class ApplicationService {
         Intermediary intermediary = intermediaryRepository.findByEmail(email).orElseThrow(() -> new BadRequestException(INTERMEDIARY_NOT_FOUND));
         List<ApplicationIntermediaryProgressingResponse> progressingApplications = customApplicationRepository.getIntermediaryProgressingApplications(intermediary.getId(), pageable);
         return progressingApplications;
+    }
+
+    public List<ApplicationVolunteerCompletedResponse> getVolunteerCompletedApplications(String email, Pageable pageable) {
+        // 이동봉사자
+        Volunteer volunteer = volunteerRepository.findByEmail(email).orElseThrow(() -> new BadRequestException(VOLUNTEER_NOT_FOUND));
+        List<ApplicationVolunteerCompletedResponse> completedApplications = customApplicationRepository.getVolunteerCompletedApplications(volunteer.getId(), pageable);
+        return completedApplications;
+    }
+
+    public List<ApplicationIntermediaryCompletedResponse> getIntermediaryCompletedApplications(String email, Pageable pageable) {
+        // 이동봉사 중개
+        Intermediary intermediary = intermediaryRepository.findByEmail(email).orElseThrow(() -> new BadRequestException(INTERMEDIARY_NOT_FOUND));
+        List<ApplicationIntermediaryCompletedResponse> completedApplications = customApplicationRepository.getIntermediaryCompletedApplications(intermediary.getId(), pageable);
+        return completedApplications;
     }
 }
