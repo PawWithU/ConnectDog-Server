@@ -78,12 +78,12 @@ public class ApplicationService {
     }
 
     @Transactional(readOnly = true)
-    public ApplicationGetOneResponse getOneApplication(String email, Long applicationId) {
+    public ApplicationVolunteerGetOneResponse getVolunteerOneApplication(String email, Long applicationId) {
         // 이동봉사자
         Volunteer volunteer = volunteerRepository.findByEmail(email).orElseThrow(() -> new BadRequestException(VOLUNTEER_NOT_FOUND));
         // 신청 내역
         Application application = applicationRepository.findByIdAndVolunteerId(applicationId, volunteer.getId()).orElseThrow(() -> new BadRequestException(APPLICATION_NOT_FOUND));
-        ApplicationGetOneResponse oneApplication = ApplicationGetOneResponse.from(application);
+        ApplicationVolunteerGetOneResponse oneApplication = ApplicationVolunteerGetOneResponse.from(application);
         return oneApplication;
     }
 

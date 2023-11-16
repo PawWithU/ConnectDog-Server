@@ -77,9 +77,9 @@ public class ApplicationController {
                     , content = @Content(schema = @Schema(implementation = ErrorResponse.class)))
             })
     @GetMapping( "/volunteers/applications/{applicationId}")
-    public ResponseEntity<ApplicationGetOneResponse> getOneApplication(@AuthenticationPrincipal UserDetails loginUser,
-                                                                       @PathVariable Long applicationId) {
-        ApplicationGetOneResponse response = applicationService.getOneApplication(loginUser.getUsername(), applicationId);
+    public ResponseEntity<ApplicationVolunteerGetOneResponse> getVolunteerOneApplication(@AuthenticationPrincipal UserDetails loginUser,
+                                                                                         @PathVariable Long applicationId) {
+        ApplicationVolunteerGetOneResponse response = applicationService.getVolunteerOneApplication(loginUser.getUsername(), applicationId);
         return ResponseEntity.ok(response);
     }
 
