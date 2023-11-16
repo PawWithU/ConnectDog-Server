@@ -1,5 +1,6 @@
 package com.pawwithu.connectdog.domain.intermediary.controller;
 
+import com.pawwithu.connectdog.domain.intermediary.dto.response.IntermediaryGetDogStatusesResponse;
 import com.pawwithu.connectdog.domain.intermediary.dto.response.IntermediaryGetInfoResponse;
 import com.pawwithu.connectdog.domain.intermediary.dto.response.IntermediaryGetPostsResponse;
 import com.pawwithu.connectdog.domain.intermediary.dto.response.IntermediaryGetReviewsResponse;
@@ -9,6 +10,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
@@ -27,6 +29,7 @@ public class IntermediaryController {
     private final IntermediaryService intermediaryService;
 
     @Operation(summary = "중개 프로필 - 이동봉사 공고 목록 조회", description = "중개 프로필에서 이동봉사 공고 목록을 조회합니다.",
+            security = { @SecurityRequirement(name = "bearer-key") },
             responses = {@ApiResponse(responseCode = "200", description = "이동봉사 공고 목록 조회 성공")
                     , @ApiResponse(responseCode = "400"
                     , description = "M2, 해당 이동봉사 중개를 찾을 수 없습니다."
@@ -40,6 +43,7 @@ public class IntermediaryController {
     }
 
     @Operation(summary = "중개 프로필 - 기본 정보 조회", description = "중개 프로필에서 기본 정보를 조회합니다.",
+            security = { @SecurityRequirement(name = "bearer-key") },
             responses = {@ApiResponse(responseCode = "200", description = "중개 프로필 기본 정보 조회 성공")
                     , @ApiResponse(responseCode = "400"
                     , description = "M2, 해당 이동봉사 중개를 찾을 수 없습니다."
@@ -52,6 +56,7 @@ public class IntermediaryController {
     }
 
     @Operation(summary = "중개 프로필 - 후기 조회", description = "중개 프로필에서 후기를 조회합니다.",
+            security = { @SecurityRequirement(name = "bearer-key") },
             responses = {@ApiResponse(responseCode = "200", description = "중개 프로필 후기 조회 성공")
                     , @ApiResponse(responseCode = "400"
                     , description = "M2, 해당 이동봉사 중개를 찾을 수 없습니다."
@@ -61,6 +66,20 @@ public class IntermediaryController {
     public ResponseEntity<List<IntermediaryGetReviewsResponse>> getIntermediaryReviews(@PathVariable Long intermediaryId,
                                                                                        Pageable pageable) {
         List<IntermediaryGetReviewsResponse> response = intermediaryService.getIntermediaryReviews(intermediaryId, pageable);
+        return ResponseEntity.ok(response);
+    }
+
+    @Operation(summary = "중개 프로필 - 근황 조회", description = "중개 프로필에서 근황을 조회합니다.",
+            security = { @SecurityRequirement(name = "bearer-key") },
+            responses = {@ApiResponse(responseCode = "200", description = "중개 프로필 근황 조회 성공")
+                    , @ApiResponse(responseCode = "400"
+                    , description = "M2, 해당 이동봉사 중개를 찾을 수 없습니다."
+                    , content = @Content(schema = @Schema(implementation = ErrorResponse.class)))
+            })
+    @GetMapping("/volunteers/intermediaries/{intermediaryId}/dogStatuses")
+    public ResponseEntity<List<IntermediaryGetDogStatusesResponse>> getIntermediaryDogStatuses(@PathVariable Long intermediaryId,
+                                                                       Pageable pageable) {
+        List<IntermediaryGetDogStatusesResponse> response = intermediaryService.getIntermediaryDogStatuses(intermediaryId, pageable);
         return ResponseEntity.ok(response);
     }
 }

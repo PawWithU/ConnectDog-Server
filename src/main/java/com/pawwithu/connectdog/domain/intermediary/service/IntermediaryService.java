@@ -1,5 +1,7 @@
 package com.pawwithu.connectdog.domain.intermediary.service;
 
+import com.pawwithu.connectdog.domain.dogStatus.repository.CustomDogStatusRepository;
+import com.pawwithu.connectdog.domain.intermediary.dto.response.IntermediaryGetDogStatusesResponse;
 import com.pawwithu.connectdog.domain.intermediary.dto.response.IntermediaryGetInfoResponse;
 import com.pawwithu.connectdog.domain.intermediary.dto.response.IntermediaryGetPostsResponse;
 import com.pawwithu.connectdog.domain.intermediary.dto.response.IntermediaryGetReviewsResponse;
@@ -27,6 +29,7 @@ public class IntermediaryService {
     private final IntermediaryRepository intermediaryRepository;
     private final CustomPostRepository customPostRepository;
     private final CustomReviewRepository customReviewRepository;
+    private final CustomDogStatusRepository customDogStatusRepository;
 
     @Transactional(readOnly = true)
     public List<IntermediaryGetPostsResponse> getIntermediaryPosts(Long intermediaryId, Pageable pageable) {
@@ -55,5 +58,15 @@ public class IntermediaryService {
         }
         List<IntermediaryGetReviewsResponse> intermediaryReviews = customReviewRepository.getIntermediaryReviews(intermediaryId, pageable);
         return intermediaryReviews;
+    }
+
+    @Transactional(readOnly = true)
+    public List<IntermediaryGetDogStatusesResponse> getIntermediaryDogStatuses(Long intermediaryId, Pageable pageable) {
+        // 이동봉사 중개
+        if (!intermediaryRepository.existsById(intermediaryId)){
+            throw new BadRequestException(INTERMEDIARY_NOT_FOUND);
+        }
+        List<IntermediaryGetDogStatusesResponse> intermediaryDogStatuses = customDogStatusRepository.getIntermediaryDogStatuses(intermediaryId, pageable);
+        return intermediaryDogStatuses;
     }
 }
