@@ -132,6 +132,17 @@ public class CustomPostRepositoryImpl implements CustomPostRepository {
 
     }
 
+    // 봉사 완료 건수
+    @Override
+    public Long getCountOfCompletedPosts(Long intermediaryId) {
+        return queryFactory
+                .select(post.count())
+                .from(post)
+                .where(post.status.eq(PostStatus.COMPLETED)
+                        .and(post.intermediary.id.eq(intermediaryId)))
+                .fetchOne();
+    }
+
     // 모든 필터 검색
     private BooleanExpression allFilterSearch(PostSearchRequest request, Pageable pageable) {
         return postStatusEq(request.postStatus())
