@@ -145,4 +145,25 @@ public class CustomApplicationRepositoryImpl implements CustomApplicationReposit
                 .limit(pageable.getPageSize())  // 페이지 사이즈
                 .fetch();
     }
+
+    @Override
+    public List<ApplicationIntermediaryCompletedResponse> getIntermediaryCompletedApplications(Long intermediaryId, Pageable pageable) {
+        return queryFactory
+                .select(Projections.constructor(ApplicationIntermediaryCompletedResponse.class,
+                        post.id, postImage.image, dog.name, post.startDate, post.endDate, post.departureLoc, post.arrivalLoc,
+                        volunteer.name, application.id, review.id, dogStatus.id))
+                .from(application)
+                .join(application.post, post)
+                .join(application.post.mainImage, postImage)
+                .join(application.post.dog, dog)
+                .join(application.volunteer, volunteer)
+                .leftJoin(review).on(post.id.eq(review.post.id))
+                .leftJoin(dogStatus).on(post.id.eq(dogStatus.post.id))
+                .where(application.status.eq(ApplicationStatus.COMPLETED)
+                        .and(application.intermediary.id.eq(intermediaryId)))
+                .orderBy(application.modifiedDate.desc())   // 신청 봉사완료 최신순
+                .offset(pageable.getOffset())   // 페이지 번호
+                .limit(pageable.getPageSize())  // 페이지 사이즈
+                .fetch();
+    }
 }

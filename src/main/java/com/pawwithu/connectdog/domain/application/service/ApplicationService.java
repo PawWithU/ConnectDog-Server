@@ -140,4 +140,11 @@ public class ApplicationService {
         List<ApplicationVolunteerCompletedResponse> completedApplications = customApplicationRepository.getVolunteerCompletedApplications(volunteer.getId(), pageable);
         return completedApplications;
     }
+
+    public List<ApplicationIntermediaryCompletedResponse> getIntermediaryCompletedApplications(String email, Pageable pageable) {
+        // 이동봉사 중개
+        Intermediary intermediary = intermediaryRepository.findByEmail(email).orElseThrow(() -> new BadRequestException(INTERMEDIARY_NOT_FOUND));
+        List<ApplicationIntermediaryCompletedResponse> completedApplications = customApplicationRepository.getIntermediaryCompletedApplications(intermediary.getId(), pageable);
+        return completedApplications;
+    }
 }
