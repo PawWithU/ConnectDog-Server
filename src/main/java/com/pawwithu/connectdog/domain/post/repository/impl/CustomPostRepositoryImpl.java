@@ -85,7 +85,7 @@ public class CustomPostRepositoryImpl implements CustomPostRepository {
     public PostGetOneResponse getOnePost(Long volunteerId, Long postId) {
         return queryFactory
                 .select(Projections.constructor(PostGetOneResponse.class,
-                        postImage.image, post.status, post.departureLoc, post.arrivalLoc,
+                        post.id, postImage.image, post.status, post.departureLoc, post.arrivalLoc,
                         post.startDate, post.endDate, post.pickUpTime, post.isKennel, post.content,
                         dog.name, dog.size, dog.gender, dog.weight, dog.specifics,
                         intermediary.id, intermediary.profileImage, intermediary.name))
