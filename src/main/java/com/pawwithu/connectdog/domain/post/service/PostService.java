@@ -107,4 +107,15 @@ public class PostService {
         List<PostRecruitingGetResponse> recruitingPosts = customPostRepository.getRecruitingPosts(intermediary.getId(), pageable);
         return recruitingPosts;
     }
+
+    public void deletePost(String email, Long postId) {
+        // 이동봉사 중개
+        Intermediary intermediary = intermediaryRepository.findByEmail(email).orElseThrow(() -> new BadRequestException(INTERMEDIARY_NOT_FOUND));
+        // 공고
+        Post post = postRepository.findByIdAndIntermediaryId(postId, intermediary.getId()).orElseThrow(() -> new BadRequestException(POST_NOT_FOUND));
+        // 공고 이미지, 공고, 강아지 삭제
+        postImageRepository.deleteAllByPostId(postId);
+        postRepository.deleteById(post.getId());
+        dogRepository.deleteById(post.getDog().getId());
+    }
 }
