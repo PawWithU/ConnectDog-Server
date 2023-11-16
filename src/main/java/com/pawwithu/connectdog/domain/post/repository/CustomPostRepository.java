@@ -22,4 +22,6 @@ public interface CustomPostRepository {
     PostGetOneResponse getOnePost(Long volunteerId, Long postId);
     List<PostRecruitingGetResponse> getRecruitingPosts(Long intermediaryId, Pageable pageable);
     List<IntermediaryGetPostsResponse> getIntermediaryPosts(Long intermediaryId, Pageable pageable);
+    // 봉사 완료 건수
+    Long getCountOfCompletedPosts(Long intermediaryId);
 }
