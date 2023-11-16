@@ -1,10 +1,9 @@
 package com.pawwithu.connectdog.domain.intermediary.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.pawwithu.connectdog.domain.intermediary.dto.response.IntermediaryGetInfoResponse;
 import com.pawwithu.connectdog.domain.intermediary.dto.response.IntermediaryGetPostsResponse;
 import com.pawwithu.connectdog.domain.intermediary.service.IntermediaryService;
-import com.pawwithu.connectdog.domain.post.dto.response.PostRecruitingGetResponse;
-import com.pawwithu.connectdog.domain.post.entity.PostStatus;
 import com.pawwithu.connectdog.utils.TestUserArgumentResolver;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -72,6 +71,24 @@ class IntermediaryControllerTest {
         //then
         result.andExpect(status().isOk());
         verify(intermediaryService, times(1)).getIntermediaryPosts(anyLong(), any());
+    }
+
+    @Test
+    void 이동봉사_중개_프로필_기본_정보_조회() throws Exception {
+        // given
+        Long intermediaryId = 1L;
+        IntermediaryGetInfoResponse response = new IntermediaryGetInfoResponse("profileImage", 3L,
+                "이동봉사 중개 이름", "안녕하세요. 한 줄 소개 입니다.", "https://connectdog.site", "인스타그램: @hoxjeong", "안내 사항입니다.");
+
+        // when
+        given(intermediaryService.getIntermediaryInfo(anyLong())).willReturn(response);
+        ResultActions result = mockMvc.perform(
+                get("/volunteers/intermediaries/{intermediaryId}", intermediaryId)
+        );
+
+        // then
+        result.andExpect(status().isOk());
+        verify(intermediaryService, times(1)).getIntermediaryInfo(anyLong());
     }
 
 }
