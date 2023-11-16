@@ -40,20 +40,16 @@ public class CustomDogStatusRepositoryImpl implements CustomDogStatusRepository 
     // 근황 단건 조회 (대표 이미지를 제외한 다른 이미지 포함 X)
     @Override
     public DogStatusGetOneResponse getOneDogStatus(Long id, Long dogStatusId) {
-
         return queryFactory
                 .select(Projections.constructor(DogStatusGetOneResponse.class,
-                        dog.name,
-                        JPAExpressions.select(volunteer.nickname)
-                                .from(application)
-                                .where(application.post.id.eq(dogStatus.post.id))
-                        , dogStatusImage.image,
+                        dog.name,volunteer.nickname, dogStatusImage.image,
                         post.startDate, post.endDate, post.departureLoc, post.arrivalLoc,
                         dogStatus.content))
                 .from(dogStatus)
                 .join(dogStatus.intermediary, intermediary)
                 .join(dogStatus.mainImage, dogStatusImage)
                 .join(dogStatus.post, post)
+                .join(application).on(application.post.id.eq(dogStatus.post.id))
                 .where(dogStatus.id.eq(dogStatusId))
                 .fetchOne();
 
