@@ -147,4 +147,17 @@ public class ApplicationController {
         List<ApplicationIntermediaryProgressingResponse> response = applicationService.getIntermediaryProgressingApplications(loginUser.getUsername(), pageable);
         return ResponseEntity.ok(response);
     }
+
+    @Operation(summary = "봉사 관리 - 봉사 완료 목록 조회", description = "이동봉사 완료 목록을 조회합니다.",
+            responses = {@ApiResponse(responseCode = "200", description = "이동봉사 완료 목록 조회 성공")
+                    , @ApiResponse(responseCode = "400"
+                    , description = "M1, 해당 이동봉사자를 찾을 수 없습니다."
+                    , content = @Content(schema = @Schema(implementation = ErrorResponse.class)))
+            })
+    @GetMapping( "/volunteers/applications/completed")
+    public ResponseEntity<List<ApplicationVolunteerCompletedResponse>> getVolunteerCompletedApplications(@AuthenticationPrincipal UserDetails loginUser,
+                                                                                                                   Pageable pageable) {
+        List<ApplicationVolunteerCompletedResponse> response = applicationService.getVolunteerCompletedApplications(loginUser.getUsername(), pageable);
+        return ResponseEntity.ok(response);
+    }
 }
