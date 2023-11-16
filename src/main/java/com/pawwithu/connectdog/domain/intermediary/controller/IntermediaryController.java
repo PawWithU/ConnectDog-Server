@@ -2,6 +2,7 @@ package com.pawwithu.connectdog.domain.intermediary.controller;
 
 import com.pawwithu.connectdog.domain.intermediary.dto.response.IntermediaryGetInfoResponse;
 import com.pawwithu.connectdog.domain.intermediary.dto.response.IntermediaryGetPostsResponse;
+import com.pawwithu.connectdog.domain.intermediary.dto.response.IntermediaryGetReviewsResponse;
 import com.pawwithu.connectdog.domain.intermediary.service.IntermediaryService;
 import com.pawwithu.connectdog.error.dto.ErrorResponse;
 import io.swagger.v3.oas.annotations.Operation;
@@ -47,6 +48,19 @@ public class IntermediaryController {
     @GetMapping("/volunteers/intermediaries/{intermediaryId}")
     public ResponseEntity<IntermediaryGetInfoResponse> getIntermediaryInfo(@PathVariable Long intermediaryId) {
         IntermediaryGetInfoResponse response = intermediaryService.getIntermediaryInfo(intermediaryId);
+        return ResponseEntity.ok(response);
+    }
+
+    @Operation(summary = "중개 프로필 - 후기 조회", description = "중개 프로필에서 후기를 조회합니다.",
+            responses = {@ApiResponse(responseCode = "200", description = "중개 프로필 후기 조회 성공")
+                    , @ApiResponse(responseCode = "400"
+                    , description = "M2, 해당 이동봉사 중개를 찾을 수 없습니다."
+                    , content = @Content(schema = @Schema(implementation = ErrorResponse.class)))
+            })
+    @GetMapping("/volunteers/intermediaries/{intermediaryId}/reviews")
+    public ResponseEntity<List<IntermediaryGetReviewsResponse>> getIntermediaryReviews(@PathVariable Long intermediaryId,
+                                                                                       Pageable pageable) {
+        List<IntermediaryGetReviewsResponse> response = intermediaryService.getIntermediaryReviews(intermediaryId, pageable);
         return ResponseEntity.ok(response);
     }
 }

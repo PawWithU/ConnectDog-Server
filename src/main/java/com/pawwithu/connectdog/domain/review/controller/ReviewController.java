@@ -67,8 +67,8 @@ public class ReviewController {
             })
     @GetMapping(value = "/volunteers/reviews")
     public ResponseEntity<List<ReviewGetAllResponse>> getAllReviews(Pageable pageable) {
-        List<ReviewGetAllResponse> reviews = reviewService.getAllReviews(pageable);
-        return ResponseEntity.ok(reviews);
+        List<ReviewGetAllResponse> response = reviewService.getAllReviews(pageable);
+        return ResponseEntity.ok(response);
     }
 
 }
