@@ -120,6 +120,7 @@ public class ApplicationService {
         post.updateStatus(PostStatus.RECRUITING);
     }
 
+    @Transactional(readOnly = true)
     public List<ApplicationIntermediaryWaitingResponse> getIntermediaryWaitingApplications(String email, Pageable pageable) {
         // 이동봉사 중개
         Intermediary intermediary = intermediaryRepository.findByEmail(email).orElseThrow(() -> new BadRequestException(INTERMEDIARY_NOT_FOUND));
@@ -127,6 +128,7 @@ public class ApplicationService {
         return waitingApplications;
     }
 
+    @Transactional(readOnly = true)
     public List<ApplicationIntermediaryProgressingResponse> getIntermediaryProgressingApplications(String email, Pageable pageable) {
         // 이동봉사 중개
         Intermediary intermediary = intermediaryRepository.findByEmail(email).orElseThrow(() -> new BadRequestException(INTERMEDIARY_NOT_FOUND));
@@ -134,6 +136,7 @@ public class ApplicationService {
         return progressingApplications;
     }
 
+    @Transactional(readOnly = true)
     public List<ApplicationVolunteerCompletedResponse> getVolunteerCompletedApplications(String email, Pageable pageable) {
         // 이동봉사자
         Volunteer volunteer = volunteerRepository.findByEmail(email).orElseThrow(() -> new BadRequestException(VOLUNTEER_NOT_FOUND));
@@ -141,10 +144,21 @@ public class ApplicationService {
         return completedApplications;
     }
 
+    @Transactional(readOnly = true)
     public List<ApplicationIntermediaryCompletedResponse> getIntermediaryCompletedApplications(String email, Pageable pageable) {
         // 이동봉사 중개
         Intermediary intermediary = intermediaryRepository.findByEmail(email).orElseThrow(() -> new BadRequestException(INTERMEDIARY_NOT_FOUND));
         List<ApplicationIntermediaryCompletedResponse> completedApplications = customApplicationRepository.getIntermediaryCompletedApplications(intermediary.getId(), pageable);
         return completedApplications;
+    }
+
+    @Transactional(readOnly = true)
+    public ApplicationIntermediaryGetOneResponse getIntermediaryOneApplication(String email, Long applicationId) {
+        // 이동봉사 중개
+        Intermediary intermediary = intermediaryRepository.findByEmail(email).orElseThrow(() -> new BadRequestException(INTERMEDIARY_NOT_FOUND));
+        // 신청 내역
+        Application application = applicationRepository.findByIdAndIntermediaryId(applicationId, intermediary.getId()).orElseThrow(() -> new BadRequestException(APPLICATION_NOT_FOUND));
+        ApplicationIntermediaryGetOneResponse oneApplication = ApplicationIntermediaryGetOneResponse.from(application);
+        return oneApplication;
     }
 }
