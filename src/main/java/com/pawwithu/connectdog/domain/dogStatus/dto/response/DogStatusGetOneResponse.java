@@ -13,14 +13,14 @@ public record DogStatusGetOneResponse(String dogName, String volunteerNickname, 
                                       String departureLoc, String arrivalLoc,
                                       String content
 ) {
-    // 리뷰 이미지 리스트 필드를 제외한 생성자
+    // 근황 이미지 리스트 필드를 제외한 생성자
     public DogStatusGetOneResponse(String dogName, String volunteerNickname, String mainImage,
                                 LocalDate startDate, LocalDate endDate, String departureLoc, String arrivalLoc,
                                 String content) {
         this(dogName, volunteerNickname, mainImage, null, startDate, endDate, departureLoc, arrivalLoc, content);
     }
 
-    // 리뷰 이미지 리스트 필드를 포함한 생성자
+    // 근황 이미지 리스트 필드를 포함한 생성자
     public static DogStatusGetOneResponse of(DogStatusGetOneResponse response, List<String> images) {
         return new DogStatusGetOneResponse(response.dogName, response.volunteerNickname, response.mainImage, images,
                 response.startDate, response.endDate, response.departureLoc, response.arrivalLoc, response.content);
