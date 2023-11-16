@@ -223,4 +223,26 @@ class ApplicationControllerTest {
         verify(applicationService, times(1)).getIntermediaryProgressingApplications(anyString(), any());
     }
 
+    @Test
+    void 이동봉사_완료_목록_조회() throws Exception {
+        //given
+        List<ApplicationVolunteerCompletedResponse> response = new ArrayList<>();
+        LocalDate startDate = LocalDate.of(2023, 10, 2);
+        LocalDate endDate = LocalDate.of(2023, 11, 7);
+        response.add(new ApplicationVolunteerCompletedResponse(1L, "image1", "서울시 성북구", "서울시 중랑구",
+                startDate, endDate, "이동봉사 중개", true, 1L, null));
+        response.add(new ApplicationVolunteerCompletedResponse(2L, "image2", "서울시 성북구", "서울시 중랑구",
+                startDate, endDate, "이동봉사 중개", false, null, null));
+
+        //when
+        given(applicationService.getVolunteerCompletedApplications(anyString(), any())).willReturn(response);
+        ResultActions result = mockMvc.perform(
+                get("/volunteers/applications/completed")
+        );
+
+        //then
+        result.andExpect(status().isOk());
+        verify(applicationService, times(1)).getVolunteerCompletedApplications(anyString(), any());
+    }
+
 }
