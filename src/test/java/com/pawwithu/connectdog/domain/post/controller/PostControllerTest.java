@@ -32,6 +32,7 @@ import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -191,6 +192,21 @@ class PostControllerTest {
         //then
         result.andExpect(status().isOk());
         verify(postService, times(1)).getRecruitingPosts(anyString(), any());
+    }
+
+    @Test
+    void 이동봉사_중개_공고_삭제() throws Exception {
+        //given
+        Long postId = 1L;
+
+        //when
+        ResultActions result = mockMvc.perform(
+                delete("/intermediaries/posts/{postId}", postId)
+        );
+
+        //then
+        result.andExpect(status().isNoContent());
+        verify(postService, times(1)).deletePost(anyString(), anyLong());
     }
 
 }
