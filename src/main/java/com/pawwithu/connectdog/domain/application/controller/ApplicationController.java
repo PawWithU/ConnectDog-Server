@@ -77,9 +77,9 @@ public class ApplicationController {
                     , content = @Content(schema = @Schema(implementation = ErrorResponse.class)))
             })
     @GetMapping( "/volunteers/applications/{applicationId}")
-    public ResponseEntity<ApplicationGetOneResponse> getOneApplication(@AuthenticationPrincipal UserDetails loginUser,
-                                                                       @PathVariable Long applicationId) {
-        ApplicationGetOneResponse response = applicationService.getOneApplication(loginUser.getUsername(), applicationId);
+    public ResponseEntity<ApplicationVolunteerGetOneResponse> getVolunteerOneApplication(@AuthenticationPrincipal UserDetails loginUser,
+                                                                                         @PathVariable Long applicationId) {
+        ApplicationVolunteerGetOneResponse response = applicationService.getVolunteerOneApplication(loginUser.getUsername(), applicationId);
         return ResponseEntity.ok(response);
     }
 
@@ -171,6 +171,19 @@ public class ApplicationController {
     public ResponseEntity<List<ApplicationIntermediaryCompletedResponse>> getIntermediaryCompletedApplications(@AuthenticationPrincipal UserDetails loginUser,
                                                                                                                    Pageable pageable) {
         List<ApplicationIntermediaryCompletedResponse> response = applicationService.getIntermediaryCompletedApplications(loginUser.getUsername(), pageable);
+        return ResponseEntity.ok(response);
+    }
+
+    @Operation(summary = "봉사 관리 - 승인 대기중 - 이동봉사자 확인", description = "승인 대기중인 이동봉사 목록에서 이동봉사자를 확인합니다.",
+            responses = {@ApiResponse(responseCode = "200", description = "이동봉사자 확인 성공")
+                    , @ApiResponse(responseCode = "400"
+                    , description = "M2, 해당 이동봉사 중개를 찾을 수 없습니다. \t\n AP2, 해당 신청 내역을 찾을 수 없습니다."
+                    , content = @Content(schema = @Schema(implementation = ErrorResponse.class)))
+            })
+    @GetMapping( "/intermediaries/applications/{applicationId}")
+    public ResponseEntity<ApplicationIntermediaryGetOneResponse> getIntermediaryOneApplication(@AuthenticationPrincipal UserDetails loginUser,
+                                                                                               @PathVariable Long applicationId) {
+        ApplicationIntermediaryGetOneResponse response = applicationService.getIntermediaryOneApplication(loginUser.getUsername(), applicationId);
         return ResponseEntity.ok(response);
     }
 }

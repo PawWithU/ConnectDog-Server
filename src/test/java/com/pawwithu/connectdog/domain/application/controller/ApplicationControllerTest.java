@@ -114,20 +114,20 @@ class ApplicationControllerTest {
     }
 
     @Test
-    void 이동봉사_신청내역_단건_조회() throws Exception {
+    void 이동봉사자_신청내역_단건_조회() throws Exception {
         //given
-        ApplicationGetOneResponse response = new ApplicationGetOneResponse("한호정", "01022223333", "자동차", "이동봉사 신청합니다.");
+        ApplicationVolunteerGetOneResponse response = new ApplicationVolunteerGetOneResponse(1L, "한호정", "01022223333", "자동차", "이동봉사 신청합니다.");
         Long applicationId = 1L;
 
         //when
-        given(applicationService.getOneApplication(anyString(), anyLong())).willReturn(response);
+        given(applicationService.getVolunteerOneApplication(anyString(), anyLong())).willReturn(response);
         ResultActions result = mockMvc.perform(
                 get("/volunteers/applications/{applicationId}", applicationId)
         );
 
         //then
         result.andExpect(status().isOk());
-        verify(applicationService, times(1)).getOneApplication(anyString(), anyLong());
+        verify(applicationService, times(1)).getVolunteerOneApplication(anyString(), anyLong());
     }
 
     @Test
@@ -270,5 +270,23 @@ class ApplicationControllerTest {
         result.andExpect(status().isOk());
         verify(applicationService, times(1)).getIntermediaryCompletedApplications(anyString(), any());
     }
+
+    @Test
+    void 이동봉사_중개_신청내역_단건_조회() throws Exception {
+        //given
+        ApplicationIntermediaryGetOneResponse response = new ApplicationIntermediaryGetOneResponse(1L, "한호정", "01022223333", "자동차", "이동봉사 신청합니다.");
+        Long applicationId = 1L;
+
+        //when
+        given(applicationService.getIntermediaryOneApplication(anyString(), anyLong())).willReturn(response);
+        ResultActions result = mockMvc.perform(
+                get("/intermediaries/applications/{applicationId}", applicationId)
+        );
+
+        //then
+        result.andExpect(status().isOk());
+        verify(applicationService, times(1)).getIntermediaryOneApplication(anyString(), anyLong());
+    }
+
 
 }

@@ -9,4 +9,5 @@ public interface ApplicationRepository extends JpaRepository<Application, Long> 
 
     Boolean existsByPostId(Long postId);
     Optional<Application> findByIdAndVolunteerId(Long id, Long volunteerId);
+    Optional<Application> findByIdAndIntermediaryId(Long id, Long intermediaryId);
 }
