@@ -224,7 +224,7 @@ class ApplicationControllerTest {
     }
 
     @Test
-    void 이동봉사_완료_목록_조회() throws Exception {
+    void 이동봉사자_봉사완료_목록_조회() throws Exception {
         //given
         List<ApplicationVolunteerCompletedResponse> response = new ArrayList<>();
         LocalDate startDate = LocalDate.of(2023, 10, 2);
@@ -243,6 +243,32 @@ class ApplicationControllerTest {
         //then
         result.andExpect(status().isOk());
         verify(applicationService, times(1)).getVolunteerCompletedApplications(anyString(), any());
+    }
+
+    @Test
+    void 이동봉사_중개_봉사완료_목록_조회() throws Exception {
+        //given
+        List<ApplicationIntermediaryCompletedResponse> response = new ArrayList<>();
+        LocalDate startDate = LocalDate.of(2023, 10, 2);
+        LocalDate endDate = LocalDate.of(2023, 11, 7);
+        response.add(new ApplicationIntermediaryCompletedResponse(1L, "image1", "포포",
+                startDate, endDate, "이동봉사 중개", "서울시 성북구", "서울시 중랑구",
+                1L, 1L, null));
+        response.add(new ApplicationIntermediaryCompletedResponse(2L, "image1", "포포",
+                startDate, endDate, "이동봉사 중개", "서울시 성북구", "서울시 중랑구",
+                1L, 1L, null));
+
+        //when
+        given(applicationService.getIntermediaryCompletedApplications(anyString(), any())).willReturn(response);
+        ResultActions result = mockMvc.perform(
+                get("/intermediaries/applications/completed")
+                        .param("page", "0")
+                        .param("size", "2")
+        );
+
+        //then
+        result.andExpect(status().isOk());
+        verify(applicationService, times(1)).getIntermediaryCompletedApplications(anyString(), any());
     }
 
 }
