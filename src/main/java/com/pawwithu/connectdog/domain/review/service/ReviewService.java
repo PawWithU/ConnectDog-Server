@@ -72,8 +72,8 @@ public class ReviewService {
         ReviewGetOneResponse oneReview = customReviewRepository.getOneReview(volunteer.getId(), reviewId);
         // 후기 이미지 조회 (대표 이미지 제외)
         List<String> oneReviewImages = customReviewRepository.getOneReviewImages(reviewId);
-        ReviewGetOneResponse response = ReviewGetOneResponse.of(oneReview, oneReviewImages);
-        return response;
+        ReviewGetOneResponse review = ReviewGetOneResponse.of(oneReview, oneReviewImages);
+        return review;
     }
 
     @Transactional(readOnly = true)

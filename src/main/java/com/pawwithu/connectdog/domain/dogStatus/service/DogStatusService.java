@@ -70,7 +70,7 @@ public class DogStatusService {
         DogStatusGetOneResponse oneDogStatus = customDogStatusRepository.getOneDogStatus(intermediary.getId(), dogStatusId);
         // 근황 이미지 조회 (대표 이미지 제외)
         List<String> oneDogStatusImages = customDogStatusRepository.getOneDogStatusImages(dogStatusId);
-        DogStatusGetOneResponse response = DogStatusGetOneResponse.of(oneDogStatus, oneDogStatusImages);
-        return response;
+        DogStatusGetOneResponse dogStatus = DogStatusGetOneResponse.of(oneDogStatus, oneDogStatusImages);
+        return dogStatus;
     }
 }
