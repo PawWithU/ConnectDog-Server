@@ -2,10 +2,7 @@ package com.pawwithu.connectdog.domain.post.controller;
 
 import com.pawwithu.connectdog.domain.post.dto.request.PostCreateRequest;
 import com.pawwithu.connectdog.domain.post.dto.request.PostSearchRequest;
-import com.pawwithu.connectdog.domain.post.dto.response.PostGetHomeResponse;
-import com.pawwithu.connectdog.domain.post.dto.response.PostGetOneResponse;
-import com.pawwithu.connectdog.domain.post.dto.response.PostRecruitingGetResponse;
-import com.pawwithu.connectdog.domain.post.dto.response.PostSearchResponse;
+import com.pawwithu.connectdog.domain.post.dto.response.*;
 import com.pawwithu.connectdog.domain.post.service.PostService;
 import com.pawwithu.connectdog.error.dto.ErrorResponse;
 import io.swagger.v3.oas.annotations.Operation;
@@ -69,15 +66,15 @@ public class PostController {
         return ResponseEntity.ok(response);
     }
 
-    @Operation(summary = "공고 상세 보기", description = "공고 상세 정보를 조회합니다.",
+    @Operation(summary = "이동봉사자 - 공고 상세 보기", description = "공고 상세 정보를 조회합니다.",
             responses = {@ApiResponse(responseCode = "200", description = "공고 상세 정보 조회 성공")
                     , @ApiResponse(responseCode = "400"
-                    , description = "M1, 해당 이동봉사자를 찾을 수 없습니다."
+                    , description = "M1, 해당 이동봉사자를 찾을 수 없습니다. \t\n P2, 해당 공고를 찾을 수 없습니다."
                     , content = @Content(schema = @Schema(implementation = ErrorResponse.class)))
             })
     @GetMapping( "/volunteers/posts/{postId}")
-    public ResponseEntity<PostGetOneResponse> getOnePost(@AuthenticationPrincipal UserDetails loginUser, @PathVariable Long postId) {
-        PostGetOneResponse onePost = postService.getOnePost(loginUser.getUsername(), postId);
+    public ResponseEntity<PostVolunteerGetOneResponse> getVolunteerOnePost(@AuthenticationPrincipal UserDetails loginUser, @PathVariable Long postId) {
+        PostVolunteerGetOneResponse onePost = postService.getVolunteerOnePost(loginUser.getUsername(), postId);
         return ResponseEntity.ok(onePost);
     }
 
@@ -103,6 +100,18 @@ public class PostController {
     public ResponseEntity<Void> deletePost(@AuthenticationPrincipal UserDetails loginUser, @PathVariable Long postId) {
         postService.deletePost(loginUser.getUsername(), postId);
         return ResponseEntity.noContent().build();
+    }
+
+    @Operation(summary = "이동봉사 중개 - 공고 상세 보기", description = "공고 상세 정보를 조회합니다.",
+            responses = {@ApiResponse(responseCode = "200", description = "공고 상세 정보 조회 성공")
+                    , @ApiResponse(responseCode = "400"
+                    , description = "P2, 해당 공고를 찾을 수 없습니다."
+                    , content = @Content(schema = @Schema(implementation = ErrorResponse.class)))
+            })
+    @GetMapping( "/intermediaries/posts/{postId}")
+    public ResponseEntity<PostIntermediaryGetOneResponse> getIntermediaryOnePost(@AuthenticationPrincipal UserDetails loginUser, @PathVariable Long postId) {
+        PostIntermediaryGetOneResponse onePost = postService.getIntermediaryOnePost(loginUser.getUsername(), postId);
+        return ResponseEntity.ok(onePost);
     }
 
 }
