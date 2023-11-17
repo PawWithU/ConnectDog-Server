@@ -3,10 +3,7 @@ package com.pawwithu.connectdog.domain.post.repository.impl;
 import com.pawwithu.connectdog.domain.dog.entity.DogSize;
 import com.pawwithu.connectdog.domain.intermediary.dto.response.IntermediaryGetPostsResponse;
 import com.pawwithu.connectdog.domain.post.dto.request.PostSearchRequest;
-import com.pawwithu.connectdog.domain.post.dto.response.PostGetHomeResponse;
-import com.pawwithu.connectdog.domain.post.dto.response.PostGetOneResponse;
-import com.pawwithu.connectdog.domain.post.dto.response.PostRecruitingGetResponse;
-import com.pawwithu.connectdog.domain.post.dto.response.PostSearchResponse;
+import com.pawwithu.connectdog.domain.post.dto.response.*;
 import com.pawwithu.connectdog.domain.post.entity.PostStatus;
 import com.pawwithu.connectdog.domain.post.repository.CustomPostRepository;
 import com.querydsl.core.types.Order;
@@ -82,9 +79,9 @@ public class CustomPostRepositoryImpl implements CustomPostRepository {
 
     // 공고 상세 조회 (대표 이미지를 제외한 다른 이미지 포함 X)
     @Override
-    public PostGetOneResponse getOnePost(Long volunteerId, Long postId) {
+    public PostVolunteerGetOneResponse getVolunteerOnePost(Long postId) {
         return queryFactory
-                .select(Projections.constructor(PostGetOneResponse.class,
+                .select(Projections.constructor(PostVolunteerGetOneResponse.class,
                         post.id, postImage.image, post.status, post.departureLoc, post.arrivalLoc,
                         post.startDate, post.endDate, post.pickUpTime, post.isKennel, post.content,
                         dog.name, dog.size, dog.gender, dog.weight, dog.specifics,
@@ -140,6 +137,22 @@ public class CustomPostRepositoryImpl implements CustomPostRepository {
                 .from(post)
                 .where(post.status.eq(PostStatus.COMPLETED)
                         .and(post.intermediary.id.eq(intermediaryId)))
+                .fetchOne();
+    }
+
+    @Override
+    public PostIntermediaryGetOneResponse getIntermediaryOnePost(Long postId) {
+        return queryFactory
+                .select(Projections.constructor(PostIntermediaryGetOneResponse.class,
+                        post.id, postImage.image, post.status, post.departureLoc, post.arrivalLoc,
+                        post.startDate, post.endDate, post.pickUpTime, post.isKennel, post.content,
+                        dog.name, dog.size, dog.gender, dog.weight, dog.specifics,
+                        intermediary.id, intermediary.profileImage, intermediary.name))
+                .from(post)
+                .join(post.intermediary, intermediary)
+                .join(post.mainImage, postImage)
+                .join(post.dog, dog)
+                .where(post.id.eq(postId))
                 .fetchOne();
     }
 

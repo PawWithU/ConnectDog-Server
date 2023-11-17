@@ -8,10 +8,7 @@ import com.pawwithu.connectdog.domain.intermediary.entity.Intermediary;
 import com.pawwithu.connectdog.domain.intermediary.repository.IntermediaryRepository;
 import com.pawwithu.connectdog.domain.post.dto.request.PostCreateRequest;
 import com.pawwithu.connectdog.domain.post.dto.request.PostSearchRequest;
-import com.pawwithu.connectdog.domain.post.dto.response.PostGetHomeResponse;
-import com.pawwithu.connectdog.domain.post.dto.response.PostGetOneResponse;
-import com.pawwithu.connectdog.domain.post.dto.response.PostRecruitingGetResponse;
-import com.pawwithu.connectdog.domain.post.dto.response.PostSearchResponse;
+import com.pawwithu.connectdog.domain.post.dto.response.*;
 import com.pawwithu.connectdog.domain.post.entity.Post;
 import com.pawwithu.connectdog.domain.post.entity.PostImage;
 import com.pawwithu.connectdog.domain.post.repository.CustomPostRepository;
@@ -89,15 +86,19 @@ public class PostService {
     }
 
     @Transactional(readOnly = true)
-    public PostGetOneResponse getOnePost(String email, Long postId) {
+    public PostVolunteerGetOneResponse getVolunteerOnePost(String email, Long postId) {
         Volunteer volunteer = volunteerRepository.findByEmail(email).orElseThrow(() -> new BadRequestException(VOLUNTEER_NOT_FOUND));
+        // 공고 존재 여부 확인
+        if (!postRepository.existsById(postId)) {
+            throw new BadRequestException(POST_NOT_FOUND);
+        }
         // 공고 조회 (대표 이미지 포함)
-        PostGetOneResponse onePost = customPostRepository.getOnePost(volunteer.getId(), postId);
+        PostVolunteerGetOneResponse onePost = customPostRepository.getVolunteerOnePost(postId);
         // 공고 이미지 조회 (대표 이미지 제외)
         List<String> onePostImages = customPostRepository.getOnePostImages(postId);
         // 북마크 여부
         Boolean isBookmark = bookmarkRepository.existsByVolunteerIdAndPostId(volunteer.getId(), postId);
-        PostGetOneResponse response = PostGetOneResponse.of(onePost, onePostImages, isBookmark);
+        PostVolunteerGetOneResponse response = PostVolunteerGetOneResponse.of(onePost, onePostImages, isBookmark);
         return response;
     }
 
@@ -117,5 +118,19 @@ public class PostService {
         postImageRepository.deleteAllByPostId(postId);
         postRepository.deleteById(post.getId());
         dogRepository.deleteById(post.getDog().getId());
+    }
+
+    @Transactional(readOnly = true)
+    public PostIntermediaryGetOneResponse getIntermediaryOnePost(String email, Long postId) {
+        // 공고 존재 여부 확인
+        if (!postRepository.existsById(postId)) {
+            throw new BadRequestException(POST_NOT_FOUND);
+        }
+        // 공고 조회 (대표 이미지 포함)
+        PostIntermediaryGetOneResponse onePost = customPostRepository.getIntermediaryOnePost(postId);
+        // 공고 이미지 조회 (대표 이미지 제외)
+        List<String> onePostImages = customPostRepository.getOnePostImages(postId);
+        PostIntermediaryGetOneResponse response = PostIntermediaryGetOneResponse.of(onePost, onePostImages);
+        return response;
     }
 }

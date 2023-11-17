@@ -3,10 +3,7 @@ package com.pawwithu.connectdog.domain.post.controller;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.pawwithu.connectdog.domain.dog.entity.DogGender;
 import com.pawwithu.connectdog.domain.dog.entity.DogSize;
-import com.pawwithu.connectdog.domain.post.dto.response.PostGetHomeResponse;
-import com.pawwithu.connectdog.domain.post.dto.response.PostGetOneResponse;
-import com.pawwithu.connectdog.domain.post.dto.response.PostRecruitingGetResponse;
-import com.pawwithu.connectdog.domain.post.dto.response.PostSearchResponse;
+import com.pawwithu.connectdog.domain.post.dto.response.*;
 import com.pawwithu.connectdog.domain.post.entity.PostStatus;
 import com.pawwithu.connectdog.domain.post.service.PostService;
 import com.pawwithu.connectdog.utils.TestUserArgumentResolver;
@@ -146,7 +143,7 @@ class PostControllerTest {
     }
 
     @Test
-    void 공고_상세_보기() throws Exception {
+    void 이동봉사자_공고_상세_보기() throws Exception {
         //given
         Long postId = 1L;
         LocalDate startDate = LocalDate.of(2023, 10, 2);
@@ -154,20 +151,20 @@ class PostControllerTest {
         List<String> images = new ArrayList<>();
         images.add("image1");
         images.add("image2");
-        PostGetOneResponse response = new PostGetOneResponse(1L, "mainImage", images, "모집중", "서울시 성북구", "서울시 중랑구",
+        PostIntermediaryGetOneResponse response = new PostIntermediaryGetOneResponse(1L, "mainImage", images, "모집중", "서울시 성북구", "서울시 중랑구",
                 startDate, endDate, "12:00", true, "이동봉사 공고", "봄이", DogSize.SMALL.getKey(),
-                DogGender.FEMALE.getKey(), 5.1f, "ㄱㅇㅇ", 1L, "profileImage", "이동봉사 중개", true);
+                DogGender.FEMALE.getKey(), 5.1f, "ㄱㅇㅇ", 1L, "profileImage", "이동봉사 중개");
 
 
         //when
-        given(postService.getOnePost(anyString(), anyLong())).willReturn(response);
+        given(postService.getIntermediaryOnePost(anyString(), anyLong())).willReturn(response);
         ResultActions result = mockMvc.perform(
-                get("/volunteers/posts/{postId}", postId)
+                get("/intermediaries/posts/{postId}", postId)
         );
 
         //then
         result.andExpect(status().isOk());
-        verify(postService, times(1)).getOnePost(anyString(), anyLong());
+        verify(postService, times(1)).getIntermediaryOnePost(anyString(), anyLong());
     }
 
     @Test
@@ -209,4 +206,24 @@ class PostControllerTest {
         verify(postService, times(1)).deletePost(anyString(), anyLong());
     }
 
+    @Test
+    void 이동봉사_중개_공고_상세_보기() throws Exception {
+        //given
+        Long postId = 1L;
+        LocalDate startDate = LocalDate.of(2023, 10, 2);
+        LocalDate endDate = LocalDate.of(2023, 11, 7);
+        List<String> images = new ArrayList<>();
+        images.add("image1");
+        images.add("image2");
+        PostVolunteerGetOneResponse response = new PostVolunteerGetOneResponse(1L, "mainImage", images, "모집중", "서울시 성북구", "서울시 중랑구",
+                startDate, endDate, "12:00", true, "이동봉사 공고", "봄이", DogSize.SMALL.getKey(),
+                DogGender.FEMALE.getKey(), 5.1f, "ㄱㅇㅇ", 1L, "profileImage", "이동봉사 중개", true);
+
+
+        //when
+        given(postService.getVolunteerOnePost(anyString(), anyLong())).willReturn(response);
+        ResultActions result = mockMvc.perform(
+                get("/volunteers/posts/{postId}", postId)
+        );
+    }
 }
