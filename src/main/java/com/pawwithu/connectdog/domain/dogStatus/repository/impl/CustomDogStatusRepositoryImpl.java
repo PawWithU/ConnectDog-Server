@@ -11,15 +11,12 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
-import java.util.Optional;
 
 import static com.pawwithu.connectdog.domain.application.entity.QApplication.application;
 import static com.pawwithu.connectdog.domain.dog.entity.QDog.dog;
 import static com.pawwithu.connectdog.domain.dogStatus.entity.QDogStatusImage.dogStatusImage;
 import static com.pawwithu.connectdog.domain.dogStatus.entity.QDogStatus.dogStatus;
-import static com.pawwithu.connectdog.domain.intermediary.entity.QIntermediary.intermediary;
 import static com.pawwithu.connectdog.domain.post.entity.QPost.post;
-import static com.pawwithu.connectdog.domain.review.entity.QReview.review;
 import static com.pawwithu.connectdog.domain.volunteer.entity.QVolunteer.volunteer;
 
 @Repository
@@ -79,5 +76,15 @@ public class CustomDogStatusRepositoryImpl implements CustomDogStatusRepository 
                 .fetch();
 
         return dogStatuses;
+    }
+
+    // 남긴 근황 총 건수
+    @Override
+    public Long getCountOfDogStatuses(Long intermediaryId) {
+        return queryFactory
+                .select(dogStatus.count())
+                .from(dogStatus)
+                .where(dogStatus.intermediary.id.eq(intermediaryId))
+                .fetchOne();
     }
 }

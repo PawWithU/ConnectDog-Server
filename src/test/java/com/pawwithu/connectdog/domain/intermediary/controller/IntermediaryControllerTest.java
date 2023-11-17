@@ -80,7 +80,7 @@ class IntermediaryControllerTest {
         // given
         Long intermediaryId = 1L;
         IntermediaryGetInfoResponse response = new IntermediaryGetInfoResponse("profileImage", 3L,
-                "이동봉사 중개 이름", "안녕하세요. 한 줄 소개 입니다.", "https://connectdog.site", "인스타그램: @hoxjeong", "안내 사항입니다.");
+                "이동봉사 중개 이름", "안녕하세요. 한 줄 소개 입니다.", "https://connectdog.site", "인스타그램: @hoxjeong", "안내 사항입니다.", 25L, 20L);
 
         // when
         given(intermediaryService.getIntermediaryInfo(anyLong())).willReturn(response);

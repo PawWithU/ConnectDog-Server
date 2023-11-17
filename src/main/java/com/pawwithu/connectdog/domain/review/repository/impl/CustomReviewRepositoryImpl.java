@@ -12,7 +12,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
-import java.util.Optional;
 
 import static com.pawwithu.connectdog.domain.intermediary.entity.QIntermediary.intermediary;
 import static com.pawwithu.connectdog.domain.post.entity.QPost.post;
@@ -101,5 +100,17 @@ public class CustomReviewRepositoryImpl implements CustomReviewRepository {
                 .fetch();
 
         return reviews;
+    }
+
+    // 받은 후기 총 건수
+    @Override
+    public Long getCountOfReviews(Long intermediaryId) {
+        return queryFactory
+                .select(review.count())
+                .from(review)
+                .where(review.post.intermediary.id.eq(intermediaryId))
+                .join(review.post, post)
+                .join(review.post.intermediary, intermediary)
+                .fetchOne();
     }
 }

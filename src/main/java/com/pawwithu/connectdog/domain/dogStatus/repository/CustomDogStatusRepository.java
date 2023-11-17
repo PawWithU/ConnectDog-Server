@@ -5,7 +5,6 @@ import com.pawwithu.connectdog.domain.intermediary.dto.response.IntermediaryGetD
 import org.springframework.data.domain.Pageable;
 
 import java.util.List;
-import java.util.Optional;
 
 public interface CustomDogStatusRepository {
 
@@ -16,4 +15,7 @@ public interface CustomDogStatusRepository {
 
     // 이동봉사 중개 별 근황 조회 (최신순)
     List<IntermediaryGetDogStatusesResponse> getIntermediaryDogStatuses(Long intermediaryId, Pageable pageable);
+
+    // 남긴 근황 총 건수
+    Long getCountOfDogStatuses(Long intermediaryId);
 }
