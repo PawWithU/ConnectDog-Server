@@ -1,6 +1,7 @@
 package com.pawwithu.connectdog.domain.dogStatus.repository.impl;
 
-import com.pawwithu.connectdog.domain.dogStatus.dto.response.DogStatusGetOneResponse;
+import com.pawwithu.connectdog.domain.dogStatus.dto.response.DogStatusIntermediaryGetOneResponse;
+import com.pawwithu.connectdog.domain.dogStatus.dto.response.DogStatusVolunteerGetOneResponse;
 import com.pawwithu.connectdog.domain.dogStatus.repository.CustomDogStatusRepository;
 import com.pawwithu.connectdog.domain.intermediary.dto.response.IntermediaryGetDogStatusesResponse;
 import com.querydsl.core.types.Projections;
@@ -37,11 +38,29 @@ public class CustomDogStatusRepositoryImpl implements CustomDogStatusRepository 
                 .fetch();
     }
 
-    // 근황 단건 조회 (대표 이미지를 제외한 다른 이미지 포함 X)
+    // 이동봉사 중개 - 근황 단건 조회 (대표 이미지를 제외한 다른 이미지 포함 X)
     @Override
-    public DogStatusGetOneResponse getOneDogStatus(Long id, Long dogStatusId) {
+    public DogStatusIntermediaryGetOneResponse getIntermediaryOneDogStatus(Long id, Long dogStatusId) {
         return queryFactory
-                .select(Projections.constructor(DogStatusGetOneResponse.class,
+                .select(Projections.constructor(DogStatusIntermediaryGetOneResponse.class,
+                        dog.name, volunteer.nickname, dogStatusImage.image,
+                        post.startDate, post.endDate, post.departureLoc, post.arrivalLoc,
+                        dogStatus.content))
+                .from(dogStatus)
+                .join(dogStatus.mainImage, dogStatusImage)
+                .join(dogStatus.post, post)
+                .join(post.dog, dog)
+                .join(application).on(application.post.id.eq(dogStatus.post.id))
+                .join(application.volunteer, volunteer)
+                .where(dogStatus.id.eq(dogStatusId))
+                .fetchOne();
+    }
+
+    // 이동봉사자 - 근황 단건 조회 (대표 이미지를 제외한 다른 이미지 포함 X)
+    @Override
+    public DogStatusVolunteerGetOneResponse getVolunteerOneDogStatus(Long dogStatusId) {
+        return queryFactory
+                .select(Projections.constructor(DogStatusVolunteerGetOneResponse.class,
                         dog.name, volunteer.nickname, dogStatusImage.image,
                         post.startDate, post.endDate, post.departureLoc, post.arrivalLoc,
                         dogStatus.content))
