@@ -6,7 +6,6 @@ import com.pawwithu.connectdog.domain.review.dto.response.ReviewGetOneResponse;
 import org.springframework.data.domain.Pageable;
 
 import java.util.List;
-import java.util.Optional;
 
 public interface CustomReviewRepository {
 
@@ -20,4 +19,7 @@ public interface CustomReviewRepository {
 
     // 이동봉사 중개 별 후기 조회 (최신 순)
     List<IntermediaryGetReviewsResponse> getIntermediaryReviews(Long intermediaryId, Pageable pageable);
+
+    // 받은 후기 총 건수
+    Long getCountOfReviews(Long intermediaryId);
 }

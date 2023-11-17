@@ -46,7 +46,14 @@ public class IntermediaryService {
         Intermediary intermediary = intermediaryRepository.findById(intermediaryId).orElseThrow(() -> new BadRequestException(INTERMEDIARY_NOT_FOUND));
         // 봉사 완료 건수
         Long completedPostCount =  customPostRepository.getCountOfCompletedPosts(intermediaryId);
-        IntermediaryGetInfoResponse intermediaryInfo = IntermediaryGetInfoResponse.from(intermediary, completedPostCount);
+
+        // 받은 후기 총 건수
+        Long reviewCount = customReviewRepository.getCountOfReviews(intermediaryId);
+
+        // 남긴 근황 총 건수
+        Long dogStatusCount = customDogStatusRepository.getCountOfDogStatuses(intermediaryId);
+
+        IntermediaryGetInfoResponse intermediaryInfo = IntermediaryGetInfoResponse.from(intermediary, completedPostCount, reviewCount, dogStatusCount);
         return intermediaryInfo;
     }
 
