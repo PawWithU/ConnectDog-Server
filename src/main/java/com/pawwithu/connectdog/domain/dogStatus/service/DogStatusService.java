@@ -67,7 +67,7 @@ public class DogStatusService {
     public DogStatusGetOneResponse getOneDogStatus(String email, Long dogStatusId) {
         Intermediary intermediary = intermediaryRepository.findByEmail(email).orElseThrow(() -> new BadRequestException(INTERMEDIARY_NOT_FOUND));
         // 근황 조회 (대표 이미지 포함)
-        DogStatusGetOneResponse oneDogStatus = customDogStatusRepository.getOneDogStatus(intermediary.getId(), dogStatusId);
+        DogStatusGetOneResponse oneDogStatus = customDogStatusRepository.getOneDogStatus(intermediary.getId(), dogStatusId).orElseThrow(() -> new BadRequestException(DOG_STATUS_NOT_FOUND));
         // 근황 이미지 조회 (대표 이미지 제외)
         List<String> oneDogStatusImages = customDogStatusRepository.getOneDogStatusImages(dogStatusId);
         DogStatusGetOneResponse dogStatus = DogStatusGetOneResponse.of(oneDogStatus, oneDogStatusImages);

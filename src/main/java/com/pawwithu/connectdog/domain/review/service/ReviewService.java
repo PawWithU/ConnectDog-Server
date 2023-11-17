@@ -69,7 +69,7 @@ public class ReviewService {
     public ReviewGetOneResponse getOneReview(String email, Long reviewId) {
         Volunteer volunteer = volunteerRepository.findByEmail(email).orElseThrow(() -> new BadRequestException(VOLUNTEER_NOT_FOUND));
         // 후기 조회 (대표 이미지 포함)
-        ReviewGetOneResponse oneReview = customReviewRepository.getOneReview(volunteer.getId(), reviewId);
+        ReviewGetOneResponse oneReview = customReviewRepository.getOneReview(volunteer.getId(), reviewId).orElseThrow(() -> new BadRequestException(REVIEW_NOT_FOUND));
         // 후기 이미지 조회 (대표 이미지 제외)
         List<String> oneReviewImages = customReviewRepository.getOneReviewImages(reviewId);
         ReviewGetOneResponse review = ReviewGetOneResponse.of(oneReview, oneReviewImages);

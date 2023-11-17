@@ -48,7 +48,7 @@ public class DogStatusController {
             security = { @SecurityRequirement(name = "bearer-key") },
             responses = {@ApiResponse(responseCode = "200", description = "근황 단건 조회 성공")
                     , @ApiResponse(responseCode = "400"
-                    , description = "M2, 해당 이동봉사 중개를 찾을 수 없습니다."
+                    , description = "M2, 해당 이동봉사 중개를 찾을 수 없습니다. \t\n D1, 해당 근황을 찾을 수 없습니다."
                     , content = @Content(schema = @Schema(implementation = ErrorResponse.class)))
             })
     @GetMapping("/intermediaries/dogStatus/{dogStatusId}")

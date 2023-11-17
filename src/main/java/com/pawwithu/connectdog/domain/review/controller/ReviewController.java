@@ -50,7 +50,7 @@ public class ReviewController {
             security = { @SecurityRequirement(name = "bearer-key") },
             responses = {@ApiResponse(responseCode = "200", description = "후기 단건 조회 성공")
                     , @ApiResponse(responseCode = "400"
-                    , description = "M1, 해당 이동봉사자를 찾을 수 없습니다."
+                    , description = "M1, 해당 이동봉사자를 찾을 수 없습니다. \t\n R1, 해당 후기를 찾을 수 없습니다."
                     , content = @Content(schema = @Schema(implementation = ErrorResponse.class)))
             })
     @GetMapping("/volunteers/reviews/{reviewId}")
