@@ -11,6 +11,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 import static com.pawwithu.connectdog.domain.application.entity.QApplication.application;
 import static com.pawwithu.connectdog.domain.dog.entity.QDog.dog;
@@ -41,20 +42,20 @@ public class CustomDogStatusRepositoryImpl implements CustomDogStatusRepository 
 
     // 근황 단건 조회 (대표 이미지를 제외한 다른 이미지 포함 X)
     @Override
-    public DogStatusGetOneResponse getOneDogStatus(Long id, Long dogStatusId) {
-        return queryFactory
+    public Optional<DogStatusGetOneResponse> getOneDogStatus(Long id, Long dogStatusId) {
+        return Optional.ofNullable(queryFactory
                 .select(Projections.constructor(DogStatusGetOneResponse.class,
-                        dog.name,volunteer.nickname, dogStatusImage.image,
+                        dog.name, volunteer.nickname, dogStatusImage.image,
                         post.startDate, post.endDate, post.departureLoc, post.arrivalLoc,
                         dogStatus.content))
                 .from(dogStatus)
-                .join(dogStatus.intermediary, intermediary)
                 .join(dogStatus.mainImage, dogStatusImage)
                 .join(dogStatus.post, post)
+                .join(post.dog, dog)
                 .join(application).on(application.post.id.eq(dogStatus.post.id))
+                .join(application.volunteer, volunteer)
                 .where(dogStatus.id.eq(dogStatusId))
-                .fetchOne();
-
+                .fetchOne());
     }
 
     // 이동봉사 중개 별 근황 조회 (최신순)
@@ -62,15 +63,16 @@ public class CustomDogStatusRepositoryImpl implements CustomDogStatusRepository 
     public List<IntermediaryGetDogStatusesResponse> getIntermediaryDogStatuses(Long intermediaryId, Pageable pageable) {
         List<IntermediaryGetDogStatusesResponse> dogStatuses = queryFactory
                 .select(Projections.constructor(IntermediaryGetDogStatusesResponse.class,
-                        dog.name,volunteer.nickname, dogStatusImage.image,
+                        dog.name, volunteer.nickname, dogStatusImage.image,
                         post.startDate, post.endDate, post.departureLoc, post.arrivalLoc,
                         dogStatus.content))
                 .from(dogStatus)
                 .where(dogStatus.post.intermediary.id.eq(intermediaryId))
-                .join(dogStatus.intermediary, intermediary)
                 .join(dogStatus.mainImage, dogStatusImage)
                 .join(dogStatus.post, post)
+                .join(post.dog, dog)
                 .join(application).on(application.post.id.eq(dogStatus.post.id))
+                .join(application.volunteer, volunteer)
                 .orderBy(dogStatus.createdDate.desc())
                 .offset(pageable.getOffset()) // 페이지 번호
                 .limit(pageable.getPageSize()) // 페이지 사이즈
