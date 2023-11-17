@@ -4,7 +4,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.pawwithu.connectdog.domain.review.dto.request.ReviewCreateRequest;
 import com.pawwithu.connectdog.domain.review.dto.response.ReviewGetAllResponse;
-import com.pawwithu.connectdog.domain.review.dto.response.ReviewGetOneResponse;
+import com.pawwithu.connectdog.domain.review.dto.response.ReviewIntermediaryGetOneResponse;
+import com.pawwithu.connectdog.domain.review.dto.response.ReviewVolunteerGetOneResponse;
 import com.pawwithu.connectdog.domain.review.service.ReviewService;
 import com.pawwithu.connectdog.utils.TestUserArgumentResolver;
 import org.junit.jupiter.api.BeforeEach;
@@ -76,7 +77,7 @@ class ReviewControllerTest {
     }
 
     @Test
-    void 후기_단건_조회() throws Exception {
+    void 이동봉사자_후기_단건_조회() throws Exception {
         // given
         Long reviewId = 1L;
         LocalDate startDate = LocalDate.of(2023, 10, 2);
@@ -85,18 +86,42 @@ class ReviewControllerTest {
         images.add("image1");
         images.add("image2");
 
-        ReviewGetOneResponse response = new ReviewGetOneResponse("겨울이", "호짱", "mainImage", images, startDate, endDate,
+        ReviewVolunteerGetOneResponse response = new ReviewVolunteerGetOneResponse("겨울이", "호짱", "mainImage", images, startDate, endDate,
                 "서울시 노원구", "서울시 성북구", "이동봉사 중개", "후기 조회 테스트입니다.");
 
         // when
-        given(reviewService.getOneReview(anyString(), anyLong())).willReturn(response);
+        given(reviewService.getVolunteerOneReview(anyString(), anyLong())).willReturn(response);
         ResultActions result = mockMvc.perform(
                 get("/volunteers/reviews/{reviewId}", reviewId)
         );
 
         // then
         result.andExpect(status().isOk());
-        verify(reviewService, times(1)).getOneReview(anyString(), anyLong());
+        verify(reviewService, times(1)).getVolunteerOneReview(anyString(), anyLong());
+    }
+
+    @Test
+    void 이동봉사_중개_후기_단건_조회() throws Exception {
+        // given
+        Long reviewId = 1L;
+        LocalDate startDate = LocalDate.of(2023, 10, 2);
+        LocalDate endDate = LocalDate.of(2023, 11, 7);
+        List<String> images = new ArrayList<>();
+        images.add("image1");
+        images.add("image2");
+
+        ReviewIntermediaryGetOneResponse response = new ReviewIntermediaryGetOneResponse("겨울이", "호짱", "mainImage", images, startDate, endDate,
+                "서울시 노원구", "서울시 성북구", "이동봉사 중개", "후기 조회 테스트입니다.");
+
+        // when
+        given(reviewService.getIntermediaryOneReview(anyString(), anyLong())).willReturn(response);
+        ResultActions result = mockMvc.perform(
+                get("/intermediaries/reviews/{reviewId}", reviewId)
+        );
+
+        // then
+        result.andExpect(status().isOk());
+        verify(reviewService, times(1)).getIntermediaryOneReview(anyString(), anyLong());
     }
 
     @Test
