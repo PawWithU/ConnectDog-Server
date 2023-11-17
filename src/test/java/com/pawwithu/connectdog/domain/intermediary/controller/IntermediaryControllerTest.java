@@ -1,11 +1,11 @@
 package com.pawwithu.connectdog.domain.intermediary.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.pawwithu.connectdog.domain.intermediary.dto.response.IntermediaryGetDogStatusesResponse;
 import com.pawwithu.connectdog.domain.intermediary.dto.response.IntermediaryGetInfoResponse;
 import com.pawwithu.connectdog.domain.intermediary.dto.response.IntermediaryGetPostsResponse;
 import com.pawwithu.connectdog.domain.intermediary.dto.response.IntermediaryGetReviewsResponse;
 import com.pawwithu.connectdog.domain.intermediary.service.IntermediaryService;
-import com.pawwithu.connectdog.domain.review.dto.response.ReviewGetAllResponse;
 import com.pawwithu.connectdog.utils.TestUserArgumentResolver;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -122,5 +122,36 @@ class IntermediaryControllerTest {
         result.andExpect(status().isOk());
         verify(intermediaryService, times(1)).getIntermediaryReviews(anyLong(), any());
     }
+
+    @Test
+    void 이동봉사_중개_프로필_근황_조회() throws Exception {
+        // given
+        Long intermediaryId = 1L;
+        List<IntermediaryGetDogStatusesResponse> response = new ArrayList<>();
+        LocalDate startDate = LocalDate.of(2023, 10, 2);
+        LocalDate endDate = LocalDate.of(2023, 11, 7);
+
+        List<String> images = new ArrayList<>();
+        images.add("image1");
+        images.add("image2");
+
+        response.add(new IntermediaryGetDogStatusesResponse("겨울이", "호짱", "mainImage", images, startDate, endDate,
+                "서울시 노원구", "서울시 성북구", "근황 조회 테스트입니다."));
+        response.add(new IntermediaryGetDogStatusesResponse("봄이", "경혁쨩", "mainImage", images, startDate, endDate,
+                "서울시 노원구", "서울시 성북구", "근황 조회 테스트입니다."));
+
+        // when
+        given(intermediaryService.getIntermediaryDogStatuses(anyLong(), any())).willReturn(response);
+        ResultActions result = mockMvc.perform(
+                get("/volunteers/intermediaries/{intermediaryId}/dogStatuses", intermediaryId)
+                        .param("page", "0")
+                        .param("size", "2")
+        );
+
+        // then
+        result.andExpect(status().isOk());
+        verify(intermediaryService, times(1)).getIntermediaryDogStatuses(anyLong(), any());
+    }
+
 
 }

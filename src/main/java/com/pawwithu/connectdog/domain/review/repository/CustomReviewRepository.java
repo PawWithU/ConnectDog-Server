@@ -6,6 +6,7 @@ import com.pawwithu.connectdog.domain.review.dto.response.ReviewGetOneResponse;
 import org.springframework.data.domain.Pageable;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface CustomReviewRepository {
 

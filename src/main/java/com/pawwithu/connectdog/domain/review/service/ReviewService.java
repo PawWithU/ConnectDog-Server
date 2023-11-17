@@ -68,6 +68,12 @@ public class ReviewService {
     @Transactional(readOnly = true)
     public ReviewGetOneResponse getOneReview(String email, Long reviewId) {
         Volunteer volunteer = volunteerRepository.findByEmail(email).orElseThrow(() -> new BadRequestException(VOLUNTEER_NOT_FOUND));
+
+        // 후기 존재 여부 확인
+        if (!reviewRepository.existsById(reviewId)) {
+            throw new BadRequestException(REVIEW_NOT_FOUND);
+        }
+
         // 후기 조회 (대표 이미지 포함)
         ReviewGetOneResponse oneReview = customReviewRepository.getOneReview(volunteer.getId(), reviewId);
         // 후기 이미지 조회 (대표 이미지 제외)

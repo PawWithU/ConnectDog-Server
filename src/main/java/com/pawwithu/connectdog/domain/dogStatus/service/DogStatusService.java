@@ -66,6 +66,12 @@ public class DogStatusService {
     @Transactional(readOnly = true)
     public DogStatusGetOneResponse getOneDogStatus(String email, Long dogStatusId) {
         Intermediary intermediary = intermediaryRepository.findByEmail(email).orElseThrow(() -> new BadRequestException(INTERMEDIARY_NOT_FOUND));
+
+        // 근황 존재 여부 확인
+        if (!dogStatusRepository.existsById(dogStatusId)) {
+            throw new BadRequestException(DOG_STATUS_NOT_FOUND);
+        }
+
         // 근황 조회 (대표 이미지 포함)
         DogStatusGetOneResponse oneDogStatus = customDogStatusRepository.getOneDogStatus(intermediary.getId(), dogStatusId);
         // 근황 이미지 조회 (대표 이미지 제외)

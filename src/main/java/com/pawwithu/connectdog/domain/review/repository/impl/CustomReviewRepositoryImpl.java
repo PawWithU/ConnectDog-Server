@@ -12,6 +12,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 import static com.pawwithu.connectdog.domain.intermediary.entity.QIntermediary.intermediary;
 import static com.pawwithu.connectdog.domain.post.entity.QPost.post;
@@ -60,7 +61,6 @@ public class CustomReviewRepositoryImpl implements CustomReviewRepository {
     // 후기 전체 조회
     @Override
     public List<ReviewGetAllResponse> getAllReviews(Pageable pageable) {
-        // 후기 정보와 함께 후기 ID를 조회
         List<ReviewGetAllResponse> reviews = queryFactory
                 .select(Projections.constructor(ReviewGetAllResponse.class,
                         dog.name, volunteer.nickname, reviewImage.image,
@@ -83,7 +83,6 @@ public class CustomReviewRepositoryImpl implements CustomReviewRepository {
     // 이동봉사 중개 별 후기 조회 (최신 순)
     @Override
     public List<IntermediaryGetReviewsResponse> getIntermediaryReviews(Long intermediaryId, Pageable pageable) {
-        // 후기 정보와 함께 후기 ID를 조회
         List<IntermediaryGetReviewsResponse> reviews = queryFactory
                 .select(Projections.constructor(IntermediaryGetReviewsResponse.class,
                         dog.name, volunteer.nickname, reviewImage.image,
