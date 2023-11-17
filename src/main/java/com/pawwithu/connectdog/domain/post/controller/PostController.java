@@ -66,15 +66,15 @@ public class PostController {
         return ResponseEntity.ok(response);
     }
 
-    @Operation(summary = "공고 상세 보기", description = "공고 상세 정보를 조회합니다.",
+    @Operation(summary = "이동봉사자 - 공고 상세 보기", description = "공고 상세 정보를 조회합니다.",
             responses = {@ApiResponse(responseCode = "200", description = "공고 상세 정보 조회 성공")
                     , @ApiResponse(responseCode = "400"
-                    , description = "M1, 해당 이동봉사자를 찾을 수 없습니다."
+                    , description = "M1, 해당 이동봉사자를 찾을 수 없습니다. \t\n P2, 해당 공고를 찾을 수 없습니다."
                     , content = @Content(schema = @Schema(implementation = ErrorResponse.class)))
             })
     @GetMapping( "/volunteers/posts/{postId}")
-    public ResponseEntity<PostGetOneResponse> getOnePost(@AuthenticationPrincipal UserDetails loginUser, @PathVariable Long postId) {
-        PostGetOneResponse onePost = postService.getOnePost(loginUser.getUsername(), postId);
+    public ResponseEntity<PostVolunteerGetOneResponse> getVolunteerOnePost(@AuthenticationPrincipal UserDetails loginUser, @PathVariable Long postId) {
+        PostVolunteerGetOneResponse onePost = postService.getVolunteerOnePost(loginUser.getUsername(), postId);
         return ResponseEntity.ok(onePost);
     }
 

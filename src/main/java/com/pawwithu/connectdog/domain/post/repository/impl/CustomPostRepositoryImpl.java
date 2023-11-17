@@ -79,9 +79,9 @@ public class CustomPostRepositoryImpl implements CustomPostRepository {
 
     // 공고 상세 조회 (대표 이미지를 제외한 다른 이미지 포함 X)
     @Override
-    public PostGetOneResponse getOnePost(Long postId) {
+    public PostVolunteerGetOneResponse getVolunteerOnePost(Long postId) {
         return queryFactory
-                .select(Projections.constructor(PostGetOneResponse.class,
+                .select(Projections.constructor(PostVolunteerGetOneResponse.class,
                         post.id, postImage.image, post.status, post.departureLoc, post.arrivalLoc,
                         post.startDate, post.endDate, post.pickUpTime, post.isKennel, post.content,
                         dog.name, dog.size, dog.gender, dog.weight, dog.specifics,
