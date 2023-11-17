@@ -13,7 +13,7 @@ public interface CustomReviewRepository {
     // 대표 이미지를 제외한 후기 이미지 조회
     List<String> getOneReviewImages(Long reviewId);
     // 후기 단건 조회 (대표 이미지를 제외한 다른 이미지 포함 X)
-    Optional<ReviewGetOneResponse> getOneReview(Long id, Long reviewId);
+    ReviewGetOneResponse getOneReview(Long id, Long reviewId);
 
     // 후기 전체 조회 (최신 순)
     List<ReviewGetAllResponse> getAllReviews(Pageable pageable);

@@ -42,8 +42,8 @@ public class CustomDogStatusRepositoryImpl implements CustomDogStatusRepository 
 
     // 근황 단건 조회 (대표 이미지를 제외한 다른 이미지 포함 X)
     @Override
-    public Optional<DogStatusGetOneResponse> getOneDogStatus(Long id, Long dogStatusId) {
-        return Optional.ofNullable(queryFactory
+    public DogStatusGetOneResponse getOneDogStatus(Long id, Long dogStatusId) {
+        return queryFactory
                 .select(Projections.constructor(DogStatusGetOneResponse.class,
                         dog.name, volunteer.nickname, dogStatusImage.image,
                         post.startDate, post.endDate, post.departureLoc, post.arrivalLoc,
@@ -55,7 +55,7 @@ public class CustomDogStatusRepositoryImpl implements CustomDogStatusRepository 
                 .join(application).on(application.post.id.eq(dogStatus.post.id))
                 .join(application.volunteer, volunteer)
                 .where(dogStatus.id.eq(dogStatusId))
-                .fetchOne());
+                .fetchOne();
     }
 
     // 이동봉사 중개 별 근황 조회 (최신순)

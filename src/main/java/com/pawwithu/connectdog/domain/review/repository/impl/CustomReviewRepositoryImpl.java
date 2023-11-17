@@ -42,8 +42,8 @@ public class CustomReviewRepositoryImpl implements CustomReviewRepository {
 
     // 후기 단건 조회 (대표 이미지를 제외한 다른 이미지 포함 X)
     @Override
-    public Optional<ReviewGetOneResponse> getOneReview(Long id, Long reviewId) {
-        return Optional.ofNullable(queryFactory
+    public ReviewGetOneResponse getOneReview(Long id, Long reviewId) {
+        return queryFactory
                 .select(Projections.constructor(ReviewGetOneResponse.class,
                         dog.name, volunteer.nickname, reviewImage.image,
                         post.startDate, post.endDate, post.departureLoc, post.arrivalLoc,
@@ -55,7 +55,7 @@ public class CustomReviewRepositoryImpl implements CustomReviewRepository {
                 .join(review.post.dog, dog)
                 .join(review.post.intermediary, intermediary)
                 .where(review.id.eq(reviewId))
-                .fetchOne());
+                .fetchOne();
     }
 
     // 후기 전체 조회
