@@ -3,8 +3,7 @@ package com.pawwithu.connectdog.domain.dogStatus.controller;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.pawwithu.connectdog.domain.dogStatus.dto.request.DogStatusCreateRequest;
-import com.pawwithu.connectdog.domain.dogStatus.dto.response.DogStatusIntermediaryGetOneResponse;
-import com.pawwithu.connectdog.domain.dogStatus.dto.response.DogStatusVolunteerGetOneResponse;
+import com.pawwithu.connectdog.domain.dogStatus.dto.response.DogStatusGetOneResponse;
 import com.pawwithu.connectdog.domain.dogStatus.service.DogStatusService;
 import com.pawwithu.connectdog.utils.TestUserArgumentResolver;
 import org.junit.jupiter.api.BeforeEach;
@@ -77,7 +76,7 @@ class DogStatusControllerTest {
     }
 
     @Test
-    void 이동봉사_중개_근황_단건_조회() throws Exception {
+    void 이동봉사_근황_단건_조회() throws Exception {
         // given
         Long dogStatusId = 1L;
         LocalDate startDate = LocalDate.of(2023, 10, 2);
@@ -86,41 +85,18 @@ class DogStatusControllerTest {
         images.add("image1");
         images.add("image2");
 
-        DogStatusIntermediaryGetOneResponse response = new DogStatusIntermediaryGetOneResponse("겨울이", "호짱", "mainImage", images, startDate, endDate,
+        DogStatusGetOneResponse response = new DogStatusGetOneResponse("겨울이", "호짱", "mainImage", images, startDate, endDate,
                 "서울시 노원구", "서울시 성북구", "근황 조회 테스트입니다.");
 
         // when
-        given(dogStatusService.getIntermediaryOneDogStatus(anyString(), anyLong())).willReturn(response);
+        given(dogStatusService.getOneDogStatus(anyString(), anyLong())).willReturn(response);
         ResultActions result = mockMvc.perform(
                 get("/intermediaries/dogStatus/{dogStatusId}", dogStatusId)
         );
 
         // then
         result.andExpect(status().isOk());
-        verify(dogStatusService, times(1)).getIntermediaryOneDogStatus(anyString(), anyLong());
+        verify(dogStatusService, times(1)).getOneDogStatus(anyString(), anyLong());
     }
 
-    @Test
-    void 이동봉사자_근황_단건_조회() throws Exception {
-        // given
-        Long dogStatusId = 1L;
-        LocalDate startDate = LocalDate.of(2023, 10, 2);
-        LocalDate endDate = LocalDate.of(2023, 11, 7);
-        List<String> images = new ArrayList<>();
-        images.add("image1");
-        images.add("image2");
-
-        DogStatusVolunteerGetOneResponse response = new DogStatusVolunteerGetOneResponse("겨울이", "호짱", "mainImage", images, startDate, endDate,
-                "서울시 노원구", "서울시 성북구", "근황 조회 테스트입니다.");
-
-        // when
-        given(dogStatusService.getVolunteerOneDogStatus(anyString(), anyLong())).willReturn(response);
-        ResultActions result = mockMvc.perform(
-                get("/volunteers/dogStatus/{dogStatusId}", dogStatusId)
-        );
-
-        // then
-        result.andExpect(status().isOk());
-        verify(dogStatusService, times(1)).getVolunteerOneDogStatus(anyString(), anyLong());
-    }
 }

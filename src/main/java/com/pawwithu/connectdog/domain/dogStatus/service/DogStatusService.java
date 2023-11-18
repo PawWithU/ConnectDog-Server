@@ -2,8 +2,7 @@ package com.pawwithu.connectdog.domain.dogStatus.service;
 
 import com.pawwithu.connectdog.common.s3.FileService;
 import com.pawwithu.connectdog.domain.dogStatus.dto.request.DogStatusCreateRequest;
-import com.pawwithu.connectdog.domain.dogStatus.dto.response.DogStatusIntermediaryGetOneResponse;
-import com.pawwithu.connectdog.domain.dogStatus.dto.response.DogStatusVolunteerGetOneResponse;
+import com.pawwithu.connectdog.domain.dogStatus.dto.response.DogStatusGetOneResponse;
 import com.pawwithu.connectdog.domain.dogStatus.entity.DogStatus;
 import com.pawwithu.connectdog.domain.dogStatus.entity.DogStatusImage;
 import com.pawwithu.connectdog.domain.dogStatus.repository.CustomDogStatusRepository;
@@ -65,35 +64,18 @@ public class DogStatusService {
     }
 
     @Transactional(readOnly = true)
-    public DogStatusIntermediaryGetOneResponse getIntermediaryOneDogStatus(String email, Long dogStatusId) {
-        Intermediary intermediary = intermediaryRepository.findByEmail(email).orElseThrow(() -> new BadRequestException(INTERMEDIARY_NOT_FOUND));
-
+    public DogStatusGetOneResponse getOneDogStatus(String email, Long dogStatusId) {
         // 근황 존재 여부 확인
         if (!dogStatusRepository.existsById(dogStatusId)) {
             throw new BadRequestException(DOG_STATUS_NOT_FOUND);
         }
 
         // 근황 조회 (대표 이미지 포함)
-        DogStatusIntermediaryGetOneResponse oneDogStatus = customDogStatusRepository.getIntermediaryOneDogStatus(intermediary.getId(), dogStatusId);
+        DogStatusGetOneResponse oneDogStatus = customDogStatusRepository.getOneDogStatus(dogStatusId);
         // 근황 이미지 조회 (대표 이미지 제외)
         List<String> oneDogStatusImages = customDogStatusRepository.getOneDogStatusImages(dogStatusId);
-        DogStatusIntermediaryGetOneResponse dogStatus = DogStatusIntermediaryGetOneResponse.of(oneDogStatus, oneDogStatusImages);
+        DogStatusGetOneResponse dogStatus = DogStatusGetOneResponse.of(oneDogStatus, oneDogStatusImages);
         return dogStatus;
     }
 
-    @Transactional(readOnly = true)
-    public DogStatusVolunteerGetOneResponse getVolunteerOneDogStatus(String email, Long dogStatusId) {
-
-        // 근황 존재 여부 확인
-        if (!dogStatusRepository.existsById(dogStatusId)) {
-            throw new BadRequestException(DOG_STATUS_NOT_FOUND);
-        }
-
-        // 근황 조회 (대표 이미지 포함)
-        DogStatusVolunteerGetOneResponse oneDogStatus = customDogStatusRepository.getVolunteerOneDogStatus(dogStatusId);
-        // 근황 이미지 조회 (대표 이미지 제외)
-        List<String> oneDogStatusImages = customDogStatusRepository.getOneDogStatusImages(dogStatusId);
-        DogStatusVolunteerGetOneResponse dogStatus = DogStatusVolunteerGetOneResponse.of(oneDogStatus, oneDogStatusImages);
-        return dogStatus;
-    }
 }

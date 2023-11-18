@@ -2,8 +2,7 @@ package com.pawwithu.connectdog.domain.review.repository.impl;
 
 import com.pawwithu.connectdog.domain.intermediary.dto.response.IntermediaryGetReviewsResponse;
 import com.pawwithu.connectdog.domain.review.dto.response.ReviewGetAllResponse;
-import com.pawwithu.connectdog.domain.review.dto.response.ReviewIntermediaryGetOneResponse;
-import com.pawwithu.connectdog.domain.review.dto.response.ReviewVolunteerGetOneResponse;
+import com.pawwithu.connectdog.domain.review.dto.response.ReviewGetOneResponse;
 import com.pawwithu.connectdog.domain.review.repository.CustomReviewRepository;
 import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.impl.JPAQueryFactory;
@@ -40,29 +39,11 @@ public class CustomReviewRepositoryImpl implements CustomReviewRepository {
                 .fetch();
     }
 
-    // 이동봉사자 - 후기 단건 조회 (대표 이미지를 제외한 다른 이미지 포함 X)
+    // 후기 단건 조회 (대표 이미지를 제외한 다른 이미지 포함 X)
     @Override
-    public ReviewVolunteerGetOneResponse getVolunteerOneReview(Long id, Long reviewId) {
+    public ReviewGetOneResponse getOneReview(Long reviewId) {
         return queryFactory
-                .select(Projections.constructor(ReviewVolunteerGetOneResponse.class,
-                        dog.name, volunteer.nickname, reviewImage.image,
-                        post.startDate, post.endDate, post.departureLoc, post.arrivalLoc,
-                        intermediary.name, review.content))
-                .from(review)
-                .join(review.volunteer, volunteer)
-                .join(review.mainImage, reviewImage)
-                .join(review.post, post)
-                .join(review.post.dog, dog)
-                .join(review.post.intermediary, intermediary)
-                .where(review.id.eq(reviewId))
-                .fetchOne();
-    }
-
-    // 이동봉사 중개 - 후기 단건 조회 (대표 이미지를 제외한 다른 이미지 포함 X)
-    @Override
-    public ReviewIntermediaryGetOneResponse getIntermediaryOneReview(Long reviewId) {
-        return queryFactory
-                .select(Projections.constructor(ReviewIntermediaryGetOneResponse.class,
+                .select(Projections.constructor(ReviewGetOneResponse.class,
                         dog.name, volunteer.nickname, reviewImage.image,
                         post.startDate, post.endDate, post.departureLoc, post.arrivalLoc,
                         intermediary.name, review.content))
