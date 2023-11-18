@@ -3,6 +3,7 @@ package com.pawwithu.connectdog.domain.post.repository;
 import com.pawwithu.connectdog.domain.intermediary.dto.response.IntermediaryGetPostsResponse;
 import com.pawwithu.connectdog.domain.post.dto.request.PostSearchRequest;
 import com.pawwithu.connectdog.domain.post.dto.response.*;
+import com.pawwithu.connectdog.domain.post.entity.PostStatus;
 import org.springframework.data.domain.Pageable;
 
 import java.util.List;
@@ -22,4 +23,5 @@ public interface CustomPostRepository {
     // 봉사 완료 건수
     Long getCountOfCompletedPosts(Long intermediaryId);
     PostIntermediaryGetOneResponse getIntermediaryOnePost(Long postId);
+    Long getCountOfPostStatus(Long intermediaryId, PostStatus status);
 }

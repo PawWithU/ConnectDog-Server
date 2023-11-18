@@ -1,12 +1,10 @@
 package com.pawwithu.connectdog.domain.intermediary.service;
 
 import com.pawwithu.connectdog.domain.dogStatus.repository.CustomDogStatusRepository;
-import com.pawwithu.connectdog.domain.intermediary.dto.response.IntermediaryGetDogStatusesResponse;
-import com.pawwithu.connectdog.domain.intermediary.dto.response.IntermediaryGetInfoResponse;
-import com.pawwithu.connectdog.domain.intermediary.dto.response.IntermediaryGetPostsResponse;
-import com.pawwithu.connectdog.domain.intermediary.dto.response.IntermediaryGetReviewsResponse;
+import com.pawwithu.connectdog.domain.intermediary.dto.response.*;
 import com.pawwithu.connectdog.domain.intermediary.entity.Intermediary;
 import com.pawwithu.connectdog.domain.intermediary.repository.IntermediaryRepository;
+import com.pawwithu.connectdog.domain.post.entity.PostStatus;
 import com.pawwithu.connectdog.domain.post.repository.CustomPostRepository;
 import com.pawwithu.connectdog.domain.review.repository.CustomReviewRepository;
 import com.pawwithu.connectdog.error.exception.custom.BadRequestException;
@@ -75,5 +73,15 @@ public class IntermediaryService {
         }
         List<IntermediaryGetDogStatusesResponse> intermediaryDogStatuses = customDogStatusRepository.getIntermediaryDogStatuses(intermediaryId, pageable);
         return intermediaryDogStatuses;
+    }
+
+    public IntermediaryGetHomeResponse getIntermediaryHome(String email) {
+        Intermediary intermediary = intermediaryRepository.findByEmail(email).orElseThrow(() -> new BadRequestException(INTERMEDIARY_NOT_FOUND));
+        Long recruitingCount = customPostRepository.getCountOfPostStatus(intermediary.getId(), PostStatus.RECRUITING);
+        Long waitingCount = customPostRepository.getCountOfPostStatus(intermediary.getId(), PostStatus.WAITING);
+        Long progressingCount = customPostRepository.getCountOfPostStatus(intermediary.getId(), PostStatus.PROGRESSING);
+        Long completedCount = customPostRepository.getCountOfPostStatus(intermediary.getId(), PostStatus.COMPLETED);
+        IntermediaryGetHomeResponse response = IntermediaryGetHomeResponse.of(intermediary, recruitingCount, waitingCount, progressingCount, completedCount);
+        return response;
     }
 }

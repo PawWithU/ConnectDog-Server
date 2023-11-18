@@ -141,6 +141,17 @@ public class CustomPostRepositoryImpl implements CustomPostRepository {
     }
 
     @Override
+    public Long getCountOfPostStatus(Long intermediaryId, PostStatus status) {
+        return queryFactory
+                .select(post.count())
+                .from(post)
+                .where(post.status.eq(status)
+                        .and(post.intermediary.id.eq(intermediaryId)))
+                .fetchOne();
+    }
+
+
+    @Override
     public PostIntermediaryGetOneResponse getIntermediaryOnePost(Long postId) {
         return queryFactory
                 .select(Projections.constructor(PostIntermediaryGetOneResponse.class,
