@@ -129,7 +129,6 @@ public class CustomReviewRepositoryImpl implements CustomReviewRepository {
                 .from(review)
                 .where(review.post.intermediary.id.eq(intermediaryId))
                 .join(review.post, post)
-                .join(review.post.intermediary, intermediary)
                 .fetchOne();
     }
 }
