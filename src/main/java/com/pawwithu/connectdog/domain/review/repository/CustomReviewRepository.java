@@ -22,5 +22,8 @@ public interface CustomReviewRepository {
     List<IntermediaryGetReviewsResponse> getIntermediaryReviews(Long intermediaryId, Pageable pageable);
 
     // 받은 후기 총 건수
-    Long getCountOfReviews(Long intermediaryId);
+    Long getIntermediaryCountOfReviews(Long intermediaryId);
+
+    // 봉사 후기 건수
+    Long getVolunteerCountOfReviews(Long id);
 }

@@ -166,4 +166,15 @@ public class CustomApplicationRepositoryImpl implements CustomApplicationReposit
                 .limit(pageable.getPageSize())  // 페이지 사이즈
                 .fetch();
     }
+
+    // 진행한 이동봉사 건수
+    @Override
+    public Long getCountOfCompletedApplications(Long id) {
+        return queryFactory
+                .select(application.count())
+                .from(application)
+                .where(application.volunteer.id.eq(id)
+                        .and(application.status.eq(ApplicationStatus.COMPLETED)))
+                .fetchOne();
+    }
 }

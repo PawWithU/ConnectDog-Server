@@ -78,13 +78,25 @@ public class CustomDogStatusRepositoryImpl implements CustomDogStatusRepository 
         return dogStatuses;
     }
 
-    // 남긴 근황 총 건수
+    // 이동봉사 중개 - 남긴 근황 총 건수
     @Override
-    public Long getCountOfDogStatuses(Long intermediaryId) {
+    public Long getIntermediaryCountOfDogStatuses(Long intermediaryId) {
         return queryFactory
                 .select(dogStatus.count())
                 .from(dogStatus)
                 .where(dogStatus.intermediary.id.eq(intermediaryId))
+                .fetchOne();
+    }
+
+    // 이동봉사자 - 입양 근황 건수
+    @Override
+    public Long getVolunteerCountOfDogStatuses(Long volunteerId) {
+        return queryFactory
+                .select(dogStatus.count())
+                .from(dogStatus)
+                .join(dogStatus.post, post)
+                .join(application).on(application.post.id.eq(dogStatus.post.id))
+                .where(application.volunteer.id.eq(volunteerId))
                 .fetchOne();
     }
 }
