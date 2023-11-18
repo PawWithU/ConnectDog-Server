@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Map;
 
 import static com.pawwithu.connectdog.error.ErrorCode.INTERMEDIARY_NOT_FOUND;
 
@@ -77,11 +78,13 @@ public class IntermediaryService {
 
     public IntermediaryGetHomeResponse getIntermediaryHome(String email) {
         Intermediary intermediary = intermediaryRepository.findByEmail(email).orElseThrow(() -> new BadRequestException(INTERMEDIARY_NOT_FOUND));
-        Long recruitingCount = customPostRepository.getCountOfPostStatus(intermediary.getId(), PostStatus.RECRUITING);
-        Long waitingCount = customPostRepository.getCountOfPostStatus(intermediary.getId(), PostStatus.WAITING);
-        Long progressingCount = customPostRepository.getCountOfPostStatus(intermediary.getId(), PostStatus.PROGRESSING);
-        Long completedCount = customPostRepository.getCountOfPostStatus(intermediary.getId(), PostStatus.COMPLETED);
-        IntermediaryGetHomeResponse response = IntermediaryGetHomeResponse.of(intermediary, recruitingCount, waitingCount, progressingCount, completedCount);
+        Map<PostStatus, Long> countOfPostStatus = customPostRepository.getCountOfPostStatus(intermediary.getId(), null);
+        IntermediaryGetHomeResponse response = IntermediaryGetHomeResponse.of(
+                intermediary,
+                countOfPostStatus.getOrDefault(PostStatus.RECRUITING, 0L),
+                countOfPostStatus.getOrDefault(PostStatus.WAITING, 0L),
+                countOfPostStatus.getOrDefault(PostStatus.PROGRESSING, 0L),
+                countOfPostStatus.getOrDefault(PostStatus.COMPLETED, 0L));
         return response;
     }
 }

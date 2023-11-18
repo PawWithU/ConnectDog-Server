@@ -19,6 +19,8 @@ import org.springframework.util.StringUtils;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 import static com.pawwithu.connectdog.domain.dog.entity.QDog.dog;
 import static com.pawwithu.connectdog.domain.intermediary.entity.QIntermediary.intermediary;
@@ -141,13 +143,19 @@ public class CustomPostRepositoryImpl implements CustomPostRepository {
     }
 
     @Override
-    public Long getCountOfPostStatus(Long intermediaryId, PostStatus status) {
+    public Map<PostStatus, Long> getCountOfPostStatus(Long intermediaryId, PostStatus status) {
         return queryFactory
-                .select(post.count())
+                .select(post.status, post.count())
                 .from(post)
-                .where(post.status.eq(status)
-                        .and(post.intermediary.id.eq(intermediaryId)))
-                .fetchOne();
+                .where(post.intermediary.id.eq(intermediaryId))
+                .groupBy(post.status)
+                .fetch()
+                .stream()
+                .collect(Collectors.toMap(
+                        tuple -> tuple.get(post.status),
+                        tuple -> tuple.get(post.count())
+                ));
+
     }
 
 

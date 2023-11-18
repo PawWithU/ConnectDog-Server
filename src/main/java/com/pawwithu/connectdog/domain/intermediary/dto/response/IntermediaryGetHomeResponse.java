@@ -10,4 +10,5 @@ public record IntermediaryGetHomeResponse(String profileImage, String intermedia
         return new IntermediaryGetHomeResponse(intermediary.getProfileImage(), intermediary.getName(), intermediary.getIntro(),
                 recruitingCount, waitingCount, progressingCount, completedCount);
     }
+
 }
