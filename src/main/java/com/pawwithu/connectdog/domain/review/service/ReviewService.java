@@ -5,8 +5,7 @@ import com.pawwithu.connectdog.domain.post.entity.Post;
 import com.pawwithu.connectdog.domain.post.repository.PostRepository;
 import com.pawwithu.connectdog.domain.review.dto.request.ReviewCreateRequest;
 import com.pawwithu.connectdog.domain.review.dto.response.ReviewGetAllResponse;
-import com.pawwithu.connectdog.domain.review.dto.response.ReviewIntermediaryGetOneResponse;
-import com.pawwithu.connectdog.domain.review.dto.response.ReviewVolunteerGetOneResponse;
+import com.pawwithu.connectdog.domain.review.dto.response.ReviewGetOneResponse;
 import com.pawwithu.connectdog.domain.review.entity.Review;
 import com.pawwithu.connectdog.domain.review.entity.ReviewImage;
 import com.pawwithu.connectdog.domain.review.repository.CustomReviewRepository;
@@ -67,7 +66,7 @@ public class ReviewService {
     }
 
     @Transactional(readOnly = true)
-    public ReviewVolunteerGetOneResponse getVolunteerOneReview(String email, Long reviewId) {
+    public ReviewGetOneResponse getOneReview(String email, Long reviewId) {
         Volunteer volunteer = volunteerRepository.findByEmail(email).orElseThrow(() -> new BadRequestException(VOLUNTEER_NOT_FOUND));
 
         // 후기 존재 여부 확인
@@ -76,10 +75,10 @@ public class ReviewService {
         }
 
         // 후기 조회 (대표 이미지 포함)
-        ReviewVolunteerGetOneResponse oneReview = customReviewRepository.getVolunteerOneReview(volunteer.getId(), reviewId);
+        ReviewGetOneResponse oneReview = customReviewRepository.getOneReview(volunteer.getId(), reviewId);
         // 후기 이미지 조회 (대표 이미지 제외)
         List<String> oneReviewImages = customReviewRepository.getOneReviewImages(reviewId);
-        ReviewVolunteerGetOneResponse review = ReviewVolunteerGetOneResponse.of(oneReview, oneReviewImages);
+        ReviewGetOneResponse review = ReviewGetOneResponse.of(oneReview, oneReviewImages);
         return review;
     }
 
@@ -87,21 +86,5 @@ public class ReviewService {
     public List<ReviewGetAllResponse> getAllReviews(Pageable pageable) {
         List<ReviewGetAllResponse> reviews = customReviewRepository.getAllReviews(pageable);
         return reviews;
-    }
-
-    @Transactional(readOnly = true)
-    public ReviewIntermediaryGetOneResponse getIntermediaryOneReview(String email, Long reviewId) {
-
-        // 후기 존재 여부 확인
-        if (!reviewRepository.existsById(reviewId)) {
-            throw new BadRequestException(REVIEW_NOT_FOUND);
-        }
-
-        // 후기 조회 (대표 이미지 포함)
-        ReviewIntermediaryGetOneResponse oneReview = customReviewRepository.getIntermediaryOneReview(reviewId);
-        // 후기 이미지 조회 (대표 이미지 제외)
-        List<String> oneReviewImages = customReviewRepository.getOneReviewImages(reviewId);
-        ReviewIntermediaryGetOneResponse review = ReviewIntermediaryGetOneResponse.of(oneReview, oneReviewImages);
-        return review;
     }
 }
