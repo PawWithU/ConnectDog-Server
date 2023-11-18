@@ -76,7 +76,7 @@ class ReviewControllerTest {
     }
 
     @Test
-    void 이동봉사자_후기_단건_조회() throws Exception {
+    void 이동봉사_후기_단건_조회() throws Exception {
         // given
         Long reviewId = 1L;
         LocalDate startDate = LocalDate.of(2023, 10, 2);
