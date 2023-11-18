@@ -1,10 +1,7 @@
 package com.pawwithu.connectdog.domain.intermediary.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.pawwithu.connectdog.domain.intermediary.dto.response.IntermediaryGetDogStatusesResponse;
-import com.pawwithu.connectdog.domain.intermediary.dto.response.IntermediaryGetInfoResponse;
-import com.pawwithu.connectdog.domain.intermediary.dto.response.IntermediaryGetPostsResponse;
-import com.pawwithu.connectdog.domain.intermediary.dto.response.IntermediaryGetReviewsResponse;
+import com.pawwithu.connectdog.domain.intermediary.dto.response.*;
 import com.pawwithu.connectdog.domain.intermediary.service.IntermediaryService;
 import com.pawwithu.connectdog.utils.TestUserArgumentResolver;
 import org.junit.jupiter.api.BeforeEach;
@@ -151,6 +148,23 @@ class IntermediaryControllerTest {
         // then
         result.andExpect(status().isOk());
         verify(intermediaryService, times(1)).getIntermediaryDogStatuses(anyLong(), any());
+    }
+
+    @Test
+    void 이동봉사_중개_홈_화면_정보_조회() throws Exception {
+        // given
+        IntermediaryGetHomeResponse response = new IntermediaryGetHomeResponse("image1", "하노정", "안녕하세요",
+                1L, 2L, 3L, 1L);
+
+        // when
+        given(intermediaryService.getIntermediaryHome(anyString())).willReturn(response);
+        ResultActions result = mockMvc.perform(
+                get("/intermediaries/home")
+        );
+
+        // then
+        result.andExpect(status().isOk());
+        verify(intermediaryService, times(1)).getIntermediaryHome(anyString());
     }
 
 

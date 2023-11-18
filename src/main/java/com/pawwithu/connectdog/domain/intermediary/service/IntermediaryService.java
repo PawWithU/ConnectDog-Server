@@ -1,12 +1,10 @@
 package com.pawwithu.connectdog.domain.intermediary.service;
 
 import com.pawwithu.connectdog.domain.dogStatus.repository.CustomDogStatusRepository;
-import com.pawwithu.connectdog.domain.intermediary.dto.response.IntermediaryGetDogStatusesResponse;
-import com.pawwithu.connectdog.domain.intermediary.dto.response.IntermediaryGetInfoResponse;
-import com.pawwithu.connectdog.domain.intermediary.dto.response.IntermediaryGetPostsResponse;
-import com.pawwithu.connectdog.domain.intermediary.dto.response.IntermediaryGetReviewsResponse;
+import com.pawwithu.connectdog.domain.intermediary.dto.response.*;
 import com.pawwithu.connectdog.domain.intermediary.entity.Intermediary;
 import com.pawwithu.connectdog.domain.intermediary.repository.IntermediaryRepository;
+import com.pawwithu.connectdog.domain.post.entity.PostStatus;
 import com.pawwithu.connectdog.domain.post.repository.CustomPostRepository;
 import com.pawwithu.connectdog.domain.review.repository.CustomReviewRepository;
 import com.pawwithu.connectdog.error.exception.custom.BadRequestException;
@@ -17,6 +15,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Map;
 
 import static com.pawwithu.connectdog.error.ErrorCode.INTERMEDIARY_NOT_FOUND;
 
@@ -75,5 +74,17 @@ public class IntermediaryService {
         }
         List<IntermediaryGetDogStatusesResponse> intermediaryDogStatuses = customDogStatusRepository.getIntermediaryDogStatuses(intermediaryId, pageable);
         return intermediaryDogStatuses;
+    }
+
+    public IntermediaryGetHomeResponse getIntermediaryHome(String email) {
+        Intermediary intermediary = intermediaryRepository.findByEmail(email).orElseThrow(() -> new BadRequestException(INTERMEDIARY_NOT_FOUND));
+        Map<PostStatus, Long> countOfPostStatus = customPostRepository.getCountOfPostStatus(intermediary.getId(), null);
+        IntermediaryGetHomeResponse response = IntermediaryGetHomeResponse.of(
+                intermediary,
+                countOfPostStatus.getOrDefault(PostStatus.RECRUITING, 0L),
+                countOfPostStatus.getOrDefault(PostStatus.WAITING, 0L),
+                countOfPostStatus.getOrDefault(PostStatus.PROGRESSING, 0L),
+                countOfPostStatus.getOrDefault(PostStatus.COMPLETED, 0L));
+        return response;
     }
 }
