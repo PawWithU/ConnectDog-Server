@@ -50,10 +50,10 @@ public class ReviewController {
             security = { @SecurityRequirement(name = "bearer-key") },
             responses = {@ApiResponse(responseCode = "200", description = "후기 단건 조회 성공")
                     , @ApiResponse(responseCode = "400"
-                    , description = "M1, 해당 이동봉사자를 찾을 수 없습니다. \t\n R1, 해당 후기를 찾을 수 없습니다."
+                    , description = "R1, 해당 후기를 찾을 수 없습니다."
                     , content = @Content(schema = @Schema(implementation = ErrorResponse.class)))
             })
-    @GetMapping(value = {"/volunteers/reviews/{reviewId}", "/volunteers/reviews/{reviewId}"})
+    @GetMapping(value = {"/intermediaries/reviews/{reviewId}", "/volunteers/reviews/{reviewId}"})
     public ResponseEntity<ReviewGetOneResponse> getOneReview(@AuthenticationPrincipal UserDetails loginUser, @PathVariable Long reviewId) {
         ReviewGetOneResponse response = reviewService.getOneReview(loginUser.getUsername(), reviewId);
         return ResponseEntity.ok(response);

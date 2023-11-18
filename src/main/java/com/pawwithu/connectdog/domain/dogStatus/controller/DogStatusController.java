@@ -1,8 +1,7 @@
 package com.pawwithu.connectdog.domain.dogStatus.controller;
 
 import com.pawwithu.connectdog.domain.dogStatus.dto.request.DogStatusCreateRequest;
-import com.pawwithu.connectdog.domain.dogStatus.dto.response.DogStatusIntermediaryGetOneResponse;
-import com.pawwithu.connectdog.domain.dogStatus.dto.response.DogStatusVolunteerGetOneResponse;
+import com.pawwithu.connectdog.domain.dogStatus.dto.response.DogStatusGetOneResponse;
 import com.pawwithu.connectdog.domain.dogStatus.service.DogStatusService;
 import com.pawwithu.connectdog.error.dto.ErrorResponse;
 import io.swagger.v3.oas.annotations.Operation;
@@ -45,16 +44,16 @@ public class DogStatusController {
         return ResponseEntity.noContent().build();
     }
 
-    @Operation(summary = "이동봉사 중개 - 근황 단건 조회", description = "근황 단건 조회합니다.",
+    @Operation(summary = "근황 단건 조회", description = "근황 단건 조회합니다.",
             security = { @SecurityRequirement(name = "bearer-key") },
             responses = {@ApiResponse(responseCode = "200", description = "근황 단건 조회 성공")
                     , @ApiResponse(responseCode = "400"
-                    , description = "M2, 해당 이동봉사 중개를 찾을 수 없습니다. \t\n D1, 해당 근황을 찾을 수 없습니다."
+                    , description = "D1, 해당 근황을 찾을 수 없습니다."
                     , content = @Content(schema = @Schema(implementation = ErrorResponse.class)))
             })
-    @GetMapping("/intermediaries/dogStatus/{dogStatusId}")
-    public ResponseEntity<DogStatusIntermediaryGetOneResponse> getIntermediaryOneDogStatus(@AuthenticationPrincipal UserDetails loginUser, @PathVariable Long dogStatusId) {
-        DogStatusIntermediaryGetOneResponse response = dogStatusService.getIntermediaryOneDogStatus(loginUser.getUsername(), dogStatusId);
+    @GetMapping(value = {"/intermediaries/dogStatus/{dogStatusId}", "/volunteers/dogStatus/{dogStatusId}"})
+    public ResponseEntity<DogStatusGetOneResponse> getOneDogStatus(@AuthenticationPrincipal UserDetails loginUser, @PathVariable Long dogStatusId) {
+        DogStatusGetOneResponse response = dogStatusService.getOneDogStatus(loginUser.getUsername(), dogStatusId);
         return ResponseEntity.ok(response);
     }
 }
