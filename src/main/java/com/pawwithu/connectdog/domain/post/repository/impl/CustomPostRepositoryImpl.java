@@ -44,6 +44,7 @@ public class CustomPostRepositoryImpl implements CustomPostRepository {
                         .from(post)
                         .join(post.intermediary, intermediary)
                         .join(post.mainImage, postImage)
+                        .where(post.status.eq(PostStatus.RECRUITING))
                         .orderBy(post.createdDate.desc())
                         .limit(5)
                         .fetch();
@@ -188,7 +189,7 @@ public class CustomPostRepositoryImpl implements CustomPostRepository {
 
     // 공고 상태 필터
     private BooleanExpression postStatusEq(PostStatus postStatus) {
-        return postStatus == null ? null : post.status.eq(postStatus);
+        return postStatus == null ? post.status.eq(PostStatus.RECRUITING) : post.status.eq(postStatus);
     }
 
     // 출발 지역 필터
