@@ -50,6 +50,15 @@ jobs:
           echo "${{ secrets.APPLICATION_DEV_YML }}" > ./application-dev.yml
         shell: bash
 
+      # firebase-key.json 생성
+      - name: create firebase-key.json
+        run: |
+          cd ./src/main/resources
+          touch ./firebase-key.json
+          echo "${{ secrets.FCM }}" | base64 --decode > ./firebase-key.json
+          ls -la
+        shell: bash
+
       # ./gradlew 권한 설정
       - name: ./gradlew 권한 설정
         run: chmod +x ./gradlew
