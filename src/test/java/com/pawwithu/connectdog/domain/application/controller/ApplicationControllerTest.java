@@ -288,5 +288,19 @@ class ApplicationControllerTest {
         verify(applicationService, times(1)).getIntermediaryOneApplication(anyString(), anyLong());
     }
 
+    @Test
+    void 이동봉사_신청_기본_정보_불러오기() throws Exception {
+        //given
+        ApplicationVolunteerInfoResponse response = new ApplicationVolunteerInfoResponse("한호정", "01022223333");
+
+        //when
+        ResultActions result = mockMvc.perform(
+                get("/volunteers/applications/my-info")
+        );
+
+        //then
+        result.andExpect(status().isOk());
+        verify(applicationService, times(1)).getMyInfo(anyString());
+    }
 
 }
