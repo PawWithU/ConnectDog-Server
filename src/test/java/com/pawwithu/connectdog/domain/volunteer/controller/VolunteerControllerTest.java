@@ -5,6 +5,7 @@ import com.pawwithu.connectdog.domain.post.dto.response.PostGetHomeResponse;
 import com.pawwithu.connectdog.domain.volunteer.dto.request.AdditionalAuthRequest;
 import com.pawwithu.connectdog.domain.volunteer.dto.request.NicknameRequest;
 import com.pawwithu.connectdog.domain.volunteer.dto.response.NicknameResponse;
+import com.pawwithu.connectdog.domain.volunteer.dto.response.VolunteerGetMyBadgeResponse;
 import com.pawwithu.connectdog.domain.volunteer.dto.response.VolunteerGetMyBookmarkResponse;
 import com.pawwithu.connectdog.domain.volunteer.dto.response.VolunteerGetMyInfoResponse;
 import com.pawwithu.connectdog.domain.volunteer.service.VolunteerService;
@@ -124,5 +125,24 @@ class VolunteerControllerTest {
         // then
         result.andExpect(status().isOk());
         verify(volunteerService, times(1)).getMyBookmarks(any());
+    }
+
+    @Test
+    void 이동봉사자_마이페이지_활동_배지_목록_조회() throws Exception {
+        // given
+        List<VolunteerGetMyBadgeResponse> response = new ArrayList<>();
+        response.add(new VolunteerGetMyBadgeResponse(1L, "코넥독 후기왕1", "image1"));
+        response.add(new VolunteerGetMyBadgeResponse(2L, "코넥독 후기왕2", "image2"));
+        response.add(new VolunteerGetMyBadgeResponse(2L, "코넥독 후기왕3", null));
+
+        // when
+        given(volunteerService.getMyBadges(any())).willReturn(response);
+        ResultActions result = mockMvc.perform(
+                get("/volunteers/my/badges")
+        );
+
+        // then
+        result.andExpect(status().isOk());
+        verify(volunteerService, times(1)).getMyBadges(any());
     }
 }
