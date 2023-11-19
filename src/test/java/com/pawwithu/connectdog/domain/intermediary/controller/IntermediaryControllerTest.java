@@ -1,6 +1,7 @@
 package com.pawwithu.connectdog.domain.intermediary.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.pawwithu.connectdog.domain.intermediary.dto.request.IntermediaryMyProfileRequest;
 import com.pawwithu.connectdog.domain.intermediary.dto.response.*;
 import com.pawwithu.connectdog.domain.intermediary.service.IntermediaryService;
 import com.pawwithu.connectdog.utils.TestUserArgumentResolver;
@@ -13,11 +14,16 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableHandlerMethodArgumentResolver;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.MediaType;
+import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.filter.CharacterEncodingFilter;
 
+import java.nio.charset.StandardCharsets;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -27,6 +33,7 @@ import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.patch;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @ExtendWith(MockitoExtension.class)
@@ -167,5 +174,23 @@ class IntermediaryControllerTest {
         verify(intermediaryService, times(1)).getIntermediaryHome(anyString());
     }
 
+    @Test
+    void 이동봉사_중개_마이페이지_프로필_수정() throws Exception {
+        // given
+        IntermediaryMyProfileRequest request = new IntermediaryMyProfileRequest("한줄 소개 변경", "문의 받을 연락처 변경", "안내사항 변경");
+        MockMultipartFile profileImage = new MockMultipartFile("profileImage", "profileImage.png", "multipart/form-data", "uploadFile".getBytes(StandardCharsets.UTF_8));
+        MockMultipartFile intermediaryMyProfileRequest = new MockMultipartFile("request", null, "application/json", objectMapper.writeValueAsString(request).getBytes(StandardCharsets.UTF_8));
 
+        // when
+        ResultActions result = mockMvc.perform(MockMvcRequestBuilders
+                .multipart(HttpMethod.PATCH, "/intermediaries/my/profile")
+                .file(profileImage)
+                .file(intermediaryMyProfileRequest)
+                .accept(MediaType.APPLICATION_JSON)
+                .contentType(MediaType.MULTIPART_FORM_DATA));
+
+        // then
+        result.andExpect(status().isNoContent());
+        verify(intermediaryService, times(1)).intermediaryMyProfile(anyString(), any(), any());
+    }
 }
