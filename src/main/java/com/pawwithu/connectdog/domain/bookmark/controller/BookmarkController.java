@@ -31,7 +31,7 @@ public class BookmarkController {
                     , description = "M2, 해당 이동봉사자를 찾을 수 없습니다. \t\n P2, 해당 공고를 찾을 수 없습니다."
                     , content = @Content(schema = @Schema(implementation = ErrorResponse.class)))
             })
-    @PostMapping(value = "/volunteers/bookmarks/{postId}")
+    @PostMapping(value = "/volunteers/posts/{postId}/bookmarks")
     public ResponseEntity<Void> createBookmark(@AuthenticationPrincipal UserDetails loginUser, @PathVariable("postId") Long postId) {
         bookmarkService.createBookmark(loginUser.getUsername(), postId);
         return ResponseEntity.noContent().build();
@@ -44,7 +44,7 @@ public class BookmarkController {
                     , description = "M2, 해당 이동봉사자를 찾을 수 없습니다. \t\n P2, 해당 공고를 찾을 수 없습니다."
                     , content = @Content(schema = @Schema(implementation = ErrorResponse.class)))
             })
-    @DeleteMapping(value = "/volunteers/bookmarks/{postId}")
+    @DeleteMapping(value = "/volunteers/posts/{postId}/bookmarks")
     public ResponseEntity<Void> deleteBookmark(@AuthenticationPrincipal UserDetails loginUser, @PathVariable("postId") Long postId) {
         bookmarkService.deleteBookmark(loginUser.getUsername(), postId);
         return ResponseEntity.noContent().build();
