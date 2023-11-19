@@ -1,5 +1,6 @@
 package com.pawwithu.connectdog.domain.intermediary.controller;
 
+import com.pawwithu.connectdog.domain.intermediary.dto.request.IntermediaryMyProfileRequest;
 import com.pawwithu.connectdog.domain.intermediary.dto.response.*;
 import com.pawwithu.connectdog.domain.intermediary.service.IntermediaryService;
 import com.pawwithu.connectdog.error.dto.ErrorResponse;
@@ -9,14 +10,14 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -94,4 +95,20 @@ public class IntermediaryController {
         IntermediaryGetHomeResponse response = intermediaryService.getIntermediaryHome(loginUser.getUsername());
         return ResponseEntity.ok(response);
     }
+
+    @Operation(summary = "이동봉사 중개 - 마이페이지 프로필 수정", description = "마이페이지 프로필을 수정합니다.",
+            security = { @SecurityRequirement(name = "bearer-key") },
+            responses = {@ApiResponse(responseCode = "204", description = "마이페이지 프로필 수정 성공")
+                    , @ApiResponse(responseCode = "400"
+                    , description = "V1, 한줄 소개는 50자 이하로 입력해 주세요. \t\n V1, 문의 받을 연락처는 50자 이하로 입력해 주세요. \t\n V1, 안내사항은 200자 이하로 입력해 주세요. \t\n M2, 해당 이동봉사 중개를 찾을 수 없습니다."
+                    , content = @Content(schema = @Schema(implementation = ErrorResponse.class)))
+            })
+    @PatchMapping("/intermediaries/my/profile")
+    public ResponseEntity<Void> intermediaryMyProfile(@AuthenticationPrincipal UserDetails loginUser,
+                                                      @RequestPart @Valid IntermediaryMyProfileRequest request,
+                                                      @RequestPart(name = "profileImage", required = false) MultipartFile profileImage) {
+        intermediaryService.intermediaryMyProfile(loginUser.getUsername(), request, profileImage);
+        return ResponseEntity.noContent().build();
+    }
+
 }

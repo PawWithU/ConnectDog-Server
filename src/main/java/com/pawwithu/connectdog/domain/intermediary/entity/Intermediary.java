@@ -49,4 +49,17 @@ public class Intermediary extends BaseTimeEntity {
     public void passwordEncode(PasswordEncoder passwordEncoder) {
         this.password = passwordEncoder.encode(this.password);
     }
+
+    public void updateProfile(String profileImage, String intro, String contact, String guide) {
+        this.profileImage = profileImage;
+        this.intro = intro;
+        this.contact = contact;
+        this.guide = guide;
+    }
+
+    public void updateProfileWithoutImage(String intro, String contact, String guide) {
+        this.intro = intro;
+        this.contact = contact;
+        this.guide = guide;
+    }
 }
