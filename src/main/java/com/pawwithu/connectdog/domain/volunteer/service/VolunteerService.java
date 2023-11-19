@@ -1,12 +1,14 @@
 package com.pawwithu.connectdog.domain.volunteer.service;
 
 import com.pawwithu.connectdog.domain.application.repository.CustomApplicationRepository;
+import com.pawwithu.connectdog.domain.badge.repository.CustomVolunteerBadgeRepository;
 import com.pawwithu.connectdog.domain.bookmark.repository.CustomBookmarkRepository;
 import com.pawwithu.connectdog.domain.dogStatus.repository.CustomDogStatusRepository;
 import com.pawwithu.connectdog.domain.review.repository.CustomReviewRepository;
 import com.pawwithu.connectdog.domain.volunteer.dto.request.AdditionalAuthRequest;
 import com.pawwithu.connectdog.domain.volunteer.dto.request.NicknameRequest;
 import com.pawwithu.connectdog.domain.volunteer.dto.response.NicknameResponse;
+import com.pawwithu.connectdog.domain.volunteer.dto.response.VolunteerGetMyBadgeResponse;
 import com.pawwithu.connectdog.domain.volunteer.dto.response.VolunteerGetMyBookmarkResponse;
 import com.pawwithu.connectdog.domain.volunteer.dto.response.VolunteerGetMyInfoResponse;
 import com.pawwithu.connectdog.domain.volunteer.entity.Volunteer;
@@ -33,6 +35,7 @@ public class VolunteerService {
     private final CustomReviewRepository customReviewRepository;
     private final CustomDogStatusRepository customDogStatusRepository;
     private final CustomBookmarkRepository customBookmarkRepository;
+    private final CustomVolunteerBadgeRepository customVolunteerBadgeRepository;
 
     @Transactional(readOnly = true)
     public NicknameResponse isNicknameDuplicated(NicknameRequest nickNameRequest) {
@@ -69,5 +72,13 @@ public class VolunteerService {
 
         List<VolunteerGetMyBookmarkResponse> bookmarks = customBookmarkRepository.getMyBookmarks(volunteer.getId());
         return bookmarks;
+    }
+
+    @Transactional(readOnly = true)
+    public List<VolunteerGetMyBadgeResponse> getMyBadges(String email) {
+        Volunteer volunteer = volunteerRepository.findByEmail(email).orElseThrow(() -> new BadRequestException(VOLUNTEER_NOT_FOUND));
+
+        List<VolunteerGetMyBadgeResponse> badges = customVolunteerBadgeRepository.getMyBadges(volunteer.getId());
+        return badges;
     }
 }

@@ -18,5 +18,7 @@ public class Badge extends BaseTimeEntity {
     private Long id;
     @Column(length = 20, nullable = false)
     private String name; // 뱃지 이름
+    @Column(nullable = false)
+    private String image; // 뱃지 사진
 
 }
