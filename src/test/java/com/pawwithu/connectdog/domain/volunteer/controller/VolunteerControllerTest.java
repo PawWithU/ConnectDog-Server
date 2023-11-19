@@ -1,9 +1,11 @@
 package com.pawwithu.connectdog.domain.volunteer.controller;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.pawwithu.connectdog.domain.post.dto.response.PostGetHomeResponse;
 import com.pawwithu.connectdog.domain.volunteer.dto.request.AdditionalAuthRequest;
 import com.pawwithu.connectdog.domain.volunteer.dto.request.NicknameRequest;
+import com.pawwithu.connectdog.domain.volunteer.dto.request.VolunteerMyProfileRequest;
 import com.pawwithu.connectdog.domain.volunteer.dto.response.NicknameResponse;
 import com.pawwithu.connectdog.domain.volunteer.dto.response.VolunteerGetMyBadgeResponse;
 import com.pawwithu.connectdog.domain.volunteer.dto.response.VolunteerGetMyBookmarkResponse;
@@ -30,8 +32,7 @@ import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 
@@ -144,5 +145,23 @@ class VolunteerControllerTest {
         // then
         result.andExpect(status().isOk());
         verify(volunteerService, times(1)).getMyBadges(any());
+    }
+
+    @Test
+    void 이동봉사자_마이페이지_프로필_수정() throws Exception {
+        // given
+        VolunteerMyProfileRequest request = new VolunteerMyProfileRequest("하노짱", 2);
+
+        // when
+        ResultActions result = mockMvc.perform(
+                patch("/volunteers/my/profile")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(request))
+        );
+
+        // then
+        result.andExpect(status().isNoContent());
+        verify(volunteerService, times(1)).volunteerMyProfile(anyString(), any());
+
     }
 }
