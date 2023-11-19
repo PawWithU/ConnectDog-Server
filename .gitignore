@@ -43,4 +43,4 @@ application-prod.yml
 application-oauth.yml
 application-jwt.yml
 
-src/main/resources/firebase/firebase-key.json
+src/main/resources/firebase-key.json
