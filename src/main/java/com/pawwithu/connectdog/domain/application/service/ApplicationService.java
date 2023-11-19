@@ -161,4 +161,11 @@ public class ApplicationService {
         ApplicationIntermediaryGetOneResponse oneApplication = ApplicationIntermediaryGetOneResponse.from(application);
         return oneApplication;
     }
+
+    public ApplicationVolunteerInfoResponse getMyInfo(String email) {
+        // 이동봉사자
+        Volunteer volunteer = volunteerRepository.findByEmail(email).orElseThrow(() -> new BadRequestException(VOLUNTEER_NOT_FOUND));
+        ApplicationVolunteerInfoResponse volunteerInfo = ApplicationVolunteerInfoResponse.of(volunteer.getName(), volunteer.getPhone());
+        return volunteerInfo;
+    }
 }

@@ -186,4 +186,16 @@ public class ApplicationController {
         ApplicationIntermediaryGetOneResponse response = applicationService.getIntermediaryOneApplication(loginUser.getUsername(), applicationId);
         return ResponseEntity.ok(response);
     }
+
+    @Operation(summary = "신청 - 기본 정보 불러오기", description = "신청에서 기본 정보를 불러옵니다.",
+            responses = {@ApiResponse(responseCode = "200", description = "기본 정보 불러오기 성공")
+                    , @ApiResponse(responseCode = "400"
+                    , description = "M1, 해당 이동봉사자를 찾을 수 없습니다."
+                    , content = @Content(schema = @Schema(implementation = ErrorResponse.class)))
+            })
+    @GetMapping( "/volunteers/applications/my-info")
+    public ResponseEntity<ApplicationVolunteerInfoResponse> getMyInfo(@AuthenticationPrincipal UserDetails loginUser) {
+        ApplicationVolunteerInfoResponse response = applicationService.getMyInfo(loginUser.getUsername());
+        return ResponseEntity.ok(response);
+    }
 }
