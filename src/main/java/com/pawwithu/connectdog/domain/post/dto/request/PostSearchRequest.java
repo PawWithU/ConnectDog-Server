@@ -11,10 +11,10 @@ public record PostSearchRequest(@RequestParam(value = "postStatus", required = f
                                 @RequestParam(value = "departureLoc", required = false) String departureLoc,
                                 @RequestParam(value = "arrivalLoc", required = false)
                                 String arrivalLoc,
-                                @RequestParam(value = "startDate", required = false)
+                                @RequestParam(value = "startDate", required = false, defaultValue = "")
                                 @DateTimeFormat(pattern = "yyyy-MM-dd")
                                 LocalDate startDate,
-                                @RequestParam(value = "endDate", required = false)
+                                @RequestParam(value = "endDate", required = false, defaultValue = "")
                                 @DateTimeFormat(pattern = "yyyy-MM-dd")
                                 LocalDate endDate,
                                 @RequestParam(value = "dogSize", required = false) DogSize dogSize,
