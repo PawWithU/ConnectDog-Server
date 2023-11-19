@@ -44,7 +44,7 @@ public class CustomReviewRepositoryImpl implements CustomReviewRepository {
     public ReviewGetOneResponse getOneReview(Long reviewId) {
         return queryFactory
                 .select(Projections.constructor(ReviewGetOneResponse.class,
-                        dog.name, volunteer.nickname, reviewImage.image,
+                        volunteer.profileImageNum, dog.name, volunteer.nickname, reviewImage.image,
                         post.startDate, post.endDate, post.departureLoc, post.arrivalLoc,
                         intermediary.name, review.content))
                 .from(review)
@@ -62,7 +62,7 @@ public class CustomReviewRepositoryImpl implements CustomReviewRepository {
     public List<ReviewGetAllResponse> getAllReviews(Pageable pageable) {
         List<ReviewGetAllResponse> reviews = queryFactory
                 .select(Projections.constructor(ReviewGetAllResponse.class,
-                        dog.name, volunteer.nickname, reviewImage.image,
+                        volunteer.profileImageNum, dog.name, volunteer.nickname, reviewImage.image,
                         post.startDate, post.endDate, post.departureLoc, post.arrivalLoc,
                         intermediary.name, review.content))
                 .from(review)
@@ -84,7 +84,7 @@ public class CustomReviewRepositoryImpl implements CustomReviewRepository {
     public List<IntermediaryGetReviewsResponse> getIntermediaryReviews(Long intermediaryId, Pageable pageable) {
         List<IntermediaryGetReviewsResponse> reviews = queryFactory
                 .select(Projections.constructor(IntermediaryGetReviewsResponse.class,
-                        dog.name, volunteer.nickname, reviewImage.image,
+                        volunteer.profileImageNum, dog.name, volunteer.nickname, reviewImage.image,
                         post.startDate, post.endDate, post.departureLoc, post.arrivalLoc,
                         intermediary.name, review.content))
                 .from(review)
