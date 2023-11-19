@@ -78,14 +78,14 @@ public class CustomApplicationRepositoryImpl implements CustomApplicationReposit
     }
 
     @Override
-    public Optional<Application> findByIdAndIntermediaryIdWithPost(Long applicationId, Long intermediaryId) {
+    public Optional<Application> findByIdAndIntermediaryIdAndStatusWithPost(Long applicationId, Long intermediaryId, ApplicationStatus status) {
         return Optional.ofNullable(queryFactory
                 .select(application)
                 .from(application)
                 .join(application.post, post).fetchJoin()
                 .where(application.id.eq(applicationId)
                         .and(application.intermediary.id.eq(intermediaryId))
-                        .and(application.status.eq(ApplicationStatus.WAITING)))
+                        .and(application.status.eq(status)))
                 .fetchOne());
     }
 
