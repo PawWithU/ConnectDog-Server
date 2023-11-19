@@ -53,7 +53,7 @@ jobs:
       # firebase-key.json 생성
       - name: create firebase-key.json
         run: |
-          cd ./src/main/resources/firebase
+          cd ./src/main/resources
           touch ./firebase-key.json
           echo "${{ secrets.FCM }}" | base64 --decode > ./firebase-key.json
           ls -la
