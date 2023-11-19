@@ -3,6 +3,7 @@ package com.pawwithu.connectdog.domain.volunteer.controller;
 import com.pawwithu.connectdog.domain.volunteer.dto.request.AdditionalAuthRequest;
 import com.pawwithu.connectdog.domain.volunteer.dto.request.NicknameRequest;
 import com.pawwithu.connectdog.domain.volunteer.dto.response.NicknameResponse;
+import com.pawwithu.connectdog.domain.volunteer.dto.response.VolunteerGetMyBadgeResponse;
 import com.pawwithu.connectdog.domain.volunteer.dto.response.VolunteerGetMyBookmarkResponse;
 import com.pawwithu.connectdog.domain.volunteer.dto.response.VolunteerGetMyInfoResponse;
 import com.pawwithu.connectdog.domain.volunteer.service.VolunteerService;
@@ -76,4 +77,18 @@ public class VolunteerController {
         List<VolunteerGetMyBookmarkResponse> response = volunteerService.getMyBookmarks(loginUser.getUsername());
         return ResponseEntity.ok(response);
     }
+
+    @Operation(summary = "마이페이지 활동 배지 목록 조회 API", description = "마이페이지 활동 배지 목록을 조회합니다.",
+            responses = {@ApiResponse(responseCode = "200", description = "마이페이지 활동 배지 목록 조회 성공")
+                    , @ApiResponse(responseCode = "400"
+                    , description = "M1, 해당 이동봉사자를 찾을 수 없습니다."
+                    , content = @Content(schema = @Schema(implementation = ErrorResponse.class)))
+            })
+    @GetMapping("/my/badges")
+    public ResponseEntity<List<VolunteerGetMyBadgeResponse>> getMyBadges(@AuthenticationPrincipal UserDetails loginUser) {
+        List<VolunteerGetMyBadgeResponse> response = volunteerService.getMyBadges(loginUser.getUsername());
+        return ResponseEntity.ok(response);
+    }
+
+
 }
