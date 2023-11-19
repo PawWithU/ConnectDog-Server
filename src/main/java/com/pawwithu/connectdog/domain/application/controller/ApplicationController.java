@@ -198,4 +198,17 @@ public class ApplicationController {
         ApplicationVolunteerInfoResponse response = applicationService.getMyInfo(loginUser.getUsername());
         return ResponseEntity.ok(response);
     }
+
+    @Operation(summary = "봉사 관리 - 진행중 - 봉사 완료하기", description = "진행중인 봉사를 완료합니다.",
+            responses = {@ApiResponse(responseCode = "204", description = "봉사 신청 확정 성공")
+                    , @ApiResponse(responseCode = "400"
+                    , description = "M2, 해당 이동봉사 중개를 찾을 수 없습니다. \t\n AP2, 해당 신청 내역을 찾을 수 없습니다."
+                    , content = @Content(schema = @Schema(implementation = ErrorResponse.class)))
+            })
+    @PatchMapping( "/intermediaries/applications/{applicationId}/completed")
+    public ResponseEntity<Void> completeApplication(@AuthenticationPrincipal UserDetails loginUser,
+                                                   @PathVariable Long applicationId) {
+        applicationService.completeApplication(loginUser.getUsername(), applicationId);
+        return ResponseEntity.noContent().build();
+    }
 }

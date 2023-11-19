@@ -303,4 +303,19 @@ class ApplicationControllerTest {
         verify(applicationService, times(1)).getMyInfo(anyString());
     }
 
+    @Test
+    void 이동봉사_완료() throws Exception {
+        //given
+        Long applicationId = 1L;
+
+        //when
+        ResultActions result = mockMvc.perform(
+                patch("/intermediaries/applications/{applicationId}/completed", applicationId)
+        );
+
+        //then
+        result.andExpect(status().isNoContent());
+        verify(applicationService, times(1)).completeApplication(anyString(), anyLong());
+    }
+
 }
