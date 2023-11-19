@@ -169,4 +169,15 @@ public class ApplicationService {
         ApplicationVolunteerInfoResponse volunteerInfo = ApplicationVolunteerInfoResponse.of(volunteer.getName(), volunteer.getPhone());
         return volunteerInfo;
     }
+
+    public void completeApplication(String email, Long applicationId) {
+        // 이동봉사 중개
+        Intermediary intermediary = intermediaryRepository.findByEmail(email).orElseThrow(() -> new BadRequestException(INTERMEDIARY_NOT_FOUND));
+        // 신청 내역 + post
+        Application application = customApplicationRepository.findByIdAndIntermediaryIdAndStatusWithPost(applicationId, intermediary.getId(), ApplicationStatus.PROGRESSING).orElseThrow(() -> new BadRequestException(APPLICATION_NOT_FOUND));
+        Post post = application.getPost();
+        // 상태 업데이트 (진행중 -> 봉사 완료)
+        application.updateStatus(ApplicationStatus.COMPLETED);
+        post.updateStatus(PostStatus.COMPLETED);
+    }
 }
