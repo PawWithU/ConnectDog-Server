@@ -100,7 +100,7 @@ public class IntermediaryController {
             security = { @SecurityRequirement(name = "bearer-key") },
             responses = {@ApiResponse(responseCode = "204", description = "마이페이지 프로필 수정 성공")
                     , @ApiResponse(responseCode = "400"
-                    , description = "V1, 닉네임은 한글, 숫자만 사용 가능합니다. \t\n V1, 닉네임은 필수 입력 값입니다. \t\n V1, 닉네임은 2~10자로 입력해 주세요. \t\n A2, 이미 사용 중인 닉네임입니다. \t\n M1, 해당 이동봉사자를 찾을 수 없습니다."
+                    , description = "V1, 한줄 소개는 50자 이하로 입력해 주세요. \t\n V1, 문의 받을 연락처는 50자 이하로 입력해 주세요. \t\n V1, 안내사항은 200자 이하로 입력해 주세요. \t\n M2, 해당 이동봉사 중개를 찾을 수 없습니다."
                     , content = @Content(schema = @Schema(implementation = ErrorResponse.class)))
             })
     @PatchMapping("/intermediaries/my/profile")
