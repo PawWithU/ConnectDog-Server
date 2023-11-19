@@ -68,4 +68,8 @@ public class Volunteer extends BaseTimeEntity {
         this.nickname = nickname;
         this.profileImageNum = profileImageNum;
     }
+
+    public void updateProfileImage(Integer profileImageNum) {
+        this.profileImageNum = profileImageNum;
+    }
 }

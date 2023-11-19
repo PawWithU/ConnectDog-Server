@@ -86,13 +86,18 @@ public class VolunteerService {
 
     public void volunteerMyProfile(String email, VolunteerMyProfileRequest volunteerMyProfileRequest) {
         Volunteer volunteer = volunteerRepository.findByEmail(email).orElseThrow(() -> new BadRequestException(VOLUNTEER_NOT_FOUND));
-
-        if (volunteerRepository.existsByNickname(volunteerMyProfileRequest.nickname())) {
-            throw new BadRequestException(ALREADY_EXIST_NICKNAME);
-        }
-
+        String curNickname = volunteer.getNickname();
         String nickname = volunteerMyProfileRequest.nickname();
         Integer profileImageNum = volunteerMyProfileRequest.profileImageNum();
-        volunteer.updateMyProfile(nickname, profileImageNum);
+
+        if (curNickname.equals(nickname)) {
+            volunteer.updateProfileImage(profileImageNum);
+        } else {
+            if (volunteerRepository.existsByNickname(nickname)) {
+                throw new BadRequestException(ALREADY_EXIST_NICKNAME);
+            }
+
+            volunteer.updateMyProfile(nickname, profileImageNum);
+        }
     }
 }
