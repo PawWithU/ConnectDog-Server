@@ -84,7 +84,8 @@ public class CustomApplicationRepositoryImpl implements CustomApplicationReposit
                 .from(application)
                 .join(application.post, post).fetchJoin()
                 .where(application.id.eq(applicationId)
-                        .and(application.intermediary.id.eq(intermediaryId)))
+                        .and(application.intermediary.id.eq(intermediaryId))
+                        .and(application.status.eq(ApplicationStatus.WAITING)))
                 .fetchOne());
     }
 
