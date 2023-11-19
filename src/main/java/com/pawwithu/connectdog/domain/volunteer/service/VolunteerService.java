@@ -7,6 +7,7 @@ import com.pawwithu.connectdog.domain.dogStatus.repository.CustomDogStatusReposi
 import com.pawwithu.connectdog.domain.review.repository.CustomReviewRepository;
 import com.pawwithu.connectdog.domain.volunteer.dto.request.AdditionalAuthRequest;
 import com.pawwithu.connectdog.domain.volunteer.dto.request.NicknameRequest;
+import com.pawwithu.connectdog.domain.volunteer.dto.request.VolunteerMyProfileRequest;
 import com.pawwithu.connectdog.domain.volunteer.dto.response.NicknameResponse;
 import com.pawwithu.connectdog.domain.volunteer.dto.response.VolunteerGetMyBadgeResponse;
 import com.pawwithu.connectdog.domain.volunteer.dto.response.VolunteerGetMyBookmarkResponse;
@@ -22,6 +23,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
+import static com.pawwithu.connectdog.error.ErrorCode.ALREADY_EXIST_NICKNAME;
 import static com.pawwithu.connectdog.error.ErrorCode.VOLUNTEER_NOT_FOUND;
 
 @Slf4j
@@ -80,5 +82,17 @@ public class VolunteerService {
 
         List<VolunteerGetMyBadgeResponse> badges = customVolunteerBadgeRepository.getMyBadges(volunteer.getId());
         return badges;
+    }
+
+    public void volunteerMyProfile(String email, VolunteerMyProfileRequest volunteerMyProfileRequest) {
+        Volunteer volunteer = volunteerRepository.findByEmail(email).orElseThrow(() -> new BadRequestException(VOLUNTEER_NOT_FOUND));
+
+        if (volunteerRepository.existsByNickname(volunteerMyProfileRequest.nickname())) {
+            throw new BadRequestException(ALREADY_EXIST_NICKNAME);
+        }
+
+        String nickname = volunteerMyProfileRequest.nickname();
+        Integer profileImageNum = volunteerMyProfileRequest.profileImageNum();
+        volunteer.updateMyProfile(nickname, profileImageNum);
     }
 }

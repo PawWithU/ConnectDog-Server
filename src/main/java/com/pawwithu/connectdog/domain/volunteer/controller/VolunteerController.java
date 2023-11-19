@@ -2,6 +2,7 @@ package com.pawwithu.connectdog.domain.volunteer.controller;
 
 import com.pawwithu.connectdog.domain.volunteer.dto.request.AdditionalAuthRequest;
 import com.pawwithu.connectdog.domain.volunteer.dto.request.NicknameRequest;
+import com.pawwithu.connectdog.domain.volunteer.dto.request.VolunteerMyProfileRequest;
 import com.pawwithu.connectdog.domain.volunteer.dto.response.NicknameResponse;
 import com.pawwithu.connectdog.domain.volunteer.dto.response.VolunteerGetMyBadgeResponse;
 import com.pawwithu.connectdog.domain.volunteer.dto.response.VolunteerGetMyBookmarkResponse;
@@ -90,5 +91,17 @@ public class VolunteerController {
         return ResponseEntity.ok(response);
     }
 
+    @Operation(summary = "마이페이지 프로필 수정", description = "마이페이지 프로필을 수정합니다.",
+            security = { @SecurityRequirement(name = "bearer-key") },
+            responses = {@ApiResponse(responseCode = "204", description = "마이페이지 프로필 수정 성공")
+                    , @ApiResponse(responseCode = "400"
+                    , description = "M1, 해당 이동봉사자를 찾을 수 없습니다."
+                    , content = @Content(schema = @Schema(implementation = ErrorResponse.class)))
+            })
+    @PatchMapping("/my/profile")
+    public ResponseEntity<Void> volunteerMyProfile(@AuthenticationPrincipal UserDetails loginUser, @RequestBody @Valid VolunteerMyProfileRequest volunteerMyProfileRequest) {
+        volunteerService.volunteerMyProfile(loginUser.getUsername(), volunteerMyProfileRequest);
+        return ResponseEntity.noContent().build();
+    }
 
 }
