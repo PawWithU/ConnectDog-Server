@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.pawwithu.connectdog.domain.volunteer.dto.request.AdditionalAuthRequest;
 import com.pawwithu.connectdog.domain.volunteer.dto.request.NicknameRequest;
 import com.pawwithu.connectdog.domain.volunteer.dto.response.NicknameResponse;
+import com.pawwithu.connectdog.domain.volunteer.dto.response.VolunteerGetMyInfoResponse;
 import com.pawwithu.connectdog.domain.volunteer.service.VolunteerService;
 import com.pawwithu.connectdog.utils.TestUserArgumentResolver;
 import org.junit.jupiter.api.BeforeEach;
@@ -18,11 +19,11 @@ import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.filter.CharacterEncodingFilter;
 
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -80,4 +81,22 @@ class VolunteerControllerTest {
         result.andExpect(status().isNoContent());
         verify(volunteerService, times(1)).additionalAuth(anyString(), any());
     }
+
+    @Test
+    void 이동봉사자_마이페이지_통계_정보_조회() throws Exception {
+        // given
+        Long volunteerId = 1L;
+        VolunteerGetMyInfoResponse response = VolunteerGetMyInfoResponse.of(1L, 3L, 5L);
+
+        // when
+        given(volunteerService.getMyInfo(any())).willReturn(response);
+        ResultActions result = mockMvc.perform(
+                get("/volunteers/my/info")
+        );
+
+        // then
+        result.andExpect(status().isOk());
+        verify(volunteerService, times(1)).getMyInfo(any());
+    }
+
 }

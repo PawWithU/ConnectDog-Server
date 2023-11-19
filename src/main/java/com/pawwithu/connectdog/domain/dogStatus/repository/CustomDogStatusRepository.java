@@ -18,5 +18,8 @@ public interface CustomDogStatusRepository {
     List<IntermediaryGetDogStatusesResponse> getIntermediaryDogStatuses(Long intermediaryId, Pageable pageable);
 
     // 남긴 근황 총 건수
-    Long getCountOfDogStatuses(Long intermediaryId);
+    Long getIntermediaryCountOfDogStatuses(Long intermediaryId);
+
+    // 입양 근황 건수
+    Long getVolunteerCountOfDogStatuses(Long id);
 }

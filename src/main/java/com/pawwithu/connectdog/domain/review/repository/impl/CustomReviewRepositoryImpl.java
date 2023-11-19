@@ -102,14 +102,23 @@ public class CustomReviewRepositoryImpl implements CustomReviewRepository {
         return reviews;
     }
 
-    // 받은 후기 총 건수
+    // 이동봉사 중개 - 받은 후기 총 건수
     @Override
-    public Long getCountOfReviews(Long intermediaryId) {
+    public Long getIntermediaryCountOfReviews(Long intermediaryId) {
         return queryFactory
                 .select(review.count())
                 .from(review)
                 .where(review.post.intermediary.id.eq(intermediaryId))
-                .join(review.post, post)
+                .fetchOne();
+    }
+
+    // 이동봉사자 - 남긴 봉사 후기 건수
+    @Override
+    public Long getVolunteerCountOfReviews(Long volunteerId) {
+        return queryFactory
+                .select(review.count())
+                .from(review)
+                .where(review.volunteer.id.eq(volunteerId))
                 .fetchOne();
     }
 }
