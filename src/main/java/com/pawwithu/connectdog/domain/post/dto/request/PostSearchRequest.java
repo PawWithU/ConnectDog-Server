@@ -8,7 +8,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import java.time.LocalDate;
 
 public record PostSearchRequest(@RequestParam(value = "postStatus", required = false) PostStatus postStatus,
-                                String departureLoc,
+                                @RequestParam(value = "departureLoc", required = false) String departureLoc,
+                                @RequestParam(value = "arrivalLoc", required = false)
                                 String arrivalLoc,
                                 @DateTimeFormat(pattern = "yyyy-MM-dd")
                                 LocalDate startDate,
@@ -16,7 +17,9 @@ public record PostSearchRequest(@RequestParam(value = "postStatus", required = f
                                 LocalDate endDate,
                                 @RequestParam(value = "dogSize", required = false) DogSize dogSize,
                                 Boolean isKennel,
+                                @RequestParam(value = "intermediaryName", required = false)
                                 String intermediaryName,
+                                @RequestParam(value = "orderCondition", required = false)
                                 String orderCondition) {
     
 }
