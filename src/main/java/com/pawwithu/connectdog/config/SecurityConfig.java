@@ -77,6 +77,7 @@ public class SecurityConfig {
                                 .requestMatchers(mvcMatcherBuilder.pattern("/swagger-resources/**")).permitAll()
                                 .requestMatchers(mvcMatcherBuilder.pattern("/v3/api-docs/**")).permitAll()
                                 .requestMatchers(mvcMatcherBuilder.pattern("/volunteers/nickname/isDuplicated")).permitAll()
+                                .requestMatchers(mvcMatcherBuilder.pattern("/fcm-test")).permitAll()
                                 .anyRequest().authenticated())
                 .addFilterAfter(customVolunteerAuthFilter(), LogoutFilter.class)
                 .addFilterAfter(customIntermediaryAuthFilter(), LogoutFilter.class)
