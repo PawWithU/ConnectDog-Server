@@ -1,5 +1,6 @@
 package com.pawwithu.connectdog.domain.fcm.controller;
 
+import com.pawwithu.connectdog.domain.fcm.dto.request.FcmTokenRequest;
 import com.pawwithu.connectdog.domain.fcm.dto.request.IntermediaryFcmRequest;
 import com.pawwithu.connectdog.domain.fcm.dto.request.VolunteerFcmRequest;
 import com.pawwithu.connectdog.domain.fcm.service.FcmService;
@@ -17,6 +18,8 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
+
+import static com.pawwithu.connectdog.domain.fcm.dto.NotificationMessage.APPLICATION;
 
 @Tag(name = "Fcm", description = "Fcm API")
 @RestController
@@ -52,4 +55,17 @@ public class FcmController {
         fcmService.saveIntermediaryFcm(loginUser.getUsername(), request);
         return ResponseEntity.noContent().build();
     }
+
+    @Operation(summary = "FCM 토큰 테스트", description = "FCM 토큰을 테스트 합니다.",
+            responses = {@ApiResponse(responseCode = "200", description = "FCM 토큰 테스트 성공")
+                    , @ApiResponse(responseCode = "400"
+                    , description = "V1, fcm 토큰은 필수 입력 값입니다."
+                    , content = @Content(schema = @Schema(implementation = ErrorResponse.class)))
+            })
+    @PostMapping("/fcm-test")
+    public ResponseEntity<Void> testFcmToken(@Valid @RequestBody FcmTokenRequest request) {
+        fcmService.sendMessageTo(request.fcmToken(), APPLICATION.getTitleWithLoc("서울 강남구", "서울 도봉구"), APPLICATION.getBodyWithName("포윗유"));
+        return ResponseEntity.noContent().build();
+    }
+
 }

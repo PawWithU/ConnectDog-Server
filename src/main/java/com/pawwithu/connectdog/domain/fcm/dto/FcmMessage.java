@@ -1,4 +1,4 @@
-package com.pawwithu.connectdog.domain.fcm.dto.request;
+package com.pawwithu.connectdog.domain.fcm.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
