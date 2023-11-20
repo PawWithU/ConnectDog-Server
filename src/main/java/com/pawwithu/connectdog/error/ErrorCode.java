@@ -40,7 +40,9 @@ public enum ErrorCode {
     APPLICATION_NOT_FOUND("AP2", "해당 신청 내역을 찾을 수 없습니다."),
 
     REVIEW_NOT_FOUND("R1", "해당 후기를 찾을 수 없습니다."),
-    DOG_STATUS_NOT_FOUND("D1", "해당 근황을 찾을 수 없습니다.");
+    DOG_STATUS_NOT_FOUND("D1", "해당 근황을 찾을 수 없습니다."),
+
+    NOTIFICATION_SEND_ERROR("N1", "알림 전송을 실패했습니다.");
 
 
     private final String code;

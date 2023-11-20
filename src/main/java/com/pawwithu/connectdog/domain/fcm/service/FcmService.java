@@ -4,7 +4,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.auth.oauth2.GoogleCredentials;
 import com.google.common.net.HttpHeaders;
-import com.pawwithu.connectdog.domain.fcm.dto.request.FcmMessage;
+import com.pawwithu.connectdog.domain.fcm.dto.FcmMessage;
 import com.pawwithu.connectdog.domain.fcm.dto.request.IntermediaryFcmRequest;
 import com.pawwithu.connectdog.domain.fcm.dto.request.VolunteerFcmRequest;
 import com.pawwithu.connectdog.domain.fcm.entity.IntermediaryFcm;
@@ -27,12 +27,10 @@ import org.springframework.transaction.annotation.Transactional;
 import java.io.IOException;
 import java.util.Arrays;
 
-import static com.pawwithu.connectdog.error.ErrorCode.INTERMEDIARY_NOT_FOUND;
-import static com.pawwithu.connectdog.error.ErrorCode.VOLUNTEER_NOT_FOUND;
+import static com.pawwithu.connectdog.error.ErrorCode.*;
 
 @Slf4j
 @Service
-@Transactional
 @RequiredArgsConstructor
 public class FcmService {
 
@@ -91,31 +89,41 @@ public class FcmService {
      * 알림 푸쉬를 보내는 역할을 하는 메서드
      * @param targetToken : 푸쉬 알림을 받을 클라이언트 앱의 식별 토큰
      * */
-    public void sendMessageTo(String targetToken, String title, String body) throws IOException {
+    public void sendMessageTo(String targetToken, String title, String body) {
 
-        String message = makeMessage(targetToken, title, body);
+        try {
+            String message = makeMessage(targetToken, title, body);
 
-        OkHttpClient client = new OkHttpClient();
-        RequestBody requestBody = RequestBody.create(message, MediaType.get("application/json; charset=utf-8"));
+            OkHttpClient client = new OkHttpClient();
+            RequestBody requestBody = RequestBody.create(message, MediaType.get("application/json; charset=utf-8"));
 
-        Request request = new Request.Builder()
-                .url(FIREBASE_API_URL)
-                .post(requestBody)
-                .addHeader(HttpHeaders.AUTHORIZATION, "Bearer "+getAccessToken())
-                .addHeader(HttpHeaders.CONTENT_TYPE, "application/json; UTF-8")
-                .build();
+            Request request = new Request.Builder()
+                    .url(FIREBASE_API_URL)
+                    .post(requestBody)
+                    .addHeader(HttpHeaders.AUTHORIZATION, "Bearer " + getAccessToken())
+                    .addHeader(HttpHeaders.CONTENT_TYPE, "application/json; UTF-8")
+                    .build();
 
-        Response response = client.newCall(request).execute();
-        log.info(response.body().string());
+            Response response = client.newCall(request).execute();
+            if (!response.isSuccessful()) {
+                log.error("FCM 푸시 알람 전송이 실패했습니다. 응답 코드: {}\n{}", response.code(), response.body().string());
+            }
+        }
+        catch (Exception e) {
+            log.error("Fcm 푸시 알람을 전송하는 도중에 에러가 발생했습니다. {}", e.getMessage());
+            throw new BadRequestException(NOTIFICATION_SEND_ERROR);
+        }
         return;
     }
 
+    @Transactional
     public void saveVolunteerFcm(String email, VolunteerFcmRequest request) {
         Volunteer volunteer = volunteerRepository.findByEmail(email).orElseThrow(() -> new BadRequestException(VOLUNTEER_NOT_FOUND));
         VolunteerFcm volunteerFcm = VolunteerFcmRequest.volunteerToEntity(volunteer, request);
         volunteerFcmRepository.save(volunteerFcm);
     }
 
+    @Transactional
     public void saveIntermediaryFcm(String email, IntermediaryFcmRequest request) {
         Intermediary intermediary = intermediaryRepository.findByEmail(email).orElseThrow(() -> new BadRequestException(INTERMEDIARY_NOT_FOUND));
         IntermediaryFcm intermediaryFcm = IntermediaryFcmRequest.IntermediaryToEntity(intermediary, request);
