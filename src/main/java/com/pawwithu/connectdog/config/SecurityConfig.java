@@ -79,6 +79,7 @@ public class SecurityConfig {
                                 .requestMatchers(mvcMatcherBuilder.pattern("/volunteers/nickname/isDuplicated")).permitAll()
                                 .requestMatchers(mvcMatcherBuilder.pattern("/fcm-test")).permitAll()
                                 .requestMatchers(mvcMatcherBuilder.pattern("/volunteers/posts/{postId}/applications")).hasRole("AUTH_VOLUNTEER")
+                                .requestMatchers(mvcMatcherBuilder.pattern("/intermediaries/**")).hasRole("AUTH_INTERMEDIARY")
                                 .anyRequest().authenticated())
                 .addFilterAfter(customVolunteerAuthFilter(), LogoutFilter.class)
                 .addFilterAfter(customIntermediaryAuthFilter(), LogoutFilter.class)
