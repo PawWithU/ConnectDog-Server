@@ -4,12 +4,17 @@ import com.pawwithu.connectdog.common.s3.FileService;
 import com.pawwithu.connectdog.domain.auth.dto.request.IntermediarySignUpRequest;
 import com.pawwithu.connectdog.domain.auth.dto.request.SocialSignUpRequest;
 import com.pawwithu.connectdog.domain.auth.dto.request.VolunteerSignUpRequest;
+import com.pawwithu.connectdog.domain.fcm.repository.IntermediaryFcmRepository;
+import com.pawwithu.connectdog.domain.fcm.repository.VolunteerFcmRepository;
 import com.pawwithu.connectdog.domain.intermediary.entity.Intermediary;
 import com.pawwithu.connectdog.domain.intermediary.repository.IntermediaryRepository;
 import com.pawwithu.connectdog.domain.volunteer.entity.Volunteer;
 import com.pawwithu.connectdog.domain.volunteer.entity.VolunteerRole;
 import com.pawwithu.connectdog.domain.volunteer.repository.VolunteerRepository;
 import com.pawwithu.connectdog.error.exception.custom.BadRequestException;
+import com.pawwithu.connectdog.jwt.service.JwtService;
+import com.pawwithu.connectdog.util.RedisUtil;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -29,6 +34,10 @@ public class AuthService {
     private final IntermediaryRepository intermediaryRepository;
     private final PasswordEncoder passwordEncoder;
     private final FileService fileService;
+    private final JwtService jwtService;
+    private final RedisUtil redisUtil;
+    private final VolunteerFcmRepository volunteerFcmRepository;
+    private final IntermediaryFcmRepository intermediaryFcmRepository;
 
     public void volunteerSignUp(VolunteerSignUpRequest request) {
 
@@ -79,5 +88,25 @@ public class AuthService {
         Integer profileImageNum = socialSignUpRequest.profileImageNum();
         Boolean isOptionAgr = socialSignUpRequest.isOptionAgr();
         volunteer.updateSocialVolunteer(nickname, VolunteerRole.VOLUNTEER, profileImageNum, isOptionAgr); // GUEST -> VOLUNTEER
+    }
+
+    public void volunteersLogout(HttpServletRequest request, String email) {
+        String accessToken = jwtService.extractAccessToken(request).orElseThrow(() -> new BadRequestException(TOKEN_NOT_EXIST));
+        Volunteer volunteer = volunteerRepository.findByEmail(email).orElseThrow(() -> new BadRequestException(VOLUNTEER_NOT_FOUND));
+        String roleName = jwtService.extractRoleName(accessToken).orElseThrow(() -> new BadRequestException(NOT_FOUND_ROLE_NAME));
+
+        redisUtil.delete(roleName, volunteer.getId());
+        volunteerFcmRepository.deleteById(volunteer.getId());
+        redisUtil.setBlackList(accessToken, "accessToken", jwtService.getAccessTokenExpirationPeriod());
+    }
+
+    public void intermediariesLogout(HttpServletRequest request, String email) {
+        String accessToken = jwtService.extractAccessToken(request).orElseThrow(() -> new BadRequestException(TOKEN_NOT_EXIST));
+        Intermediary intermediary = intermediaryRepository.findByEmail(email).orElseThrow(() -> new BadRequestException(INTERMEDIARY_NOT_FOUND));
+        String roleName = jwtService.extractRoleName(accessToken).orElseThrow(() -> new BadRequestException(NOT_FOUND_ROLE_NAME));
+
+        redisUtil.delete(roleName, intermediary.getId());
+        intermediaryFcmRepository.deleteById(intermediary.getId());
+        redisUtil.setBlackList(accessToken, "accessToken", jwtService.getAccessTokenExpirationPeriod());
     }
 }
