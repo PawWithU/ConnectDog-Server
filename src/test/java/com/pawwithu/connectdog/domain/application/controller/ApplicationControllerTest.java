@@ -21,6 +21,7 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.filter.CharacterEncodingFilter;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -180,11 +181,12 @@ class ApplicationControllerTest {
         //given
         Pageable pageable = PageRequest.of(0, 2);
         List<ApplicationIntermediaryWaitingResponse> response = new ArrayList<>();
+        LocalDateTime applicationTime = LocalDateTime.of(2023, 11, 25, 12, 30);
         LocalDate startDate = LocalDate.of(2023, 10, 2);
         LocalDate endDate = LocalDate.of(2023, 11, 7);
-        response.add(new ApplicationIntermediaryWaitingResponse(1L, "image1", "포포1", startDate, endDate,
+        response.add(new ApplicationIntermediaryWaitingResponse(applicationTime, 1L, "image1", "포포1", startDate, endDate,
                 "서울시 성북구", "서울시 중랑구", "하노정", 1L));
-        response.add(new ApplicationIntermediaryWaitingResponse(2L, "image2", "포포2", startDate, endDate,
+        response.add(new ApplicationIntermediaryWaitingResponse(applicationTime, 2L, "image2", "포포2", startDate, endDate,
                 "서울시 성북구", "서울시 중랑구", "민경혁", 2L));
 
 
