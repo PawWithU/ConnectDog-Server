@@ -17,6 +17,7 @@ public enum ErrorCode {
     VOLUNTEER_NOT_FOUND("M1", "해당 이동봉사자를 찾을 수 없습니다."), // Member -> M (이동봉사자, 이동봉사 중개 통일)
     INTERMEDIARY_NOT_FOUND("M2", "해당 이동봉사 중개를 찾을 수 없습니다."),
     INVALID_ROLE_NAME("M3", "해당 ROLE_NAME을 가진 이동봉사자/중개를 찾을 수 없습니다."),
+    NOT_FOUND_ROLE_NAME("M4", "해당 토큰에서 ROLE_NAME을 찾을 수 없습니다."),
 
     TOKEN_NOT_EXIST("T1", "토큰이 존재하지 않습니다."),
     TOKEN_IS_EXPIRED("T2", "만료된 토큰입니다."),
