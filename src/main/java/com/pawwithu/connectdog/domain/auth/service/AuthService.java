@@ -96,7 +96,7 @@ public class AuthService {
         String roleName = jwtService.extractRoleName(accessToken).orElseThrow(() -> new BadRequestException(NOT_FOUND_ROLE_NAME));
 
         redisUtil.delete(roleName, volunteer.getId());
-        volunteerFcmRepository.deleteById(volunteer.getId());
+        volunteerFcmRepository.deleteByVolunteerId(volunteer.getId());
         redisUtil.setBlackList(accessToken, "accessToken", jwtService.getAccessTokenExpirationPeriod());
     }
 
@@ -106,7 +106,7 @@ public class AuthService {
         String roleName = jwtService.extractRoleName(accessToken).orElseThrow(() -> new BadRequestException(NOT_FOUND_ROLE_NAME));
 
         redisUtil.delete(roleName, intermediary.getId());
-        intermediaryFcmRepository.deleteById(intermediary.getId());
+        intermediaryFcmRepository.deleteByIntermediaryId(intermediary.getId());
         redisUtil.setBlackList(accessToken, "accessToken", jwtService.getAccessTokenExpirationPeriod());
     }
 }
