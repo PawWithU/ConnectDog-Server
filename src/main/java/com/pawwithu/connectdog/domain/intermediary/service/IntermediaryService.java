@@ -80,6 +80,7 @@ public class IntermediaryService {
         return intermediaryDogStatuses;
     }
 
+    @Transactional(readOnly = true)
     public IntermediaryGetHomeResponse getIntermediaryHome(String email) {
         Intermediary intermediary = intermediaryRepository.findByEmail(email).orElseThrow(() -> new BadRequestException(INTERMEDIARY_NOT_FOUND));
         Map<PostStatus, Long> countOfPostStatus = customPostRepository.getCountOfPostStatus(intermediary.getId(), null);
