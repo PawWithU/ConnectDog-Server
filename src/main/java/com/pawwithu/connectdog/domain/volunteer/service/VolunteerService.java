@@ -8,10 +8,7 @@ import com.pawwithu.connectdog.domain.review.repository.CustomReviewRepository;
 import com.pawwithu.connectdog.domain.volunteer.dto.request.AdditionalAuthRequest;
 import com.pawwithu.connectdog.domain.volunteer.dto.request.NicknameRequest;
 import com.pawwithu.connectdog.domain.volunteer.dto.request.VolunteerMyProfileRequest;
-import com.pawwithu.connectdog.domain.volunteer.dto.response.NicknameResponse;
-import com.pawwithu.connectdog.domain.volunteer.dto.response.VolunteerGetMyBadgeResponse;
-import com.pawwithu.connectdog.domain.volunteer.dto.response.VolunteerGetMyBookmarkResponse;
-import com.pawwithu.connectdog.domain.volunteer.dto.response.VolunteerGetMyInfoResponse;
+import com.pawwithu.connectdog.domain.volunteer.dto.response.*;
 import com.pawwithu.connectdog.domain.volunteer.entity.Volunteer;
 import com.pawwithu.connectdog.domain.volunteer.repository.VolunteerRepository;
 import com.pawwithu.connectdog.error.ErrorCode;
@@ -99,5 +96,12 @@ public class VolunteerService {
 
             volunteer.updateMyProfile(nickname, profileImageNum);
         }
+    }
+
+    @Transactional(readOnly = true)
+    public VolunteerGetProfileResponse getMyProfile(String email) {
+        Volunteer volunteer = volunteerRepository.findByEmail(email).orElseThrow(() -> new BadRequestException(VOLUNTEER_NOT_FOUND));
+        VolunteerGetProfileResponse profile = VolunteerGetProfileResponse.of(volunteer.getProfileImageNum(), volunteer.getNickname());
+        return profile;
     }
 }

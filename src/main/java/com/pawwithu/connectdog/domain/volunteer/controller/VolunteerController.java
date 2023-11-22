@@ -3,10 +3,7 @@ package com.pawwithu.connectdog.domain.volunteer.controller;
 import com.pawwithu.connectdog.domain.volunteer.dto.request.AdditionalAuthRequest;
 import com.pawwithu.connectdog.domain.volunteer.dto.request.NicknameRequest;
 import com.pawwithu.connectdog.domain.volunteer.dto.request.VolunteerMyProfileRequest;
-import com.pawwithu.connectdog.domain.volunteer.dto.response.NicknameResponse;
-import com.pawwithu.connectdog.domain.volunteer.dto.response.VolunteerGetMyBadgeResponse;
-import com.pawwithu.connectdog.domain.volunteer.dto.response.VolunteerGetMyBookmarkResponse;
-import com.pawwithu.connectdog.domain.volunteer.dto.response.VolunteerGetMyInfoResponse;
+import com.pawwithu.connectdog.domain.volunteer.dto.response.*;
 import com.pawwithu.connectdog.domain.volunteer.service.VolunteerService;
 import com.pawwithu.connectdog.error.dto.ErrorResponse;
 import io.swagger.v3.oas.annotations.Operation;
@@ -102,6 +99,18 @@ public class VolunteerController {
     public ResponseEntity<Void> volunteerMyProfile(@AuthenticationPrincipal UserDetails loginUser, @RequestBody @Valid VolunteerMyProfileRequest volunteerMyProfileRequest) {
         volunteerService.volunteerMyProfile(loginUser.getUsername(), volunteerMyProfileRequest);
         return ResponseEntity.noContent().build();
+    }
+
+    @Operation(summary = "프로필 이미지, 닉네임 조회 API", description = "프로필 이미지, 닉네임을 조회합니다.",
+            responses = {@ApiResponse(responseCode = "200", description = "프로필 이미지, 닉네임 조회 성공")
+                    , @ApiResponse(responseCode = "400"
+                    , description = "M1, 해당 이동봉사자를 찾을 수 없습니다."
+                    , content = @Content(schema = @Schema(implementation = ErrorResponse.class)))
+            })
+    @GetMapping("/my/profile")
+    public ResponseEntity<VolunteerGetProfileResponse> getMyProfile(@AuthenticationPrincipal UserDetails loginUser) {
+        VolunteerGetProfileResponse response = volunteerService.getMyProfile(loginUser.getUsername());
+        return ResponseEntity.ok(response);
     }
 
 }
