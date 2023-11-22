@@ -37,8 +37,6 @@ public class ApplicationService {
     private final ApplicationRepository applicationRepository;
     private final CustomApplicationRepository customApplicationRepository;
     private final IntermediaryRepository intermediaryRepository;
-    private final ReviewRepository reviewRepository;
-    private final DogStatusRepository dogStatusRepository;
 
     public void volunteerApply(String email, Long postId, VolunteerApplyRequest request) {
         // 이동봉사자
@@ -87,7 +85,7 @@ public class ApplicationService {
         return oneApplication;
     }
 
-    public void deleteApplication(String email, Long applicationId) {
+    public ApplicationSuccessResponse deleteApplication(String email, Long applicationId) {
         // 이동봉사자
         Volunteer volunteer = volunteerRepository.findByEmail(email).orElseThrow(() -> new BadRequestException(VOLUNTEER_NOT_FOUND));
         // 신청 내역 + post
@@ -96,9 +94,11 @@ public class ApplicationService {
         // 상태 업데이트 (승인 대기중 -> 모집중)
         Post post = application.getPost();
         post.updateStatus(PostStatus.RECRUITING);
+        ApplicationSuccessResponse isSuccess = ApplicationSuccessResponse.of(true);
+        return isSuccess;
     }
 
-    public void confirmApplication(String email, Long applicationId) {
+    public ApplicationSuccessResponse confirmApplication(String email, Long applicationId) {
         // 이동봉사 중개
         Intermediary intermediary = intermediaryRepository.findByEmail(email).orElseThrow(() -> new BadRequestException(INTERMEDIARY_NOT_FOUND));
         // 신청 내역 + post
@@ -107,9 +107,11 @@ public class ApplicationService {
         // 상태 업데이트 (승인 대기중 -> 진행중)
         application.updateStatus(ApplicationStatus.PROGRESSING);
         post.updateStatus(PostStatus.PROGRESSING);
+        ApplicationSuccessResponse isSuccess = ApplicationSuccessResponse.of(true);
+        return isSuccess;
     }
 
-    public void cancelApplication(String email, Long applicationId) {
+    public ApplicationSuccessResponse cancelApplication(String email, Long applicationId) {
         // 이동봉사 중개
         Intermediary intermediary = intermediaryRepository.findByEmail(email).orElseThrow(() -> new BadRequestException(INTERMEDIARY_NOT_FOUND));
         // 신청 내역 + post
@@ -118,6 +120,8 @@ public class ApplicationService {
         // 상태 업데이트 (승인 대기중 -> 모집중)
         Post post = application.getPost();
         post.updateStatus(PostStatus.RECRUITING);
+        ApplicationSuccessResponse isSuccess = ApplicationSuccessResponse.of(true);
+        return isSuccess;
     }
 
     @Transactional(readOnly = true)
@@ -170,7 +174,7 @@ public class ApplicationService {
         return volunteerInfo;
     }
 
-    public void completeApplication(String email, Long applicationId) {
+    public ApplicationSuccessResponse completeApplication(String email, Long applicationId) {
         // 이동봉사 중개
         Intermediary intermediary = intermediaryRepository.findByEmail(email).orElseThrow(() -> new BadRequestException(INTERMEDIARY_NOT_FOUND));
         // 신청 내역 + post
@@ -179,5 +183,7 @@ public class ApplicationService {
         // 상태 업데이트 (진행중 -> 봉사 완료)
         application.updateStatus(ApplicationStatus.COMPLETED);
         post.updateStatus(PostStatus.COMPLETED);
+        ApplicationSuccessResponse isSuccess = ApplicationSuccessResponse.of(true);
+        return isSuccess;
     }
 }

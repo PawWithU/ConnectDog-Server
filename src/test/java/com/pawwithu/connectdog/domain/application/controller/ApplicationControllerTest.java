@@ -135,14 +135,16 @@ class ApplicationControllerTest {
     void 이동봉사_신청_취소() throws Exception {
         //given
         Long applicationId = 1L;
+        ApplicationSuccessResponse response = new ApplicationSuccessResponse(true);
 
         //when
+        given(applicationService.deleteApplication(anyString(), anyLong())).willReturn(response);
         ResultActions result = mockMvc.perform(
                 delete("/volunteers/applications/{applicationId}", applicationId)
         );
 
         //then
-        result.andExpect(status().isNoContent());
+        result.andExpect(status().isOk());
         verify(applicationService, times(1)).deleteApplication(anyString(), anyLong());
     }
 
@@ -150,14 +152,16 @@ class ApplicationControllerTest {
     void 이동봉사_신청_승인() throws Exception {
         //given
         Long applicationId = 1L;
+        ApplicationSuccessResponse response = new ApplicationSuccessResponse(true);
 
         //when
+        given(applicationService.confirmApplication(anyString(), anyLong())).willReturn(response);
         ResultActions result = mockMvc.perform(
                 patch("/intermediaries/applications/{applicationId}", applicationId)
         );
 
         //then
-        result.andExpect(status().isNoContent());
+        result.andExpect(status().isOk());
         verify(applicationService, times(1)).confirmApplication(anyString(), anyLong());
     }
 
@@ -165,14 +169,16 @@ class ApplicationControllerTest {
     void 이동봉사_신청_반려() throws Exception {
         //given
         Long applicationId = 1L;
+        ApplicationSuccessResponse response = new ApplicationSuccessResponse(true);
 
         //when
+        given(applicationService.cancelApplication(anyString(), anyLong())).willReturn(response);
         ResultActions result = mockMvc.perform(
                 delete("/intermediaries/applications/{applicationId}", applicationId)
         );
 
         //then
-        result.andExpect(status().isNoContent());
+        result.andExpect(status().isOk());
         verify(applicationService, times(1)).cancelApplication(anyString(), anyLong());
     }
 
@@ -306,17 +312,19 @@ class ApplicationControllerTest {
     }
 
     @Test
-    void 이동봉사_완료() throws Exception {
+    void 이동봉사_완료하기() throws Exception {
         //given
         Long applicationId = 1L;
+        ApplicationSuccessResponse response = new ApplicationSuccessResponse(true);
 
         //when
+        given(applicationService.completeApplication(anyString(), anyLong())).willReturn(response);
         ResultActions result = mockMvc.perform(
                 patch("/intermediaries/applications/{applicationId}/completed", applicationId)
         );
 
         //then
-        result.andExpect(status().isNoContent());
+        result.andExpect(status().isOk());
         verify(applicationService, times(1)).completeApplication(anyString(), anyLong());
     }
 
