@@ -90,10 +90,10 @@ public class ApplicationController {
                     , content = @Content(schema = @Schema(implementation = ErrorResponse.class)))
             })
     @DeleteMapping( "/volunteers/applications/{applicationId}")
-    public ResponseEntity<Void> deleteApplication(@AuthenticationPrincipal UserDetails loginUser,
-                                                  @PathVariable Long applicationId) {
-        applicationService.deleteApplication(loginUser.getUsername(), applicationId);
-        return ResponseEntity.noContent().build();
+    public ResponseEntity<ApplicationSuccessResponse> deleteApplication(@AuthenticationPrincipal UserDetails loginUser,
+                                                                        @PathVariable Long applicationId) {
+        ApplicationSuccessResponse response = applicationService.deleteApplication(loginUser.getUsername(), applicationId);
+        return ResponseEntity.ok(response);
     }
 
     @Operation(summary = "봉사 관리 - 승인 대기중 - 이동봉사자 확인 - 봉사 신청 확정", description = "이동봉사자의 봉사 신청을 확정합니다.",
@@ -103,10 +103,10 @@ public class ApplicationController {
                     , content = @Content(schema = @Schema(implementation = ErrorResponse.class)))
             })
     @PatchMapping( "/intermediaries/applications/{applicationId}")
-    public ResponseEntity<Void> confirmApplication(@AuthenticationPrincipal UserDetails loginUser,
+    public ResponseEntity<ApplicationSuccessResponse> confirmApplication(@AuthenticationPrincipal UserDetails loginUser,
                                                   @PathVariable Long applicationId) {
-        applicationService.confirmApplication(loginUser.getUsername(), applicationId);
-        return ResponseEntity.noContent().build();
+        ApplicationSuccessResponse response = applicationService.confirmApplication(loginUser.getUsername(), applicationId);
+        return ResponseEntity.ok(response);
     }
 
     @Operation(summary = "봉사 관리 - 승인 대기중 - 이동봉사자 확인 - 봉사 신청 반려", description = "이동봉사자의 봉사 신청을 반려합니다.",
@@ -116,10 +116,10 @@ public class ApplicationController {
                     , content = @Content(schema = @Schema(implementation = ErrorResponse.class)))
             })
     @DeleteMapping( "/intermediaries/applications/{applicationId}")
-    public ResponseEntity<Void> cancelApplication(@AuthenticationPrincipal UserDetails loginUser,
+    public ResponseEntity<ApplicationSuccessResponse> cancelApplication(@AuthenticationPrincipal UserDetails loginUser,
                                                    @PathVariable Long applicationId) {
-        applicationService.cancelApplication(loginUser.getUsername(), applicationId);
-        return ResponseEntity.noContent().build();
+        ApplicationSuccessResponse response = applicationService.cancelApplication(loginUser.getUsername(), applicationId);
+        return ResponseEntity.ok(response);
     }
 
     @Operation(summary = "봉사 관리 - 승인 대기중 목록 조회", description = "이동봉사 승인 대기중 목록을 조회합니다.",
@@ -206,9 +206,9 @@ public class ApplicationController {
                     , content = @Content(schema = @Schema(implementation = ErrorResponse.class)))
             })
     @PatchMapping( "/intermediaries/applications/{applicationId}/completed")
-    public ResponseEntity<Void> completeApplication(@AuthenticationPrincipal UserDetails loginUser,
+    public ResponseEntity<ApplicationSuccessResponse> completeApplication(@AuthenticationPrincipal UserDetails loginUser,
                                                    @PathVariable Long applicationId) {
-        applicationService.completeApplication(loginUser.getUsername(), applicationId);
-        return ResponseEntity.noContent().build();
+        ApplicationSuccessResponse response = applicationService.completeApplication(loginUser.getUsername(), applicationId);
+        return ResponseEntity.ok(response);
     }
 }
