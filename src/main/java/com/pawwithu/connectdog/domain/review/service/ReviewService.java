@@ -1,6 +1,7 @@
 package com.pawwithu.connectdog.domain.review.service;
 
 import com.pawwithu.connectdog.common.s3.FileService;
+import com.pawwithu.connectdog.domain.application.repository.ApplicationRepository;
 import com.pawwithu.connectdog.domain.post.entity.Post;
 import com.pawwithu.connectdog.domain.post.repository.PostRepository;
 import com.pawwithu.connectdog.domain.review.dto.request.ReviewCreateRequest;
@@ -38,6 +39,7 @@ public class ReviewService {
     private final ReviewRepository reviewRepository;
     private final ReviewImageRepository reviewImageRepository;
     private final CustomReviewRepository customReviewRepository;
+    private final ApplicationRepository applicationRepository;
 
     public void createReview(String email, Long postId, ReviewCreateRequest request, List<MultipartFile> fileList) {
 
@@ -47,6 +49,11 @@ public class ReviewService {
 
         Volunteer volunteer = volunteerRepository.findByEmail(email).orElseThrow(() -> new BadRequestException(VOLUNTEER_NOT_FOUND));
         Post post = postRepository.findById(postId).orElseThrow(() -> new BadRequestException(POST_NOT_FOUND));
+
+        // 해당 공고에 대한 이동봉사자 신청 건 확인
+        if (!applicationRepository.existsByPostIdAndVolunteerId(postId, volunteer.getId())) {
+            throw new BadRequestException(APPLICATION_NOT_FOUND);
+        }
 
         // 후기 저장 (대표 이미지 제외)
         Review review = ReviewCreateRequest.reviewToEntity(request, volunteer, post);
