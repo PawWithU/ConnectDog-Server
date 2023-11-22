@@ -6,10 +6,7 @@ import com.pawwithu.connectdog.domain.post.dto.response.PostGetHomeResponse;
 import com.pawwithu.connectdog.domain.volunteer.dto.request.AdditionalAuthRequest;
 import com.pawwithu.connectdog.domain.volunteer.dto.request.NicknameRequest;
 import com.pawwithu.connectdog.domain.volunteer.dto.request.VolunteerMyProfileRequest;
-import com.pawwithu.connectdog.domain.volunteer.dto.response.NicknameResponse;
-import com.pawwithu.connectdog.domain.volunteer.dto.response.VolunteerGetMyBadgeResponse;
-import com.pawwithu.connectdog.domain.volunteer.dto.response.VolunteerGetMyBookmarkResponse;
-import com.pawwithu.connectdog.domain.volunteer.dto.response.VolunteerGetMyInfoResponse;
+import com.pawwithu.connectdog.domain.volunteer.dto.response.*;
 import com.pawwithu.connectdog.domain.volunteer.service.VolunteerService;
 import com.pawwithu.connectdog.utils.TestUserArgumentResolver;
 import org.junit.jupiter.api.BeforeEach;
@@ -91,9 +88,9 @@ class VolunteerControllerTest {
     }
 
     @Test
-    void 이동봉사자_마이페이지_통계_정보_조회() throws Exception {
+    void 이동봉사자_마이페이지_기본_정보_조회() throws Exception {
         // given
-        VolunteerGetMyInfoResponse response = VolunteerGetMyInfoResponse.of(1L, 3L, 5L);
+        VolunteerGetMyInfoResponse response = VolunteerGetMyInfoResponse.of(1, "하노정", 1L, 3L, 5L);
 
         // when
         given(volunteerService.getMyInfo(any())).willReturn(response);
@@ -163,5 +160,21 @@ class VolunteerControllerTest {
         result.andExpect(status().isNoContent());
         verify(volunteerService, times(1)).volunteerMyProfile(anyString(), any());
 
+    }
+
+    @Test
+    void 이동봉사자_프로필_이미지_닉네임_조회() throws Exception {
+        // given
+        VolunteerGetProfileResponse response = VolunteerGetProfileResponse.of(1, "하노정");
+
+        // when
+        given(volunteerService.getMyProfile(anyString())).willReturn(response);
+        ResultActions result = mockMvc.perform(
+                get("/volunteers/my/profile")
+        );
+
+        // then
+        result.andExpect(status().isOk());
+        verify(volunteerService, times(1)).getMyProfile(anyString());
     }
 }
