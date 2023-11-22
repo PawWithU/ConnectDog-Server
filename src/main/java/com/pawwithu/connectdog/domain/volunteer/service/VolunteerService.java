@@ -64,7 +64,7 @@ public class VolunteerService {
         // 입양 근황 건수
         Long dogStatusCount = customDogStatusRepository.getVolunteerCountOfDogStatuses(volunteer.getId());
 
-        VolunteerGetMyInfoResponse response = VolunteerGetMyInfoResponse.of(completedCount, reviewCount, dogStatusCount);
+        VolunteerGetMyInfoResponse response = VolunteerGetMyInfoResponse.of(volunteer.getProfileImageNum(), volunteer.getNickname(), completedCount, reviewCount, dogStatusCount);
         return response;
     }
 
