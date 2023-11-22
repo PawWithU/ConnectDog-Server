@@ -110,8 +110,6 @@ public class JwtService {
         tokens.put("roleName", roleName);
         tokens.put("accessToken", accessToken);
         tokens.put("refreshToken", refreshToken);
-
-        log.info("Access Token, Refresh Token 전송 준비 완료");
         return tokens;
     }
 
@@ -194,8 +192,6 @@ public class JwtService {
      * RefreshToken 검증 메소드
      */
     public boolean isRefreshTokenMatch(String roleName, Long id, String refreshToken) {
-
-        log.info("RefreshToken 검증");
         if (redisUtil.get(roleName, id).equals(refreshToken)) {
             return true;
         }
@@ -218,9 +214,7 @@ public class JwtService {
         String newRefreshToken = null;
         switch (roleName) {
             case "INTERMEDIARY":
-//            case "AUTH_INTERMEDIARY":
             case "VOLUNTEER":
-//            case "AUTH_VOLUNTEER":
                 newAccessToken = createAccessToken(id, roleName);
                 newRefreshToken = createRefreshToken(id, roleName);
                 break;
@@ -232,7 +226,6 @@ public class JwtService {
         getAuthentication(newAccessToken);
         redisUtil.delete(roleName, id);
         updateRefreshToken(roleName, id, newRefreshToken);
-        log.info("AccessToken, RefreshToken 재발급 완료");
 
         return LoginResponse.of(roleName, newAccessToken, newRefreshToken);
     }
@@ -242,8 +235,6 @@ public class JwtService {
      * 인증 허가 처리된 객체를 SecurityContextHolder에 담기
      */
     public void getAuthentication(String accessToken) {
-        log.info("인증 처리 메소드 getAuthentication() 호출");
-
         extractId(accessToken)
                 .ifPresent(id -> {
             Optional<String> roleNameOpt = extractRoleName(accessToken);
@@ -275,7 +266,6 @@ public class JwtService {
      * 파라미터의 유저 : 우리가 만든 회원 객체 / 빌더의 유저 : UserDetails의 User 객체
      */
     public void saveIntermediaryAuthentication(Intermediary intermediary) {
-        log.info("인증 허가 메소드 saveAuthentication() 호출");
         String password = intermediary.getPassword();
         if (password == null) { // 소셜 로그인 유저의 비밀번호 임의로 설정 하여 소셜 로그인 유저도 인증 되도록 설정
             password = PasswordUtil.generateRandomPassword();
@@ -295,7 +285,6 @@ public class JwtService {
     }
 
     public void saveVolunteerAuthentication(Volunteer volunteer) {
-        log.info("인증 허가 메소드 saveAuthentication() 호출");
         String password = volunteer.getPassword();
         if (password == null) { // 소셜 로그인 유저의 비밀번호 임의로 설정 하여 소셜 로그인 유저도 인증 되도록 설정
             password = PasswordUtil.generateRandomPassword();

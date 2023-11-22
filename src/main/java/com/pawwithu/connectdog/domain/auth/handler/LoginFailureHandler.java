@@ -21,7 +21,5 @@ public class LoginFailureHandler implements AuthenticationFailureHandler {
 
         String errorMessage = "로그인에 실패했습니다. 이메일 혹은 비밀번호를 확인해 주세요.";
         response.getWriter().write(errorMessage);
-
-        log.info("로그인에 실패했습니다. 메시지 : {}", exception.getMessage());
     }
 }

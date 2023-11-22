@@ -81,7 +81,6 @@ public class AuthService {
         }
 
         Volunteer volunteer = volunteerRepository.findByEmail(email).orElseThrow(() -> new BadRequestException(VOLUNTEER_NOT_FOUND));
-        log.info("volunteer: " + volunteer.getEmail());
 
         // 추가 정보 업데이트
         String nickname = socialSignUpRequest.nickname();

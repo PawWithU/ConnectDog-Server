@@ -70,10 +70,6 @@ public class LoginSuccessHandler implements AuthenticationSuccessHandler {
         response.setStatus(HttpServletResponse.SC_OK); // 상태 코드를 200 (OK)로 설정
         response.setContentType("application/json");
         response.getWriter().write(new ObjectMapper().writeValueAsString(tokenData));
-
-        log.info("로그인에 성공하였습니다. 이메일 : {}", email);
-        log.info("로그인에 성공하였습니다. AccessToken : {}", accessToken);
-        log.info("발급된 AccessToken 만료 기간 : {}", accessTokenExpirationPeriod);
     }
 
     private String extractUsername(Authentication authentication) {

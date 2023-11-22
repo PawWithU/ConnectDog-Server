@@ -27,13 +27,6 @@ public class RedisConfig extends CachingConfigurerSupport {
     @Value("${spring.data.redis.host}")
     private String host;
 
-    @PostConstruct // 해당 메서드는 객체의 모든 의존성이 주입된 직후에 자동으로 호출
-    public void printValues() {
-        log.info("Redis Host: " + host);
-        log.info("Redis Port: " + port);
-    }
-
-
     @Bean
     public RedisConnectionFactory redisConnectionFactory() {
         return new LettuceConnectionFactory(host, port);

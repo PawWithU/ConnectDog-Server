@@ -34,8 +34,6 @@ public class JwtAuthenticationProcessingFilter extends OncePerRequestFilter {
             filterChain.doFilter(request, response); // NO_CHECK_URLS 요청이 들어오면, 다음 필터 호출
             return;
         }
-        log.info("uri = {}, query = {}", request.getRequestURI(), request.getQueryString());
-        log.info("JwtAuthenticationProcessingFilter 호출");
 
         String accessToken = jwtService.extractAccessToken(request).orElse(null);
         if (jwtService.isTokenValid(accessToken)) {
@@ -44,7 +42,6 @@ public class JwtAuthenticationProcessingFilter extends OncePerRequestFilter {
             return;
         }
 
-        log.info("유효한 JWT 토큰이 없습니다. uri: {}, {}", request.getRequestURI(), accessToken);
         filterChain.doFilter(request, response);
     }
 }

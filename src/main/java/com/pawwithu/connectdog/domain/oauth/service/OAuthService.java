@@ -32,10 +32,8 @@ public class OAuthService {
         OAuthInfoResponse oAuthInfoResponse = requestOAuthInfoService.request(request);
         SocialType socialType = oAuthInfoResponse.getSocialType();
         String socialId = oAuthInfoResponse.getId();
-        log.info("socialId: " + socialId);
 
         Long id = findOrSaveVolunteer(socialType, socialId); // Volunteer id 반환
-        log.info("id: " + id);
 
         String role = String.valueOf(volunteerRepository.findById(id)
                 .map(Volunteer::getRole)
@@ -63,7 +61,6 @@ public class OAuthService {
     private Long saveVolunteer(SocialType socialType, String socialId) {
         // 소셜 로그인 유저도 loginUser 사용 위한 email 랜덤 저장
         String email = UUID.randomUUID() + "@socialUser.com";
-        log.info("email: " + email);
         Volunteer createdVolunteer = new Volunteer(email, VolunteerRole.GUEST, socialType, socialId);
 
         return volunteerRepository.save(createdVolunteer).getId();
