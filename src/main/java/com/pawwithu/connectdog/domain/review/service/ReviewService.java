@@ -51,7 +51,7 @@ public class ReviewService {
         Post post = postRepository.findById(postId).orElseThrow(() -> new BadRequestException(POST_NOT_FOUND));
 
         // 해당 공고에 대한 이동봉사자 신청 건 확인
-        if (!applicationRepository.existsPostIdAndVolunteerId(postId, volunteer.getId())) {
+        if (!applicationRepository.existsByPostIdAndVolunteerId(postId, volunteer.getId())) {
             throw new BadRequestException(APPLICATION_NOT_FOUND);
         }
 

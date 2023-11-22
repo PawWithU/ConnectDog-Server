@@ -35,6 +35,7 @@ public class CustomVolunteerBadgeRepositoryImpl implements CustomVolunteerBadgeR
                 .leftJoin(volunteerBadge)
                 .on(volunteerBadge.badge.id.eq(badge.id)
                         .and(volunteerBadge.volunteer.id.eq(volunteerId)))
+                .orderBy(badge.id.asc())
                 .fetch();
     }
 }

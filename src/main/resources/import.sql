@@ -111,7 +111,7 @@ UPDATE post SET main_image_id = 15 WHERE id = 15;
 UPDATE post SET main_image_id = 16 WHERE id = 16;
 
 -- INSERT VOLUNTEER
-INSERT INTO volunteer (id, email, password, nickname, profile_image_num, name, phone, role, is_option_agr, notification, created_date, modified_date) VALUES (1, 'abc@naver.com', '{bcrypt}$2a$10$VieltvcRaI/rJnaRHuRPju9rqM9BvmKRkmn./oOninx7fOGT/q2De', '이동봉사자', 1, '한호정', '01047391908', 'AUTH_VOLUNTEER', false, false, now(), now());
+INSERT INTO volunteer (id, email, password, nickname, profile_image_num, name, phone, role, is_option_agr, notification, created_date, modified_date) VALUES (1, 'abc@naver.com', '{bcrypt}$2a$10$VieltvcRaI/rJnaRHuRPju9rqM9BvmKRkmn./oOninx7fOGT/q2De', '이동봉사자', 2, '한호정', '01047391908', 'AUTH_VOLUNTEER', false, false, now(), now());
 
 INSERT INTO volunteer (id, email, password, nickname, profile_image_num, name, phone, role, is_option_agr, notification, created_date, modified_date) VALUES (2, 'v1@naver.com', '{bcrypt}$2a$10$wkmYUG/qvZFThCzq19yHredRc6u8nAhlAopbDE9p7n6JF6NgtLs8y', '하얀마음', 1, '민경혁', '01047391908', 'AUTH_VOLUNTEER', false, false, now(), now());
 
@@ -194,8 +194,8 @@ INSERT INTO volunteer_badge(id, badge_id, volunteer_id, created_date, modified_d
 INSERT INTO volunteer_badge(id, badge_id, volunteer_id, created_date, modified_date) VALUES (8, 8, 2, now(), now());
 
 -- INSERT BOOKMARK
-INSERT INTO bookmark(id, post_id, volunteer_id) VALUES (1, 6, 2);
-INSERT INTO bookmark(id, post_id, volunteer_id) VALUES (2, 7, 2);
-INSERT INTO bookmark(id, post_id, volunteer_id) VALUES (3, 8, 2);
-INSERT INTO bookmark(id, post_id, volunteer_id) VALUES (4, 9, 2);
-INSERT INTO bookmark(id, post_id, volunteer_id) VALUES (5, 10, 2);
+INSERT INTO bookmark(id, post_id, volunteer_id, created_date, modified_date) VALUES (1, 6, 2, now(), now());
+INSERT INTO bookmark(id, post_id, volunteer_id, created_date, modified_date) VALUES (2, 7, 2, now(), now());
+INSERT INTO bookmark(id, post_id, volunteer_id, created_date, modified_date) VALUES (3, 8, 2, now(), now());
+INSERT INTO bookmark(id, post_id, volunteer_id, created_date, modified_date) VALUES (4, 9, 2, now(), now());
+INSERT INTO bookmark(id, post_id, volunteer_id, created_date, modified_date) VALUES (5, 10, 2, now(), now());
