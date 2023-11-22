@@ -46,7 +46,7 @@ class BookmarkControllerTest {
 
         // when
         ResultActions result = mockMvc.perform(
-                post("/volunteers/bookmarks/{postId}", postId)
+                post("/volunteers/posts/{postId}/bookmarks", postId)
         );
 
         // then
@@ -61,7 +61,7 @@ class BookmarkControllerTest {
 
         // when
         ResultActions result = mockMvc.perform(
-                delete("/volunteers/bookmarks/{postId}", postId)
+                delete("/volunteers/posts/{postId}/bookmarks", postId)
         );
 
         // then
