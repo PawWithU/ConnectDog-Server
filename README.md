@@ -11,7 +11,7 @@
 ## **🔍 System Architecture**
 
 
-<img src="https://github.com/PawWithU/ConnectDog-Server/assets/80199502/417ba161-1366-49a0-955b-3fcaac8edb99"  width="830">
+<img src="https://github.com/PawWithU/.github/assets/80199502/0bffa118-c37f-4192-9426-6c7416618bd9"  width="830">
 
 
 ## **💻 Technology**
