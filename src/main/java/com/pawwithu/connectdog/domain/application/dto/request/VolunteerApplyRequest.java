@@ -17,7 +17,7 @@ public record VolunteerApplyRequest(@NotBlank(message = "이름은 필수 입력
                                     String phone,
                                     @NotBlank(message = "교통수단은 필수 입력 값입니다.")
                                     String transportation,
-                                    @Size(min=10, max=200, message = "10~200자로 입력해 주세요.")
+                                    @Size(max=200, message = "200자 이내로 입력해 주세요.")
                                     String content) {
 
     public Application toEntity(Post post, Intermediary intermediary, Volunteer volunteer) {
