@@ -173,13 +173,13 @@ UPDATE dog_status SET main_image_id = 5 WHERE id = 5;
 
 
 -- INSERT BADGE
-INSERT INTO badge (id, name, image, created_date, modified_date) VALUES (1, '첫 연결의 설렘\n1마리 연결', 'https://connectdog-image.s3.ap-northeast-2.amazonaws.com/badge/badge1.svg', now(), now());
+INSERT INTO badge (id, name, image, created_date, modified_date) VALUES (1, '첫 연결의 설렘\n1마리 연결', 'https://connectdog-image.s3.ap-northeast-2.amazonaws.com/badge/badge11.png', now(), now());
 INSERT INTO badge (id, name, image, created_date, modified_date) VALUES (2, '초심자의 열정\n3마리 연결', 'https://connectdog-image.s3.ap-northeast-2.amazonaws.com/badge/badge2.svg', now(), now());
 INSERT INTO badge (id, name, image, created_date, modified_date) VALUES (3, '소중함을 아니까\n5마리 연결', 'https://connectdog-image.s3.ap-northeast-2.amazonaws.com/badge/badge3.svg', now(), now());
 INSERT INTO badge (id, name, image, created_date, modified_date) VALUES (4, '신뢰의 시작\n10마리 연결', 'https://connectdog-image.s3.ap-northeast-2.amazonaws.com/badge/badge4.svg', now(), now());
 INSERT INTO badge (id, name, image, created_date, modified_date) VALUES (5, '열정 봉사자\n20마리 연결', 'https://connectdog-image.s3.ap-northeast-2.amazonaws.com/badge/badge5.svg', now(), now());
 INSERT INTO badge (id, name, image, created_date, modified_date) VALUES (6, '이동봉사 마스터\n30마리 연결', 'https://connectdog-image.s3.ap-northeast-2.amazonaws.com/badge/badge6.svg', now(), now());
-INSERT INTO badge (id, name, image, created_date, modified_date) VALUES (7, '첫 기록의 뿌듯함\n1개 등록', 'https://connectdog-image.s3.ap-northeast-2.amazonaws.com/badge/badge7.svg', now(), now());
+INSERT INTO badge (id, name, image, created_date, modified_date) VALUES (7, '첫 기록의 뿌듯함\n1개 등록', 'https://connectdog-image.s3.ap-northeast-2.amazonaws.com/badge/badge17.png', now(), now());
 INSERT INTO badge (id, name, image, created_date, modified_date) VALUES (8, '제법 쓸 줄 알아요\n3개 등록', 'https://connectdog-image.s3.ap-northeast-2.amazonaws.com/badge/badge8.svg', now(), now());
 INSERT INTO badge (id, name, image, created_date, modified_date) VALUES (9, '봉사 꿀팁 보유자\n5개 등록', 'https://connectdog-image.s3.ap-northeast-2.amazonaws.com/badge/badge9.svg', now(), now());
 INSERT INTO badge (id, name, image, created_date, modified_date) VALUES (10, '믿음직한 후기\n10개 등록', 'https://connectdog-image.s3.ap-northeast-2.amazonaws.com/badge/badge0.svg', now(), now());
