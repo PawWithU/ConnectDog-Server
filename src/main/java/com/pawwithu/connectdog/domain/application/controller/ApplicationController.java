@@ -32,7 +32,7 @@ public class ApplicationController {
             responses = {@ApiResponse(responseCode = "204", description = "이동봉사자 소셜 로그인 추가 회원가입 성공")
                     , @ApiResponse(responseCode = "400"
                     , description = "V1, 이름은 필수 입력 값입니다. \t\n V1, 휴대전화 번호는 필수 입력 값입니다. \t\n V1, 유효하지 않은 휴대전화 번호입니다. \t\n " +
-                    "V1, 교통수단은 필수 입력 값입니다. \t\n V1, 10~200자로 입력해 주세요. \t\n M1, 해당 이동봉사자를 찾을 수 없습니다. \t\n " +
+                    "V1, 교통수단은 필수 입력 값입니다. \t\n V1, 200자 이내로 입력해 주세요. \t\n M1, 해당 이동봉사자를 찾을 수 없습니다. \t\n " +
                     "P2, 해당 공고를 찾을 수 없습니다. \t\n AP1, 이미 신청된 공고입니다."
                     , content = @Content(schema = @Schema(implementation = ErrorResponse.class)))
             })
