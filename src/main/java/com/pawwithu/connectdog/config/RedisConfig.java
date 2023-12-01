@@ -1,6 +1,10 @@
 package com.pawwithu.connectdog.config;
 
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.jsontype.BasicPolymorphicTypeValidator;
+import com.fasterxml.jackson.databind.jsontype.PolymorphicTypeValidator;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import jakarta.annotation.PostConstruct;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -57,12 +61,26 @@ public class RedisConfig extends CachingConfigurerSupport {
     // Redis Cache 적용을 위한 RedisCacheManager 설정
     @Bean
     public RedisCacheManager redisCacheManager(RedisConnectionFactory redisConnectionFactory) {
+
+        // 타입의 다형성 처리
+        PolymorphicTypeValidator typeValidator = BasicPolymorphicTypeValidator
+                .builder()
+                .allowIfSubType(Object.class)
+                .build();
+
+        // GenericJackson2JsonRedisSerializer - Class Type에 상관 없이 모든 객체를 직렬화
+        // 날짜 타입 직렬화/역직렬화 별도 설정
+        ObjectMapper objectMapper = new ObjectMapper();
+        objectMapper.registerModule(new JavaTimeModule());
+        objectMapper.activateDefaultTyping(typeValidator, ObjectMapper.DefaultTyping.NON_FINAL);
+        GenericJackson2JsonRedisSerializer redisSerializer = new GenericJackson2JsonRedisSerializer(objectMapper);
+
         RedisCacheConfiguration redisCacheConfiguration = RedisCacheConfiguration.defaultCacheConfig()
                 .serializeKeysWith(RedisSerializationContext
                         .SerializationPair.fromSerializer(new StringRedisSerializer())) // StringRedisSerializer: binary 데이터로 저장되기 때문에 이를 String 으로 변환
                 .serializeValuesWith(RedisSerializationContext
-                        .SerializationPair.fromSerializer(new GenericJackson2JsonRedisSerializer()))
-                .entryTtl(Duration.ofDays(14).plusHours(2)); // TTL 2주 + 2시간으로 설정
+                        .SerializationPair.fromSerializer(redisSerializer))
+                .entryTtl(Duration.ofMinutes(3L)); // TTL 3분
 
         return RedisCacheManager
                 .RedisCacheManagerBuilder

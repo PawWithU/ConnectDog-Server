@@ -19,6 +19,8 @@ import com.pawwithu.connectdog.domain.volunteer.repository.VolunteerRepository;
 import com.pawwithu.connectdog.error.exception.custom.BadRequestException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -44,6 +46,7 @@ public class PostService {
     private final CustomPostRepository customPostRepository;
     private final BookmarkRepository bookmarkRepository;
 
+    @CacheEvict(value = "homePosts", key = "'volunteer'", cacheManager = "redisCacheManager")    // 공고 등록 시 홈 화면 공고 조회 캐시 삭제
     public void createPost(String email, PostCreateRequest request, List<MultipartFile> fileList) {
 
         // 파일이 존재하지 않을 경우
@@ -74,6 +77,7 @@ public class PostService {
     }
 
     @Transactional(readOnly = true)
+    @Cacheable(value = "homePosts", key = "'volunteer'", cacheManager = "redisCacheManager")
     public List<PostGetHomeResponse> getHomePosts() {
         List<PostGetHomeResponse> homePosts = customPostRepository.getHomePosts();
         return homePosts;
@@ -109,6 +113,7 @@ public class PostService {
         return recruitingPosts;
     }
 
+    @CacheEvict(value = "homePosts", key = "'volunteer'", cacheManager = "redisCacheManager")    // 공고 삭제 시 홈 화면 공고 조회 캐시 삭제
     public void deletePost(String email, Long postId) {
         // 이동봉사 중개
         Intermediary intermediary = intermediaryRepository.findByEmail(email).orElseThrow(() -> new BadRequestException(INTERMEDIARY_NOT_FOUND));
