@@ -53,7 +53,8 @@ public class CustomApplicationRepositoryImpl implements CustomApplicationReposit
     public List<ApplicationVolunteerProgressingResponse> getVolunteerProgressingApplications(Long volunteerId, Pageable pageable) {
         return queryFactory
                 .select(Projections.constructor(ApplicationVolunteerProgressingResponse.class,
-                        post.id, postImage.image, post.departureLoc, post.arrivalLoc, post.startDate, post.endDate,
+                        post.id, postImage.image, post.departureLoc, post.arrivalLoc,
+                        post.startDate, post.endDate, post.pickUpTime,
                         intermediary.name, post.isKennel))
                 .from(application)
                 .join(application.post, post)
