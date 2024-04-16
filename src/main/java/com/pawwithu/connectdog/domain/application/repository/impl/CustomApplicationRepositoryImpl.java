@@ -133,14 +133,14 @@ public class CustomApplicationRepositoryImpl implements CustomApplicationReposit
     public List<ApplicationVolunteerCompletedResponse> getVolunteerCompletedApplications(Long volunteerId, Pageable pageable) {
         return queryFactory
                 .select(Projections.constructor(ApplicationVolunteerCompletedResponse.class,
-                        post.id, postImage.image, post.departureLoc, post.arrivalLoc, post.startDate, post.endDate,
-                        intermediary.name, post.isKennel, review.id, dogStatus.id))
+                        post.id, postImage.image, post.departureLoc, post.arrivalLoc,
+                        post.startDate, post.endDate, post.pickUpTime,
+                        intermediary.name, post.isKennel, review.id))
                 .from(application)
                 .join(application.post, post)
                 .join(application.post.intermediary, intermediary)
                 .join(application.post.mainImage, postImage)
                 .leftJoin(review).on(post.id.eq(review.post.id))
-                .leftJoin(dogStatus).on(post.id.eq(dogStatus.post.id))
                 .where(application.status.eq(ApplicationStatus.COMPLETED)
                         .and(application.volunteer.id.eq(volunteerId)))
                 .orderBy(application.modifiedDate.desc())   // 신청 봉사완료 최신순

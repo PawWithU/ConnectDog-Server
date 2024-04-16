@@ -10,7 +10,8 @@ public record ApplicationVolunteerCompletedResponse(Long postId, String mainImag
                                                     LocalDate startDate,
                                                     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd", timezone = "Asia/Seoul")
                                                     LocalDate endDate,
+                                                    String pickUpTime,
                                                     String intermediaryName, Boolean isKennel,
-                                                    Long reviewId, Long dogStatusId) {
+                                                    Long reviewId) {
 
 }
