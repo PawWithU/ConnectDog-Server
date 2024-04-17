@@ -9,6 +9,7 @@ public record ApplicationVolunteerProgressingResponse(Long postId, String mainIm
                                              LocalDate startDate,
                                                       @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd", timezone = "Asia/Seoul")
                                              LocalDate endDate,
+                                                      String pickUpTime,
                                                       String intermediaryName,
                                                       Boolean isKennel) {
 }

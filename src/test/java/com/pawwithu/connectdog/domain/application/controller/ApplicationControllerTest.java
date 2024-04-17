@@ -77,9 +77,9 @@ class ApplicationControllerTest {
         LocalDate startDate = LocalDate.of(2023, 10, 2);
         LocalDate endDate = LocalDate.of(2023, 11, 7);
         response.add(new ApplicationVolunteerWaitingResponse(1L, "image1", "서울시 성북구", "서울시 중랑구",
-                startDate, endDate, "이동봉사 중개", true, 1L));
+                startDate, endDate, "13:00","이동봉사 중개", true, 1L));
         response.add(new ApplicationVolunteerWaitingResponse(2L, "image2", "서울시 성북구", "서울시 중랑구",
-                startDate, endDate, "이동봉사 중개", false, 2L));
+                startDate, endDate, "13:00","이동봉사 중개", false, 2L));
 
         //when
         given(applicationService.getVolunteerWaitingApplications(anyString(), any())).willReturn(response);
@@ -99,9 +99,9 @@ class ApplicationControllerTest {
         LocalDate startDate = LocalDate.of(2023, 10, 2);
         LocalDate endDate = LocalDate.of(2023, 11, 7);
         response.add(new ApplicationVolunteerProgressingResponse(1L, "image1", "서울시 성북구", "서울시 중랑구",
-                startDate, endDate, "이동봉사 중개", true));
+                startDate, endDate, "13:00", "이동봉사 중개", true));
         response.add(new ApplicationVolunteerProgressingResponse(2L, "image2", "서울시 성북구", "서울시 중랑구",
-                startDate, endDate, "이동봉사 중개", false));
+                startDate, endDate, "13:00", "이동봉사 중개", false));
 
         //when
         given(applicationService.getVolunteerProgressingApplications(anyString(), any())).willReturn(response);
@@ -238,9 +238,9 @@ class ApplicationControllerTest {
         LocalDate startDate = LocalDate.of(2023, 10, 2);
         LocalDate endDate = LocalDate.of(2023, 11, 7);
         response.add(new ApplicationVolunteerCompletedResponse(1L, "image1", "서울시 성북구", "서울시 중랑구",
-                startDate, endDate, "이동봉사 중개", true, 1L, null));
+                startDate, endDate, "13:00", "이동봉사 중개", true, 1L));
         response.add(new ApplicationVolunteerCompletedResponse(2L, "image2", "서울시 성북구", "서울시 중랑구",
-                startDate, endDate, "이동봉사 중개", false, null, null));
+                startDate, endDate, "13:00","이동봉사 중개", false, null));
 
         //when
         given(applicationService.getVolunteerCompletedApplications(anyString(), any())).willReturn(response);
