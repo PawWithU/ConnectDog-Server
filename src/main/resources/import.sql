@@ -13,16 +13,16 @@ INSERT INTO intermediary (id, email, password, name, url, auth_image, profile_im
 
 
 -- INSERT DOG (post status 0 - 모집중)
-INSERT INTO dog (id, name, size, gender, weight, specifics, created_date, modified_date) VALUES (1, '보리', 2, 1, 10.0, '켄넬 교육을 완료했습니다.', now(), now());
-INSERT INTO dog (id, name, size, gender, weight, specifics, created_date, modified_date) VALUES (2, '로키', 2, 1, 9.0, '로키는 겁이 조금 많은 강아지예요.', now(), now());
-INSERT INTO dog (id, name, size, gender, weight, specifics, created_date, modified_date) VALUES (3, '백설', 1, 0, 5.0, '백설이는 사람을 좋아합니다. 백설이와 함께 가는 길이 즐거우실 거예요~^^', now(), now());
-INSERT INTO dog (id, name, size, gender, weight, specifics, created_date, modified_date) VALUES (4, '베티', 2, 1, 4.5, '베티는 잘 짖지 않습니다.', now(), now());
-INSERT INTO dog (id, name, size, gender, weight, specifics, created_date, modified_date) VALUES (5, '테디', 1, 1, 6.0, '테디가 조금 아파서 예민할 수 있습니다. 테디가 짖거나 대소변을 가리지 못해도 잘 품어주실 수 있는 봉사자분이셨으면 좋겠습니다.', now(), now());
-INSERT INTO dog (id, name, size, gender, weight, specifics, created_date, modified_date) VALUES (6, '루시', 1, 1, 6.5, '루시는 켄넬 밖을 무서워해서 절대로 켄넬 밖으로 임의로 꺼내지 말아주세요', now(), now());
-INSERT INTO dog (id, name, size, gender, weight, specifics, created_date, modified_date) VALUES (7, '벤지', 2, 0, 7.0, null, now(), now());
-INSERT INTO dog (id, name, size, gender, weight, specifics, created_date, modified_date) VALUES (8, '몽몽이', 2, 0, 9.5, '차에서 노래를 트시면 노래소리에 맞춰서 짖을 수 있어요', now(), now());
-INSERT INTO dog (id, name, size, gender, weight, specifics, created_date, modified_date) VALUES (9, '주디', 1, 1, 6.3, null, now(), now());
-INSERT INTO dog (id, name, size, gender, weight, specifics, created_date, modified_date) VALUES (10, '하늘이', 2, 0, 11.1, '사람을 무서워하는 강아지입니다', now(), now());
+INSERT INTO dog (id, name, size, specifics, created_date, modified_date) VALUES (1, '보리', 2, '켄넬 교육을 완료했습니다.', now(), now());
+INSERT INTO dog (id, name, size, specifics, created_date, modified_date) VALUES (2, '로키', 2, '로키는 겁이 조금 많은 강아지예요.', now(), now());
+INSERT INTO dog (id, name, size, specifics, created_date, modified_date) VALUES (3, '백설', 1, '백설이는 사람을 좋아합니다. 백설이와 함께 가는 길이 즐거우실 거예요~^^', now(), now());
+INSERT INTO dog (id, name, size, specifics, created_date, modified_date) VALUES (4, '베티', 2, '베티는 잘 짖지 않습니다.', now(), now());
+INSERT INTO dog (id, name, size, specifics, created_date, modified_date) VALUES (5, '테디', 1, '테디가 조금 아파서 예민할 수 있습니다. 테디가 짖거나 대소변을 가리지 못해도 잘 품어주실 수 있는 봉사자분이셨으면 좋겠습니다.', now(), now());
+INSERT INTO dog (id, name, size, specifics, created_date, modified_date) VALUES (6, '루시', 1, '루시는 켄넬 밖을 무서워해서 절대로 켄넬 밖으로 임의로 꺼내지 말아주세요', now(), now());
+INSERT INTO dog (id, name, size, specifics, created_date, modified_date) VALUES (7, '벤지', 2, null, now(), now());
+INSERT INTO dog (id, name, size, specifics, created_date, modified_date) VALUES (8, '몽몽이', 2, '차에서 노래를 트시면 노래소리에 맞춰서 짖을 수 있어요', now(), now());
+INSERT INTO dog (id, name, size, specifics, created_date, modified_date) VALUES (9, '주디', 1, null, now(), now());
+INSERT INTO dog (id, name, size, specifics, created_date, modified_date) VALUES (10, '하늘이', 2, '사람을 무서워하는 강아지입니다', now(), now());
 
 
 -- INSERT DOG (post status 2 - 진행중)
@@ -30,11 +30,11 @@ INSERT INTO dog (id, name, size, gender, weight, specifics, created_date, modifi
 
 
 -- INSERT DOG (post status 3 - 봉사완료)
-INSERT INTO dog (id, name, size, gender, weight, specifics, created_date, modified_date) VALUES (12, '여름이', 2, 1, 9.0, '로키는 겁이 조금 많은 강아지에요.', now(), now());
-INSERT INTO dog (id, name, size, gender, weight, specifics, created_date, modified_date) VALUES (13, '겨울이', 1, 0, 5.0, '겨울이는 사람을 좋아합니다. 백설이와 함께 가는 길이 즐거우실 거예요~^^', now(), now());
-INSERT INTO dog (id, name, size, gender, weight, specifics, created_date, modified_date) VALUES (14, '짱구', 2, 1, 4.5, '짱구는 잘 짖지 않습니다.', now(), now());
-INSERT INTO dog (id, name, size, gender, weight, specifics, created_date, modified_date) VALUES (15, '로지', 1, 1, 6.0, '로지가 조금 아파서 예민할 수 있습니다. 테디가 짖거나 대소변을 가리지 못해도 잘 품어주실 수 있는 봉사자 분이셨으면 좋겠습니다.', now(), now());
-INSERT INTO dog (id, name, size, gender, weight, specifics, created_date, modified_date) VALUES (16, '가을이', 1, 1, 5.0, '가을이가 조금 아파서 예민할 수 있습니다. 가을이가 짖거나 대소변을 가리지 못해도 잘 품어주실 수 있는 봉사자 분이셨으면 좋겠습니다.', now(), now());
+INSERT INTO dog (id, name, size, specifics, created_date, modified_date) VALUES (12, '여름이', 2, '로키는 겁이 조금 많은 강아지에요.', now(), now());
+INSERT INTO dog (id, name, size, specifics, created_date, modified_date) VALUES (13, '겨울이', 1, '겨울이는 사람을 좋아합니다. 백설이와 함께 가는 길이 즐거우실 거예요~^^', now(), now());
+INSERT INTO dog (id, name, size, specifics, created_date, modified_date) VALUES (14, '짱구', 2, '짱구는 잘 짖지 않습니다.', now(), now());
+INSERT INTO dog (id, name, size, specifics, created_date, modified_date) VALUES (15, '로지', 1, '로지가 조금 아파서 예민할 수 있습니다. 테디가 짖거나 대소변을 가리지 못해도 잘 품어주실 수 있는 봉사자 분이셨으면 좋겠습니다.', now(), now());
+INSERT INTO dog (id, name, size, specifics, created_date, modified_date) VALUES (16, '가을이', 1, '가을이가 조금 아파서 예민할 수 있습니다. 가을이가 짖거나 대소변을 가리지 못해도 잘 품어주실 수 있는 봉사자 분이셨으면 좋겠습니다.', now(), now());
 
 
 -- INSERT POST (status 0 - 모집중)
@@ -207,41 +207,41 @@ INSERT INTO intermediary (id, email, password, name, url, auth_image, profile_im
 
 
 -- INSERT DOG (post status 0 - 모집중)
-INSERT INTO dog (id, name, size, gender, weight, specifics, created_date, modified_date) VALUES (17, '비키', 1, 1, 6.3, '애착 인형과 함께 이동해야 해요', now(), now());
-INSERT INTO dog (id, name, size, gender, weight, specifics, created_date, modified_date) VALUES (18, '푸딩이', 2, 0, 11.1, '푸딩이는 사람을 좋아합니다. 슬기와 함께 가는 길이 즐거우실 거예요~^^', now(), now());
-INSERT INTO dog (id, name, size, gender, weight, specifics, created_date, modified_date) VALUES (19, '포포', 2, 1, 10.0, '포포와 함께 가는 길이 즐거우실 거예요~^^', now(), now());
-INSERT INTO dog (id, name, size, gender, weight, specifics, created_date, modified_date) VALUES (20, '꿈돌이', 2, 1, 9.0, '켄넬을 조금 무서워해서 켄넬을 긁을 수 있어요.', now(), now());
-INSERT INTO dog (id, name, size, gender, weight, specifics, created_date, modified_date) VALUES (21, '별님', 1, 0, 5.0, '침을 조금 많이 흘려요.', now(), now());
-INSERT INTO dog (id, name, size, gender, weight, specifics, created_date, modified_date) VALUES (22, '햇님', 2, 1, 4.5, '햇님이는 사람을 좋아합니다. 햇님이와 함께 가는 길이 즐거우실 거예요~^^', now(), now());
-INSERT INTO dog (id, name, size, gender, weight, specifics, created_date, modified_date) VALUES (23, '달님', 1, 1, 6.0, '달님이는 사람을 좋아합니다. 달님이와 함께 가는 길이 즐거우실 거예요~^^', now(), now());
-INSERT INTO dog (id, name, size, gender, weight, specifics, created_date, modified_date) VALUES (24, '태양이', 2, 1, 10.0, '태양이는 사람을 좋아합니다. 태양이와 함께 가는 길이 즐거우실 거예요~^^', now(), now());
-INSERT INTO dog (id, name, size, gender, weight, specifics, created_date, modified_date) VALUES (25, '바다', 2, 1, 9.0, '시끄러우면 짖을 수 있어요.', now(), now());
-INSERT INTO dog (id, name, size, gender, weight, specifics, created_date, modified_date) VALUES (26, '윤슬', 1, 0, 5.0, '자동차를 보면 따라가요.', now(), now());
-INSERT INTO dog (id, name, size, gender, weight, specifics, created_date, modified_date) VALUES (27, '슬기', 2, 1, 4.5, '슬기는 사람을 좋아합니다. 슬기와 함께 가는 길이 즐거우실 거예요~^^', now(), now());
-INSERT INTO dog (id, name, size, gender, weight, specifics, created_date, modified_date) VALUES (28, '슬구', 1, 1, 6.0, '슬구는 겁이 조금 많은 강아지예요.', now(), now());
+INSERT INTO dog (id, name, size, specifics, created_date, modified_date) VALUES (17, '비키', 1, '애착 인형과 함께 이동해야 해요', now(), now());
+INSERT INTO dog (id, name, size, specifics, created_date, modified_date) VALUES (18, '푸딩이', 2, '푸딩이는 사람을 좋아합니다. 슬기와 함께 가는 길이 즐거우실 거예요~^^', now(), now());
+INSERT INTO dog (id, name, size, specifics, created_date, modified_date) VALUES (19, '포포', 2, '포포와 함께 가는 길이 즐거우실 거예요~^^', now(), now());
+INSERT INTO dog (id, name, size, specifics, created_date, modified_date) VALUES (20, '꿈돌이', 2, '켄넬을 조금 무서워해서 켄넬을 긁을 수 있어요.', now(), now());
+INSERT INTO dog (id, name, size, specifics, created_date, modified_date) VALUES (21, '별님', 1, '침을 조금 많이 흘려요.', now(), now());
+INSERT INTO dog (id, name, size, specifics, created_date, modified_date) VALUES (22, '햇님', 2, '햇님이는 사람을 좋아합니다. 햇님이와 함께 가는 길이 즐거우실 거예요~^^', now(), now());
+INSERT INTO dog (id, name, size, specifics, created_date, modified_date) VALUES (23, '달님', 1, '달님이는 사람을 좋아합니다. 달님이와 함께 가는 길이 즐거우실 거예요~^^', now(), now());
+INSERT INTO dog (id, name, size, specifics, created_date, modified_date) VALUES (24, '태양이', 2, '태양이는 사람을 좋아합니다. 태양이와 함께 가는 길이 즐거우실 거예요~^^', now(), now());
+INSERT INTO dog (id, name, size, specifics, created_date, modified_date) VALUES (25, '바다', 2, '시끄러우면 짖을 수 있어요.', now(), now());
+INSERT INTO dog (id, name, size, specifics, created_date, modified_date) VALUES (26, '윤슬', 1, '자동차를 보면 따라가요.', now(), now());
+INSERT INTO dog (id, name, size, specifics, created_date, modified_date) VALUES (27, '슬기', 2, '슬기는 사람을 좋아합니다. 슬기와 함께 가는 길이 즐거우실 거예요~^^', now(), now());
+INSERT INTO dog (id, name, size, specifics, created_date, modified_date) VALUES (28, '슬구', 1, '슬구는 겁이 조금 많은 강아지예요.', now(), now());
 
 -- INSERT DOG (post status 1 - 승인대기중)
-INSERT INTO dog (id, name, size, gender, weight, specifics, created_date, modified_date) VALUES (29, '잔디', 1, 1, 6.5, '산책을 좋아하지만 이동봉사 중에는 시키지 마세요', now(), now());
-INSERT INTO dog (id, name, size, gender, weight, specifics, created_date, modified_date) VALUES (30, '잔디', 1, 1, 6.5, '산책을 좋아하지만 이동봉사 중에는 시키지 마세요', now(), now());
-INSERT INTO dog (id, name, size, gender, weight, specifics, created_date, modified_date) VALUES (31, '잔디', 1, 1, 6.5, '산책을 좋아하지만 이동봉사 중에는 시키지 마세요', now(), now());
-INSERT INTO dog (id, name, size, gender, weight, specifics, created_date, modified_date) VALUES (32, '잔디', 1, 1, 6.5, '산책을 좋아하지만 이동봉사 중에는 시키지 마세요', now(), now());
+INSERT INTO dog (id, name, size, specifics, created_date, modified_date) VALUES (29, '잔디', 1, '산책을 좋아하지만 이동봉사 중에는 시키지 마세요', now(), now());
+INSERT INTO dog (id, name, size, specifics, created_date, modified_date) VALUES (30, '잔디', 1, '산책을 좋아하지만 이동봉사 중에는 시키지 마세요', now(), now());
+INSERT INTO dog (id, name, size, specifics, created_date, modified_date) VALUES (31, '잔디', 1, '산책을 좋아하지만 이동봉사 중에는 시키지 마세요', now(), now());
+INSERT INTO dog (id, name, size, specifics, created_date, modified_date) VALUES (32, '잔디', 1, '산책을 좋아하지만 이동봉사 중에는 시키지 마세요', now(), now());
 
 -- INSERT DOG (post status 2 - 진행중)
-INSERT INTO dog (id, name, size, gender, weight, specifics, created_date, modified_date) VALUES (33, '동글이', 2, 0, 7.0, '켄넬 교육을 완료했습니다.', now(), now());
-INSERT INTO dog (id, name, size, gender, weight, specifics, created_date, modified_date) VALUES (34, '동글이', 2, 0, 7.0, '켄넬 교육을 완료했습니다.', now(), now());
-INSERT INTO dog (id, name, size, gender, weight, specifics, created_date, modified_date) VALUES (35, '동글이', 2, 0, 7.0, '켄넬 교육을 완료했습니다.', now(), now());
-INSERT INTO dog (id, name, size, gender, weight, specifics, created_date, modified_date) VALUES (36, '동글이', 2, 0, 7.0, '켄넬 교육을 완료했습니다.', now(), now());
+INSERT INTO dog (id, name, size, specifics, created_date, modified_date) VALUES (33, '동글이', 2, '켄넬 교육을 완료했습니다.', now(), now());
+INSERT INTO dog (id, name, size, specifics, created_date, modified_date) VALUES (34, '동글이', 2, '켄넬 교육을 완료했습니다.', now(), now());
+INSERT INTO dog (id, name, size, specifics, created_date, modified_date) VALUES (35, '동글이', 2, '켄넬 교육을 완료했습니다.', now(), now());
+INSERT INTO dog (id, name, size, specifics, created_date, modified_date) VALUES (36, '동글이', 2, '켄넬 교육을 완료했습니다.', now(), now());
 
 
 -- INSERT DOG (post status 3 - 봉사완료)
-INSERT INTO dog (id, name, size, gender, weight, specifics, created_date, modified_date) VALUES (37, '몽이', 2, 1, 10.0, null, now(), now());
-INSERT INTO dog (id, name, size, gender, weight, specifics, created_date, modified_date) VALUES (38, '코코', 2, 1, 9.0, '겁이 조금 많지만 순해요.', now(), now());
-INSERT INTO dog (id, name, size, gender, weight, specifics, created_date, modified_date) VALUES (39, '율무', 1, 0, 5.0, '켄넬 교육을 완료했습니다.', now(), now());
-INSERT INTO dog (id, name, size, gender, weight, specifics, created_date, modified_date) VALUES (40, '찹쌀이', 2, 1, 4.5, null, now(), now());
-INSERT INTO dog (id, name, size, gender, weight, specifics, created_date, modified_date) VALUES (41, '수수', 1, 1, 6.0, null, now(), now());
-INSERT INTO dog (id, name, size, gender, weight, specifics, created_date, modified_date) VALUES (42, '호두', 1, 1, 6.5, null, now(), now());
-INSERT INTO dog (id, name, size, gender, weight, specifics, created_date, modified_date) VALUES (43, '감자', 2, 0, 7.0, '사람들을 좋아해서 순해요.', now(), now());
-INSERT INTO dog (id, name, size, gender, weight, specifics, created_date, modified_date) VALUES (44, '베키', 2, 0, 9.5, '조금 심하게 짖을 수 있어요.', now(), now());
+INSERT INTO dog (id, name, size, specifics, created_date, modified_date) VALUES (37, '몽이', 2, null, now(), now());
+INSERT INTO dog (id, name, size, specifics, created_date, modified_date) VALUES (38, '코코', 2, '겁이 조금 많지만 순해요.', now(), now());
+INSERT INTO dog (id, name, size, specifics, created_date, modified_date) VALUES (39, '율무', 1, '켄넬 교육을 완료했습니다.', now(), now());
+INSERT INTO dog (id, name, size, specifics, created_date, modified_date) VALUES (40, '찹쌀이', 2, null, now(), now());
+INSERT INTO dog (id, name, size, specifics, created_date, modified_date) VALUES (41, '수수', 1, null, now(), now());
+INSERT INTO dog (id, name, size, specifics, created_date, modified_date) VALUES (42, '호두', 1, null, now(), now());
+INSERT INTO dog (id, name, size, specifics, created_date, modified_date) VALUES (43, '감자', 2, '사람들을 좋아해서 순해요.', now(), now());
+INSERT INTO dog (id, name, size, specifics, created_date, modified_date) VALUES (44, '베키', 2, '조금 심하게 짖을 수 있어요.', now(), now());
 
 
 
