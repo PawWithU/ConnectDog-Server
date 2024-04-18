@@ -16,17 +16,17 @@ public record PostVolunteerGetOneResponse(Long postId, String mainImage, List<St
                                  LocalDate endDate,
                                           String pickUpTime,
                                           Boolean isKennel, String content,
-                                          String dogName, String dogSize, String dogGender, Float dogWeight, String specifics,
+                                          String dogName, String dogSize, String specifics,
                                           Long intermediaryId, String intermediaryProfileImage, String intermediaryName,
                                           Boolean isBookmark) {
 
     // 공고 이미지 필드를 제외한 생성자
     public PostVolunteerGetOneResponse(Long postId, String mainImage, PostStatus postStatus, String departureLoc, String arrivalLoc,
                                        LocalDate startDate, LocalDate endDate, String pickUpTime, Boolean isKennel, String content, String dogName,
-                                       DogSize dogSize, DogGender dogGender, Float dogWeight, String specifics, Long intermediaryId,
+                                       DogSize dogSize, String specifics, Long intermediaryId,
                                        String intermediaryProfileImage, String intermediaryName) {
         this(postId, mainImage, null, postStatus.getKey(), departureLoc, arrivalLoc, startDate, endDate,
-                pickUpTime, isKennel, content, dogName, dogSize.getKey(), dogGender.getKey(), dogWeight, specifics,
+                pickUpTime, isKennel, content, dogName, dogSize.getKey(), specifics,
                 intermediaryId, intermediaryProfileImage, intermediaryName, null);
     }
 
@@ -34,7 +34,7 @@ public record PostVolunteerGetOneResponse(Long postId, String mainImage, List<St
     public static PostVolunteerGetOneResponse of(PostVolunteerGetOneResponse response, List<String> images, Boolean isBookmark) {
         return new PostVolunteerGetOneResponse(response.postId, response.mainImage, images, response.postStatus, response.departureLoc, response.arrivalLoc,
                 response.startDate, response.endDate, response.pickUpTime, response.isKennel, response.content,
-                response.dogName, response.dogSize, response.dogGender, response.dogWeight, response.specifics,
+                response.dogName, response.dogSize, response.specifics,
                 response.intermediaryId, response.intermediaryProfileImage, response.intermediaryName, isBookmark);
     }
 

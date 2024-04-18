@@ -143,7 +143,7 @@ class PostControllerTest {
     }
 
     @Test
-    void 이동봉사자_공고_상세_보기() throws Exception {
+    void 이동봉사_중개_공고_상세_보기() throws Exception {
         //given
         Long postId = 1L;
         LocalDate startDate = LocalDate.of(2023, 10, 2);
@@ -153,7 +153,7 @@ class PostControllerTest {
         images.add("image2");
         PostIntermediaryGetOneResponse response = new PostIntermediaryGetOneResponse(1L, "mainImage", images, "모집중", "서울시 성북구", "서울시 중랑구",
                 startDate, endDate, "12:00", true, "이동봉사 공고", "봄이", DogSize.SMALL.getKey(),
-                DogGender.FEMALE.getKey(), 5.1f, "ㄱㅇㅇ", 1L, "profileImage", "이동봉사 중개");
+                "ㄱㅇㅇ", 1L, "profileImage", "이동봉사 중개");
 
 
         //when
@@ -207,7 +207,7 @@ class PostControllerTest {
     }
 
     @Test
-    void 이동봉사_중개_공고_상세_보기() throws Exception {
+    void 이동봉사자_공고_상세_보기() throws Exception {
         //given
         Long postId = 1L;
         LocalDate startDate = LocalDate.of(2023, 10, 2);
@@ -217,7 +217,7 @@ class PostControllerTest {
         images.add("image2");
         PostVolunteerGetOneResponse response = new PostVolunteerGetOneResponse(1L, "mainImage", images, "모집중", "서울시 성북구", "서울시 중랑구",
                 startDate, endDate, "12:00", true, "이동봉사 공고", "봄이", DogSize.SMALL.getKey(),
-                DogGender.FEMALE.getKey(), 5.1f, "ㄱㅇㅇ", 1L, "profileImage", "이동봉사 중개", true);
+                "ㄱㅇㅇ", 1L, "profileImage", "이동봉사 중개", true);
 
 
         //when
