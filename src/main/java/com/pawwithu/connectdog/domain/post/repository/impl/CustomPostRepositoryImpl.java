@@ -87,7 +87,7 @@ public class CustomPostRepositoryImpl implements CustomPostRepository {
                 .select(Projections.constructor(PostVolunteerGetOneResponse.class,
                         post.id, postImage.image, post.status, post.departureLoc, post.arrivalLoc,
                         post.startDate, post.endDate, post.pickUpTime, post.isKennel, post.content,
-                        dog.name, dog.size, dog.gender, dog.weight, dog.specifics,
+                        dog.name, dog.size, dog.specifics,
                         intermediary.id, intermediary.profileImage, intermediary.name))
                 .from(post)
                 .join(post.intermediary, intermediary)
@@ -166,7 +166,7 @@ public class CustomPostRepositoryImpl implements CustomPostRepository {
                 .select(Projections.constructor(PostIntermediaryGetOneResponse.class,
                         post.id, postImage.image, post.status, post.departureLoc, post.arrivalLoc,
                         post.startDate, post.endDate, post.pickUpTime, post.isKennel, post.content,
-                        dog.name, dog.size, dog.gender, dog.weight, dog.specifics,
+                        dog.name, dog.size, dog.specifics,
                         intermediary.id, intermediary.profileImage, intermediary.name))
                 .from(post)
                 .join(post.intermediary, intermediary)
