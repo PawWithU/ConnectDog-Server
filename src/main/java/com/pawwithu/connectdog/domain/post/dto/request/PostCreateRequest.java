@@ -31,9 +31,6 @@ public record PostCreateRequest(@NotBlank(message = "출발 지역은 필수 입
                                 String dogName,
                                 @NotNull(message = "강아지 사이즈는 필수 입력 값입니다.")
                                 DogSize dogSize,
-                                @NotNull(message = "강아지 성별은 필수 입력 값입니다.")
-                                DogGender dogGender,
-                                Float dogWeight,
                                 String specifics) {
 
         public static Post postToEntity(PostCreateRequest request, Dog dog, Intermediary intermediary) {
@@ -55,8 +52,6 @@ public record PostCreateRequest(@NotBlank(message = "출발 지역은 필수 입
             return Dog.builder()
                     .name(dogName)
                     .size(dogSize)
-                    .gender(dogGender)
-                    .weight(dogWeight)
                     .specifics(specifics)
                     .build();
         }
