@@ -34,13 +34,13 @@ public class CustomApplicationRepositoryImpl implements CustomApplicationReposit
     public List<ApplicationVolunteerWaitingResponse> getVolunteerWaitingApplications(Long volunteerId, Pageable pageable) {
         return queryFactory
                 .select(Projections.constructor(ApplicationVolunteerWaitingResponse.class,
-                        post.id, postImage.image, post.departureLoc, post.arrivalLoc,
+                        post.id, postImage.image, dog.name, post.departureLoc, post.arrivalLoc,
                         post.startDate, post.endDate, post.pickUpTime,
-                        intermediary.name, post.isKennel, application.id))
+                        dog.size, post.isKennel, application.id))
                 .from(application)
                 .join(application.post, post)
-                .join(application.post.intermediary, intermediary)
                 .join(application.post.mainImage, postImage)
+                .join(application.post.dog, dog)
                 .where(application.status.eq(ApplicationStatus.WAITING)
                         .and(application.volunteer.id.eq(volunteerId)))
                 .orderBy(application.createdDate.desc())    // 신청 최신순
