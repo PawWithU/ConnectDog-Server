@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.pawwithu.connectdog.domain.application.dto.request.VolunteerApplyRequest;
 import com.pawwithu.connectdog.domain.application.dto.response.*;
 import com.pawwithu.connectdog.domain.application.service.ApplicationService;
+import com.pawwithu.connectdog.domain.dog.entity.DogSize;
 import com.pawwithu.connectdog.utils.TestUserArgumentResolver;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -76,10 +77,10 @@ class ApplicationControllerTest {
         List<ApplicationVolunteerWaitingResponse> response = new ArrayList<>();
         LocalDate startDate = LocalDate.of(2023, 10, 2);
         LocalDate endDate = LocalDate.of(2023, 11, 7);
-        response.add(new ApplicationVolunteerWaitingResponse(1L, "image1", "서울시 성북구", "서울시 중랑구",
-                startDate, endDate, "13:00","이동봉사 중개", true, 1L));
-        response.add(new ApplicationVolunteerWaitingResponse(2L, "image2", "서울시 성북구", "서울시 중랑구",
-                startDate, endDate, "13:00","이동봉사 중개", false, 2L));
+        response.add(new ApplicationVolunteerWaitingResponse(1L, "image1", "잔디", "서울시 성북구", "서울시 중랑구",
+                startDate, endDate, "13:00", DogSize.MEDIUM.getKey(), true, 1L));
+        response.add(new ApplicationVolunteerWaitingResponse(2L, "image1", "잔디", "서울시 성북구", "서울시 중랑구",
+                startDate, endDate, "13:00", DogSize.MEDIUM.getKey(), true, 1L));
 
         //when
         given(applicationService.getVolunteerWaitingApplications(anyString(), any())).willReturn(response);
@@ -98,10 +99,10 @@ class ApplicationControllerTest {
         List<ApplicationVolunteerProgressingResponse> response = new ArrayList<>();
         LocalDate startDate = LocalDate.of(2023, 10, 2);
         LocalDate endDate = LocalDate.of(2023, 11, 7);
-        response.add(new ApplicationVolunteerProgressingResponse(1L, "image1", "서울시 성북구", "서울시 중랑구",
-                startDate, endDate, "13:00", "이동봉사 중개", true));
-        response.add(new ApplicationVolunteerProgressingResponse(2L, "image2", "서울시 성북구", "서울시 중랑구",
-                startDate, endDate, "13:00", "이동봉사 중개", false));
+        response.add(new ApplicationVolunteerProgressingResponse(1L, "image1", "잔디", "서울시 성북구", "서울시 중랑구",
+                startDate, endDate, "13:00", DogSize.MEDIUM.getKey(), true, 1L));
+        response.add(new ApplicationVolunteerProgressingResponse(2L, "image1", "잔디", "서울시 성북구", "서울시 중랑구",
+                startDate, endDate, "13:00", DogSize.MEDIUM.getKey(), true, 1L));
 
         //when
         given(applicationService.getVolunteerProgressingApplications(anyString(), any())).willReturn(response);
@@ -237,10 +238,10 @@ class ApplicationControllerTest {
         List<ApplicationVolunteerCompletedResponse> response = new ArrayList<>();
         LocalDate startDate = LocalDate.of(2023, 10, 2);
         LocalDate endDate = LocalDate.of(2023, 11, 7);
-        response.add(new ApplicationVolunteerCompletedResponse(1L, "image1", "서울시 성북구", "서울시 중랑구",
-                startDate, endDate, "13:00", "이동봉사 중개", true, 1L));
-        response.add(new ApplicationVolunteerCompletedResponse(2L, "image2", "서울시 성북구", "서울시 중랑구",
-                startDate, endDate, "13:00","이동봉사 중개", false, null));
+        response.add(new ApplicationVolunteerCompletedResponse(1L, "image1", "잔디", "서울시 성북구", "서울시 중랑구",
+                startDate, endDate, "13:00", DogSize.MEDIUM.getKey(), true, 1L));
+        response.add(new ApplicationVolunteerCompletedResponse(2L, "image1", "잔디", "서울시 성북구", "서울시 중랑구",
+                startDate, endDate, "13:00", DogSize.MEDIUM.getKey(), true, 1L));
 
         //when
         given(applicationService.getVolunteerCompletedApplications(anyString(), any())).willReturn(response);
