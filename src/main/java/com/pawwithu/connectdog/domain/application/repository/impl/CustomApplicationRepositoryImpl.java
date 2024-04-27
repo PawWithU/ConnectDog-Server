@@ -95,13 +95,13 @@ public class CustomApplicationRepositoryImpl implements CustomApplicationReposit
     public List<ApplicationIntermediaryWaitingResponse> getIntermediaryWaitingApplications(Long intermediaryId, Pageable pageable) {
         return queryFactory
                 .select(Projections.constructor(ApplicationIntermediaryWaitingResponse.class,
-                        application.createdDate, post.id, postImage.image, dog.name, post.startDate, post.endDate,
-                        post.departureLoc, post.arrivalLoc, volunteer.name, application.id))
+                        application.createdDate, post.id, postImage.image, dog.name,
+                        post.departureLoc, post.arrivalLoc, post.startDate, post.endDate, post.pickUpTime,
+                        dog.size, post.isKennel, application.id))
                 .from(application)
                 .join(application.post, post)
                 .join(application.post.mainImage, postImage)
                 .join(application.post.dog, dog)
-                .join(application.volunteer, volunteer)
                 .where(application.status.eq(ApplicationStatus.WAITING)
                         .and(application.intermediary.id.eq(intermediaryId)))
                 .orderBy(application.createdDate.desc())    // 신청 최신순
