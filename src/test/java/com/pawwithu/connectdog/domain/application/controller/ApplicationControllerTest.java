@@ -191,10 +191,10 @@ class ApplicationControllerTest {
         LocalDateTime applicationTime = LocalDateTime.of(2023, 11, 25, 12, 30);
         LocalDate startDate = LocalDate.of(2023, 10, 2);
         LocalDate endDate = LocalDate.of(2023, 11, 7);
-        response.add(new ApplicationIntermediaryWaitingResponse(applicationTime, 1L, "image1", "포포1", startDate, endDate,
-                "서울시 성북구", "서울시 중랑구", "하노정", 1L));
-        response.add(new ApplicationIntermediaryWaitingResponse(applicationTime, 2L, "image2", "포포2", startDate, endDate,
-                "서울시 성북구", "서울시 중랑구", "민경혁", 2L));
+        response.add(new ApplicationIntermediaryWaitingResponse(applicationTime, 1L, "image1", "포포1", "서울시 성북구", "서울시 중랑구",
+                startDate, endDate, "13:00", DogSize.MEDIUM.getKey(), true, 1L));
+        response.add(new ApplicationIntermediaryWaitingResponse(applicationTime, 2L, "image1", "포포1", "서울시 성북구", "서울시 중랑구",
+                startDate, endDate, "13:00", DogSize.MEDIUM.getKey(), true, 2L));
 
 
         //when
@@ -215,10 +215,11 @@ class ApplicationControllerTest {
         List<ApplicationIntermediaryProgressingResponse> response = new ArrayList<>();
         LocalDate startDate = LocalDate.of(2023, 10, 2);
         LocalDate endDate = LocalDate.of(2023, 11, 7);
-        response.add(new ApplicationIntermediaryProgressingResponse(1L, "image1", "포포1", startDate, endDate,
-                "서울시 성북구", "서울시 중랑구", "하노정", 1L));
-        response.add(new ApplicationIntermediaryProgressingResponse(2L, "image2", "포포2", startDate, endDate,
-                "서울시 성북구", "서울시 중랑구", "민경혁", 2L));
+        response.add(new ApplicationIntermediaryProgressingResponse(1L, "image1", "포포1", "서울시 성북구", "서울시 중랑구",
+                startDate, endDate, "13:00", DogSize.MEDIUM.getKey(), true, 1L));
+        response.add(new ApplicationIntermediaryProgressingResponse(2L, "image1", "포포1", "서울시 성북구", "서울시 중랑구",
+                startDate, endDate, "13:00", DogSize.MEDIUM.getKey(), true, 2L));
+
 
 
         //when
@@ -241,7 +242,7 @@ class ApplicationControllerTest {
         response.add(new ApplicationVolunteerCompletedResponse(1L, "image1", "잔디", "서울시 성북구", "서울시 중랑구",
                 startDate, endDate, "13:00", DogSize.MEDIUM.getKey(), true, 1L));
         response.add(new ApplicationVolunteerCompletedResponse(2L, "image1", "잔디", "서울시 성북구", "서울시 중랑구",
-                startDate, endDate, "13:00", DogSize.MEDIUM.getKey(), true, 1L));
+                startDate, endDate, "13:00", DogSize.MEDIUM.getKey(), true, 2L));
 
         //when
         given(applicationService.getVolunteerCompletedApplications(anyString(), any())).willReturn(response);
@@ -260,12 +261,10 @@ class ApplicationControllerTest {
         List<ApplicationIntermediaryCompletedResponse> response = new ArrayList<>();
         LocalDate startDate = LocalDate.of(2023, 10, 2);
         LocalDate endDate = LocalDate.of(2023, 11, 7);
-        response.add(new ApplicationIntermediaryCompletedResponse(1L, "image1", "포포",
-                startDate, endDate, "이동봉사 중개", "서울시 성북구", "서울시 중랑구",
-                1L, 1L, null));
-        response.add(new ApplicationIntermediaryCompletedResponse(2L, "image1", "포포",
-                startDate, endDate, "이동봉사 중개", "서울시 성북구", "서울시 중랑구",
-                1L, 1L, null));
+        response.add(new ApplicationIntermediaryCompletedResponse(1L, "image1", "잔디", "서울시 성북구", "서울시 중랑구",
+                startDate, endDate, "13:00", DogSize.MEDIUM.getKey(), true, 1L));
+        response.add(new ApplicationIntermediaryCompletedResponse(2L, "image1", "잔디", "서울시 성북구", "서울시 중랑구",
+                startDate, endDate, "13:00", DogSize.MEDIUM.getKey(), true, 2L));
 
         //when
         given(applicationService.getIntermediaryCompletedApplications(anyString(), any())).willReturn(response);
