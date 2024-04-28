@@ -153,13 +153,13 @@ public class CustomApplicationRepositoryImpl implements CustomApplicationReposit
     public List<ApplicationIntermediaryCompletedResponse> getIntermediaryCompletedApplications(Long intermediaryId, Pageable pageable) {
         return queryFactory
                 .select(Projections.constructor(ApplicationIntermediaryCompletedResponse.class,
-                        post.id, postImage.image, dog.name, post.startDate, post.endDate, post.departureLoc, post.arrivalLoc,
-                        volunteer.name, application.id, review.id, dogStatus.id))
+                        post.id, postImage.image, dog.name, post.departureLoc, post.arrivalLoc,
+                        post.startDate, post.endDate, post.pickUpTime,
+                        dog.size, post.isKennel, review.id))
                 .from(application)
                 .join(application.post, post)
                 .join(application.post.mainImage, postImage)
                 .join(application.post.dog, dog)
-                .join(application.volunteer, volunteer)
                 .leftJoin(review).on(post.id.eq(review.post.id))
                 .leftJoin(dogStatus).on(post.id.eq(dogStatus.post.id))
                 .where(application.status.eq(ApplicationStatus.COMPLETED)
