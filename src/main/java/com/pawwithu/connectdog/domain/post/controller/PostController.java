@@ -90,8 +90,8 @@ public class PostController {
         return ResponseEntity.ok(response);
     }
 
-    @Operation(summary = "봉사 관리 - 모집중, 모집 마감", description = "이동봉사 모집중, 모집 마감 목록을 조회합니다.",
-            responses = {@ApiResponse(responseCode = "200", description = "이동봉사 모집중, 모집 마감 목록 조회 성공")
+    @Operation(summary = "봉사 관리 - 공고 삭제", description = "이동봉사 공고를 삭제합니다.",
+            responses = {@ApiResponse(responseCode = "200", description = "이동봉사 공고 삭제 성공")
                     , @ApiResponse(responseCode = "400"
                     , description = "M2, 해당 이동봉사 중개를 찾을 수 없습니다. \t\n P2, 해당 공고를 찾을 수 없습니다."
                     , content = @Content(schema = @Schema(implementation = ErrorResponse.class)))

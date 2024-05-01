@@ -13,7 +13,7 @@ import static com.pawwithu.connectdog.error.ErrorCode.INVALID_DOG_SIZE;
 @RequiredArgsConstructor
 public enum DogSize {
 
-    SMALL("소형견"), MEDIUM("중형견"), LARGE("대형견");
+    SMALL("소형"), MEDIUM("중형"), LARGE("대형");
 
     @JsonCreator
     public static DogSize create(String requestValue) {

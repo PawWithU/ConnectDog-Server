@@ -95,13 +95,13 @@ public class CustomApplicationRepositoryImpl implements CustomApplicationReposit
     public List<ApplicationIntermediaryWaitingResponse> getIntermediaryWaitingApplications(Long intermediaryId, Pageable pageable) {
         return queryFactory
                 .select(Projections.constructor(ApplicationIntermediaryWaitingResponse.class,
-                        application.createdDate, post.id, postImage.image, dog.name, post.startDate, post.endDate,
-                        post.departureLoc, post.arrivalLoc, volunteer.name, application.id))
+                        application.createdDate, post.id, postImage.image, dog.name,
+                        post.departureLoc, post.arrivalLoc, post.startDate, post.endDate, post.pickUpTime,
+                        dog.size, post.isKennel, application.id))
                 .from(application)
                 .join(application.post, post)
                 .join(application.post.mainImage, postImage)
                 .join(application.post.dog, dog)
-                .join(application.volunteer, volunteer)
                 .where(application.status.eq(ApplicationStatus.WAITING)
                         .and(application.intermediary.id.eq(intermediaryId)))
                 .orderBy(application.createdDate.desc())    // 신청 최신순
@@ -114,13 +114,13 @@ public class CustomApplicationRepositoryImpl implements CustomApplicationReposit
     public List<ApplicationIntermediaryProgressingResponse> getIntermediaryProgressingApplications(Long intermediaryId, Pageable pageable) {
         return queryFactory
                 .select(Projections.constructor(ApplicationIntermediaryProgressingResponse.class,
-                        post.id, postImage.image, dog.name, post.startDate, post.endDate,
-                        post.departureLoc, post.arrivalLoc, volunteer.name, application.id))
+                        post.id, postImage.image, dog.name, post.departureLoc, post.arrivalLoc,
+                        post.startDate, post.endDate, post.pickUpTime,
+                        dog.size, post.isKennel, application.id))
                 .from(application)
                 .join(application.post, post)
                 .join(application.post.mainImage, postImage)
                 .join(application.post.dog, dog)
-                .join(application.volunteer, volunteer)
                 .where(application.status.eq(ApplicationStatus.PROGRESSING)
                         .and(application.intermediary.id.eq(intermediaryId)))
                 .orderBy(application.modifiedDate.desc())   // 신청 확정 최신순
@@ -153,13 +153,13 @@ public class CustomApplicationRepositoryImpl implements CustomApplicationReposit
     public List<ApplicationIntermediaryCompletedResponse> getIntermediaryCompletedApplications(Long intermediaryId, Pageable pageable) {
         return queryFactory
                 .select(Projections.constructor(ApplicationIntermediaryCompletedResponse.class,
-                        post.id, postImage.image, dog.name, post.startDate, post.endDate, post.departureLoc, post.arrivalLoc,
-                        volunteer.name, application.id, review.id, dogStatus.id))
+                        post.id, postImage.image, dog.name, post.departureLoc, post.arrivalLoc,
+                        post.startDate, post.endDate, post.pickUpTime,
+                        dog.size, post.isKennel, review.id))
                 .from(application)
                 .join(application.post, post)
                 .join(application.post.mainImage, postImage)
                 .join(application.post.dog, dog)
-                .join(application.volunteer, volunteer)
                 .leftJoin(review).on(post.id.eq(review.post.id))
                 .leftJoin(dogStatus).on(post.id.eq(dogStatus.post.id))
                 .where(application.status.eq(ApplicationStatus.COMPLETED)
