@@ -41,6 +41,9 @@ public class AuthService {
 
     public void volunteerSignUp(VolunteerSignUpRequest request) {
 
+        if (volunteerRepository.existsByPhone(request.phone())) {
+            throw new BadRequestException(ALREADY_EXIST_PHONE);
+        }
         if (volunteerRepository.existsByEmail(request.email())) {
             throw new BadRequestException(ALREADY_EXIST_EMAIL);
         }
@@ -58,6 +61,9 @@ public class AuthService {
 
     public void intermediarySignUp(IntermediarySignUpRequest request, MultipartFile authFile, MultipartFile profileFile) {
 
+        if (intermediaryRepository.existsByPhone(request.phone())) {
+            throw new BadRequestException(ALREADY_EXIST_PHONE);
+        }
         if (intermediaryRepository.existsByEmail(request.email())) {
             throw new BadRequestException(ALREADY_EXIST_EMAIL);
         }

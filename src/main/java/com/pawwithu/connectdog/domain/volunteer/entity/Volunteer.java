@@ -31,13 +31,15 @@ public class Volunteer extends BaseTimeEntity {
     private Boolean notification;   // 알림 true, false
 
     @Builder
-    public Volunteer(String email, String password, String nickname, Integer profileImageNum, VolunteerRole role, Boolean isOptionAgr, Boolean notification) {
+    public Volunteer(Boolean isOptionAgr, String name, String phone, String email, String password, String nickname, Integer profileImageNum, VolunteerRole role, Boolean notification) {
+        this.isOptionAgr = isOptionAgr;
+        this.name = name;
+        this.phone = phone;
         this.email = email;
         this.password = password;
         this.nickname = nickname;
         this.profileImageNum = profileImageNum;
         this.role = role;
-        this.isOptionAgr = isOptionAgr;
         this.notification = notification;
     }
 

@@ -13,5 +13,6 @@ public interface VolunteerRepository extends JpaRepository<Volunteer, Long> {
     Boolean existsByEmail(String email);
     Boolean existsByNickname(String nickname);
     Optional<Volunteer> findByEmail(String email);
+    Boolean existsByPhone(String phone);
 
 }

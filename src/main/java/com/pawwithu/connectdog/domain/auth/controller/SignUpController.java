@@ -34,8 +34,9 @@ public class SignUpController {
     @Operation(summary = "이동봉사자 자체 회원가입", description = "이동봉사자 자체 회원가입을 합니다.",
             responses = {@ApiResponse(responseCode = "204", description = "이동봉사자 자체 회원가입 성공")
                     , @ApiResponse(responseCode = "400"
-                    , description = "V1, 이메일 형식에 맞지 않습니다. \t\n V1, 이메일은 필수 입력 값입니다. \t\n V1, 영문+숫자 10자 이상 또는 영문+숫자+특수기호 8자 이상을 입력해 주세요. \t\n " +
-                    "V1, 닉네임은 한글, 숫자만 사용 가능합니다. \t\n V1, 닉네임은 필수 입력 값입니다. \t\n V1, 닉네임은 2~10자로 입력해 주세요. \t\n A1, 이미 등록된 이메일입니다. \t\n A2, 이미 사용 중인 닉네임입니다."
+                    , description = "V1, 이름은 필수 입력 값입니다. \t\n V1, 이메일 형식에 맞지 않습니다. \t\n V1, 휴대전화 번호는 필수 입력 값입니다. \t\n V1, 유효하지 않은 휴대전화 번호입니다. \t\n " +
+                    "V1, 이메일은 필수 입력 값입니다. \t\n V1, 영문+숫자 10자 이상 또는 영문+숫자+특수기호 8자 이상을 입력해 주세요. \t\n " +
+                    "V1, 닉네임은 한글, 숫자만 사용 가능합니다. \t\n V1, 닉네임은 필수 입력 값입니다. \t\n V1, 닉네임은 2~10자로 입력해 주세요. \t\n A1, 이미 등록된 이메일입니다. \t\n A2, 이미 사용 중인 닉네임입니다. \t\n A8, 이미 등록된 전화번호입니다."
                     , content = @Content(schema = @Schema(implementation = ErrorResponse.class)))
             })
     @PostMapping("/volunteers/sign-up")
@@ -47,8 +48,9 @@ public class SignUpController {
     @Operation(summary = "이동봉사 중개 자체 회원가입", description = "이동봉사 중개 자체 회원가입을 합니다.",
             responses = {@ApiResponse(responseCode = "204", description = "이동봉사 중개 자체 회원가입 성공")
                     , @ApiResponse(responseCode = "400"
-                    , description = "V1, 이메일 형식에 맞지 않습니다. \t\n V1, 이메일은 필수 입력 값입니다. \t\n " +
-                    "V1, 영문+숫자 10자 이상 또는 영문+숫자+특수기호 8자 이상을 입력해 주세요. \t\n V1, 이름/단체명은 필수 입력 값입니다. \t\n V1, url 형식을 입력해 주세요. \t\n " +
+                    , description = "V1, 이름은 필수 입력 값입니다 \t\n V1, 휴대전화 번호는 필수 입력 값입니다. \t\n V1, 유효하지 않은 휴대전화 번호입니다. \t\n " +
+                    "V1, 이메일 형식에 맞지 않습니다. \t\n V1, 이메일은 필수 입력 값입니다. \t\n " +
+                    "V1, 영문+숫자 10자 이상 또는 영문+숫자+특수기호 8자 이상을 입력해 주세요. \t\n V1, 모집자명은 필수 입력 값입니다. \t\n V1, url 형식을 입력해 주세요. \t\n " +
                     "V1, 한줄 소개는 50자 이하로 입력해 주세요. \t\n A1, 이미 등록된 이메일입니다. \t\n F1, 파일이 존재하지 않습니다. \t\n F2, 파일 업로드에 실패했습니다."
                     , content = @Content(schema = @Schema(implementation = ErrorResponse.class)))
             })
