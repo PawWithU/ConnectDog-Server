@@ -79,14 +79,17 @@ class ReviewControllerTest {
     void 이동봉사_후기_단건_조회() throws Exception {
         // given
         Long reviewId = 1L;
+        Long intermediaryId = 2L;
+        LocalDate createdDate = LocalDate.of(2023, 10, 31);
         LocalDate startDate = LocalDate.of(2023, 10, 2);
         LocalDate endDate = LocalDate.of(2023, 11, 7);
         List<String> images = new ArrayList<>();
         images.add("image1");
         images.add("image2");
 
-        ReviewGetOneResponse response = new ReviewGetOneResponse(1, "겨울이", "호짱", "mainImage", images, startDate, endDate,
-                "서울시 노원구", "서울시 성북구", "이동봉사 중개", "후기 조회 테스트입니다.");
+        ReviewGetOneResponse response = new ReviewGetOneResponse(1, "겨울이", "호짱", createdDate,
+                "mainImage", images,  "postMainImage", "후기 조회 테스트입니다.",
+                startDate, endDate, "서울시 노원구", "서울시 성북구", intermediaryId, "이동봉사 중개");
 
         // when
         given(reviewService.getOneReview(anyString(), anyLong())).willReturn(response);
