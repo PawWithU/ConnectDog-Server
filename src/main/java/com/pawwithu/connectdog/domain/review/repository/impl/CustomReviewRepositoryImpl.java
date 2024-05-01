@@ -13,11 +13,11 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
+import static com.pawwithu.connectdog.domain.dog.entity.QDog.dog;
 import static com.pawwithu.connectdog.domain.intermediary.entity.QIntermediary.intermediary;
 import static com.pawwithu.connectdog.domain.post.entity.QPost.post;
 import static com.pawwithu.connectdog.domain.review.entity.QReview.review;
 import static com.pawwithu.connectdog.domain.review.entity.QReviewImage.reviewImage;
-import static com.pawwithu.connectdog.domain.dog.entity.QDog.dog;
 import static com.pawwithu.connectdog.domain.volunteer.entity.QVolunteer.volunteer;
 
 @Repository
@@ -44,9 +44,10 @@ public class CustomReviewRepositoryImpl implements CustomReviewRepository {
     public ReviewGetOneResponse getOneReview(Long reviewId) {
         return queryFactory
                 .select(Projections.constructor(ReviewGetOneResponse.class,
-                        volunteer.profileImageNum, dog.name, volunteer.nickname, reviewImage.image,
-                        post.startDate, post.endDate, post.departureLoc, post.arrivalLoc,
-                        intermediary.name, review.content))
+                        volunteer.profileImageNum, dog.name, volunteer.nickname, review.createdDate,
+                        reviewImage.image, review.content,
+                        post.mainImage, post.startDate, post.endDate, post.departureLoc, post.arrivalLoc,
+                        intermediary.id, intermediary.name))
                 .from(review)
                 .join(review.volunteer, volunteer)
                 .join(review.mainImage, reviewImage)
