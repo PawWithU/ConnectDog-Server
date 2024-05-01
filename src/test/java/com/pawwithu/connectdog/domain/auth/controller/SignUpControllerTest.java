@@ -71,11 +71,8 @@ class SignUpControllerTest {
     @Test
     void 이동봉사자_자체_회원가입() throws Exception{
         //given
-        VolunteerSignUpRequest request = new VolunteerSignUpRequest("email@naver.com",
-                "pasword12345",
-                "코넥독",
-                3,
-                false);
+        VolunteerSignUpRequest request = new VolunteerSignUpRequest(true, "한호정", "01011112222",
+                "email@naver.com", "pasword12345", "코넥독", 3);
         //when
         ResultActions result = mockMvc.perform(
                 post("/volunteers/sign-up")
@@ -90,13 +87,12 @@ class SignUpControllerTest {
     @Test
     void 이동봉사_중개_자체_회원가입() throws Exception{
         //given
-        IntermediarySignUpRequest request = new IntermediarySignUpRequest("email@naver.com",
+        IntermediarySignUpRequest request = new IntermediarySignUpRequest(true, "한호정", "01011112222", "email@naver.com",
                 "pasword12345",
                 "이동봉사 단체",
-                "https://connectdog.site",
                 "안녕하세요 코넥독입니다.",
-                "인스타그램",
-                false);
+                "https://connectdog.site",
+                "인스타그램");
 
         MockMultipartFile authImage = new MockMultipartFile("authImage", "authImage.png", "multipart/form-data", "uploadFile".getBytes(StandardCharsets.UTF_8));
         MockMultipartFile profileImage = new MockMultipartFile("profileImage", "profileImage.png", "multipart/form-data", "uploadFile".getBytes(StandardCharsets.UTF_8));
