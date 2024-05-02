@@ -108,7 +108,7 @@ class ReviewControllerTest {
         // given
         List<ReviewGetAllResponse> response = new ArrayList<>();
         Long intermediaryId = 2L;
-        LocalDate createdDate = LocalDate.of(2023, 10, 31);
+        LocalDate createdDate = LocalDateTime.of(2023, 10, 31, 0, 0, 0).toLocalDate();
         LocalDate startDate = LocalDate.of(2023, 10, 2);
         LocalDate endDate = LocalDate.of(2023, 11, 7);
 
