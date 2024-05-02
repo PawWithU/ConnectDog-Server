@@ -25,6 +25,7 @@ import org.springframework.web.filter.CharacterEncodingFilter;
 
 import java.nio.charset.StandardCharsets;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -80,7 +81,7 @@ class ReviewControllerTest {
         // given
         Long reviewId = 1L;
         Long intermediaryId = 2L;
-        LocalDate createdDate = LocalDate.of(2023, 10, 31);
+        LocalDate createdDate = LocalDateTime.of(2023, 10, 31, 0, 0, 0).toLocalDate();
         LocalDate startDate = LocalDate.of(2023, 10, 2);
         LocalDate endDate = LocalDate.of(2023, 11, 7);
         List<String> images = new ArrayList<>();
