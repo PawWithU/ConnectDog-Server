@@ -63,9 +63,10 @@ public class CustomReviewRepositoryImpl implements CustomReviewRepository {
     public List<ReviewGetAllResponse> getAllReviews(Pageable pageable) {
         List<ReviewGetAllResponse> reviews = queryFactory
                 .select(Projections.constructor(ReviewGetAllResponse.class,
-                        volunteer.profileImageNum, dog.name, volunteer.nickname, reviewImage.image,
-                        post.startDate, post.endDate, post.departureLoc, post.arrivalLoc,
-                        intermediary.name, review.content))
+                        volunteer.profileImageNum, dog.name, volunteer.nickname, review.createdDate,
+                        reviewImage.image, review.content,
+                        post.mainImage, post.startDate, post.endDate, post.departureLoc, post.arrivalLoc,
+                        intermediary.id, intermediary.name))
                 .from(review)
                 .join(review.volunteer, volunteer)
                 .join(review.mainImage, reviewImage)
