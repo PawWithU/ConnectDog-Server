@@ -106,6 +106,8 @@ class ReviewControllerTest {
     void 후기_전체_조회() throws Exception {
         // given
         List<ReviewGetAllResponse> response = new ArrayList<>();
+        Long intermediaryId = 2L;
+        LocalDate createdDate = LocalDate.of(2023, 10, 31);
         LocalDate startDate = LocalDate.of(2023, 10, 2);
         LocalDate endDate = LocalDate.of(2023, 11, 7);
 
@@ -113,10 +115,12 @@ class ReviewControllerTest {
         images.add("image1");
         images.add("image2");
 
-        response.add(new ReviewGetAllResponse(1, "봄이", "호짱", "mainImage", images, startDate, endDate,
-                "서울시 노원구", "서울시 성북구", "이동봉사 중개", "후기 조회 테스트입니다."));
-        response.add(new ReviewGetAllResponse(2, "겨울이", "호짱", "mainImage", images, startDate, endDate,
-                "서울시 노원구", "서울시 성북구", "이동봉사 중개", "후기 조회 테스트입니다."));
+        response.add(new ReviewGetAllResponse(1, "봄이", "호짱", createdDate,
+                "mainImage", images,  "postMainImage", "후기 조회 테스트입니다.",
+                startDate, endDate, "서울시 노원구", "서울시 성북구", intermediaryId, "이동봉사 중개"));
+        response.add(new ReviewGetAllResponse(2, "겨울이", "호짱", createdDate,
+                "mainImage", images,  "postMainImage", "후기 조회 테스트입니다.",
+                startDate, endDate, "서울시 노원구", "서울시 성북구", intermediaryId, "이동봉사 중개"));
 
         // when
         given(reviewService.getAllReviews(any())).willReturn(response);
