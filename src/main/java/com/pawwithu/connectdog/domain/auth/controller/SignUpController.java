@@ -1,10 +1,9 @@
 package com.pawwithu.connectdog.domain.auth.controller;
 
-import com.pawwithu.connectdog.domain.auth.dto.request.EmailRequest;
-import com.pawwithu.connectdog.domain.auth.dto.request.IntermediarySignUpRequest;
-import com.pawwithu.connectdog.domain.auth.dto.request.SocialSignUpRequest;
-import com.pawwithu.connectdog.domain.auth.dto.request.VolunteerSignUpRequest;
+import com.pawwithu.connectdog.domain.auth.dto.request.*;
 import com.pawwithu.connectdog.domain.auth.dto.response.EmailResponse;
+import com.pawwithu.connectdog.domain.auth.dto.response.IntermediaryPhoneResponse;
+import com.pawwithu.connectdog.domain.auth.dto.response.VolunteerPhoneResponse;
 import com.pawwithu.connectdog.domain.auth.service.AuthService;
 import com.pawwithu.connectdog.domain.auth.service.EmailService;
 import com.pawwithu.connectdog.error.dto.ErrorResponse;
@@ -88,4 +87,27 @@ public class SignUpController {
         return ResponseEntity.noContent().build();
     }
 
+    @Operation(summary = "이동봉사자 - 휴대폰 번호 중복 여부 검사", description = "이동봉사자 휴대폰 번호 중복 여부를 검사합니다.",
+            responses = {@ApiResponse(responseCode = "200", description = "휴대폰 번호 중복 여부 검사 성공")
+                    , @ApiResponse(responseCode = "400"
+                    , description = "V1, 휴대전화 번호는 필수 입력 값입니다. \t\n V1, 유효하지 않은 휴대전화 번호입니다. \t\n M1, 해당 이동봉사자를 찾을 수 없습니다."
+                    , content = @Content(schema = @Schema(implementation = ErrorResponse.class)))
+            })
+    @PostMapping("/volunteers/phone/isDuplicated")
+    public ResponseEntity<VolunteerPhoneResponse> isVolunteerPhoneDuplicated(@RequestBody @Valid VolunteerPhoneRequest request) {
+        VolunteerPhoneResponse response = authService.isVolunteerPhoneDuplicated(request);
+        return ResponseEntity.ok(response);
+    }
+
+    @Operation(summary = "이동봉사 중개 - 휴대폰 번호 중복 여부 검사", description = "이동봉사 중개 휴대폰 번호 중복 여부를 검사합니다.",
+            responses = {@ApiResponse(responseCode = "200", description = "휴대폰 번호 중복 여부 검사 성공")
+                    , @ApiResponse(responseCode = "400"
+                    , description = "V1, 휴대전화 번호는 필수 입력 값입니다. \t\n V1, 유효하지 않은 휴대전화 번호입니다. \t\n M2, 해당 이동봉사 중개를 찾을 수 없습니다."
+                    , content = @Content(schema = @Schema(implementation = ErrorResponse.class)))
+            })
+    @PostMapping("/intermediaries/phone/isDuplicated")
+    public ResponseEntity<IntermediaryPhoneResponse> isIntermediaryPhoneDuplicated(@RequestBody @Valid IntermediaryPhoneRequest request) {
+        IntermediaryPhoneResponse response = authService.isIntermediaryPhoneDuplicated(request);
+        return ResponseEntity.ok(response);
+    }
 }

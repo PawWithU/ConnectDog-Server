@@ -1,12 +1,13 @@
 package com.pawwithu.connectdog.domain.auth.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.pawwithu.connectdog.domain.auth.dto.request.EmailRequest;
-import com.pawwithu.connectdog.domain.auth.dto.request.IntermediarySignUpRequest;
-import com.pawwithu.connectdog.domain.auth.dto.request.VolunteerSignUpRequest;
+import com.pawwithu.connectdog.domain.auth.dto.request.*;
 import com.pawwithu.connectdog.domain.auth.dto.response.EmailResponse;
+import com.pawwithu.connectdog.domain.auth.dto.response.IntermediaryPhoneResponse;
+import com.pawwithu.connectdog.domain.auth.dto.response.VolunteerPhoneResponse;
 import com.pawwithu.connectdog.domain.auth.service.AuthService;
 import com.pawwithu.connectdog.domain.auth.service.EmailService;
+import com.pawwithu.connectdog.domain.volunteer.entity.SocialType;
 import com.pawwithu.connectdog.utils.TestUserArgumentResolver;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -26,6 +27,7 @@ import org.springframework.web.filter.CharacterEncodingFilter;
 import java.nio.charset.StandardCharsets;
 
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -111,4 +113,43 @@ class SignUpControllerTest {
         result.andExpect(status().isNoContent());
         verify(authService, times(1)).intermediarySignUp(any(), any(), any());
     }
+
+    @Test
+    void 이동봉사자_휴대폰번호_중복검사() throws Exception {
+        //given
+        VolunteerPhoneRequest request = new VolunteerPhoneRequest("01000001111");
+        VolunteerPhoneResponse response = new VolunteerPhoneResponse(true, SocialType.NAVER, "abc@naver.com");
+
+        //when
+        given(authService.isVolunteerPhoneDuplicated(request)).willReturn(response);
+        ResultActions result = mockMvc.perform(
+                post("/volunteers/phone/isDuplicated")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(request))
+        );
+
+        //then
+        result.andExpect(status().isOk());
+        verify(authService, times(1)).isVolunteerPhoneDuplicated(request);
+    }
+
+    @Test
+    void 이동봉사_중개_휴대폰번호_중복검사() throws Exception {
+        //given
+        IntermediaryPhoneRequest request = new IntermediaryPhoneRequest("01000001111");
+        IntermediaryPhoneResponse response = new IntermediaryPhoneResponse(true, "abc@naver.com");
+
+        //when
+        given(authService.isIntermediaryPhoneDuplicated(request)).willReturn(response);
+        ResultActions result = mockMvc.perform(
+                post("/intermediaries/phone/isDuplicated")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(request))
+        );
+
+        //then
+        result.andExpect(status().isOk());
+        verify(authService, times(1)).isIntermediaryPhoneDuplicated(request);
+    }
+
 }

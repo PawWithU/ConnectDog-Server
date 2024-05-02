@@ -1,13 +1,14 @@
 package com.pawwithu.connectdog.domain.auth.service;
 
 import com.pawwithu.connectdog.common.s3.FileService;
-import com.pawwithu.connectdog.domain.auth.dto.request.IntermediarySignUpRequest;
-import com.pawwithu.connectdog.domain.auth.dto.request.SocialSignUpRequest;
-import com.pawwithu.connectdog.domain.auth.dto.request.VolunteerSignUpRequest;
+import com.pawwithu.connectdog.domain.auth.dto.request.*;
+import com.pawwithu.connectdog.domain.auth.dto.response.IntermediaryPhoneResponse;
+import com.pawwithu.connectdog.domain.auth.dto.response.VolunteerPhoneResponse;
 import com.pawwithu.connectdog.domain.fcm.repository.IntermediaryFcmRepository;
 import com.pawwithu.connectdog.domain.fcm.repository.VolunteerFcmRepository;
 import com.pawwithu.connectdog.domain.intermediary.entity.Intermediary;
 import com.pawwithu.connectdog.domain.intermediary.repository.IntermediaryRepository;
+import com.pawwithu.connectdog.domain.volunteer.entity.SocialType;
 import com.pawwithu.connectdog.domain.volunteer.entity.Volunteer;
 import com.pawwithu.connectdog.domain.volunteer.entity.VolunteerRole;
 import com.pawwithu.connectdog.domain.volunteer.repository.VolunteerRepository;
@@ -113,5 +114,35 @@ public class AuthService {
         redisUtil.delete(roleName, intermediary.getId());
         intermediaryFcmRepository.deleteByIntermediaryId(intermediary.getId());
         redisUtil.setBlackList(accessToken, "accessToken", jwtService.getAccessTokenExpirationPeriod());
+    }
+
+    @Transactional(readOnly = true)
+    public VolunteerPhoneResponse isVolunteerPhoneDuplicated(VolunteerPhoneRequest request) {
+        Boolean isDuplicated = volunteerRepository.existsByPhone(request.phone());
+        String email = null;
+        SocialType socialType = null;
+
+        if (isDuplicated) {
+            Volunteer volunteer = volunteerRepository.findByPhone(request.phone()).orElseThrow(() -> new BadRequestException(VOLUNTEER_NOT_FOUND));
+            socialType = volunteer.getSocialType();
+            email = volunteer.getEmail();
+        }
+
+        VolunteerPhoneResponse response = VolunteerPhoneResponse.of(isDuplicated, socialType, email);
+        return response;
+    }
+
+    @Transactional(readOnly = true)
+    public IntermediaryPhoneResponse isIntermediaryPhoneDuplicated(IntermediaryPhoneRequest request) {
+        Boolean isDuplicated = intermediaryRepository.existsByPhone(request.phone());
+        String email = null;
+
+        if (isDuplicated) {
+            Intermediary intermediary = intermediaryRepository.findByPhone(request.phone()).orElseThrow(() -> new BadRequestException(INTERMEDIARY_NOT_FOUND));
+            email = intermediary.getEmail();
+        }
+        
+        IntermediaryPhoneResponse response = IntermediaryPhoneResponse.of(isDuplicated, email);
+        return response;
     }
 }
