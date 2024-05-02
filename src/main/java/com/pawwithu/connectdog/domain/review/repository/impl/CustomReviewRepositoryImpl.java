@@ -42,11 +42,12 @@ public class CustomReviewRepositoryImpl implements CustomReviewRepository {
     // 후기 단건 조회 (대표 이미지를 제외한 다른 이미지 포함 X)
     @Override
     public ReviewGetOneResponse getOneReview(Long reviewId) {
+
         return queryFactory
                 .select(Projections.constructor(ReviewGetOneResponse.class,
                         volunteer.profileImageNum, dog.name, volunteer.nickname, review.createdDate,
                         reviewImage.image, review.content,
-                        post.mainImage, post.startDate, post.endDate, post.departureLoc, post.arrivalLoc,
+                        post.mainImage.image, post.startDate, post.endDate, post.departureLoc, post.arrivalLoc,
                         intermediary.id, intermediary.name))
                 .from(review)
                 .join(review.volunteer, volunteer)
