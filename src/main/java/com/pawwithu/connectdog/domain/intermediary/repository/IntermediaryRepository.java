@@ -12,4 +12,5 @@ public interface IntermediaryRepository extends JpaRepository<Intermediary, Long
     Boolean existsByName(String name);
     Optional<Intermediary> findByEmail(String email);
     Boolean existsByPhone(String phone);
+    Optional<Intermediary> findByPhone(String phone);
 }
