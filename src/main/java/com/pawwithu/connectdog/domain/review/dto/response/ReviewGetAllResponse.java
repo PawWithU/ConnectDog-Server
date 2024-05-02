@@ -3,6 +3,7 @@ package com.pawwithu.connectdog.domain.review.dto.response;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 public record ReviewGetAllResponse(Integer profileImageNum, String dogName, String volunteerNickname,
@@ -19,11 +20,11 @@ public record ReviewGetAllResponse(Integer profileImageNum, String dogName, Stri
 ) {
 
     // 후기 이미지 리스트 필드를 제외한 생성자
-    public ReviewGetAllResponse(Integer profileImageNum, String dogName, String volunteerNickname, LocalDate createdDate,
+    public ReviewGetAllResponse(Integer profileImageNum, String dogName, String volunteerNickname, LocalDateTime createdDate,
                                 String mainImage, String content,
                                 String postMainImage, LocalDate startDate, LocalDate endDate, String departureLoc, String arrivalLoc,
                                 Long intermediaryId, String intermediaryName) {
-        this(profileImageNum, dogName, volunteerNickname, createdDate, mainImage, null, content, postMainImage, startDate, endDate, departureLoc, arrivalLoc, intermediaryId, intermediaryName);
+        this(profileImageNum, dogName, volunteerNickname, createdDate.toLocalDate(), mainImage, null, content, postMainImage, startDate, endDate, departureLoc, arrivalLoc, intermediaryId, intermediaryName);
     }
 
     // 후기 이미지 리스트 필드를 포함한 생성자

@@ -66,7 +66,7 @@ public class CustomReviewRepositoryImpl implements CustomReviewRepository {
                 .select(Projections.constructor(ReviewGetAllResponse.class,
                         volunteer.profileImageNum, dog.name, volunteer.nickname, review.createdDate,
                         reviewImage.image, review.content,
-                        post.mainImage, post.startDate, post.endDate, post.departureLoc, post.arrivalLoc,
+                        post.mainImage.image, post.startDate, post.endDate, post.departureLoc, post.arrivalLoc,
                         intermediary.id, intermediary.name))
                 .from(review)
                 .join(review.volunteer, volunteer)
