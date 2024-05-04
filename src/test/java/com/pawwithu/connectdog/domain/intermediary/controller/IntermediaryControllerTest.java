@@ -1,6 +1,7 @@
 package com.pawwithu.connectdog.domain.intermediary.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.pawwithu.connectdog.domain.dog.entity.DogSize;
 import com.pawwithu.connectdog.domain.intermediary.dto.request.IntermediaryMyProfileRequest;
 import com.pawwithu.connectdog.domain.intermediary.dto.response.*;
 import com.pawwithu.connectdog.domain.intermediary.service.IntermediaryService;
@@ -56,28 +57,55 @@ class IntermediaryControllerTest {
     }
 
     @Test
-    void 이동봉사_중개_모집중_공고_목록_조회() throws Exception {
+    void 봉사자_이동봉사_중개_모집중_공고_목록_조회() throws Exception {
         //given
         Long intermediaryId = 1L;
         Pageable pageable = PageRequest.of(0, 2);
         List<IntermediaryGetPostsResponse> response = new ArrayList<>();
         LocalDate startDate = LocalDate.of(2023, 10, 2);
         LocalDate endDate = LocalDate.of(2023, 11, 7);
-        response.add(new IntermediaryGetPostsResponse(1L, "image1", "서울시 성북구", "서울시 중랑구",
-                startDate, endDate, "중개자하노정", false));
-        response.add(new IntermediaryGetPostsResponse(2L, "image2", "서울시 성북구", "서울시 중랑구",
-                startDate, endDate, "중개자하노정", true));
+        response.add(new IntermediaryGetPostsResponse(1L, "image1", "잔디1", "서울시 성북구", "서울시 중랑구",
+                startDate, endDate, "13:00", DogSize.MEDIUM.getKey(), true));
+        response.add(new IntermediaryGetPostsResponse(2L, "image1", "잔디2", "서울시 성북구", "서울시 중랑구",
+                startDate, endDate, "13:00", DogSize.MEDIUM.getKey(), true));
 
 
         //when
-        given(intermediaryService.getIntermediaryPosts(anyLong(), any())).willReturn(response);
+        given(intermediaryService.volunteerGetIntermediaryPosts(anyLong(), anyString(), any())).willReturn(response);
         ResultActions result = mockMvc.perform(
                 get("/volunteers/intermediaries/{intermediaryId}/posts", intermediaryId)
+                        .param("orderCondition", "최신순")
         );
 
         //then
         result.andExpect(status().isOk());
-        verify(intermediaryService, times(1)).getIntermediaryPosts(anyLong(), any());
+        verify(intermediaryService, times(1)).volunteerGetIntermediaryPosts(anyLong(), anyString(), any());
+    }
+
+    @Test
+    void 중개자_이동봉사_중개_모집중_공고_목록_조회() throws Exception {
+        //given
+        Long intermediaryId = 1L;
+        Pageable pageable = PageRequest.of(0, 2);
+        List<IntermediaryGetPostsResponse> response = new ArrayList<>();
+        LocalDate startDate = LocalDate.of(2023, 10, 2);
+        LocalDate endDate = LocalDate.of(2023, 11, 7);
+        response.add(new IntermediaryGetPostsResponse(1L, "image1", "잔디1", "서울시 성북구", "서울시 중랑구",
+                startDate, endDate, "13:00", DogSize.MEDIUM.getKey(), true));
+        response.add(new IntermediaryGetPostsResponse(2L, "image1", "잔디2", "서울시 성북구", "서울시 중랑구",
+                startDate, endDate, "13:00", DogSize.MEDIUM.getKey(), true));
+
+
+        //when
+        given(intermediaryService.intermediaryGetIntermediaryPosts(anyString(), anyString(), any())).willReturn(response);
+        ResultActions result = mockMvc.perform(
+                get("/intermediaries/posts")
+                        .param("orderCondition", "최신순")
+        );
+
+        //then
+        result.andExpect(status().isOk());
+        verify(intermediaryService, times(1)).intermediaryGetIntermediaryPosts(anyString(), anyString(), any());
     }
 
     @Test
