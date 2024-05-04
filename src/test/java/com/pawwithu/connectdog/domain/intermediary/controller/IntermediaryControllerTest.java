@@ -130,6 +130,7 @@ class IntermediaryControllerTest {
     void 이동봉사_중개_프로필_후기_조회() throws Exception {
         // given
         Long intermediaryId = 1L;
+        Long reviewId = 2L;
         Long postId = 3L;
         LocalDate createdDate = LocalDateTime.of(2023, 10, 31, 0, 0, 0).toLocalDate();
         List<IntermediaryGetReviewsResponse> response = new ArrayList<>();
@@ -140,10 +141,10 @@ class IntermediaryControllerTest {
         images.add("image1");
         images.add("image2");
 
-        response.add(new IntermediaryGetReviewsResponse(1, "봄이", "호짱", createdDate,
+        response.add(new IntermediaryGetReviewsResponse(reviewId, 1, "봄이", "호짱", createdDate,
                 "mainImage", images,  "후기 조회 테스트입니다.", postId, "postMainImage",
                 startDate, endDate, "서울시 노원구", "서울시 성북구", intermediaryId, "이동봉사 중개"));
-        response.add(new IntermediaryGetReviewsResponse(2, "겨울이", "호짱", createdDate,
+        response.add(new IntermediaryGetReviewsResponse(reviewId, 2, "겨울이", "호짱", createdDate,
                 "mainImage", images,  "후기 조회 테스트입니다.", postId, "postMainImage",
                 startDate, endDate, "서울시 노원구", "서울시 성북구", intermediaryId, "이동봉사 중개"));
 
