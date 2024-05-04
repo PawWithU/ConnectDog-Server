@@ -35,12 +35,12 @@ public class IntermediaryService {
     private final FileService fileService;
 
     @Transactional(readOnly = true)
-    public List<IntermediaryGetPostsResponse> getIntermediaryPosts(Long intermediaryId, Pageable pageable) {
+    public List<IntermediaryGetPostsResponse> volunteerGetIntermediaryPosts(Long intermediaryId, String orderCondition, Pageable pageable) {
         // 이동봉사 중개
         if (!intermediaryRepository.existsById(intermediaryId)){
             throw new BadRequestException(INTERMEDIARY_NOT_FOUND);
         }
-        List<IntermediaryGetPostsResponse> intermediaryPosts = customPostRepository.getIntermediaryPosts(intermediaryId, pageable);
+        List<IntermediaryGetPostsResponse> intermediaryPosts = customPostRepository.getIntermediaryPosts(intermediaryId, orderCondition, pageable);
         return intermediaryPosts;
     }
 
@@ -108,5 +108,12 @@ public class IntermediaryService {
             intermediary.updateProfileWithoutImage(intro, contact, guide);
         }
 
+    }
+
+    @Transactional(readOnly = true)
+    public List<IntermediaryGetPostsResponse> intermediaryGetIntermediaryPosts(String email, String orderCondition, Pageable pageable) {
+        Intermediary intermediary = intermediaryRepository.findByEmail(email).orElseThrow(() -> new BadRequestException(INTERMEDIARY_NOT_FOUND));
+        List<IntermediaryGetPostsResponse> intermediaryPosts = customPostRepository.getIntermediaryPosts(intermediary.getId(), orderCondition, pageable);
+        return intermediaryPosts;
     }
 }
