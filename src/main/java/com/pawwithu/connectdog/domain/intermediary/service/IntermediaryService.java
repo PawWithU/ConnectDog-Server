@@ -8,6 +8,7 @@ import com.pawwithu.connectdog.domain.intermediary.entity.Intermediary;
 import com.pawwithu.connectdog.domain.intermediary.repository.IntermediaryRepository;
 import com.pawwithu.connectdog.domain.post.entity.PostStatus;
 import com.pawwithu.connectdog.domain.post.repository.CustomPostRepository;
+import com.pawwithu.connectdog.domain.review.dto.response.ReviewGetAllResponse;
 import com.pawwithu.connectdog.domain.review.repository.CustomReviewRepository;
 import com.pawwithu.connectdog.error.exception.custom.BadRequestException;
 import lombok.RequiredArgsConstructor;
@@ -17,6 +18,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -66,8 +68,20 @@ public class IntermediaryService {
         if (!intermediaryRepository.existsById(intermediaryId)){
             throw new BadRequestException(INTERMEDIARY_NOT_FOUND);
         }
-        List<IntermediaryGetReviewsResponse> intermediaryReviews = customReviewRepository.getIntermediaryReviews(intermediaryId, pageable);
-        return intermediaryReviews;
+
+        List<IntermediaryGetReviewsResponse> resultReviews = new ArrayList<>();
+
+        // 후기 조회 (대표 이미지 포함)
+        List<IntermediaryGetReviewsResponse> reviews = customReviewRepository.getIntermediaryReviews(intermediaryId, pageable);
+
+        for (IntermediaryGetReviewsResponse intermediaryGetReviewsResponse : reviews) {
+            // 후기 이미지 조회 (대표 이미지 제외)
+            List<String> oneReviewImages = customReviewRepository.getOneReviewImages(intermediaryGetReviewsResponse.reviewId());
+            IntermediaryGetReviewsResponse review = IntermediaryGetReviewsResponse.of(intermediaryGetReviewsResponse, oneReviewImages);
+            resultReviews.add(review);
+        }
+
+        return resultReviews;
     }
 
     @Transactional(readOnly = true)

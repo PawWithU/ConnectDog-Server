@@ -88,7 +88,7 @@ public class CustomReviewRepositoryImpl implements CustomReviewRepository {
     public List<IntermediaryGetReviewsResponse> getIntermediaryReviews(Long intermediaryId, Pageable pageable) {
         List<IntermediaryGetReviewsResponse> reviews = queryFactory
                 .select(Projections.constructor(IntermediaryGetReviewsResponse.class,
-                        volunteer.profileImageNum, dog.name, volunteer.nickname, review.createdDate,
+                        review.id, volunteer.profileImageNum, dog.name, volunteer.nickname, review.createdDate,
                         reviewImage.image, review.content,
                         post.id, post.mainImage.image, post.startDate, post.endDate, post.departureLoc, post.arrivalLoc,
                         intermediary.id, intermediary.name))
