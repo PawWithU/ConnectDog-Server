@@ -71,17 +71,29 @@ public class IntermediaryController {
         return ResponseEntity.ok(response);
     }
 
-    @Operation(summary = "중개 프로필 - 후기 조회", description = "중개 프로필에서 후기를 조회합니다.",
+    @Operation(summary = "이동봉사자 - 중개 프로필 - 후기 조회", description = "중개 프로필에서 후기를 조회합니다.",
             security = { @SecurityRequirement(name = "bearer-key") },
             responses = {@ApiResponse(responseCode = "200", description = "중개 프로필 후기 조회 성공")
                     , @ApiResponse(responseCode = "400"
                     , description = "M2, 해당 이동봉사 중개를 찾을 수 없습니다."
                     , content = @Content(schema = @Schema(implementation = ErrorResponse.class)))
             })
-    @GetMapping(value = {"/volunteers/intermediaries/{intermediaryId}/reviews", "/intermediaries/{intermediaryId}/reviews"})
-    public ResponseEntity<List<IntermediaryGetReviewsResponse>> getIntermediaryReviews(@PathVariable Long intermediaryId,
-                                                                                       Pageable pageable) {
-        List<IntermediaryGetReviewsResponse> response = intermediaryService.getIntermediaryReviews(intermediaryId, pageable);
+    @GetMapping("/volunteers/intermediaries/{intermediaryId}/reviews")
+    public ResponseEntity<List<IntermediaryGetReviewsResponse>> volunteerGetIntermediaryReviews(@PathVariable Long intermediaryId, Pageable pageable) {
+        List<IntermediaryGetReviewsResponse> response = intermediaryService.volunteerGetIntermediaryReviews(intermediaryId, pageable);
+        return ResponseEntity.ok(response);
+    }
+
+    @Operation(summary = "모집자 - 중개 프로필 - 후기 조회", description = "중개 프로필에서 후기를 조회합니다.",
+            security = { @SecurityRequirement(name = "bearer-key") },
+            responses = {@ApiResponse(responseCode = "200", description = "중개 프로필 후기 조회 성공")
+                    , @ApiResponse(responseCode = "400"
+                    , description = "M2, 해당 이동봉사 중개를 찾을 수 없습니다."
+                    , content = @Content(schema = @Schema(implementation = ErrorResponse.class)))
+            })
+    @GetMapping("/intermediaries/reviews")
+    public ResponseEntity<List<IntermediaryGetReviewsResponse>> intermediaryGetIntermediaryReviews(@AuthenticationPrincipal UserDetails loginUser, Pageable pageable) {
+        List<IntermediaryGetReviewsResponse> response = intermediaryService.intermediaryGetIntermediaryReviews(loginUser.getUsername(), pageable);
         return ResponseEntity.ok(response);
     }
 
