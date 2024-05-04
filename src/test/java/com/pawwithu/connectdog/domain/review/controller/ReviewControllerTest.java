@@ -25,6 +25,7 @@ import org.springframework.web.filter.CharacterEncodingFilter;
 
 import java.nio.charset.StandardCharsets;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -79,14 +80,18 @@ class ReviewControllerTest {
     void 이동봉사_후기_단건_조회() throws Exception {
         // given
         Long reviewId = 1L;
+        Long intermediaryId = 2L;
+        Long postId = 3L;
+        LocalDate createdDate = LocalDateTime.of(2023, 10, 31, 0, 0, 0).toLocalDate();
         LocalDate startDate = LocalDate.of(2023, 10, 2);
         LocalDate endDate = LocalDate.of(2023, 11, 7);
         List<String> images = new ArrayList<>();
         images.add("image1");
         images.add("image2");
 
-        ReviewGetOneResponse response = new ReviewGetOneResponse(1, "겨울이", "호짱", "mainImage", images, startDate, endDate,
-                "서울시 노원구", "서울시 성북구", "이동봉사 중개", "후기 조회 테스트입니다.");
+        ReviewGetOneResponse response = new ReviewGetOneResponse(1, "겨울이", "호짱", createdDate,
+                "mainImage", images, "후기 조회 테스트입니다.", postId, "postMainImage",
+                startDate, endDate, "서울시 노원구", "서울시 성북구", intermediaryId, "이동봉사 중개");
 
         // when
         given(reviewService.getOneReview(anyString(), anyLong())).willReturn(response);
@@ -103,6 +108,9 @@ class ReviewControllerTest {
     void 후기_전체_조회() throws Exception {
         // given
         List<ReviewGetAllResponse> response = new ArrayList<>();
+        Long intermediaryId = 2L;
+        Long postId = 3L;
+        LocalDate createdDate = LocalDateTime.of(2023, 10, 31, 0, 0, 0).toLocalDate();
         LocalDate startDate = LocalDate.of(2023, 10, 2);
         LocalDate endDate = LocalDate.of(2023, 11, 7);
 
@@ -110,10 +118,12 @@ class ReviewControllerTest {
         images.add("image1");
         images.add("image2");
 
-        response.add(new ReviewGetAllResponse(1, "봄이", "호짱", "mainImage", images, startDate, endDate,
-                "서울시 노원구", "서울시 성북구", "이동봉사 중개", "후기 조회 테스트입니다."));
-        response.add(new ReviewGetAllResponse(2, "겨울이", "호짱", "mainImage", images, startDate, endDate,
-                "서울시 노원구", "서울시 성북구", "이동봉사 중개", "후기 조회 테스트입니다."));
+        response.add(new ReviewGetAllResponse(1, "봄이", "호짱", createdDate,
+                "mainImage", images,  "후기 조회 테스트입니다.", postId, "postMainImage",
+                startDate, endDate, "서울시 노원구", "서울시 성북구", intermediaryId, "이동봉사 중개"));
+        response.add(new ReviewGetAllResponse(2, "겨울이", "호짱", createdDate,
+                "mainImage", images,  "후기 조회 테스트입니다.", postId, "postMainImage",
+                startDate, endDate, "서울시 노원구", "서울시 성북구", intermediaryId, "이동봉사 중개"));
 
         // when
         given(reviewService.getAllReviews(any())).willReturn(response);
