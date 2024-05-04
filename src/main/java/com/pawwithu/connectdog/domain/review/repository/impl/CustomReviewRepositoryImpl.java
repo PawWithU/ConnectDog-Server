@@ -5,6 +5,7 @@ import com.pawwithu.connectdog.domain.review.dto.response.ReviewGetAllResponse;
 import com.pawwithu.connectdog.domain.review.dto.response.ReviewGetOneResponse;
 import com.pawwithu.connectdog.domain.review.repository.CustomReviewRepository;
 import com.querydsl.core.types.Projections;
+import com.querydsl.jpa.JPAExpressions;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -64,7 +65,7 @@ public class CustomReviewRepositoryImpl implements CustomReviewRepository {
     public List<ReviewGetAllResponse> getAllReviews(Pageable pageable) {
         List<ReviewGetAllResponse> reviews = queryFactory
                 .select(Projections.constructor(ReviewGetAllResponse.class,
-                        volunteer.profileImageNum, dog.name, volunteer.nickname, review.createdDate,
+                        review.id, volunteer.profileImageNum, dog.name, volunteer.nickname, review.createdDate,
                         reviewImage.image, review.content,
                         post.id, post.mainImage.image, post.startDate, post.endDate, post.departureLoc, post.arrivalLoc,
                         intermediary.id, intermediary.name))
