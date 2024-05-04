@@ -28,17 +28,33 @@ public class IntermediaryController {
 
     private final IntermediaryService intermediaryService;
 
-    @Operation(summary = "중개 프로필 - 이동봉사 공고 목록 조회", description = "중개 프로필에서 이동봉사 공고 목록을 조회합니다.",
+    @Operation(summary = "이동봉사자 - 중개 프로필 - 이동봉사 공고 목록 조회", description = "중개 프로필에서 이동봉사 공고 목록을 조회합니다.",
             security = { @SecurityRequirement(name = "bearer-key") },
             responses = {@ApiResponse(responseCode = "200", description = "이동봉사 공고 목록 조회 성공")
                     , @ApiResponse(responseCode = "400"
                     , description = "M2, 해당 이동봉사 중개를 찾을 수 없습니다."
                     , content = @Content(schema = @Schema(implementation = ErrorResponse.class)))
             })
-    @GetMapping( "/volunteers/intermediaries/{intermediaryId}/posts")
-    public ResponseEntity<List<IntermediaryGetPostsResponse>> getIntermediaryPosts(@PathVariable Long intermediaryId,
+    @GetMapping(value = "/volunteers/intermediaries/{intermediaryId}/posts")
+    public ResponseEntity<List<IntermediaryGetPostsResponse>> volunteerGetIntermediaryPosts(@PathVariable Long intermediaryId,
+                                                                                   @RequestParam(required = false) String orderCondition,
                                                                                    Pageable pageable) {
-        List<IntermediaryGetPostsResponse> response = intermediaryService.getIntermediaryPosts(intermediaryId, pageable);
+        List<IntermediaryGetPostsResponse> response = intermediaryService.volunteerGetIntermediaryPosts(intermediaryId, orderCondition, pageable);
+        return ResponseEntity.ok(response);
+    }
+
+    @Operation(summary = "중개자 - 중개 프로필 - 이동봉사 공고 목록 조회", description = "중개 프로필에서 이동봉사 공고 목록을 조회합니다.",
+            security = { @SecurityRequirement(name = "bearer-key") },
+            responses = {@ApiResponse(responseCode = "200", description = "이동봉사 공고 목록 조회 성공")
+                    , @ApiResponse(responseCode = "400"
+                    , description = "M2, 해당 이동봉사 중개를 찾을 수 없습니다."
+                    , content = @Content(schema = @Schema(implementation = ErrorResponse.class)))
+            })
+    @GetMapping(value = "/intermediaries/posts")
+    public ResponseEntity<List<IntermediaryGetPostsResponse>> intermediaryGetIntermediaryPosts(@AuthenticationPrincipal UserDetails loginUser,
+                                                                                   @RequestParam(required = false) String orderCondition,
+                                                                                   Pageable pageable) {
+        List<IntermediaryGetPostsResponse> response = intermediaryService.intermediaryGetIntermediaryPosts(loginUser.getUsername(), orderCondition, pageable);
         return ResponseEntity.ok(response);
     }
 
