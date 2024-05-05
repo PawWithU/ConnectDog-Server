@@ -92,7 +92,7 @@ class VolunteerControllerTest {
     @Test
     void 이동봉사자_마이페이지_기본_정보_조회() throws Exception {
         // given
-        VolunteerGetMyInfoResponse response = VolunteerGetMyInfoResponse.of(1, "하노정", 1L, 3L, 5L);
+        VolunteerGetMyInfoResponse response = VolunteerGetMyInfoResponse.of(1, "하노정", 1L, 3L, 5L, 4L);
 
         // when
         given(volunteerService.getMyInfo(any())).willReturn(response);
