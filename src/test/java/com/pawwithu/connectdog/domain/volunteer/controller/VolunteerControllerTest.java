@@ -2,6 +2,7 @@ package com.pawwithu.connectdog.domain.volunteer.controller;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.pawwithu.connectdog.domain.dog.entity.DogSize;
 import com.pawwithu.connectdog.domain.post.dto.response.PostGetHomeResponse;
 import com.pawwithu.connectdog.domain.volunteer.dto.request.AdditionalAuthRequest;
 import com.pawwithu.connectdog.domain.volunteer.dto.request.NicknameRequest;
@@ -110,10 +111,10 @@ class VolunteerControllerTest {
         List<VolunteerGetMyBookmarkResponse> response = new ArrayList<>();
         LocalDate startDate = LocalDate.of(2023, 10, 2);
         LocalDate endDate = LocalDate.of(2023, 11, 7);
-        response.add(new VolunteerGetMyBookmarkResponse(1L, "image1", "서울시 성북구", "서울시 중랑구",
-                startDate, endDate, "이동봉사 중개", true));
-        response.add(new VolunteerGetMyBookmarkResponse(2L, "image2", "서울시 성북구", "서울시 중랑구",
-                startDate, endDate, "이동봉사 중개", false));
+        response.add(new VolunteerGetMyBookmarkResponse(1L, "image1", "여름이", "서울시 성북구", "서울시 중랑구",
+                startDate, endDate, "이동봉사 중개", DogSize.MEDIUM.getKey(), true));
+        response.add(new VolunteerGetMyBookmarkResponse(2L, "image2", "여름이", "서울시 성북구", "서울시 중랑구",
+                startDate, endDate, "이동봉사 중개", DogSize.MEDIUM.getKey(), false));
 
         // when
         given(volunteerService.getMyBookmarks(any())).willReturn(response);
