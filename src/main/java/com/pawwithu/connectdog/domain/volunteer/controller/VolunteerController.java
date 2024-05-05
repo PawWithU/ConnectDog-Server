@@ -53,7 +53,7 @@ public class VolunteerController {
         return ResponseEntity.noContent().build();
     }
 
-    @Operation(summary = "마이페이지 기본 정보 조회 API", description = "마이페이지 기본 정보를 조회합니다.",
+    @Operation(summary = "마이페이지 메인 정보 조회 API", description = "마이페이지 메인 화면의 닉네임, 프로필 이미지, 봉사 현황 요약 조회를 조회합니다.",
             responses = {@ApiResponse(responseCode = "200", description = "마이페이지 기본 정보 조회 성공")
                     , @ApiResponse(responseCode = "400"
                     , description = "M1, 해당 이동봉사자를 찾을 수 없습니다."

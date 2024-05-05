@@ -4,6 +4,7 @@ import com.pawwithu.connectdog.domain.application.dto.response.*;
 import com.pawwithu.connectdog.domain.application.entity.Application;
 import com.pawwithu.connectdog.domain.application.entity.ApplicationStatus;
 import com.pawwithu.connectdog.domain.application.repository.CustomApplicationRepository;
+import com.querydsl.core.Tuple;
 import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
@@ -170,15 +171,14 @@ public class CustomApplicationRepositoryImpl implements CustomApplicationReposit
                 .fetch();
     }
 
-    // 진행한 이동봉사 건수
     @Override
-    public Long getCountOfCompletedApplications(Long id) {
+    public List<Tuple> getCountOfApplicationsByStatus(Long id) {
         return queryFactory
-                .select(application.count())
+                .select(application.status, application.count())
                 .from(application)
-                .where(application.volunteer.id.eq(id)
-                        .and(application.status.eq(ApplicationStatus.COMPLETED)))
-                .fetchOne();
+                .where(application.volunteer.id.eq(id))
+                .groupBy(application.status)
+                .fetch();
     }
 
     @Override
@@ -190,4 +190,5 @@ public class CustomApplicationRepositoryImpl implements CustomApplicationReposit
                         .and(application.status.ne(ApplicationStatus.REJECTED)))
                 .fetchOne() != null;
     }
+
 }
