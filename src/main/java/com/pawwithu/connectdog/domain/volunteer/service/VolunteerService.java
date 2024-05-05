@@ -15,6 +15,7 @@ import com.pawwithu.connectdog.error.ErrorCode;
 import com.pawwithu.connectdog.error.exception.custom.BadRequestException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -35,6 +36,7 @@ public class VolunteerService {
     private final CustomDogStatusRepository customDogStatusRepository;
     private final CustomBookmarkRepository customBookmarkRepository;
     private final CustomVolunteerBadgeRepository customVolunteerBadgeRepository;
+    private final PasswordEncoder passwordEncoder;
 
     @Transactional(readOnly = true)
     public NicknameResponse isNicknameDuplicated(NicknameRequest nickNameRequest) {
@@ -103,5 +105,11 @@ public class VolunteerService {
         Volunteer volunteer = volunteerRepository.findByEmail(email).orElseThrow(() -> new BadRequestException(VOLUNTEER_NOT_FOUND));
         VolunteerGetProfileResponse profile = VolunteerGetProfileResponse.of(volunteer.getProfileImageNum(), volunteer.getNickname());
         return profile;
+    }
+
+    public void changePassword(String email, String password) {
+        Volunteer volunteer = volunteerRepository.findByEmail(email).orElseThrow(() -> new BadRequestException(VOLUNTEER_NOT_FOUND));
+        volunteer.updatePassword(password);
+        volunteer.passwordEncode(passwordEncoder);
     }
 }

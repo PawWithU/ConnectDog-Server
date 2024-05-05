@@ -6,6 +6,7 @@ import com.pawwithu.connectdog.domain.post.dto.response.PostGetHomeResponse;
 import com.pawwithu.connectdog.domain.volunteer.dto.request.AdditionalAuthRequest;
 import com.pawwithu.connectdog.domain.volunteer.dto.request.NicknameRequest;
 import com.pawwithu.connectdog.domain.volunteer.dto.request.VolunteerMyProfileRequest;
+import com.pawwithu.connectdog.domain.volunteer.dto.request.VolunteerPasswordRequest;
 import com.pawwithu.connectdog.domain.volunteer.dto.response.*;
 import com.pawwithu.connectdog.domain.volunteer.service.VolunteerService;
 import com.pawwithu.connectdog.utils.TestUserArgumentResolver;
@@ -176,5 +177,23 @@ class VolunteerControllerTest {
         // then
         result.andExpect(status().isOk());
         verify(volunteerService, times(1)).getMyProfile(anyString());
+    }
+
+    @Test
+    void 비밀번호_찾기_이동봉사자_비밀번호_변경() throws Exception {
+        // given
+        VolunteerPasswordRequest request = new VolunteerPasswordRequest("dkssudgktpdy!");
+
+        // when
+        ResultActions result = mockMvc.perform(
+                patch("/volunteers/password")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(request))
+        );
+
+        // then
+        result.andExpect(status().isNoContent());
+        verify(volunteerService, times(1)).changePassword(anyString(), any());
+
     }
 }

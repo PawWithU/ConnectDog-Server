@@ -3,6 +3,7 @@ package com.pawwithu.connectdog.domain.volunteer.controller;
 import com.pawwithu.connectdog.domain.volunteer.dto.request.AdditionalAuthRequest;
 import com.pawwithu.connectdog.domain.volunteer.dto.request.NicknameRequest;
 import com.pawwithu.connectdog.domain.volunteer.dto.request.VolunteerMyProfileRequest;
+import com.pawwithu.connectdog.domain.volunteer.dto.request.VolunteerPasswordRequest;
 import com.pawwithu.connectdog.domain.volunteer.dto.response.*;
 import com.pawwithu.connectdog.domain.volunteer.service.VolunteerService;
 import com.pawwithu.connectdog.error.dto.ErrorResponse;
@@ -111,6 +112,18 @@ public class VolunteerController {
     public ResponseEntity<VolunteerGetProfileResponse> getMyProfile(@AuthenticationPrincipal UserDetails loginUser) {
         VolunteerGetProfileResponse response = volunteerService.getMyProfile(loginUser.getUsername());
         return ResponseEntity.ok(response);
+    }
+
+    @Operation(summary = "비밀번호 찾기 - 이동봉사자 비밀번호 변경", description = "이동봉사자 비밀번호를 변경합니다.",
+            responses = {@ApiResponse(responseCode = "204", description = "비밀번호 변경 성공")
+                    , @ApiResponse(responseCode = "400"
+                    , description = "M1, 해당 이동봉사자를 찾을 수 없습니다. \t\n V1, 영문+숫자 10자 이상 또는 영문+숫자+특수기호 8자 이상을 입력해 주세요."
+                    , content = @Content(schema = @Schema(implementation = ErrorResponse.class)))
+            })
+    @PatchMapping("/password")
+    public ResponseEntity<Void> changePassword(@AuthenticationPrincipal UserDetails loginUser, @RequestBody VolunteerPasswordRequest request) {
+        volunteerService.changePassword(loginUser.getUsername(), request.password());
+        return ResponseEntity.noContent().build();
     }
 
 }

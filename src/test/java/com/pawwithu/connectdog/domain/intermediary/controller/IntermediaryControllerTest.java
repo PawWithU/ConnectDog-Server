@@ -3,6 +3,7 @@ package com.pawwithu.connectdog.domain.intermediary.controller;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.pawwithu.connectdog.domain.dog.entity.DogSize;
 import com.pawwithu.connectdog.domain.intermediary.dto.request.IntermediaryMyProfileRequest;
+import com.pawwithu.connectdog.domain.intermediary.dto.request.IntermediaryPasswordRequest;
 import com.pawwithu.connectdog.domain.intermediary.dto.response.*;
 import com.pawwithu.connectdog.domain.intermediary.service.IntermediaryService;
 import com.pawwithu.connectdog.utils.TestUserArgumentResolver;
@@ -261,5 +262,23 @@ class IntermediaryControllerTest {
         // then
         result.andExpect(status().isNoContent());
         verify(intermediaryService, times(1)).intermediaryMyProfile(anyString(), any(), any());
+    }
+
+    @Test
+    void 비밀번호_찾기_모집자_비밀번호_변경() throws Exception {
+        // given
+        IntermediaryPasswordRequest request = new IntermediaryPasswordRequest("dkssudgktpdy!");
+
+        // when
+        ResultActions result = mockMvc.perform(
+                patch("/intermediaries/password")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(request))
+        );
+
+        // then
+        result.andExpect(status().isNoContent());
+        verify(intermediaryService, times(1)).changePassword(anyString(), any());
+
     }
 }
