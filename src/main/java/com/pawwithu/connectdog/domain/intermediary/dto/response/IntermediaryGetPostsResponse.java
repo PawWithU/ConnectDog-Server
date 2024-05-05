@@ -1,14 +1,24 @@
 package com.pawwithu.connectdog.domain.intermediary.dto.response;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.pawwithu.connectdog.domain.dog.entity.DogSize;
 
 import java.time.LocalDate;
 
-public record IntermediaryGetPostsResponse(Long postId, String mainImage, String departureLoc, String arrivalLoc,
+public record IntermediaryGetPostsResponse(Long postId, String mainImage, String dogName,
+                                           String departureLoc, String arrivalLoc,
                                            @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd", timezone = "Asia/Seoul")
                                            LocalDate startDate,
                                            @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd", timezone = "Asia/Seoul")
                                            LocalDate endDate,
-                                           String intermediaryName,
+                                           String pickUpTime,
+                                           String dogSize,
                                            Boolean isKennel) {
+
+    public IntermediaryGetPostsResponse(Long postId, String mainImage, String dogName,
+                                     String departureLoc, String arrivalLoc, LocalDate startDate, LocalDate endDate,
+                                     String pickUpTime, DogSize dogSize, Boolean isKennel) {
+        this(postId, mainImage, dogName, departureLoc, arrivalLoc,
+                startDate, endDate, pickUpTime, dogSize.getKey(), isKennel);
+    }
 }

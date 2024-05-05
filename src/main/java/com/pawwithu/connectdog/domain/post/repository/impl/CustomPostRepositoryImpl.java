@@ -62,7 +62,7 @@ public class CustomPostRepositoryImpl implements CustomPostRepository {
                 .join(post.intermediary, intermediary)
                 .join(post.mainImage, postImage)
                 .where(allFilterSearch(request, pageable))
-                .orderBy(createOrderSpecifier(request.orderCondition()))
+                .orderBy(createOrderSpecifierEC(request.orderCondition()))
                 .offset(pageable.getOffset())   // 페이지 번호
                 .limit(pageable.getPageSize())  // 페이지 사이즈
                 .fetch();
@@ -115,17 +115,19 @@ public class CustomPostRepositoryImpl implements CustomPostRepository {
     }
 
     @Override
-    public List<IntermediaryGetPostsResponse> getIntermediaryPosts(Long intermediaryId, Pageable pageable) {
+    public List<IntermediaryGetPostsResponse> getIntermediaryPosts(Long intermediaryId, String orderCondition, Pageable pageable) {
         return queryFactory
                 .select(Projections.constructor(IntermediaryGetPostsResponse.class,
-                        post.id, postImage.image, post.departureLoc, post.arrivalLoc, post.startDate, post.endDate,
-                        intermediary.name, post.isKennel))
+                        post.id, postImage.image, dog.name, post.departureLoc, post.arrivalLoc,
+                        post.startDate, post.endDate, post.pickUpTime,
+                        dog.size, post.isKennel))
                 .from(post)
                 .join(post.intermediary, intermediary)
                 .join(post.mainImage, postImage)
+                .join(post.dog, dog)
                 .where(post.intermediary.id.eq(intermediaryId)
                         .and(post.status.eq(PostStatus.RECRUITING)))    // 모집중인 공고
-                .orderBy(post.createdDate.desc())   // 최신순
+                .orderBy(createOrderSpecifierCE(orderCondition))
                 .offset(pageable.getOffset())   // 페이지 번호
                 .limit(pageable.getPageSize())  // 페이지 사이즈
                 .fetch();
@@ -226,7 +228,7 @@ public class CustomPostRepositoryImpl implements CustomPostRepository {
     }
 
     // 정렬 필터
-    private OrderSpecifier[] createOrderSpecifier(String orderCondition) {
+    private OrderSpecifier[] createOrderSpecifierEC(String orderCondition) {
         // default = 마감순 -> 최신순
         OrderSpecifier[] defaultOrder = {
                 new OrderSpecifier(Order.ASC, post.endDate),
@@ -241,6 +243,25 @@ public class CustomPostRepositoryImpl implements CustomPostRepository {
                 ? new OrderSpecifier[]{
                         new OrderSpecifier(Order.DESC, post.createdDate),
                         new OrderSpecifier(Order.ASC, post.endDate)}
+                : defaultOrder;
+    }
+
+    // 정렬 필터
+    private OrderSpecifier[] createOrderSpecifierCE(String orderCondition) {
+        // default = 최신순 -> 마감순
+        OrderSpecifier[] defaultOrder = {
+                new OrderSpecifier(Order.DESC, post.createdDate),
+                new OrderSpecifier(Order.ASC, post.endDate)
+        };
+        log.info("ordercondition {} :", orderCondition);
+        // 정렬 조건 X: default
+        if (!StringUtils.hasText(orderCondition))
+            return defaultOrder;
+        // "최신순": 최신순 -> 마감순, 나머지: default
+        return orderCondition.equals("마감순")
+                ? new OrderSpecifier[]{
+                new OrderSpecifier(Order.ASC, post.endDate),
+                new OrderSpecifier(Order.DESC, post.createdDate)}
                 : defaultOrder;
     }
 }
