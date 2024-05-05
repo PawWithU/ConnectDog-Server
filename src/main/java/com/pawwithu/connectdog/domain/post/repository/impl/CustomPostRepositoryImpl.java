@@ -39,11 +39,11 @@ public class CustomPostRepositoryImpl implements CustomPostRepository {
     public List<PostGetHomeResponse> getHomePosts() {
         return queryFactory
                         .select(Projections.constructor(PostGetHomeResponse.class,
-                                post.id, postImage.image, post.departureLoc, post.arrivalLoc, post.startDate, post.endDate,
-                                intermediary.name, post.isKennel))
+                                post.id, postImage.image, dog.name, post.departureLoc, post.arrivalLoc,
+                                post.startDate, post.endDate, post.pickUpTime))
                         .from(post)
-                        .join(post.intermediary, intermediary)
                         .join(post.mainImage, postImage)
+                        .join(post.dog, dog)
                         .where(post.status.eq(PostStatus.RECRUITING))
                         .orderBy(post.createdDate.desc())
                         .limit(5)
