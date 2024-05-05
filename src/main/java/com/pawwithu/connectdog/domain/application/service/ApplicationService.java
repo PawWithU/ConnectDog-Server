@@ -120,10 +120,10 @@ public class ApplicationService {
         Intermediary intermediary = intermediaryRepository.findByEmail(email).orElseThrow(() -> new BadRequestException(INTERMEDIARY_NOT_FOUND));
         // 신청 내역 + post
         Application application = customApplicationRepository.findByIdAndIntermediaryIdAndStatusWithPost(applicationId, intermediary.getId(), ApplicationStatus.WAITING).orElseThrow(() -> new BadRequestException(APPLICATION_NOT_FOUND));
-        applicationRepository.delete(application);
-        // 상태 업데이트 (승인 대기중 -> 모집중)
         Post post = application.getPost();
+        // 상태 업데이트 (승인 대기중 -> 모집중)
         post.updateStatus(PostStatus.RECRUITING);
+        application.updateStatus(ApplicationStatus.REJECTED);
         ApplicationSuccessResponse isSuccess = ApplicationSuccessResponse.of(true);
         return isSuccess;
     }
