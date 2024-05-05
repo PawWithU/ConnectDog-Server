@@ -180,4 +180,14 @@ public class CustomApplicationRepositoryImpl implements CustomApplicationReposit
                         .and(application.status.eq(ApplicationStatus.COMPLETED)))
                 .fetchOne();
     }
+
+    @Override
+    public boolean existsByPostIdAndPostStatus(Long postId) {
+        return queryFactory
+                .select(application)
+                .from(application)
+                .where(application.post.id.eq(postId)
+                        .and(application.status.ne(ApplicationStatus.REJECTED)))
+                .fetchOne() != null;
+    }
 }

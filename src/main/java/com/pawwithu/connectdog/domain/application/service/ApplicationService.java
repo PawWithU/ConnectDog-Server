@@ -52,8 +52,8 @@ public class ApplicationService {
         // 이동봉사 중개
         Intermediary intermediary = post.getIntermediary();
 
-        // 해당 공고에 대한 신청이 이미 존재할 경우
-        if (applicationRepository.existsByPostId(postId)) {
+        // 해당 공고에 대한 신청이 이미 존재할 경우 - 신청 상태가 반려가 아닐 경우
+        if (customApplicationRepository.existsByPostIdAndPostStatus(postId)) {
             throw new BadRequestException(ALREADY_EXIST_APPLICATION);
         }
 

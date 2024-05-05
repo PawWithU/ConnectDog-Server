@@ -21,5 +21,5 @@ public interface CustomApplicationRepository {
 
     // 진행한 이동봉사 건수
     Long getCountOfCompletedApplications(Long id);
-
+    boolean existsByPostIdAndPostStatus(Long postId);
 }
