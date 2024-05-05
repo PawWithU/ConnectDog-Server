@@ -11,7 +11,7 @@ import lombok.*;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
 @Entity
-@Table(uniqueConstraints = @UniqueConstraint(columnNames = {"post_id"}))
+//@Table(uniqueConstraints = @UniqueConstraint(columnNames = {"post_id"}))
 public class Application extends BaseTimeEntity {
 
     @Id
@@ -23,10 +23,8 @@ public class Application extends BaseTimeEntity {
     private String volunteerName; // 이동봉사자 이름
     @Column(length = 15, nullable = false)
     private String phone; // 전화번호
-    @Column(length = 10, nullable = false)
-    private String transportation;  // 교통수단
     @Column(length = 200, nullable = false)
-    private String content; // 신청 내용
+    private String content; // 전달 및 문의사항
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "post_id", nullable = false)
     private Post post;  // 공고 id
@@ -38,11 +36,10 @@ public class Application extends BaseTimeEntity {
     private Volunteer volunteer;  // 이동봉사자 id
 
     @Builder
-    public Application(ApplicationStatus status, String volunteerName, String phone, String transportation, String content, Post post, Intermediary intermediary, Volunteer volunteer) {
+    public Application(ApplicationStatus status, String volunteerName, String phone, String content, Post post, Intermediary intermediary, Volunteer volunteer) {
         this.status = status;
         this.volunteerName = volunteerName;
         this.phone = phone;
-        this.transportation = transportation;
         this.content = content;
         this.post = post;
         this.intermediary = intermediary;

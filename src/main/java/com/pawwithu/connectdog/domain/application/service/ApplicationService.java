@@ -45,22 +45,24 @@ public class ApplicationService {
     private final IntermediaryRepository intermediaryRepository;
 
     public void volunteerApply(String email, Long postId, VolunteerApplyRequest request) {
-        try {
-            // 이동봉사자
-            Volunteer volunteer = volunteerRepository.findByEmail(email).orElseThrow(() -> new BadRequestException(VOLUNTEER_NOT_FOUND));
-            // 공고
-            Post post = postRepository.findById(postId).orElseThrow(() -> new BadRequestException(POST_NOT_FOUND));
-            // 이동봉사 중개
-            Intermediary intermediary = post.getIntermediary();
+        // 이동봉사자
+        Volunteer volunteer = volunteerRepository.findByEmail(email).orElseThrow(() -> new BadRequestException(VOLUNTEER_NOT_FOUND));
+        // 공고
+        Post post = postRepository.findById(postId).orElseThrow(() -> new BadRequestException(POST_NOT_FOUND));
+        // 이동봉사 중개
+        Intermediary intermediary = post.getIntermediary();
 
-            // 공고 신청 저장
-            Application application = request.toEntity(post, intermediary, volunteer);
-            applicationRepository.save(application);
-            // 공고 상태 승인 대기 중으로 변경
-            post.updateStatus(PostStatus.WAITING);
-        } catch (DataIntegrityViolationException e) {
+        // 해당 공고에 대한 신청이 이미 존재할 경우 - 신청 상태가 반려가 아닐 경우
+        if (customApplicationRepository.existsByPostIdAndPostStatus(postId)) {
             throw new BadRequestException(ALREADY_EXIST_APPLICATION);
         }
+
+        // 공고 신청 저장
+        Application application = request.toEntity(post, intermediary, volunteer);
+        applicationRepository.save(application);
+
+        // 공고 상태 승인 대기 중으로 변경
+        post.updateStatus(PostStatus.WAITING);
     }
 
     @Transactional(readOnly = true)
@@ -120,10 +122,10 @@ public class ApplicationService {
         Intermediary intermediary = intermediaryRepository.findByEmail(email).orElseThrow(() -> new BadRequestException(INTERMEDIARY_NOT_FOUND));
         // 신청 내역 + post
         Application application = customApplicationRepository.findByIdAndIntermediaryIdAndStatusWithPost(applicationId, intermediary.getId(), ApplicationStatus.WAITING).orElseThrow(() -> new BadRequestException(APPLICATION_NOT_FOUND));
-        applicationRepository.delete(application);
-        // 상태 업데이트 (승인 대기중 -> 모집중)
         Post post = application.getPost();
+        // 상태 업데이트 (승인 대기중 -> 모집중)
         post.updateStatus(PostStatus.RECRUITING);
+        application.updateStatus(ApplicationStatus.REJECTED);
         ApplicationSuccessResponse isSuccess = ApplicationSuccessResponse.of(true);
         return isSuccess;
     }

@@ -15,9 +15,7 @@ public record VolunteerApplyRequest(@NotBlank(message = "이름은 필수 입력
                                     @NotBlank(message = "휴대전화 번호는 필수 입력 값입니다.")
                                     @Pattern(regexp = "^010[0-9]{8}$", message = "유효하지 않은 휴대전화 번호입니다.")
                                     String phone,
-                                    @NotBlank(message = "교통수단은 필수 입력 값입니다.")
-                                    String transportation,
-                                    @Size(max=200, message = "200자 이내로 입력해 주세요.")
+                                    @Size(max=100, message = "100자 이내로 입력해 주세요.")
                                     String content) {
 
     public Application toEntity(Post post, Intermediary intermediary, Volunteer volunteer) {
@@ -25,7 +23,6 @@ public record VolunteerApplyRequest(@NotBlank(message = "이름은 필수 입력
                 .status(ApplicationStatus.WAITING)
                 .volunteerName(name)
                 .phone(phone)
-                .transportation(transportation)
                 .content(content)
                 .post(post)
                 .intermediary(intermediary)

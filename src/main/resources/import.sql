@@ -117,12 +117,12 @@ INSERT INTO volunteer (id, email, password, nickname, profile_image_num, name, p
 
 
 -- INSERT APPLICATION (status 2 - 봉사완료)
-INSERT INTO application (id, status, volunteer_name, phone, transportation, content, post_id, intermediary_id, volunteer_id, created_date, modified_date) VALUES (1, 1, '민경혁', '01047391908', 'BMW1', '이동봉사 신청합니다1!', 11, 2, 2, now(), now());
-INSERT INTO application (id, status, volunteer_name, phone, transportation, content, post_id, intermediary_id, volunteer_id, created_date, modified_date) VALUES (2, 2, '민경혁', '01047391908', 'BMW1', '이동봉사 신청합니다2!', 12, 2, 2, now(), now());
-INSERT INTO application (id, status, volunteer_name, phone, transportation, content, post_id, intermediary_id, volunteer_id, created_date, modified_date) VALUES (3, 2, '민경혁', '01047391908', 'BMW2', '이동봉사 신청합니다3!', 13, 2, 2, now(), now());
-INSERT INTO application (id, status, volunteer_name, phone, transportation, content, post_id, intermediary_id, volunteer_id, created_date, modified_date) VALUES (4, 2, '민경혁', '01047391908', 'BMW3', '이동봉사 신청합니다4!', 14, 2, 2, now(), now());
-INSERT INTO application (id, status, volunteer_name, phone, transportation, content, post_id, intermediary_id, volunteer_id, created_date, modified_date) VALUES (5, 2, '민경혁', '01047391908', 'BMW4', '이동봉사 신청합니다5!', 15, 2, 2, now(), now());
-INSERT INTO application (id, status, volunteer_name, phone, transportation, content, post_id, intermediary_id, volunteer_id, created_date, modified_date) VALUES (6, 2, '한호정', '01047391908', 'BMW5', '이동봉사 신청합니다6!', 16, 3, 1, now(), now());
+INSERT INTO application (id, status, volunteer_name, phone, content, post_id, intermediary_id, volunteer_id, created_date, modified_date) VALUES (1, 1, '민경혁', '01047391908', '이동봉사 신청합니다1!', 11, 2, 2, now(), now());
+INSERT INTO application (id, status, volunteer_name, phone, content, post_id, intermediary_id, volunteer_id, created_date, modified_date) VALUES (2, 2, '민경혁', '01047391908', '이동봉사 신청합니다2!', 12, 2, 2, now(), now());
+INSERT INTO application (id, status, volunteer_name, phone, content, post_id, intermediary_id, volunteer_id, created_date, modified_date) VALUES (3, 2, '민경혁', '01047391908', '이동봉사 신청합니다3!', 13, 2, 2, now(), now());
+INSERT INTO application (id, status, volunteer_name, phone, content, post_id, intermediary_id, volunteer_id, created_date, modified_date) VALUES (4, 2, '민경혁', '01047391908', '이동봉사 신청합니다4!', 14, 2, 2, now(), now());
+INSERT INTO application (id, status, volunteer_name, phone, content, post_id, intermediary_id, volunteer_id, created_date, modified_date) VALUES (5, 2, '민경혁', '01047391908', '이동봉사 신청합니다5!', 15, 2, 2, now(), now());
+INSERT INTO application (id, status, volunteer_name, phone, content, post_id, intermediary_id, volunteer_id, created_date, modified_date) VALUES (6, 2, '한호정', '01047391908', '이동봉사 신청합니다6!', 16, 3, 1, now(), now());
 
 -- INSERT REVIEW
 INSERT INTO review (id, content, post_id, volunteer_id, created_date, modified_date) VALUES (1, '여름이의 새 삶의 첫 걸음을 함께 했어요!! 첫 봉사라 너무 떨렸는데 다행이도 여름이가 잘 따라와줬습니다\n천구름 관계자 분들도 잘 설명해 주셨어요! 다음에 또 봉사할게요~~', 12, 2, now(), now());
@@ -372,27 +372,27 @@ INSERT INTO volunteer (id, email, password, nickname, profile_image_num, name, p
 
 
 -- INSERT APPLICATION (status 0 - 승인대기중)
-INSERT INTO application (id, status, volunteer_name, phone, transportation, content, post_id, intermediary_id, volunteer_id, created_date, modified_date) VALUES (7, 0, '이시윤', '01047391908', 'BMW6', '이동봉사 신청합니다!', 29, 4, 3, now(), now());
-INSERT INTO application (id, status, volunteer_name, phone, transportation, content, post_id, intermediary_id, volunteer_id, created_date, modified_date) VALUES (8, 0, '권예인', '01047391908', 'BMW7', '이동봉사 신청합니다!', 30, 5, 4, now(), now());
-INSERT INTO application (id, status, volunteer_name, phone, transportation, content, post_id, intermediary_id, volunteer_id, created_date, modified_date) VALUES (9, 0, '강승구', '01047391908', 'BMW8', '이동봉사 신청합니다!', 31, 6, 5, now(), now());
-INSERT INTO application (id, status, volunteer_name, phone, transportation, content, post_id, intermediary_id, volunteer_id, created_date, modified_date) VALUES (10, 0, '김민주', '01047391908', 'BMW9', '이동봉사 신청합니다!', 32, 7, 6, now(), now());
+INSERT INTO application (id, status, volunteer_name, phone, content, post_id, intermediary_id, volunteer_id, created_date, modified_date) VALUES (7, 0, '이시윤', '01047391908', '이동봉사 신청합니다!', 29, 4, 3, now(), now());
+INSERT INTO application (id, status, volunteer_name, phone, content, post_id, intermediary_id, volunteer_id, created_date, modified_date) VALUES (8, 0, '권예인', '01047391908', '이동봉사 신청합니다!', 30, 5, 4, now(), now());
+INSERT INTO application (id, status, volunteer_name, phone, content, post_id, intermediary_id, volunteer_id, created_date, modified_date) VALUES (9, 0, '강승구', '01047391908', '이동봉사 신청합니다!', 31, 6, 5, now(), now());
+INSERT INTO application (id, status, volunteer_name, phone, content, post_id, intermediary_id, volunteer_id, created_date, modified_date) VALUES (10, 0, '김민주', '01047391908', '이동봉사 신청합니다!', 32, 7, 6, now(), now());
 
 -- INSERT APPLICATION (status 1 - 진행중)
-INSERT INTO application (id, status, volunteer_name, phone, transportation, content, post_id, intermediary_id, volunteer_id, created_date, modified_date) VALUES (11, 1, '이시윤', '01047391908', 'BMW11', '이동봉사 신청합니다!', 33, 4, 3, now(), now());
-INSERT INTO application (id, status, volunteer_name, phone, transportation, content, post_id, intermediary_id, volunteer_id, created_date, modified_date) VALUES (12, 1, '권예인', '01047391908', 'BMW12', '이동봉사 신청합니다!', 34, 5, 4, now(), now());
-INSERT INTO application (id, status, volunteer_name, phone, transportation, content, post_id, intermediary_id, volunteer_id, created_date, modified_date) VALUES (13, 1, '강승구', '01047391908', 'BMW13', '이동봉사 신청합니다!', 35, 6, 5, now(), now());
-INSERT INTO application (id, status, volunteer_name, phone, transportation, content, post_id, intermediary_id, volunteer_id, created_date, modified_date) VALUES (14, 1, '김민주', '01047391908', 'BMW14', '이동봉사 신청합니다!', 36, 7, 6, now(), now());
+INSERT INTO application (id, status, volunteer_name, phone, content, post_id, intermediary_id, volunteer_id, created_date, modified_date) VALUES (11, 1, '이시윤', '01047391908', '이동봉사 신청합니다!', 33, 4, 3, now(), now());
+INSERT INTO application (id, status, volunteer_name, phone, content, post_id, intermediary_id, volunteer_id, created_date, modified_date) VALUES (12, 1, '권예인', '01047391908', '이동봉사 신청합니다!', 34, 5, 4, now(), now());
+INSERT INTO application (id, status, volunteer_name, phone, content, post_id, intermediary_id, volunteer_id, created_date, modified_date) VALUES (13, 1, '강승구', '01047391908', '이동봉사 신청합니다!', 35, 6, 5, now(), now());
+INSERT INTO application (id, status, volunteer_name, phone, content, post_id, intermediary_id, volunteer_id, created_date, modified_date) VALUES (14, 1, '김민주', '01047391908', '이동봉사 신청합니다!', 36, 7, 6, now(), now());
 
 
 -- INSERT APPLICATION (status 2 - 봉사완료)
-INSERT INTO application (id, status, volunteer_name, phone, transportation, content, post_id, intermediary_id, volunteer_id, created_date, modified_date) VALUES (15, 2, '이시윤', '01047391908', 'BMW15', '이동봉사 신청합니다!', 37, 4, 3, now(), now());
-INSERT INTO application (id, status, volunteer_name, phone, transportation, content, post_id, intermediary_id, volunteer_id, created_date, modified_date) VALUES (16, 2, '이시윤', '01047391908', 'BMW16', '이동봉사 신청합니다!', 38, 4, 3, now(), now());
-INSERT INTO application (id, status, volunteer_name, phone, transportation, content, post_id, intermediary_id, volunteer_id, created_date, modified_date) VALUES (17, 2, '권예인', '01047391908', 'BMW17', '이동봉사 신청합니다!', 39, 5, 4, now(), now());
-INSERT INTO application (id, status, volunteer_name, phone, transportation, content, post_id, intermediary_id, volunteer_id, created_date, modified_date) VALUES (18, 2, '권예인', '01047391908', 'BMW18', '이동봉사 신청합니다!', 40, 5, 4, now(), now());
-INSERT INTO application (id, status, volunteer_name, phone, transportation, content, post_id, intermediary_id, volunteer_id, created_date, modified_date) VALUES (19, 2, '강승구', '01047391908', 'BMW19', '이동봉사 신청합니다!', 41, 6, 5, now(), now());
-INSERT INTO application (id, status, volunteer_name, phone, transportation, content, post_id, intermediary_id, volunteer_id, created_date, modified_date) VALUES (20, 2, '강승구', '01047391908', 'BMW20', '이동봉사 신청합니다!', 42, 6, 5, now(), now());
-INSERT INTO application (id, status, volunteer_name, phone, transportation, content, post_id, intermediary_id, volunteer_id, created_date, modified_date) VALUES (21, 2, '김민주', '01047391908', 'BMW21', '이동봉사 신청합니다!', 43, 7, 6, now(), now());
-INSERT INTO application (id, status, volunteer_name, phone, transportation, content, post_id, intermediary_id, volunteer_id, created_date, modified_date) VALUES (22, 2, '김민주', '01047391908', 'BMW22', '이동봉사 신청합니다!', 44, 7, 6, now(), now());
+INSERT INTO application (id, status, volunteer_name, phone, content, post_id, intermediary_id, volunteer_id, created_date, modified_date) VALUES (15, 2, '이시윤', '01047391908', '이동봉사 신청합니다!', 37, 4, 3, now(), now());
+INSERT INTO application (id, status, volunteer_name, phone, content, post_id, intermediary_id, volunteer_id, created_date, modified_date) VALUES (16, 2, '이시윤', '01047391908', '이동봉사 신청합니다!', 38, 4, 3, now(), now());
+INSERT INTO application (id, status, volunteer_name, phone, content, post_id, intermediary_id, volunteer_id, created_date, modified_date) VALUES (17, 2, '권예인', '01047391908', '이동봉사 신청합니다!', 39, 5, 4, now(), now());
+INSERT INTO application (id, status, volunteer_name, phone, content, post_id, intermediary_id, volunteer_id, created_date, modified_date) VALUES (18, 2, '권예인', '01047391908', '이동봉사 신청합니다!', 40, 5, 4, now(), now());
+INSERT INTO application (id, status, volunteer_name, phone, content, post_id, intermediary_id, volunteer_id, created_date, modified_date) VALUES (19, 2, '강승구', '01047391908', '이동봉사 신청합니다!', 41, 6, 5, now(), now());
+INSERT INTO application (id, status, volunteer_name, phone, content, post_id, intermediary_id, volunteer_id, created_date, modified_date) VALUES (20, 2, '강승구', '01047391908', '이동봉사 신청합니다!', 42, 6, 5, now(), now());
+INSERT INTO application (id, status, volunteer_name, phone, content, post_id, intermediary_id, volunteer_id, created_date, modified_date) VALUES (21, 2, '김민주', '01047391908', '이동봉사 신청합니다!', 43, 7, 6, now(), now());
+INSERT INTO application (id, status, volunteer_name, phone, content, post_id, intermediary_id, volunteer_id, created_date, modified_date) VALUES (22, 2, '김민주', '01047391908', '이동봉사 신청합니다!', 44, 7, 6, now(), now());
 
 
 -- INSERT REVIEW

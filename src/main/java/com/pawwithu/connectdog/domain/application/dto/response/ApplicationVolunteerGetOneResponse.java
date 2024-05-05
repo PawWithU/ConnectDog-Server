@@ -1,12 +1,18 @@
 package com.pawwithu.connectdog.domain.application.dto.response;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.pawwithu.connectdog.domain.application.entity.Application;
 
-public record ApplicationVolunteerGetOneResponse(Long id, String volunteerName, String phone, String transportation, String content) {
+import java.time.LocalDate;
+
+public record ApplicationVolunteerGetOneResponse(Long id,
+                                                 @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy.MM.dd", timezone = "Asia/Seoul")
+                                                 LocalDate createdDate,
+                                                 String volunteerName, String phone, String content) {
 
     public static ApplicationVolunteerGetOneResponse from(Application application) {
-        return new ApplicationVolunteerGetOneResponse(application.getId(), application.getVolunteerName(), application.getPhone(), application.getTransportation(), application.getContent());
+        return new ApplicationVolunteerGetOneResponse(application.getId(), application.getCreatedDate().toLocalDate(),
+                application.getVolunteerName(), application.getPhone(), application.getContent());
     }
 
 }
-
