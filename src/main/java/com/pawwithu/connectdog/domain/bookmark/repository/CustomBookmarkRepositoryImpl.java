@@ -10,6 +10,7 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 import static com.pawwithu.connectdog.domain.bookmark.entity.QBookmark.bookmark;
+import static com.pawwithu.connectdog.domain.dog.entity.QDog.dog;
 import static com.pawwithu.connectdog.domain.intermediary.entity.QIntermediary.intermediary;
 import static com.pawwithu.connectdog.domain.post.entity.QPost.post;
 import static com.pawwithu.connectdog.domain.post.entity.QPostImage.postImage;
@@ -25,10 +26,11 @@ public class CustomBookmarkRepositoryImpl implements CustomBookmarkRepository {
     public List<VolunteerGetMyBookmarkResponse> getMyBookmarks(Long volunteerId) {
         return queryFactory
                 .select(Projections.constructor(VolunteerGetMyBookmarkResponse.class,
-                        post.id, postImage.image, post.departureLoc, post.arrivalLoc, post.startDate, post.endDate,
-                        intermediary.name, post.isKennel))
+                        post.id, postImage.image, dog.name, post.departureLoc, post.arrivalLoc,
+                        post.startDate, post.endDate, post.pickUpTime, dog.size, post.isKennel))
                 .from(post)
                 .join(post.mainImage, postImage)
+                .join(post.dog, dog)
                 .join(bookmark).on(bookmark.post.id.eq(post.id))
                 .where(bookmark.volunteer.id.eq(volunteerId))
                 .fetch();
