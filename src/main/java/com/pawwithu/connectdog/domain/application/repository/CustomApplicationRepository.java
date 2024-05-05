@@ -3,6 +3,7 @@ package com.pawwithu.connectdog.domain.application.repository;
 import com.pawwithu.connectdog.domain.application.dto.response.*;
 import com.pawwithu.connectdog.domain.application.entity.Application;
 import com.pawwithu.connectdog.domain.application.entity.ApplicationStatus;
+import com.querydsl.core.Tuple;
 import org.springframework.data.domain.Pageable;
 
 import java.util.List;
@@ -18,8 +19,6 @@ public interface CustomApplicationRepository {
     List<ApplicationIntermediaryProgressingResponse> getIntermediaryProgressingApplications(Long intermediaryId, Pageable pageable);
     List<ApplicationVolunteerCompletedResponse> getVolunteerCompletedApplications(Long volunteerId, Pageable pageable);
     List<ApplicationIntermediaryCompletedResponse> getIntermediaryCompletedApplications(Long intermediaryId, Pageable pageable);
-
-    // 진행한 이동봉사 건수
-    Long getCountOfCompletedApplications(Long id);
+    List<Tuple> getCountOfApplicationsByStatus(Long id);
     boolean existsByPostIdAndPostStatus(Long postId);
 }

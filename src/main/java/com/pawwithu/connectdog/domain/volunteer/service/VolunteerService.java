@@ -1,5 +1,6 @@
 package com.pawwithu.connectdog.domain.volunteer.service;
 
+import com.pawwithu.connectdog.domain.application.entity.ApplicationStatus;
 import com.pawwithu.connectdog.domain.application.repository.CustomApplicationRepository;
 import com.pawwithu.connectdog.domain.badge.repository.CustomVolunteerBadgeRepository;
 import com.pawwithu.connectdog.domain.bookmark.repository.CustomBookmarkRepository;
@@ -13,6 +14,7 @@ import com.pawwithu.connectdog.domain.volunteer.entity.Volunteer;
 import com.pawwithu.connectdog.domain.volunteer.repository.VolunteerRepository;
 import com.pawwithu.connectdog.error.ErrorCode;
 import com.pawwithu.connectdog.error.exception.custom.BadRequestException;
+import com.querydsl.core.Tuple;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -21,6 +23,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
+import static com.pawwithu.connectdog.domain.application.entity.QApplication.application;
 import static com.pawwithu.connectdog.error.ErrorCode.ALREADY_EXIST_NICKNAME;
 import static com.pawwithu.connectdog.error.ErrorCode.VOLUNTEER_NOT_FOUND;
 
@@ -54,16 +57,25 @@ public class VolunteerService {
     public VolunteerGetMyInfoResponse getMyInfo(String email) {
         Volunteer volunteer = volunteerRepository.findByEmail(email).orElseThrow(() -> new BadRequestException(VOLUNTEER_NOT_FOUND));
 
-        // 진행한 이동봉사 건수
-        Long completedCount = customApplicationRepository.getCountOfCompletedApplications(volunteer.getId());
-
-        // 봉사 후기 건수
+        Long waitingCount = 0L;
+        Long progressingCount = 0L;
+        Long completedCount = 0L;
         Long reviewCount = customReviewRepository.getVolunteerCountOfReviews(volunteer.getId());
 
-        // 입양 근황 건수
-        Long dogStatusCount = customDogStatusRepository.getVolunteerCountOfDogStatuses(volunteer.getId());
+        List<Tuple> applicationCounts = customApplicationRepository.getCountOfApplicationsByStatus(volunteer.getId());
+        for (Tuple tuple : applicationCounts) {
+            ApplicationStatus status = tuple.get(application.status);
+            Long count = tuple.get(application.count());
 
-        VolunteerGetMyInfoResponse response = VolunteerGetMyInfoResponse.of(volunteer.getProfileImageNum(), volunteer.getNickname(), completedCount, reviewCount, dogStatusCount);
+            switch (status) {
+                case WAITING -> waitingCount = count;
+                case PROGRESSING -> progressingCount = count;
+                case COMPLETED -> completedCount = count;
+            }
+        }
+
+        VolunteerGetMyInfoResponse response = VolunteerGetMyInfoResponse.of(volunteer.getProfileImageNum(), volunteer.getNickname(),
+                waitingCount, progressingCount, completedCount, reviewCount);
         return response;
     }
 
