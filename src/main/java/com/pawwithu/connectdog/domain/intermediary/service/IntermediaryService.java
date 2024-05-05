@@ -17,6 +17,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -37,7 +38,7 @@ public class IntermediaryService {
     @Transactional(readOnly = true)
     public List<IntermediaryGetPostsResponse> volunteerGetIntermediaryPosts(Long intermediaryId, String orderCondition, Pageable pageable) {
         // 이동봉사 중개
-        if (!intermediaryRepository.existsById(intermediaryId)){
+        if (!intermediaryRepository.existsById(intermediaryId)) {
             throw new BadRequestException(INTERMEDIARY_NOT_FOUND);
         }
         List<IntermediaryGetPostsResponse> intermediaryPosts = customPostRepository.getIntermediaryPosts(intermediaryId, orderCondition, pageable);
@@ -48,7 +49,7 @@ public class IntermediaryService {
     public IntermediaryGetInfoResponse getIntermediaryInfo(Long intermediaryId) {
         Intermediary intermediary = intermediaryRepository.findById(intermediaryId).orElseThrow(() -> new BadRequestException(INTERMEDIARY_NOT_FOUND));
         // 봉사 완료 건수
-        Long completedPostCount =  customPostRepository.getCountOfCompletedPosts(intermediaryId);
+        Long completedPostCount = customPostRepository.getCountOfCompletedPosts(intermediaryId);
 
         // 받은 후기 총 건수
         Long reviewCount = customReviewRepository.getIntermediaryCountOfReviews(intermediaryId);
@@ -61,19 +62,49 @@ public class IntermediaryService {
     }
 
     @Transactional(readOnly = true)
-    public List<IntermediaryGetReviewsResponse> getIntermediaryReviews(Long intermediaryId, Pageable pageable) {
+    public List<IntermediaryGetReviewsResponse> volunteerGetIntermediaryReviews(Long intermediaryId, Pageable pageable) {
         // 이동봉사 중개
-        if (!intermediaryRepository.existsById(intermediaryId)){
+        if (!intermediaryRepository.existsById(intermediaryId)) {
             throw new BadRequestException(INTERMEDIARY_NOT_FOUND);
         }
-        List<IntermediaryGetReviewsResponse> intermediaryReviews = customReviewRepository.getIntermediaryReviews(intermediaryId, pageable);
-        return intermediaryReviews;
+
+        List<IntermediaryGetReviewsResponse> resultReviews = new ArrayList<>();
+
+        // 후기 조회 (대표 이미지 포함)
+        List<IntermediaryGetReviewsResponse> reviews = customReviewRepository.getIntermediaryReviews(intermediaryId, pageable);
+
+        for (IntermediaryGetReviewsResponse intermediaryGetReviewsResponse : reviews) {
+            // 후기 이미지 조회 (대표 이미지 제외)
+            List<String> oneReviewImages = customReviewRepository.getOneReviewImages(intermediaryGetReviewsResponse.reviewId());
+            IntermediaryGetReviewsResponse review = IntermediaryGetReviewsResponse.of(intermediaryGetReviewsResponse, oneReviewImages);
+            resultReviews.add(review);
+        }
+
+        return resultReviews;
+    }
+
+    @Transactional(readOnly = true)
+    public List<IntermediaryGetReviewsResponse> intermediaryGetIntermediaryReviews(String email, Pageable pageable) {
+        Intermediary intermediary = intermediaryRepository.findByEmail(email).orElseThrow(() -> new BadRequestException(INTERMEDIARY_NOT_FOUND));
+        List<IntermediaryGetReviewsResponse> resultReviews = new ArrayList<>();
+
+        // 후기 조회 (대표 이미지 포함)
+        List<IntermediaryGetReviewsResponse> reviews = customReviewRepository.getIntermediaryReviews(intermediary.getId(), pageable);
+
+        for (IntermediaryGetReviewsResponse intermediaryGetReviewsResponse : reviews) {
+            // 후기 이미지 조회 (대표 이미지 제외)
+            List<String> oneReviewImages = customReviewRepository.getOneReviewImages(intermediaryGetReviewsResponse.reviewId());
+            IntermediaryGetReviewsResponse review = IntermediaryGetReviewsResponse.of(intermediaryGetReviewsResponse, oneReviewImages);
+            resultReviews.add(review);
+        }
+
+        return resultReviews;
     }
 
     @Transactional(readOnly = true)
     public List<IntermediaryGetDogStatusesResponse> getIntermediaryDogStatuses(Long intermediaryId, Pageable pageable) {
         // 이동봉사 중개
-        if (!intermediaryRepository.existsById(intermediaryId)){
+        if (!intermediaryRepository.existsById(intermediaryId)) {
             throw new BadRequestException(INTERMEDIARY_NOT_FOUND);
         }
         List<IntermediaryGetDogStatusesResponse> intermediaryDogStatuses = customDogStatusRepository.getIntermediaryDogStatuses(intermediaryId, pageable);

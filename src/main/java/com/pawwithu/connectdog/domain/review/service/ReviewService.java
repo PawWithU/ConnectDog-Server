@@ -22,6 +22,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -89,7 +90,18 @@ public class ReviewService {
 
     @Transactional(readOnly = true)
     public List<ReviewGetAllResponse> getAllReviews(Pageable pageable) {
+        List<ReviewGetAllResponse> resultReviews = new ArrayList<>();
+
+        // 후기 조회 (대표 이미지 포함)
         List<ReviewGetAllResponse> reviews = customReviewRepository.getAllReviews(pageable);
-        return reviews;
+
+        for (ReviewGetAllResponse reviewGetAllResponse : reviews) {
+            // 후기 이미지 조회 (대표 이미지 제외)
+            List<String> oneReviewImages = customReviewRepository.getOneReviewImages(reviewGetAllResponse.reviewId());
+            ReviewGetAllResponse review = ReviewGetAllResponse.of(reviewGetAllResponse, oneReviewImages);
+            resultReviews.add(review);
+        }
+
+        return resultReviews;
     }
 }
