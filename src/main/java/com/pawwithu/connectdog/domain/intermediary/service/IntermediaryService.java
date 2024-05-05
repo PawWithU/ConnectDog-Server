@@ -13,6 +13,7 @@ import com.pawwithu.connectdog.error.exception.custom.BadRequestException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -34,6 +35,7 @@ public class IntermediaryService {
     private final CustomReviewRepository customReviewRepository;
     private final CustomDogStatusRepository customDogStatusRepository;
     private final FileService fileService;
+    private final PasswordEncoder passwordEncoder;
 
     @Transactional(readOnly = true)
     public List<IntermediaryGetPostsResponse> volunteerGetIntermediaryPosts(Long intermediaryId, String orderCondition, Pageable pageable) {
@@ -146,5 +148,11 @@ public class IntermediaryService {
         Intermediary intermediary = intermediaryRepository.findByEmail(email).orElseThrow(() -> new BadRequestException(INTERMEDIARY_NOT_FOUND));
         List<IntermediaryGetPostsResponse> intermediaryPosts = customPostRepository.getIntermediaryPosts(intermediary.getId(), orderCondition, pageable);
         return intermediaryPosts;
+    }
+
+    public void changePassword(String email, String password) {
+        Intermediary intermediary = intermediaryRepository.findByEmail(email).orElseThrow(() -> new BadRequestException(INTERMEDIARY_NOT_FOUND));
+        intermediary.updatePassword(password);
+        intermediary.passwordEncode(passwordEncoder);
     }
 }
