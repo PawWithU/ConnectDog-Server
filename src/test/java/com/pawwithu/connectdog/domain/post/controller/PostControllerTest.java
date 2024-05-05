@@ -91,10 +91,10 @@ class PostControllerTest {
         List<PostGetHomeResponse> response = new ArrayList<>();
         LocalDate startDate = LocalDate.of(2023, 10, 2);
         LocalDate endDate = LocalDate.of(2023, 11, 7);
-        response.add(new PostGetHomeResponse(1L, "image1", "서울시 성북구", "서울시 중랑구",
-                startDate, endDate, "이동봉사 중개", true));
-        response.add(new PostGetHomeResponse(2L, "image2", "서울시 성북구", "서울시 중랑구",
-                startDate, endDate, "이동봉사 중개", false));
+        response.add(new PostGetHomeResponse(1L, "image1", "하늘이", "서울시 성북구", "서울시 중랑구",
+                startDate, endDate, "13:00"));
+        response.add(new PostGetHomeResponse(2L, "image2", "초코", "서울시 성북구", "서울시 중랑구",
+                startDate, endDate, "13:00"));
 
         //when
         given(postService.getHomePosts()).willReturn(response);
@@ -114,10 +114,10 @@ class PostControllerTest {
         List<PostSearchResponse> response = new ArrayList<>();
         LocalDate startDate = LocalDate.of(2023, 10, 2);
         LocalDate endDate = LocalDate.of(2023, 11, 7);
-        response.add(new PostSearchResponse(1L, "image1", "서울시 성북구", "서울시 중랑구",
-                startDate, endDate, "이동봉사 중개", true));
-        response.add(new PostSearchResponse(2L, "image2", "서울시 성북구", "서울시 중랑구",
-                startDate, endDate, "이동봉사 중개", false));
+        response.add(new PostSearchResponse(1L, "image1", "하늘이", "서울시 성북구", "서울시 중랑구",
+                startDate, endDate, "13:00", DogSize.MEDIUM, true));
+        response.add(new PostSearchResponse(2L, "image2", "하늘이", "서울시 성북구", "서울시 중랑구",
+                startDate, endDate, "12:00", DogSize.SMALL, false));
 
 
         //when
