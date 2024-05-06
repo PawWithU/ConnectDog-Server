@@ -11,6 +11,7 @@ import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 
 public record VolunteerApplyRequest(@NotBlank(message = "이름은 필수 입력 값입니다.")
+                                    @Pattern(regexp = "^[가-힣]*$", message = "한글만 입력 가능합니다.")
                                     String name,
                                     @NotBlank(message = "휴대전화 번호는 필수 입력 값입니다.")
                                     @Pattern(regexp = "^010[0-9]{8}$", message = "유효하지 않은 휴대전화 번호입니다.")

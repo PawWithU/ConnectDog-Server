@@ -34,7 +34,7 @@ public class CustomPostRepositoryImpl implements CustomPostRepository {
 
     private final JPAQueryFactory queryFactory;
 
-    // 홈 화면 공고 5개 조회
+    // 홈 화면 공고 6개 조회
     @Override
     public List<PostGetHomeResponse> getHomePosts() {
         return queryFactory
@@ -46,7 +46,7 @@ public class CustomPostRepositoryImpl implements CustomPostRepository {
                         .join(post.dog, dog)
                         .where(post.status.eq(PostStatus.RECRUITING))
                         .orderBy(post.createdDate.desc())
-                        .limit(5)
+                        .limit(6)
                         .fetch();
     }
 
@@ -62,7 +62,7 @@ public class CustomPostRepositoryImpl implements CustomPostRepository {
                 .join(post.dog, dog)
                 .join(post.mainImage, postImage)
                 .where(allFilterSearch(request, pageable))
-                .orderBy(createOrderSpecifierEC(request.orderCondition()))
+                .orderBy(createOrderSpecifierCE(request.orderCondition()))
                 .offset(pageable.getOffset())   // 페이지 번호
                 .limit(pageable.getPageSize())  // 페이지 사이즈
                 .fetch();
@@ -229,7 +229,7 @@ public class CustomPostRepositoryImpl implements CustomPostRepository {
 
     // 정렬 필터
     private OrderSpecifier[] createOrderSpecifierEC(String orderCondition) {
-        // default = 마감순 -> 최신순
+        // default = 마감 임박순 -> 최근 등록순
         OrderSpecifier[] defaultOrder = {
                 new OrderSpecifier(Order.ASC, post.endDate),
                 new OrderSpecifier(Order.DESC, post.createdDate)
@@ -238,8 +238,8 @@ public class CustomPostRepositoryImpl implements CustomPostRepository {
         // 정렬 조건 X: default
         if (!StringUtils.hasText(orderCondition))
             return defaultOrder;
-        // "최신순": 최신순 -> 마감순, 나머지: default
-        return orderCondition.equals("최신순")
+        // "최근 등록순": 최근 등록순 -> 마감 임박순, 나머지: default
+        return orderCondition.equals("최근 등록순")
                 ? new OrderSpecifier[]{
                         new OrderSpecifier(Order.DESC, post.createdDate),
                         new OrderSpecifier(Order.ASC, post.endDate)}
@@ -248,7 +248,7 @@ public class CustomPostRepositoryImpl implements CustomPostRepository {
 
     // 정렬 필터
     private OrderSpecifier[] createOrderSpecifierCE(String orderCondition) {
-        // default = 최신순 -> 마감순
+        // default = 최근 등록순 -> 마감 임박순
         OrderSpecifier[] defaultOrder = {
                 new OrderSpecifier(Order.DESC, post.createdDate),
                 new OrderSpecifier(Order.ASC, post.endDate)
@@ -257,8 +257,8 @@ public class CustomPostRepositoryImpl implements CustomPostRepository {
         // 정렬 조건 X: default
         if (!StringUtils.hasText(orderCondition))
             return defaultOrder;
-        // "최신순": 최신순 -> 마감순, 나머지: default
-        return orderCondition.equals("마감순")
+        // "마감 임박순": 마감 임박순 -> 최근 등록순, 나머지: default
+        return orderCondition.equals("마감 임박순")
                 ? new OrderSpecifier[]{
                 new OrderSpecifier(Order.ASC, post.endDate),
                 new OrderSpecifier(Order.DESC, post.createdDate)}

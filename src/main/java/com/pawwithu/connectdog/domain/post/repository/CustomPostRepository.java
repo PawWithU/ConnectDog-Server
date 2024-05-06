@@ -11,7 +11,7 @@ import java.util.Map;
 
 public interface CustomPostRepository {
 
-    // 홈 화면 공고 5개 조회
+    // 홈 화면 공고 6개 조회
     List<PostGetHomeResponse> getHomePosts();
     // 공고 필터 검색
     List<PostSearchResponse> searchPosts(PostSearchRequest request, Pageable pageable);
