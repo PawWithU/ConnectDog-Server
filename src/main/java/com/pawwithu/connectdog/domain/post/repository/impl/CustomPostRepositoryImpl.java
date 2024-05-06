@@ -34,7 +34,7 @@ public class CustomPostRepositoryImpl implements CustomPostRepository {
 
     private final JPAQueryFactory queryFactory;
 
-    // 홈 화면 공고 5개 조회
+    // 홈 화면 공고 6개 조회
     @Override
     public List<PostGetHomeResponse> getHomePosts() {
         return queryFactory
@@ -46,7 +46,7 @@ public class CustomPostRepositoryImpl implements CustomPostRepository {
                         .join(post.dog, dog)
                         .where(post.status.eq(PostStatus.RECRUITING))
                         .orderBy(post.createdDate.desc())
-                        .limit(5)
+                        .limit(6)
                         .fetch();
     }
 

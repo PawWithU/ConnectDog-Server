@@ -46,8 +46,8 @@ public class PostController {
         return ResponseEntity.noContent().build();
     }
 
-    @Operation(summary = "홈 화면 공고 5개 최신 순 조회", description = "홈 화면에서 공고 5개를 최신 순으로 조회합니다.",
-            responses = {@ApiResponse(responseCode = "200", description = "홈 화면 공고 5개 조회 성공")})
+    @Operation(summary = "홈 화면 공고 6개 최신 순 조회", description = "홈 화면에서 공고 6개를 최신 순으로 조회합니다.",
+            responses = {@ApiResponse(responseCode = "200", description = "홈 화면 공고 6개 조회 성공")})
     @GetMapping(value = "/volunteers/posts/home")
     public ResponseEntity<List<PostGetHomeResponse>> getHomePosts() {
         List<PostGetHomeResponse> homePosts = postService.getHomePosts();
