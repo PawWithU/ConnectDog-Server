@@ -25,6 +25,7 @@ public class FcmMessage {
     @AllArgsConstructor
     @Getter
     public static class Notification {
+        private String image;
         private String title;
         private String body;
     }
