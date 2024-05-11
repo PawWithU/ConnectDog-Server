@@ -48,8 +48,15 @@ public class IntermediaryService {
     }
 
     @Transactional(readOnly = true)
-    public IntermediaryGetInfoResponse getIntermediaryInfo(Long intermediaryId) {
+    public IntermediaryGetInfoResponse volunteerGetIntermediaryInfo(Long intermediaryId) {
         Intermediary intermediary = intermediaryRepository.findById(intermediaryId).orElseThrow(() -> new BadRequestException(INTERMEDIARY_NOT_FOUND));
+        IntermediaryGetInfoResponse intermediaryInfo = IntermediaryGetInfoResponse.from(intermediary);
+        return intermediaryInfo;
+    }
+
+    @Transactional(readOnly = true)
+    public IntermediaryGetInfoResponse intermediaryGetIntermediaryInfo(String username) {
+        Intermediary intermediary = intermediaryRepository.findByEmail(username).orElseThrow(() -> new BadRequestException(INTERMEDIARY_NOT_FOUND));
         IntermediaryGetInfoResponse intermediaryInfo = IntermediaryGetInfoResponse.from(intermediary);
         return intermediaryInfo;
     }

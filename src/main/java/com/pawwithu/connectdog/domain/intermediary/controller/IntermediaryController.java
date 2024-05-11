@@ -59,7 +59,7 @@ public class IntermediaryController {
         return ResponseEntity.ok(response);
     }
 
-    @Operation(summary = "중개 프로필 - 기본 정보 조회", description = "중개 프로필에서 기본 정보를 조회합니다.",
+    @Operation(summary = "이동봉사자 - 중개 프로필 - 기본 정보 조회", description = "중개 프로필에서 기본 정보를 조회합니다.",
             security = { @SecurityRequirement(name = "bearer-key") },
             responses = {@ApiResponse(responseCode = "200", description = "중개 프로필 기본 정보 조회 성공")
                     , @ApiResponse(responseCode = "400"
@@ -67,8 +67,21 @@ public class IntermediaryController {
                     , content = @Content(schema = @Schema(implementation = ErrorResponse.class)))
             })
     @GetMapping("/volunteers/intermediaries/{intermediaryId}")
-    public ResponseEntity<IntermediaryGetInfoResponse> getIntermediaryInfo(@PathVariable Long intermediaryId) {
-        IntermediaryGetInfoResponse response = intermediaryService.getIntermediaryInfo(intermediaryId);
+    public ResponseEntity<IntermediaryGetInfoResponse> volunteerGetIntermediaryInfo(@PathVariable Long intermediaryId) {
+        IntermediaryGetInfoResponse response = intermediaryService.volunteerGetIntermediaryInfo(intermediaryId);
+        return ResponseEntity.ok(response);
+    }
+
+    @Operation(summary = "모집자 - 중개 프로필 - 기본 정보 조회", description = "중개 프로필에서 기본 정보를 조회합니다.",
+            security = { @SecurityRequirement(name = "bearer-key") },
+            responses = {@ApiResponse(responseCode = "200", description = "중개 프로필 기본 정보 조회 성공")
+                    , @ApiResponse(responseCode = "400"
+                    , description = "M2, 해당 이동봉사 중개를 찾을 수 없습니다."
+                    , content = @Content(schema = @Schema(implementation = ErrorResponse.class)))
+            })
+    @GetMapping("/intermediaries")
+    public ResponseEntity<IntermediaryGetInfoResponse> intermediaryGetIntermediaryInfo(@AuthenticationPrincipal UserDetails loginUser) {
+        IntermediaryGetInfoResponse response = intermediaryService.intermediaryGetIntermediaryInfo(loginUser.getUsername());
         return ResponseEntity.ok(response);
     }
 
