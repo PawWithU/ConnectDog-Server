@@ -100,7 +100,7 @@ class IntermediaryControllerTest {
         //when
         given(intermediaryService.intermediaryGetIntermediaryPosts(anyString(), anyString(), any())).willReturn(response);
         ResultActions result = mockMvc.perform(
-                get("/intermediaries/posts")
+                get("/intermediaries/my/posts")
                         .param("orderCondition", "최신순")
         );
 
@@ -117,15 +117,34 @@ class IntermediaryControllerTest {
                 "이동봉사 중개 이름", "안녕하세요. 한 줄 소개 입니다.", "https://connectdog.site", "인스타그램: @hoxjeong", "안내 사항입니다.");
 
         // when
-        given(intermediaryService.getIntermediaryInfo(anyLong())).willReturn(response);
+        given(intermediaryService.volunteerGetIntermediaryInfo(anyLong())).willReturn(response);
         ResultActions result = mockMvc.perform(
                 get("/volunteers/intermediaries/{intermediaryId}", intermediaryId)
         );
 
         // then
         result.andExpect(status().isOk());
-        verify(intermediaryService, times(1)).getIntermediaryInfo(anyLong());
+        verify(intermediaryService, times(1)).volunteerGetIntermediaryInfo(anyLong());
     }
+
+    @Test
+    void 모집자_중개_프로필_기본_정보_조회() throws Exception {
+        // given
+        Long intermediaryId = 1L;
+        IntermediaryGetInfoResponse response = new IntermediaryGetInfoResponse("profileImage",
+                "이동봉사 중개 이름", "안녕하세요. 한 줄 소개 입니다.", "https://connectdog.site", "인스타그램: @hoxjeong", "안내 사항입니다.");
+
+        // when
+        given(intermediaryService.intermediaryGetIntermediaryInfo(anyString())).willReturn(response);
+        ResultActions result = mockMvc.perform(
+                get("/intermediaries/my/info")
+        );
+
+        // then
+        result.andExpect(status().isOk());
+        verify(intermediaryService, times(1)).intermediaryGetIntermediaryInfo(anyString());
+    }
+
 
     @Test
     void 이동봉사자_중개_프로필_후기_조회() throws Exception {
@@ -187,7 +206,7 @@ class IntermediaryControllerTest {
         // when
         given(intermediaryService.intermediaryGetIntermediaryReviews(anyString(), any())).willReturn(response);
         ResultActions result = mockMvc.perform(
-                get("/intermediaries/reviews", intermediaryId)
+                get("/intermediaries/my/reviews", intermediaryId)
                         .param("page", "0")
                         .param("size", "2")
         );
