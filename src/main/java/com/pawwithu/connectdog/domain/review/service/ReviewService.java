@@ -2,6 +2,9 @@ package com.pawwithu.connectdog.domain.review.service;
 
 import com.pawwithu.connectdog.common.s3.FileService;
 import com.pawwithu.connectdog.domain.application.repository.ApplicationRepository;
+import com.pawwithu.connectdog.domain.fcm.entity.IntermediaryFcm;
+import com.pawwithu.connectdog.domain.fcm.repository.IntermediaryFcmRepository;
+import com.pawwithu.connectdog.domain.fcm.service.FcmService;
 import com.pawwithu.connectdog.domain.post.entity.Post;
 import com.pawwithu.connectdog.domain.post.repository.PostRepository;
 import com.pawwithu.connectdog.domain.review.dto.request.ReviewCreateRequest;
@@ -26,6 +29,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import static com.pawwithu.connectdog.domain.fcm.dto.NotificationMessage.REVIEW_REGISTERED;
 import static com.pawwithu.connectdog.error.ErrorCode.*;
 
 @Slf4j
@@ -41,6 +45,8 @@ public class ReviewService {
     private final ReviewImageRepository reviewImageRepository;
     private final CustomReviewRepository customReviewRepository;
     private final ApplicationRepository applicationRepository;
+    private final IntermediaryFcmRepository intermediaryFcmRepository;
+    private final FcmService fcmService;
 
     public void createReview(String email, Long postId, ReviewCreateRequest request, List<MultipartFile> fileList) {
 
@@ -71,6 +77,14 @@ public class ReviewService {
 
         // 후기 대표 이미지 업데이트
         review.updateMainImage(reviewImages.get(0));
+
+        // 알림 전송
+        IntermediaryFcm intermediaryFcm = intermediaryFcmRepository.findByIntermediaryId(post.getIntermediary().getId()).orElse(null);
+        if (intermediaryFcm != null) {
+            fcmService.sendMessageToIntermediary(intermediaryFcm.getFcmToken(), post.getIntermediary(), post.getMainImage().getImage(), REVIEW_REGISTERED.getTitle(), REVIEW_REGISTERED.getBody());
+        } else {
+            log.info("----------이동봉사 후기 등록 알림 전송 실패----------");
+        }
     }
 
     @Transactional(readOnly = true)

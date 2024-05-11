@@ -6,7 +6,9 @@ import com.pawwithu.connectdog.domain.application.entity.Application;
 import com.pawwithu.connectdog.domain.application.entity.ApplicationStatus;
 import com.pawwithu.connectdog.domain.application.repository.ApplicationRepository;
 import com.pawwithu.connectdog.domain.application.repository.CustomApplicationRepository;
+import com.pawwithu.connectdog.domain.fcm.entity.IntermediaryFcm;
 import com.pawwithu.connectdog.domain.fcm.entity.VolunteerFcm;
+import com.pawwithu.connectdog.domain.fcm.repository.IntermediaryFcmRepository;
 import com.pawwithu.connectdog.domain.fcm.repository.VolunteerFcmRepository;
 import com.pawwithu.connectdog.domain.fcm.service.FcmService;
 import com.pawwithu.connectdog.domain.intermediary.entity.Intermediary;
@@ -40,6 +42,7 @@ public class ApplicationService {
     private final CustomApplicationRepository customApplicationRepository;
     private final IntermediaryRepository intermediaryRepository;
     private final VolunteerFcmRepository volunteerFcmRepository;
+    private final IntermediaryFcmRepository intermediaryFcmRepository;
     private final FcmService fcmService;
 
     public void volunteerApply(String email, Long postId, VolunteerApplyRequest request) {
@@ -49,18 +52,22 @@ public class ApplicationService {
         Post post = postRepository.findById(postId).orElseThrow(() -> new BadRequestException(POST_NOT_FOUND));
         // 이동봉사 중개
         Intermediary intermediary = post.getIntermediary();
-
         // 해당 공고에 대한 신청이 이미 존재할 경우 - 신청 상태가 반려가 아닐 경우
         if (customApplicationRepository.existsByPostIdAndPostStatus(postId)) {
             throw new BadRequestException(ALREADY_EXIST_APPLICATION);
         }
-
         // 공고 신청 저장
         Application application = request.toEntity(post, intermediary, volunteer);
         applicationRepository.save(application);
-
         // 공고 상태 승인 대기 중으로 변경
         post.updateStatus(PostStatus.WAITING);
+        // 알림 전송
+        IntermediaryFcm intermediaryFcm = intermediaryFcmRepository.findByIntermediaryId(intermediary.getId()).orElse(null);
+        if (intermediaryFcm != null) {
+            fcmService.sendMessageToIntermediary(intermediaryFcm.getFcmToken(), intermediary, volunteer.getProfileImageNum() + "", APPLICATION.getTitle(), APPLICATION.getBodyWithName(volunteer.getNickname()));
+        } else {
+            log.info("----------이동봉사 신청 알림 전송 실패----------");
+        }
     }
 
     @Transactional(readOnly = true)
@@ -98,6 +105,13 @@ public class ApplicationService {
         // 상태 업데이트 (승인 대기중 -> 모집중)
         Post post = application.getPost();
         post.updateStatus(PostStatus.RECRUITING);
+        // 알림 전송
+        IntermediaryFcm intermediaryFcm = intermediaryFcmRepository.findByIntermediaryId(application.getIntermediary().getId()).orElse(null);
+        if (intermediaryFcm != null) {
+            fcmService.sendMessageToIntermediary(intermediaryFcm.getFcmToken(), application.getIntermediary(), volunteer.getProfileImageNum() + "", CANCELED.getTitle(), CANCELED.getBodyWithName(volunteer.getNickname()));
+        } else {
+            log.info("----------이동봉사 신청 취소 알림 전송 실패----------");
+        }
         ApplicationSuccessResponse isSuccess = ApplicationSuccessResponse.of(true);
         return isSuccess;
     }
