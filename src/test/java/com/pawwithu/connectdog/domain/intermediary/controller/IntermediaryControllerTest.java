@@ -100,7 +100,7 @@ class IntermediaryControllerTest {
         //when
         given(intermediaryService.intermediaryGetIntermediaryPosts(anyString(), anyString(), any())).willReturn(response);
         ResultActions result = mockMvc.perform(
-                get("/intermediaries/posts")
+                get("/intermediaries/my/posts")
                         .param("orderCondition", "최신순")
         );
 
@@ -137,7 +137,7 @@ class IntermediaryControllerTest {
         // when
         given(intermediaryService.intermediaryGetIntermediaryInfo(anyString())).willReturn(response);
         ResultActions result = mockMvc.perform(
-                get("/intermediaries")
+                get("/intermediaries/my/info")
         );
 
         // then
@@ -206,7 +206,7 @@ class IntermediaryControllerTest {
         // when
         given(intermediaryService.intermediaryGetIntermediaryReviews(anyString(), any())).willReturn(response);
         ResultActions result = mockMvc.perform(
-                get("/intermediaries/reviews", intermediaryId)
+                get("/intermediaries/my/reviews", intermediaryId)
                         .param("page", "0")
                         .param("size", "2")
         );
