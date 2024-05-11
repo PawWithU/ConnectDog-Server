@@ -64,7 +64,7 @@ public class FcmController {
             })
     @PostMapping("/fcm-test")
     public ResponseEntity<Void> testFcmToken(@Valid @RequestBody FcmTokenRequest request) {
-        fcmService.sendMessageTo(request.fcmToken(), APPLICATION.getTitleWithLoc("서울 강남구", "서울 도봉구"), APPLICATION.getBodyWithName("포윗유"));
+        fcmService.sendMessageToVolunteer(request.fcmToken(), null, null, APPLICATION.getTitleWithLoc("서울 강남구", "서울 도봉구"), APPLICATION.getBodyWithName("포윗유"));
         return ResponseEntity.noContent().build();
     }
 
