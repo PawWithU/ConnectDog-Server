@@ -6,30 +6,28 @@ import com.pawwithu.connectdog.domain.application.entity.Application;
 import com.pawwithu.connectdog.domain.application.entity.ApplicationStatus;
 import com.pawwithu.connectdog.domain.application.repository.ApplicationRepository;
 import com.pawwithu.connectdog.domain.application.repository.CustomApplicationRepository;
-import com.pawwithu.connectdog.domain.dogStatus.repository.DogStatusRepository;
+import com.pawwithu.connectdog.domain.fcm.entity.IntermediaryFcm;
+import com.pawwithu.connectdog.domain.fcm.entity.VolunteerFcm;
+import com.pawwithu.connectdog.domain.fcm.repository.IntermediaryFcmRepository;
+import com.pawwithu.connectdog.domain.fcm.repository.VolunteerFcmRepository;
+import com.pawwithu.connectdog.domain.fcm.service.FcmService;
 import com.pawwithu.connectdog.domain.intermediary.entity.Intermediary;
 import com.pawwithu.connectdog.domain.intermediary.repository.IntermediaryRepository;
 import com.pawwithu.connectdog.domain.post.entity.Post;
 import com.pawwithu.connectdog.domain.post.entity.PostStatus;
-import com.pawwithu.connectdog.domain.post.repository.CustomPostRepository;
 import com.pawwithu.connectdog.domain.post.repository.PostRepository;
-import com.pawwithu.connectdog.domain.review.repository.ReviewRepository;
 import com.pawwithu.connectdog.domain.volunteer.entity.Volunteer;
 import com.pawwithu.connectdog.domain.volunteer.repository.VolunteerRepository;
 import com.pawwithu.connectdog.error.exception.custom.BadRequestException;
-import jakarta.persistence.LockModeType;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.hibernate.exception.ConstraintViolationException;
-import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.jpa.repository.Lock;
-import org.springframework.orm.ObjectOptimisticLockingFailureException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
+import static com.pawwithu.connectdog.domain.fcm.dto.NotificationMessage.*;
 import static com.pawwithu.connectdog.error.ErrorCode.*;
 
 @Slf4j
@@ -43,6 +41,9 @@ public class ApplicationService {
     private final ApplicationRepository applicationRepository;
     private final CustomApplicationRepository customApplicationRepository;
     private final IntermediaryRepository intermediaryRepository;
+    private final VolunteerFcmRepository volunteerFcmRepository;
+    private final IntermediaryFcmRepository intermediaryFcmRepository;
+    private final FcmService fcmService;
 
     public void volunteerApply(String email, Long postId, VolunteerApplyRequest request) {
         // 이동봉사자
@@ -51,18 +52,22 @@ public class ApplicationService {
         Post post = postRepository.findById(postId).orElseThrow(() -> new BadRequestException(POST_NOT_FOUND));
         // 이동봉사 중개
         Intermediary intermediary = post.getIntermediary();
-
         // 해당 공고에 대한 신청이 이미 존재할 경우 - 신청 상태가 반려가 아닐 경우
         if (customApplicationRepository.existsByPostIdAndPostStatus(postId)) {
             throw new BadRequestException(ALREADY_EXIST_APPLICATION);
         }
-
         // 공고 신청 저장
         Application application = request.toEntity(post, intermediary, volunteer);
         applicationRepository.save(application);
-
         // 공고 상태 승인 대기 중으로 변경
         post.updateStatus(PostStatus.WAITING);
+        // 알림 전송
+        IntermediaryFcm intermediaryFcm = intermediaryFcmRepository.findByIntermediaryId(intermediary.getId()).orElse(null);
+        if (intermediaryFcm != null) {
+            fcmService.sendMessageToIntermediary(intermediaryFcm.getFcmToken(), intermediary, volunteer.getProfileImageNum() + "", APPLICATION.getTitle(), APPLICATION.getBodyWithName(volunteer.getNickname()));
+        } else {
+            log.info("----------이동봉사 신청 알림 전송 실패----------");
+        }
     }
 
     @Transactional(readOnly = true)
@@ -100,6 +105,13 @@ public class ApplicationService {
         // 상태 업데이트 (승인 대기중 -> 모집중)
         Post post = application.getPost();
         post.updateStatus(PostStatus.RECRUITING);
+        // 알림 전송
+        IntermediaryFcm intermediaryFcm = intermediaryFcmRepository.findByIntermediaryId(application.getIntermediary().getId()).orElse(null);
+        if (intermediaryFcm != null) {
+            fcmService.sendMessageToIntermediary(intermediaryFcm.getFcmToken(), application.getIntermediary(), volunteer.getProfileImageNum() + "", CANCELED.getTitle(), CANCELED.getBodyWithName(volunteer.getNickname()));
+        } else {
+            log.info("----------이동봉사 신청 취소 알림 전송 실패----------");
+        }
         ApplicationSuccessResponse isSuccess = ApplicationSuccessResponse.of(true);
         return isSuccess;
     }
@@ -113,6 +125,13 @@ public class ApplicationService {
         // 상태 업데이트 (승인 대기중 -> 진행중)
         application.updateStatus(ApplicationStatus.PROGRESSING);
         post.updateStatus(PostStatus.PROGRESSING);
+        // 알림 전송
+        VolunteerFcm volunteerFcm = volunteerFcmRepository.findByVolunteerId(application.getVolunteer().getId()).orElse(null);
+        if (volunteerFcm != null) {
+            fcmService.sendMessageToVolunteer(volunteerFcm.getFcmToken(), application.getVolunteer(), post.getMainImage().getImage(), CONFIRM.getTitle(), CONFIRM.getBody());
+        } else {
+            log.info("----------이동봉사 승인 알림 전송 실패----------");
+        }
         ApplicationSuccessResponse isSuccess = ApplicationSuccessResponse.of(true);
         return isSuccess;
     }
@@ -126,6 +145,13 @@ public class ApplicationService {
         // 상태 업데이트 (승인 대기중 -> 모집중)
         post.updateStatus(PostStatus.RECRUITING);
         application.updateStatus(ApplicationStatus.REJECTED);
+        // 알림 전송
+        VolunteerFcm volunteerFcm = volunteerFcmRepository.findByVolunteerId(application.getVolunteer().getId()).orElse(null);
+        if (volunteerFcm != null) {
+            fcmService.sendMessageToVolunteer(volunteerFcm.getFcmToken(), application.getVolunteer(), post.getMainImage().getImage(), REJECT.getTitle(), REJECT.getBody());
+        } else {
+            log.info("----------이동봉사 반려 알림 전송 실패----------");
+        }
         ApplicationSuccessResponse isSuccess = ApplicationSuccessResponse.of(true);
         return isSuccess;
     }
@@ -189,6 +215,13 @@ public class ApplicationService {
         // 상태 업데이트 (진행중 -> 봉사 완료)
         application.updateStatus(ApplicationStatus.COMPLETED);
         post.updateStatus(PostStatus.COMPLETED);
+        // 알림 전송
+        VolunteerFcm volunteerFcm = volunteerFcmRepository.findByVolunteerId(application.getVolunteer().getId()).orElse(null);
+        if (volunteerFcm != null) {
+            fcmService.sendMessageToVolunteer(volunteerFcm.getFcmToken(), application.getVolunteer(), post.getMainImage().getImage(), COMPLETED.getTitle(), COMPLETED.getBody());
+        } else {
+            log.info("----------이동봉사 완료 알림 전송 실패----------");
+        }
         ApplicationSuccessResponse isSuccess = ApplicationSuccessResponse.of(true);
         return isSuccess;
     }

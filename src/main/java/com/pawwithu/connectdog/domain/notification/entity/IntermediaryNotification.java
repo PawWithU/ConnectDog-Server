@@ -1,0 +1,36 @@
+package com.pawwithu.connectdog.domain.notification.entity;
+
+import com.pawwithu.connectdog.common.entity.BaseTimeEntity;
+import com.pawwithu.connectdog.domain.intermediary.entity.Intermediary;
+import jakarta.persistence.*;
+import lombok.*;
+
+@Getter
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@AllArgsConstructor
+@Entity
+public class IntermediaryNotification extends BaseTimeEntity {
+
+        @Id
+        @GeneratedValue(strategy = GenerationType.IDENTITY)
+        private Long id;
+        private String image;
+        @Column(nullable = false)
+        private String title;
+        @Column(nullable = false)
+        private String body;
+        @ManyToOne(fetch = FetchType.LAZY)
+        @JoinColumn(name = "intermediary_id", nullable = false)
+        private Intermediary intermediary;  // 이동봉사 중개 id
+        @Column(nullable = false)
+        private Boolean isRead;
+
+        @Builder
+        public IntermediaryNotification(String image, String title, String body, Intermediary intermediary, Boolean isRead) {
+            this.image = image;
+            this.title = title;
+            this.body = body;
+            this.intermediary = intermediary;
+            this.isRead = isRead;
+        }
+    }
