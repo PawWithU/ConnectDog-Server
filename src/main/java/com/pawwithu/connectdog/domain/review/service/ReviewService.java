@@ -5,6 +5,7 @@ import com.pawwithu.connectdog.domain.application.repository.ApplicationReposito
 import com.pawwithu.connectdog.domain.fcm.entity.IntermediaryFcm;
 import com.pawwithu.connectdog.domain.fcm.repository.IntermediaryFcmRepository;
 import com.pawwithu.connectdog.domain.fcm.service.FcmService;
+import com.pawwithu.connectdog.domain.notification.entity.NotificationType;
 import com.pawwithu.connectdog.domain.post.entity.Post;
 import com.pawwithu.connectdog.domain.post.repository.PostRepository;
 import com.pawwithu.connectdog.domain.review.dto.request.ReviewCreateRequest;
@@ -81,7 +82,8 @@ public class ReviewService {
         // 알림 전송
         IntermediaryFcm intermediaryFcm = intermediaryFcmRepository.findByIntermediaryId(post.getIntermediary().getId()).orElse(null);
         if (intermediaryFcm != null) {
-            fcmService.sendMessageToIntermediary(intermediaryFcm.getFcmToken(), post.getIntermediary(), post.getMainImage().getImage(), REVIEW_REGISTERED.getTitle(), REVIEW_REGISTERED.getBody());
+            fcmService.sendMessageToIntermediary(intermediaryFcm.getFcmToken(), post.getIntermediary(), post.getMainImage().getImage(),
+                    NotificationType.REVIEW_REGISTERED, REVIEW_REGISTERED.getTitle(), REVIEW_REGISTERED.getBody());
         } else {
             log.info("----------이동봉사 후기 등록 알림 전송 실패----------");
         }

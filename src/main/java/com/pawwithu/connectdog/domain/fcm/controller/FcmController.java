@@ -4,6 +4,7 @@ import com.pawwithu.connectdog.domain.fcm.dto.request.FcmTokenRequest;
 import com.pawwithu.connectdog.domain.fcm.dto.request.IntermediaryFcmRequest;
 import com.pawwithu.connectdog.domain.fcm.dto.request.VolunteerFcmRequest;
 import com.pawwithu.connectdog.domain.fcm.service.FcmService;
+import com.pawwithu.connectdog.domain.notification.entity.NotificationType;
 import com.pawwithu.connectdog.error.dto.ErrorResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -64,7 +65,7 @@ public class FcmController {
             })
     @PostMapping("/fcm-test")
     public ResponseEntity<Void> testFcmToken(@Valid @RequestBody FcmTokenRequest request) {
-        fcmService.sendMessageToVolunteer(request.fcmToken(), null, null, APPLICATION.getTitleWithLoc("서울 강남구", "서울 도봉구"), APPLICATION.getBodyWithName("포윗유"));
+        fcmService.sendMessageToVolunteer(request.fcmToken(), null, null, NotificationType.APPLICATION, APPLICATION.getTitleWithLoc("서울 강남구", "서울 도봉구"), APPLICATION.getBodyWithName("포윗유"));
         return ResponseEntity.noContent().build();
     }
 

@@ -14,6 +14,7 @@ import com.pawwithu.connectdog.domain.fcm.repository.VolunteerFcmRepository;
 import com.pawwithu.connectdog.domain.intermediary.entity.Intermediary;
 import com.pawwithu.connectdog.domain.intermediary.repository.IntermediaryRepository;
 import com.pawwithu.connectdog.domain.notification.entity.IntermediaryNotification;
+import com.pawwithu.connectdog.domain.notification.entity.NotificationType;
 import com.pawwithu.connectdog.domain.notification.entity.VolunteerNotification;
 import com.pawwithu.connectdog.domain.notification.repository.IntermediaryNotificationRepository;
 import com.pawwithu.connectdog.domain.notification.repository.VolunteerNotificationRepository;
@@ -97,7 +98,8 @@ public class FcmService {
      * 알림 푸쉬를 보내는 역할을 하는 메서드
      * @param targetToken : 푸쉬 알림을 받을 클라이언트 앱의 식별 토큰
      * */
-    public void sendMessageToVolunteer(String targetToken, Volunteer volunteer, String image, String title, String body) {
+    public void sendMessageToVolunteer(String targetToken, Volunteer volunteer, String image,
+                                       NotificationType notificationType, String title, String body) {
 
         try {
             String message = makeMessage(targetToken, title, body);
@@ -118,6 +120,7 @@ public class FcmService {
             volunteerNotificationRepository.save(
                     VolunteerNotification.builder()
                             .image(image)
+                            .notificationType(notificationType)
                             .title(title)
                             .body(body)
                             .volunteer(volunteer)
@@ -135,7 +138,8 @@ public class FcmService {
         }
     }
 
-    public void sendMessageToIntermediary(String targetToken, Intermediary intermediary, String image, String title, String body) {
+    public void sendMessageToIntermediary(String targetToken, Intermediary intermediary, String image,
+                                          NotificationType notificationType, String title, String body) {
 
         try {
             String message = makeMessage(targetToken, title, body);
@@ -156,6 +160,7 @@ public class FcmService {
             intermediaryNotificationRepository.save(
                     IntermediaryNotification.builder()
                             .image(image)
+                            .notificationType(notificationType)
                             .title(title)
                             .body(body)
                             .intermediary(intermediary)

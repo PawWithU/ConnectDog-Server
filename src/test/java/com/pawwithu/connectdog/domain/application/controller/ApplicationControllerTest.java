@@ -139,14 +139,14 @@ class ApplicationControllerTest {
         ApplicationSuccessResponse response = new ApplicationSuccessResponse(true);
 
         //when
-        given(applicationService.deleteApplication(anyString(), anyLong())).willReturn(response);
+        given(applicationService.cancelApplication(anyString(), anyLong())).willReturn(response);
         ResultActions result = mockMvc.perform(
                 delete("/volunteers/applications/{applicationId}", applicationId)
         );
 
         //then
         result.andExpect(status().isOk());
-        verify(applicationService, times(1)).deleteApplication(anyString(), anyLong());
+        verify(applicationService, times(1)).cancelApplication(anyString(), anyLong());
     }
 
     @Test
@@ -173,14 +173,14 @@ class ApplicationControllerTest {
         ApplicationSuccessResponse response = new ApplicationSuccessResponse(true);
 
         //when
-        given(applicationService.cancelApplication(anyString(), anyLong())).willReturn(response);
+        given(applicationService.rejectApplication(anyString(), anyLong())).willReturn(response);
         ResultActions result = mockMvc.perform(
                 delete("/intermediaries/applications/{applicationId}", applicationId)
         );
 
         //then
         result.andExpect(status().isOk());
-        verify(applicationService, times(1)).cancelApplication(anyString(), anyLong());
+        verify(applicationService, times(1)).rejectApplication(anyString(), anyLong());
     }
 
     @Test
