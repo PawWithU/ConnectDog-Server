@@ -148,7 +148,7 @@ public class IntermediaryController {
     @PatchMapping("/intermediaries/my/profile")
     public ResponseEntity<Void> intermediaryMyProfile(@AuthenticationPrincipal UserDetails loginUser,
                                                       @RequestPart @Valid IntermediaryMyProfileRequest request,
-                                                      @RequestPart(name = "profileImage", required = false) MultipartFile profileImage) {
+                                                      @RequestPart(name = "files", required = false) MultipartFile profileImage) {
         intermediaryService.intermediaryMyProfile(loginUser.getUsername(), request, profileImage);
         return ResponseEntity.noContent().build();
     }
