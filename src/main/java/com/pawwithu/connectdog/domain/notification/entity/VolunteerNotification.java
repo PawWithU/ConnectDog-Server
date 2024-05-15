@@ -15,6 +15,9 @@ public class VolunteerNotification extends BaseTimeEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String image;
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private NotificationType notificationType;
     @Column(nullable = false)
     private String title;
     @Column(nullable = false)
@@ -26,8 +29,9 @@ public class VolunteerNotification extends BaseTimeEntity {
     private Boolean isRead;
 
     @Builder
-    public VolunteerNotification(String image, String title, String body, Volunteer volunteer, Boolean isRead) {
+    public VolunteerNotification(String image, NotificationType notificationType, String title, String body, Volunteer volunteer, Boolean isRead) {
         this.image = image;
+        this.notificationType = notificationType;
         this.title = title;
         this.body = body;
         this.volunteer = volunteer;
