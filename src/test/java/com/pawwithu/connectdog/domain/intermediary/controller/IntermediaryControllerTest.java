@@ -1,6 +1,7 @@
 package com.pawwithu.connectdog.domain.intermediary.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.pawwithu.connectdog.domain.dog.entity.DogSize;
 import com.pawwithu.connectdog.domain.intermediary.dto.request.IntermediaryMyProfileRequest;
 import com.pawwithu.connectdog.domain.intermediary.dto.request.IntermediaryPasswordRequest;
@@ -264,17 +265,18 @@ class IntermediaryControllerTest {
     }
 
     @Test
-    void 이동봉사_중개_마이페이지_프로필_수정() throws Exception {
+    void 모집자_마이페이지_프로필_수정() throws Exception {
         // given
-        IntermediaryMyProfileRequest request = new IntermediaryMyProfileRequest("한줄 소개 변경", "문의 받을 연락처 변경", "안내사항 변경");
-        MockMultipartFile profileImage = new MockMultipartFile("profileImage", "profileImage.png", "multipart/form-data", "uploadFile".getBytes(StandardCharsets.UTF_8));
-        MockMultipartFile intermediaryMyProfileRequest = new MockMultipartFile("request", null, "application/json", objectMapper.writeValueAsString(request).getBytes(StandardCharsets.UTF_8));
+        IntermediaryMyProfileRequest intermediaryMyProfileRequest = new IntermediaryMyProfileRequest("https://connectdog2.site", "한줄 소개 변경", "문의 받을 연락처 변경", "안내사항 변경");
+
+        MockMultipartFile files = new MockMultipartFile("files", "image1.png", "multipart/form-data", "uploadFile".getBytes(StandardCharsets.UTF_8));
+        MockMultipartFile request = new MockMultipartFile("request", "", "application/json", objectMapper.registerModule(new JavaTimeModule()).writeValueAsString(intermediaryMyProfileRequest).getBytes(StandardCharsets.UTF_8));
 
         // when
         ResultActions result = mockMvc.perform(MockMvcRequestBuilders
                 .multipart(HttpMethod.PATCH, "/intermediaries/my/profile")
-                .file(profileImage)
-                .file(intermediaryMyProfileRequest)
+                .file(request)
+                .file(files)
                 .accept(MediaType.APPLICATION_JSON)
                 .contentType(MediaType.MULTIPART_FORM_DATA));
 
