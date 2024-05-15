@@ -125,7 +125,7 @@ public class IntermediaryController {
         return ResponseEntity.ok(response);
     }
 
-    @Operation(summary = "이동봉사 중개 - 홈 화면 정보 조회", description = "홈 화면 정보를 조회합니다.",
+    @Operation(summary = "모집자 - 홈 화면 정보 조회", description = "홈 화면 정보를 조회합니다.",
             security = { @SecurityRequirement(name = "bearer-key") },
             responses = {@ApiResponse(responseCode = "200", description = "이동봉사 중개 홈 화면 정보 조회 성공")
                     , @ApiResponse(responseCode = "400"
@@ -138,7 +138,7 @@ public class IntermediaryController {
         return ResponseEntity.ok(response);
     }
 
-    @Operation(summary = "이동봉사 중개 - 마이페이지 프로필 수정", description = "마이페이지 프로필을 수정합니다.",
+    @Operation(summary = "모집자 - 마이페이지 프로필 수정", description = "마이페이지 프로필을 수정합니다.",
             security = { @SecurityRequirement(name = "bearer-key") },
             responses = {@ApiResponse(responseCode = "204", description = "마이페이지 프로필 수정 성공")
                     , @ApiResponse(responseCode = "400"

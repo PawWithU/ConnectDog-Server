@@ -128,15 +128,16 @@ public class IntermediaryService {
     public void intermediaryMyProfile(String email, IntermediaryMyProfileRequest intermediaryMyProfileRequest, MultipartFile profileFile) {
         Intermediary intermediary = intermediaryRepository.findByEmail(email).orElseThrow(() -> new BadRequestException(INTERMEDIARY_NOT_FOUND));
 
+        String url = intermediaryMyProfileRequest.url();
         String intro = intermediaryMyProfileRequest.intro();
         String contact = intermediaryMyProfileRequest.contact();
         String guide = intermediaryMyProfileRequest.guide();
 
         String profileImage = fileService.uploadFile(profileFile, "intermediary/profileImage");
         if (profileImage != null) {
-            intermediary.updateProfile(profileImage, intro, contact, guide);
+            intermediary.updateProfile(profileImage, url, intro, contact, guide);
         } else {
-            intermediary.updateProfileWithoutImage(intro, contact, guide);
+            intermediary.updateProfileWithoutImage(url, intro, contact, guide);
         }
 
     }
