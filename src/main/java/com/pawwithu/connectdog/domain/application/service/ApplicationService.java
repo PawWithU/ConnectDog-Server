@@ -98,7 +98,7 @@ public class ApplicationService {
         return oneApplication;
     }
 
-    public ApplicationSuccessResponse deleteApplication(String email, Long applicationId) {
+    public ApplicationSuccessResponse cancelApplication(String email, Long applicationId) {
         // 이동봉사자
         Volunteer volunteer = volunteerRepository.findByEmail(email).orElseThrow(() -> new BadRequestException(VOLUNTEER_NOT_FOUND));
         // 신청 내역 + post
@@ -140,7 +140,7 @@ public class ApplicationService {
         return isSuccess;
     }
 
-    public ApplicationSuccessResponse cancelApplication(String email, Long applicationId) {
+    public ApplicationSuccessResponse rejectApplication(String email, Long applicationId) {
         // 이동봉사 중개
         Intermediary intermediary = intermediaryRepository.findByEmail(email).orElseThrow(() -> new BadRequestException(INTERMEDIARY_NOT_FOUND));
         // 신청 내역 + post

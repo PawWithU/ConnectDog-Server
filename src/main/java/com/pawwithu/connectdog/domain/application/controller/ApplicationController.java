@@ -89,9 +89,9 @@ public class ApplicationController {
                     , content = @Content(schema = @Schema(implementation = ErrorResponse.class)))
             })
     @DeleteMapping( "/volunteers/applications/{applicationId}")
-    public ResponseEntity<ApplicationSuccessResponse> deleteApplication(@AuthenticationPrincipal UserDetails loginUser,
+    public ResponseEntity<ApplicationSuccessResponse> cancelApplication(@AuthenticationPrincipal UserDetails loginUser,
                                                                         @PathVariable Long applicationId) {
-        ApplicationSuccessResponse response = applicationService.deleteApplication(loginUser.getUsername(), applicationId);
+        ApplicationSuccessResponse response = applicationService.cancelApplication(loginUser.getUsername(), applicationId);
         return ResponseEntity.ok(response);
     }
 
@@ -115,9 +115,9 @@ public class ApplicationController {
                     , content = @Content(schema = @Schema(implementation = ErrorResponse.class)))
             })
     @DeleteMapping( "/intermediaries/applications/{applicationId}")
-    public ResponseEntity<ApplicationSuccessResponse> cancelApplication(@AuthenticationPrincipal UserDetails loginUser,
-                                                   @PathVariable Long applicationId) {
-        ApplicationSuccessResponse response = applicationService.cancelApplication(loginUser.getUsername(), applicationId);
+    public ResponseEntity<ApplicationSuccessResponse> rejectApplication(@AuthenticationPrincipal UserDetails loginUser,
+                                                                        @PathVariable Long applicationId) {
+        ApplicationSuccessResponse response = applicationService.rejectApplication(loginUser.getUsername(), applicationId);
         return ResponseEntity.ok(response);
     }
 
