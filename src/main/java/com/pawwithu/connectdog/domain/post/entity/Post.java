@@ -17,6 +17,7 @@ public class Post extends BaseTimeEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @Enumerated(EnumType.STRING)
     private PostStatus status; // 공고 상태
     @Column(length = 20, nullable = false)
     private String departureLoc; // 출발 지역
