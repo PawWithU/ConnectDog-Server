@@ -15,6 +15,7 @@ public class Dog extends BaseTimeEntity {
     private Long id;
     @Column(length = 8, nullable = false)
     private String name; // 강아지 이름
+    @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private DogSize size; // 강아지 사이즈
     @Column(length = 200)

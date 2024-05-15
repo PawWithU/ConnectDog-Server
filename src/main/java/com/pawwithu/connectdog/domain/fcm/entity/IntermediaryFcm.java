@@ -1,5 +1,6 @@
 package com.pawwithu.connectdog.domain.fcm.entity;
 
+import com.pawwithu.connectdog.common.entity.BaseTimeEntity;
 import com.pawwithu.connectdog.domain.intermediary.entity.Intermediary;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
@@ -10,7 +11,7 @@ import lombok.NoArgsConstructor;
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
-public class IntermediaryFcm {
+public class IntermediaryFcm extends BaseTimeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

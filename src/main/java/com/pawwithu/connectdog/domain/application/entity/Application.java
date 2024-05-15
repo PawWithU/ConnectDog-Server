@@ -17,6 +17,7 @@ public class Application extends BaseTimeEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private ApplicationStatus status; // 신청 상태
     @Column(length = 10, nullable = false)

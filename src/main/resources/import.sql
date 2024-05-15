@@ -13,64 +13,64 @@ INSERT INTO intermediary (id, email, password, name, url, auth_image, profile_im
 
 
 -- INSERT DOG (post status 0 - 모집중)
-INSERT INTO dog (id, name, size, specifics, created_date, modified_date) VALUES (1, '보리', 2, '켄넬 교육을 완료했습니다.', now(), now());
-INSERT INTO dog (id, name, size, specifics, created_date, modified_date) VALUES (2, '로키', 2, '로키는 겁이 조금 많은 강아지예요.', now(), now());
-INSERT INTO dog (id, name, size, specifics, created_date, modified_date) VALUES (3, '백설', 1, '백설이는 사람을 좋아합니다. 백설이와 함께 가는 길이 즐거우실 거예요~^^', now(), now());
-INSERT INTO dog (id, name, size, specifics, created_date, modified_date) VALUES (4, '베티', 2, '베티는 잘 짖지 않습니다.', now(), now());
-INSERT INTO dog (id, name, size, specifics, created_date, modified_date) VALUES (5, '테디', 1, '테디가 조금 아파서 예민할 수 있습니다. 테디가 짖거나 대소변을 가리지 못해도 잘 품어주실 수 있는 봉사자분이셨으면 좋겠습니다.', now(), now());
-INSERT INTO dog (id, name, size, specifics, created_date, modified_date) VALUES (6, '루시', 1, '루시는 켄넬 밖을 무서워해서 절대로 켄넬 밖으로 임의로 꺼내지 말아주세요', now(), now());
-INSERT INTO dog (id, name, size, specifics, created_date, modified_date) VALUES (7, '벤지', 2, null, now(), now());
-INSERT INTO dog (id, name, size, specifics, created_date, modified_date) VALUES (8, '몽몽이', 2, '차에서 노래를 트시면 노래소리에 맞춰서 짖을 수 있어요', now(), now());
-INSERT INTO dog (id, name, size, specifics, created_date, modified_date) VALUES (9, '주디', 1, null, now(), now());
-INSERT INTO dog (id, name, size, specifics, created_date, modified_date) VALUES (10, '하늘이', 2, '사람을 무서워하는 강아지입니다', now(), now());
+INSERT INTO dog (id, name, size, specifics, created_date, modified_date) VALUES (1, '보리', 'SMALL', '켄넬 교육을 완료했습니다.', now(), now());
+INSERT INTO dog (id, name, size, specifics, created_date, modified_date) VALUES (2, '로키', 'SMALL', '로키는 겁이 조금 많은 강아지예요.', now(), now());
+INSERT INTO dog (id, name, size, specifics, created_date, modified_date) VALUES (3, '백설', 'SMALL', '백설이는 사람을 좋아합니다. 백설이와 함께 가는 길이 즐거우실 거예요~^^', now(), now());
+INSERT INTO dog (id, name, size, specifics, created_date, modified_date) VALUES (4, '베티', 'MEDIUM', '베티는 잘 짖지 않습니다.', now(), now());
+INSERT INTO dog (id, name, size, specifics, created_date, modified_date) VALUES (5, '테디', 'MEDIUM', '테디가 조금 아파서 예민할 수 있습니다. 테디가 짖거나 대소변을 가리지 못해도 잘 품어주실 수 있는 봉사자분이셨으면 좋겠습니다.', now(), now());
+INSERT INTO dog (id, name, size, specifics, created_date, modified_date) VALUES (6, '루시', 'MEDIUM', '루시는 켄넬 밖을 무서워해서 절대로 켄넬 밖으로 임의로 꺼내지 말아주세요', now(), now());
+INSERT INTO dog (id, name, size, specifics, created_date, modified_date) VALUES (7, '벤지', 'MEDIUM', null, now(), now());
+INSERT INTO dog (id, name, size, specifics, created_date, modified_date) VALUES (8, '몽몽이', 'MEDIUM', '차에서 노래를 트시면 노래소리에 맞춰서 짖을 수 있어요', now(), now());
+INSERT INTO dog (id, name, size, specifics, created_date, modified_date) VALUES (9, '주디', 'MEDIUM', null, now(), now());
+INSERT INTO dog (id, name, size, specifics, created_date, modified_date) VALUES (10, '하늘이', 'MEDIUM', '사람을 무서워하는 강아지입니다', now(), now());
 
 
 -- INSERT DOG (post status 2 - 진행중)
-INSERT INTO dog (id, name, size, gender, weight, specifics, created_date, modified_date) VALUES (11, '대박이', 2, 1, 10.0, '켄넬 교육을 완료했습니다.', now(), now());
+INSERT INTO dog (id, name, size, specifics, created_date, modified_date) VALUES (11, '대박이', 'MEDIUM', '켄넬 교육을 완료했습니다.', now(), now());
 
 
 -- INSERT DOG (post status 3 - 봉사완료)
-INSERT INTO dog (id, name, size, specifics, created_date, modified_date) VALUES (12, '여름이', 2, '로키는 겁이 조금 많은 강아지에요.', now(), now());
-INSERT INTO dog (id, name, size, specifics, created_date, modified_date) VALUES (13, '겨울이', 1, '겨울이는 사람을 좋아합니다. 백설이와 함께 가는 길이 즐거우실 거예요~^^', now(), now());
-INSERT INTO dog (id, name, size, specifics, created_date, modified_date) VALUES (14, '짱구', 2, '짱구는 잘 짖지 않습니다.', now(), now());
-INSERT INTO dog (id, name, size, specifics, created_date, modified_date) VALUES (15, '로지', 1, '로지가 조금 아파서 예민할 수 있습니다. 테디가 짖거나 대소변을 가리지 못해도 잘 품어주실 수 있는 봉사자 분이셨으면 좋겠습니다.', now(), now());
-INSERT INTO dog (id, name, size, specifics, created_date, modified_date) VALUES (16, '가을이', 1, '가을이가 조금 아파서 예민할 수 있습니다. 가을이가 짖거나 대소변을 가리지 못해도 잘 품어주실 수 있는 봉사자 분이셨으면 좋겠습니다.', now(), now());
+INSERT INTO dog (id, name, size, specifics, created_date, modified_date) VALUES (12, '여름이', 'LARGE', '로키는 겁이 조금 많은 강아지에요.', now(), now());
+INSERT INTO dog (id, name, size, specifics, created_date, modified_date) VALUES (13, '겨울이', 'LARGE', '겨울이는 사람을 좋아합니다. 백설이와 함께 가는 길이 즐거우실 거예요~^^', now(), now());
+INSERT INTO dog (id, name, size, specifics, created_date, modified_date) VALUES (14, '짱구', 'LARGE', '짱구는 잘 짖지 않습니다.', now(), now());
+INSERT INTO dog (id, name, size, specifics, created_date, modified_date) VALUES (15, '로지', 'LARGE', '로지가 조금 아파서 예민할 수 있습니다. 테디가 짖거나 대소변을 가리지 못해도 잘 품어주실 수 있는 봉사자 분이셨으면 좋겠습니다.', now(), now());
+INSERT INTO dog (id, name, size, specifics, created_date, modified_date) VALUES (16, '가을이', 'LARGE', '가을이가 조금 아파서 예민할 수 있습니다. 가을이가 짖거나 대소변을 가리지 못해도 잘 품어주실 수 있는 봉사자 분이셨으면 좋겠습니다.', now(), now());
 
 
 -- INSERT POST (status 0 - 모집중)
-INSERT INTO post (id, status, departure_loc, arrival_loc, start_date, end_date, pick_up_time, is_kennel, content, intermediary_id, dog_id, created_date, modified_date) VALUES (1, 0, '서울 성동구', '부산 소래포구', '2023-11-26', '2023-11-26', '09:00', false, '보리와 함께 이동해 주실 분을 찾습니다~~^^ 보리가 드디어 4개월만에 입양처가 결정되어 이동봉사가 필요하게 되었습니다.\n\n서울부터 부산까지 먼 거리지만 보리의 새 가족을 찾기 위해 도와주실 수 있는 분이셨으면 좋겠습니다.', 2, 1, now(), now());
+INSERT INTO post (id, status, departure_loc, arrival_loc, start_date, end_date, pick_up_time, is_kennel, content, intermediary_id, dog_id, created_date, modified_date) VALUES (1, 'RECRUITING', '서울 성동구', '부산 소래포구', '2023-11-26', '2023-11-26', '09:00', false, '보리와 함께 이동해 주실 분을 찾습니다~~^^ 보리가 드디어 4개월만에 입양처가 결정되어 이동봉사가 필요하게 되었습니다.\n\n서울부터 부산까지 먼 거리지만 보리의 새 가족을 찾기 위해 도와주실 수 있는 분이셨으면 좋겠습니다.', 2, 1, now(), now());
 
-INSERT INTO post (id, status, departure_loc, arrival_loc, start_date, end_date, pick_up_time, is_kennel, content, intermediary_id, dog_id, created_date, modified_date) VALUES (2, 0, '서울 성동구', '대전 동구', '2023-11-25', '2023-11-30', '14:00', true, '안녕하세요^^~ 생명사랑의 터줏대감 로키가 감사하게도 입양처로 이동하게 되었습니다. 따뜻한 입양처로 가게 될 로키의 이동을 도와주실 이동봉사자분을 찾습니다.\n\n로키가 겁이 좀 많아도 사람과 친해지면 잘 치대는 우리 로키와 함께 대전으로 이동해 주실 봉사자분을 애타게 찾아봅니다 ㅎㅎ', 2, 2, now(), now());
+INSERT INTO post (id, status, departure_loc, arrival_loc, start_date, end_date, pick_up_time, is_kennel, content, intermediary_id, dog_id, created_date, modified_date) VALUES (2, 'RECRUITING', '서울 성동구', '대전 동구', '2023-11-25', '2023-11-30', '14:00', true, '안녕하세요^^~ 생명사랑의 터줏대감 로키가 감사하게도 입양처로 이동하게 되었습니다. 따뜻한 입양처로 가게 될 로키의 이동을 도와주실 이동봉사자분을 찾습니다.\n\n로키가 겁이 좀 많아도 사람과 친해지면 잘 치대는 우리 로키와 함께 대전으로 이동해 주실 봉사자분을 애타게 찾아봅니다 ㅎㅎ', 2, 2, now(), now());
 
-INSERT INTO post (id, status, departure_loc, arrival_loc, start_date, end_date, pick_up_time, is_kennel, content, intermediary_id, dog_id, created_date, modified_date) VALUES (3, 0, '서울 성동구', '서울 강서구', '2023-11-26', '2023-11-27', '16:00', false, '우리 귀여운 백설이 드디어 입양갑니다!! 소중한 입양처로 이동해 주실 이동봉사자분을 찾아요.\n\n백설이는 저희 보호소에서 제일 순하고 사람을 좋아하는 아이로, 처음 이동봉사를 하시는 분이더라도 쉽게 이동봉사를 진행해 보실 수 있을 거예요.', 2, 3, now(), now());
+INSERT INTO post (id, status, departure_loc, arrival_loc, start_date, end_date, pick_up_time, is_kennel, content, intermediary_id, dog_id, created_date, modified_date) VALUES (3, 'RECRUITING', '서울 성동구', '서울 강서구', '2023-11-26', '2023-11-27', '16:00', false, '우리 귀여운 백설이 드디어 입양갑니다!! 소중한 입양처로 이동해 주실 이동봉사자분을 찾아요.\n\n백설이는 저희 보호소에서 제일 순하고 사람을 좋아하는 아이로, 처음 이동봉사를 하시는 분이더라도 쉽게 이동봉사를 진행해 보실 수 있을 거예요.', 2, 3, now(), now());
 
-INSERT INTO post (id, status, departure_loc, arrival_loc, start_date, end_date, pick_up_time, is_kennel, content, intermediary_id, dog_id, created_date, modified_date) VALUES (4, 0, '서울 잠실구', '경기 고양시', '2023-11-25', '2023-11-27', '19:00', true, '서울부터 고양까지 이동봉사 해주실 분을 찾습니다. 베티가 급하게 이동해야 할 사정이 생겨 이동봉사자를 구하게 되었습니다. 베티는 조용한 강아지로 이동봉사를 할 때 쉽게 진행하실 수 있으실 거예요.', 2, 4, now(), now());
+INSERT INTO post (id, status, departure_loc, arrival_loc, start_date, end_date, pick_up_time, is_kennel, content, intermediary_id, dog_id, created_date, modified_date) VALUES (4, 'RECRUITING', '서울 잠실구', '경기 고양시', '2023-11-25', '2023-11-27', '19:00', true, '서울부터 고양까지 이동봉사 해주실 분을 찾습니다. 베티가 급하게 이동해야 할 사정이 생겨 이동봉사자를 구하게 되었습니다. 베티는 조용한 강아지로 이동봉사를 할 때 쉽게 진행하실 수 있으실 거예요.', 2, 4, now(), now());
 
-INSERT INTO post (id, status, departure_loc, arrival_loc, start_date, end_date, pick_up_time, is_kennel, content, intermediary_id, dog_id, created_date, modified_date) VALUES (5, 0, '서울 잠실구', '경북 구미시', '2023-11-27', '2023-12-01', '15:00', true, '테디가 건강이 악화되어 경북 구미에 있는 병원으로 급하게 이동이 필요한 상황입니다.\n\n최대한 빨리 이동이 필요한 상황으로 테디의 컨디션이 좋지 않아 그 부분을 이해해 주실 수 있는 봉사자 분이셨으면 좋겠습니다.', 2, 5, now(), now());
+INSERT INTO post (id, status, departure_loc, arrival_loc, start_date, end_date, pick_up_time, is_kennel, content, intermediary_id, dog_id, created_date, modified_date) VALUES (5, 'RECRUITING', '서울 잠실구', '경북 구미시', '2023-11-27', '2023-12-01', '15:00', true, '테디가 건강이 악화되어 경북 구미에 있는 병원으로 급하게 이동이 필요한 상황입니다.\n\n최대한 빨리 이동이 필요한 상황으로 테디의 컨디션이 좋지 않아 그 부분을 이해해 주실 수 있는 봉사자 분이셨으면 좋겠습니다.', 2, 5, now(), now());
 
-INSERT INTO post (id, status, departure_loc, arrival_loc, start_date, end_date, pick_up_time, is_kennel, content, intermediary_id, dog_id, created_date, modified_date) VALUES (6, 0, '서울 잠실구', '서울 관악구', '2023-11-28', '2023-12-03', '13:00', true, '겁이 많은 우리 루시가 가족을 찾게 되었습니다. 잠실에서 관악까지 짧은 거리지만 겁이 많은 우리 루시가 짖을 수도 있어 루시를 잘 데리고 가주실 이동봉사자분을 구합니다.', 2, 6, now(), now());
+INSERT INTO post (id, status, departure_loc, arrival_loc, start_date, end_date, pick_up_time, is_kennel, content, intermediary_id, dog_id, created_date, modified_date) VALUES (6, 'RECRUITING', '서울 잠실구', '서울 관악구', '2023-11-28', '2023-12-03', '13:00', true, '겁이 많은 우리 루시가 가족을 찾게 되었습니다. 잠실에서 관악까지 짧은 거리지만 겁이 많은 우리 루시가 짖을 수도 있어 루시를 잘 데리고 가주실 이동봉사자분을 구합니다.', 2, 6, now(), now());
 
-INSERT INTO post (id, status, departure_loc, arrival_loc, start_date, end_date, pick_up_time, is_kennel, content, intermediary_id, dog_id, created_date, modified_date) VALUES (7, 0, '대전 서구', '대전 동구', '2023-11-26', '2023-11-28', '11:00', true, '벤지가 급하게 병원을 가야합니다. 벤지의 눈 주위 염증이 심해서 급하게 수술을 진행하기 위해 서구에서 동구로 이동이 필요해 빠르게 이동시켜 주실 수 있는 봉사자분을 찾습니다.', 2, 7, now(), now());
+INSERT INTO post (id, status, departure_loc, arrival_loc, start_date, end_date, pick_up_time, is_kennel, content, intermediary_id, dog_id, created_date, modified_date) VALUES (7, 'RECRUITING', '대전 서구', '대전 동구', '2023-11-26', '2023-11-28', '11:00', true, '벤지가 급하게 병원을 가야합니다. 벤지의 눈 주위 염증이 심해서 급하게 수술을 진행하기 위해 서구에서 동구로 이동이 필요해 빠르게 이동시켜 주실 수 있는 봉사자분을 찾습니다.', 2, 7, now(), now());
 
-INSERT INTO post (id, status, departure_loc, arrival_loc, start_date, end_date, pick_up_time, is_kennel, content, intermediary_id, dog_id, created_date, modified_date) VALUES (8, 0, '경기 고양시', '서울 강남구', '2023-11-13', '2023-11-25', '13:00', false, '병원에서 위탁처 이동입니다. 켄넬이 없어 개인 켄넬 준비가 필요합니다.', 3, 8, now(), now());
+INSERT INTO post (id, status, departure_loc, arrival_loc, start_date, end_date, pick_up_time, is_kennel, content, intermediary_id, dog_id, created_date, modified_date) VALUES (8, 'RECRUITING', '경기 고양시', '서울 강남구', '2023-11-13', '2023-11-25', '13:00', false, '병원에서 위탁처 이동입니다. 켄넬이 없어 개인 켄넬 준비가 필요합니다.', 3, 8, now(), now());
 
-INSERT INTO post (id, status, departure_loc, arrival_loc, start_date, end_date, pick_up_time, is_kennel, content, intermediary_id, dog_id, created_date, modified_date) VALUES (9, 0, '인천 미추홀구', '서울 서초구', '2023-11-29', '2023-11-29', '16:00', true, '주디가 좋은 가족을 찾았습니다!\n\n임보자님이 스케쥴때문에 직접 픽업을 하지 못해 주디가 무사히 가족의 집인 서초구로 이동할 수 있도록 도와주실 수 있는 분을 찾습니다.', 3, 9, now(), now());
+INSERT INTO post (id, status, departure_loc, arrival_loc, start_date, end_date, pick_up_time, is_kennel, content, intermediary_id, dog_id, created_date, modified_date) VALUES (9, 'RECRUITING', '인천 미추홀구', '서울 서초구', '2023-11-29', '2023-11-29', '16:00', true, '주디가 좋은 가족을 찾았습니다!\n\n임보자님이 스케쥴때문에 직접 픽업을 하지 못해 주디가 무사히 가족의 집인 서초구로 이동할 수 있도록 도와주실 수 있는 분을 찾습니다.', 3, 9, now(), now());
 
-INSERT INTO post (id, status, departure_loc, arrival_loc, start_date, end_date, pick_up_time, is_kennel, content, intermediary_id, dog_id, created_date, modified_date) VALUES (10, 0, '서울 광진구', '경기 평택시', '2023-12-01', '2023-12-01', '11:00', true, '하늘이가 단기임보처를 구해 단기임보처로의 이동이 필요합니다. 사람보다는 강아지랑 더 친한 하늘이기에 사람하고 더 가까워지기 위한 연습을 위해 임시보호처로 이동합니다~', 3, 10, now(), now());
+INSERT INTO post (id, status, departure_loc, arrival_loc, start_date, end_date, pick_up_time, is_kennel, content, intermediary_id, dog_id, created_date, modified_date) VALUES (10, 'RECRUITING', '서울 광진구', '경기 평택시', '2023-12-01', '2023-12-01', '11:00', true, '하늘이가 단기임보처를 구해 단기임보처로의 이동이 필요합니다. 사람보다는 강아지랑 더 친한 하늘이기에 사람하고 더 가까워지기 위한 연습을 위해 임시보호처로 이동합니다~', 3, 10, now(), now());
 
 -- INSERT POST (status 2 - 진행중)
-INSERT INTO post (id, status, departure_loc, arrival_loc, start_date, end_date, pick_up_time, is_kennel, content, intermediary_id, dog_id, created_date, modified_date) VALUES (11, 2, '서울 서대문구', '서울 동대문구', '2023-12-12', '2023-12-12', '09:00', true, '우리 귀여운 대박이가 드디어 새로운 가족을 찾아서 떠납니다! 대박이와의 이동을 도와주실 분을 찾습니다!', 2, 11, now(), now());
+INSERT INTO post (id, status, departure_loc, arrival_loc, start_date, end_date, pick_up_time, is_kennel, content, intermediary_id, dog_id, created_date, modified_date) VALUES (11, 'PROGRESSING', '서울 서대문구', '서울 동대문구', '2023-12-12', '2023-12-12', '09:00', true, '우리 귀여운 대박이가 드디어 새로운 가족을 찾아서 떠납니다! 대박이와의 이동을 도와주실 분을 찾습니다!', 2, 11, now(), now());
 
 -- INSERT POST (status 3 - 봉사완료)
-INSERT INTO post (id, status, departure_loc, arrival_loc, start_date, end_date, pick_up_time, is_kennel, content, intermediary_id, dog_id, created_date, modified_date) VALUES (12, 3, '서울 성북구', '경기 성남시', '2023-02-21', '2023-03-21', '16:00', true, '안녕하세요^^~ 생명사랑의 터줏대감 여름이가 감사하게도 입양처로 이동하게 되었습니다. 따뜻한 입양처로 가게 될 여름이의 이동을 도와주실 이동봉사자분을 찾습니다.\n\n여름이가 겁이 좀 많아도 사람과 친해지면 잘 치대는 우리 여름이와 함께 성남으로 이동해주실 봉사자분을 애타게 찾아봅니다 ㅎㅎ', 2, 12, now(), now());
+INSERT INTO post (id, status, departure_loc, arrival_loc, start_date, end_date, pick_up_time, is_kennel, content, intermediary_id, dog_id, created_date, modified_date) VALUES (12, 'COMPLETED', '서울 성북구', '경기 성남시', '2023-02-21', '2023-03-21', '16:00', true, '안녕하세요^^~ 생명사랑의 터줏대감 여름이가 감사하게도 입양처로 이동하게 되었습니다. 따뜻한 입양처로 가게 될 여름이의 이동을 도와주실 이동봉사자분을 찾습니다.\n\n여름이가 겁이 좀 많아도 사람과 친해지면 잘 치대는 우리 여름이와 함께 성남으로 이동해주실 봉사자분을 애타게 찾아봅니다 ㅎㅎ', 2, 12, now(), now());
 
-INSERT INTO post (id, status, departure_loc, arrival_loc, start_date, end_date, pick_up_time, is_kennel, content, intermediary_id, dog_id, created_date, modified_date) VALUES (13, 3, '서울 중랑구', '서울 노원구', '2023-04-29', '2023-04-29', '17:00', false, '우리 귀여운 겨울이 드디어 입양갑니다!! 소중한 입양처로 이동해 주실 이동봉사자 분을 찾아요.\n\n겨울이는 저희 보호소에서 제일 순하고 사람을 좋아하는 아이로, 처음 이동봉사를 하시는 분이더라도 쉽게 이동봉사를 진행해 보실 수 있을거예요. ', 2, 13, now(), now());
+INSERT INTO post (id, status, departure_loc, arrival_loc, start_date, end_date, pick_up_time, is_kennel, content, intermediary_id, dog_id, created_date, modified_date) VALUES (13, 'COMPLETED', '서울 중랑구', '서울 노원구', '2023-04-29', '2023-04-29', '17:00', false, '우리 귀여운 겨울이 드디어 입양갑니다!! 소중한 입양처로 이동해 주실 이동봉사자 분을 찾아요.\n\n겨울이는 저희 보호소에서 제일 순하고 사람을 좋아하는 아이로, 처음 이동봉사를 하시는 분이더라도 쉽게 이동봉사를 진행해 보실 수 있을거예요. ', 2, 13, now(), now());
 
-INSERT INTO post (id, status, departure_loc, arrival_loc, start_date, end_date, pick_up_time, is_kennel, content, intermediary_id, dog_id, created_date, modified_date) VALUES (14, 3, '경기 용인시', '경기 수원시', '2023-12-01', '2023-12-01', '11:00', true, '용인부터 수원까지 이동봉사 해주실 분을 찾습니다. 짱구가 급하게 이동해야 할 사정이 생겨 이동봉사자를 구하게 되었습니다. 짱구는 조용한 강아지로 이동봉사를 할 때 쉽게 진행하실 수 있으실 거예요.', 2, 14, now(), now());
+INSERT INTO post (id, status, departure_loc, arrival_loc, start_date, end_date, pick_up_time, is_kennel, content, intermediary_id, dog_id, created_date, modified_date) VALUES (14, 'COMPLETED', '경기 용인시', '경기 수원시', '2023-12-01', '2023-12-01', '11:00', true, '용인부터 수원까지 이동봉사 해주실 분을 찾습니다. 짱구가 급하게 이동해야 할 사정이 생겨 이동봉사자를 구하게 되었습니다. 짱구는 조용한 강아지로 이동봉사를 할 때 쉽게 진행하실 수 있으실 거예요.', 2, 14, now(), now());
 
-INSERT INTO post (id, status, departure_loc, arrival_loc, start_date, end_date, pick_up_time, is_kennel, content, intermediary_id, dog_id, created_date, modified_date) VALUES (15, 3, '경기 화성시', '서울 잠실구', '2023-10-14', '2023-10-14', '10:00', true, '로지가 건강이 악화되어 서울 잠실에 있는 병원으로 급하게 이동이 필요한 상황입니다. 최대한 빨리 이동이 필요한 상황으로 로지의 컨디션이 좋지 않아 그 부분을 이해해 주실 수 있는 봉사자 분이셨으면 좋겠습니다.', 2, 15, now(), now());
+INSERT INTO post (id, status, departure_loc, arrival_loc, start_date, end_date, pick_up_time, is_kennel, content, intermediary_id, dog_id, created_date, modified_date) VALUES (15, 'COMPLETED', '경기 화성시', '서울 잠실구', '2023-10-14', '2023-10-14', '10:00', true, '로지가 건강이 악화되어 서울 잠실에 있는 병원으로 급하게 이동이 필요한 상황입니다. 최대한 빨리 이동이 필요한 상황으로 로지의 컨디션이 좋지 않아 그 부분을 이해해 주실 수 있는 봉사자 분이셨으면 좋겠습니다.', 2, 15, now(), now());
 
-INSERT INTO post (id, status, departure_loc, arrival_loc, start_date, end_date, pick_up_time, is_kennel, content, intermediary_id, dog_id, created_date, modified_date) VALUES (16, 3, '경기 화성시', '서울 잠실구', '2023-10-14', '2023-10-14', '10:00', true, '가을이가 이동봉사 해주실 분을 찾습니다. 최대한 빨리 이동이 필요한 상황으로 로지의 컨디션이 좋지 않아 그 부분을 이해해 주실 수 있는 봉사자 분이셨으면 좋겠습니다.', 3, 16, now(), now());
+INSERT INTO post (id, status, departure_loc, arrival_loc, start_date, end_date, pick_up_time, is_kennel, content, intermediary_id, dog_id, created_date, modified_date) VALUES (16, 'COMPLETED', '경기 화성시', '서울 잠실구', '2023-10-14', '2023-10-14', '10:00', true, '가을이가 이동봉사 해주실 분을 찾습니다. 최대한 빨리 이동이 필요한 상황으로 로지의 컨디션이 좋지 않아 그 부분을 이해해 주실 수 있는 봉사자 분이셨으면 좋겠습니다.', 3, 16, now(), now());
 
 
 -- INSERT POST_IMAGE
@@ -117,12 +117,12 @@ INSERT INTO volunteer (id, email, password, nickname, profile_image_num, name, p
 
 
 -- INSERT APPLICATION (status 2 - 봉사완료)
-INSERT INTO application (id, status, volunteer_name, phone, content, post_id, intermediary_id, volunteer_id, created_date, modified_date) VALUES (1, 1, '민경혁', '01047391908', '이동봉사 신청합니다1!', 11, 2, 2, now(), now());
-INSERT INTO application (id, status, volunteer_name, phone, content, post_id, intermediary_id, volunteer_id, created_date, modified_date) VALUES (2, 2, '민경혁', '01047391908', '이동봉사 신청합니다2!', 12, 2, 2, now(), now());
-INSERT INTO application (id, status, volunteer_name, phone, content, post_id, intermediary_id, volunteer_id, created_date, modified_date) VALUES (3, 2, '민경혁', '01047391908', '이동봉사 신청합니다3!', 13, 2, 2, now(), now());
-INSERT INTO application (id, status, volunteer_name, phone, content, post_id, intermediary_id, volunteer_id, created_date, modified_date) VALUES (4, 2, '민경혁', '01047391908', '이동봉사 신청합니다4!', 14, 2, 2, now(), now());
-INSERT INTO application (id, status, volunteer_name, phone, content, post_id, intermediary_id, volunteer_id, created_date, modified_date) VALUES (5, 2, '민경혁', '01047391908', '이동봉사 신청합니다5!', 15, 2, 2, now(), now());
-INSERT INTO application (id, status, volunteer_name, phone, content, post_id, intermediary_id, volunteer_id, created_date, modified_date) VALUES (6, 2, '한호정', '01047391908', '이동봉사 신청합니다6!', 16, 3, 1, now(), now());
+INSERT INTO application (id, status, volunteer_name, phone, content, post_id, intermediary_id, volunteer_id, created_date, modified_date) VALUES (1, 'COMPLETED', '민경혁', '01047391908', '이동봉사 신청합니다1!', 11, 2, 2, now(), now());
+INSERT INTO application (id, status, volunteer_name, phone, content, post_id, intermediary_id, volunteer_id, created_date, modified_date) VALUES (2, 'COMPLETED', '민경혁', '01047391908', '이동봉사 신청합니다2!', 12, 2, 2, now(), now());
+INSERT INTO application (id, status, volunteer_name, phone, content, post_id, intermediary_id, volunteer_id, created_date, modified_date) VALUES (3, 'COMPLETED', '민경혁', '01047391908', '이동봉사 신청합니다3!', 13, 2, 2, now(), now());
+INSERT INTO application (id, status, volunteer_name, phone, content, post_id, intermediary_id, volunteer_id, created_date, modified_date) VALUES (4, 'COMPLETED', '민경혁', '01047391908', '이동봉사 신청합니다4!', 14, 2, 2, now(), now());
+INSERT INTO application (id, status, volunteer_name, phone, content, post_id, intermediary_id, volunteer_id, created_date, modified_date) VALUES (5, 'COMPLETED', '민경혁', '01047391908', '이동봉사 신청합니다5!', 15, 2, 2, now(), now());
+INSERT INTO application (id, status, volunteer_name, phone, content, post_id, intermediary_id, volunteer_id, created_date, modified_date) VALUES (6, 'COMPLETED', '한호정', '01047391908', '이동봉사 신청합니다6!', 16, 3, 1, now(), now());
 
 -- INSERT REVIEW
 INSERT INTO review (id, content, post_id, volunteer_id, created_date, modified_date) VALUES (1, '여름이의 새 삶의 첫 걸음을 함께 했어요!! 첫 봉사라 너무 떨렸는데 다행이도 여름이가 잘 따라와줬습니다\n천구름 관계자 분들도 잘 설명해 주셨어요! 다음에 또 봉사할게요~~', 12, 2, now(), now());
@@ -207,100 +207,100 @@ INSERT INTO intermediary (id, email, password, name, url, auth_image, profile_im
 
 
 -- INSERT DOG (post status 0 - 모집중)
-INSERT INTO dog (id, name, size, specifics, created_date, modified_date) VALUES (17, '비키', 1, '애착 인형과 함께 이동해야 해요', now(), now());
-INSERT INTO dog (id, name, size, specifics, created_date, modified_date) VALUES (18, '푸딩이', 2, '푸딩이는 사람을 좋아합니다. 슬기와 함께 가는 길이 즐거우실 거예요~^^', now(), now());
-INSERT INTO dog (id, name, size, specifics, created_date, modified_date) VALUES (19, '포포', 2, '포포와 함께 가는 길이 즐거우실 거예요~^^', now(), now());
-INSERT INTO dog (id, name, size, specifics, created_date, modified_date) VALUES (20, '꿈돌이', 2, '켄넬을 조금 무서워해서 켄넬을 긁을 수 있어요.', now(), now());
-INSERT INTO dog (id, name, size, specifics, created_date, modified_date) VALUES (21, '별님', 1, '침을 조금 많이 흘려요.', now(), now());
-INSERT INTO dog (id, name, size, specifics, created_date, modified_date) VALUES (22, '햇님', 2, '햇님이는 사람을 좋아합니다. 햇님이와 함께 가는 길이 즐거우실 거예요~^^', now(), now());
-INSERT INTO dog (id, name, size, specifics, created_date, modified_date) VALUES (23, '달님', 1, '달님이는 사람을 좋아합니다. 달님이와 함께 가는 길이 즐거우실 거예요~^^', now(), now());
-INSERT INTO dog (id, name, size, specifics, created_date, modified_date) VALUES (24, '태양이', 2, '태양이는 사람을 좋아합니다. 태양이와 함께 가는 길이 즐거우실 거예요~^^', now(), now());
-INSERT INTO dog (id, name, size, specifics, created_date, modified_date) VALUES (25, '바다', 2, '시끄러우면 짖을 수 있어요.', now(), now());
-INSERT INTO dog (id, name, size, specifics, created_date, modified_date) VALUES (26, '윤슬', 1, '자동차를 보면 따라가요.', now(), now());
-INSERT INTO dog (id, name, size, specifics, created_date, modified_date) VALUES (27, '슬기', 2, '슬기는 사람을 좋아합니다. 슬기와 함께 가는 길이 즐거우실 거예요~^^', now(), now());
-INSERT INTO dog (id, name, size, specifics, created_date, modified_date) VALUES (28, '슬구', 1, '슬구는 겁이 조금 많은 강아지예요.', now(), now());
+INSERT INTO dog (id, name, size, specifics, created_date, modified_date) VALUES (17, '비키', 'LARGE', '애착 인형과 함께 이동해야 해요', now(), now());
+INSERT INTO dog (id, name, size, specifics, created_date, modified_date) VALUES (18, '푸딩이', 'LARGE', '푸딩이는 사람을 좋아합니다. 슬기와 함께 가는 길이 즐거우실 거예요~^^', now(), now());
+INSERT INTO dog (id, name, size, specifics, created_date, modified_date) VALUES (19, '포포', 'LARGE', '포포와 함께 가는 길이 즐거우실 거예요~^^', now(), now());
+INSERT INTO dog (id, name, size, specifics, created_date, modified_date) VALUES (20, '꿈돌이', 'LARGE', '켄넬을 조금 무서워해서 켄넬을 긁을 수 있어요.', now(), now());
+INSERT INTO dog (id, name, size, specifics, created_date, modified_date) VALUES (21, '별님', 'LARGE', '침을 조금 많이 흘려요.', now(), now());
+INSERT INTO dog (id, name, size, specifics, created_date, modified_date) VALUES (22, '햇님', 'LARGE', '햇님이는 사람을 좋아합니다. 햇님이와 함께 가는 길이 즐거우실 거예요~^^', now(), now());
+INSERT INTO dog (id, name, size, specifics, created_date, modified_date) VALUES (23, '달님', 'SMALL', '달님이는 사람을 좋아합니다. 달님이와 함께 가는 길이 즐거우실 거예요~^^', now(), now());
+INSERT INTO dog (id, name, size, specifics, created_date, modified_date) VALUES (24, '태양이', 'SMALL', '태양이는 사람을 좋아합니다. 태양이와 함께 가는 길이 즐거우실 거예요~^^', now(), now());
+INSERT INTO dog (id, name, size, specifics, created_date, modified_date) VALUES (25, '바다', 'SMALL', '시끄러우면 짖을 수 있어요.', now(), now());
+INSERT INTO dog (id, name, size, specifics, created_date, modified_date) VALUES (26, '윤슬', 'SMALL', '자동차를 보면 따라가요.', now(), now());
+INSERT INTO dog (id, name, size, specifics, created_date, modified_date) VALUES (27, '슬기', 'SMALL', '슬기는 사람을 좋아합니다. 슬기와 함께 가는 길이 즐거우실 거예요~^^', now(), now());
+INSERT INTO dog (id, name, size, specifics, created_date, modified_date) VALUES (28, '슬구', 'SMALL', '슬구는 겁이 조금 많은 강아지예요.', now(), now());
 
 -- INSERT DOG (post status 1 - 승인대기중)
-INSERT INTO dog (id, name, size, specifics, created_date, modified_date) VALUES (29, '잔디', 1, '산책을 좋아하지만 이동봉사 중에는 시키지 마세요', now(), now());
-INSERT INTO dog (id, name, size, specifics, created_date, modified_date) VALUES (30, '잔디', 1, '산책을 좋아하지만 이동봉사 중에는 시키지 마세요', now(), now());
-INSERT INTO dog (id, name, size, specifics, created_date, modified_date) VALUES (31, '잔디', 1, '산책을 좋아하지만 이동봉사 중에는 시키지 마세요', now(), now());
-INSERT INTO dog (id, name, size, specifics, created_date, modified_date) VALUES (32, '잔디', 1, '산책을 좋아하지만 이동봉사 중에는 시키지 마세요', now(), now());
+INSERT INTO dog (id, name, size, specifics, created_date, modified_date) VALUES (29, '잔디', 'SMALL', '산책을 좋아하지만 이동봉사 중에는 시키지 마세요', now(), now());
+INSERT INTO dog (id, name, size, specifics, created_date, modified_date) VALUES (30, '잔디', 'SMALL', '산책을 좋아하지만 이동봉사 중에는 시키지 마세요', now(), now());
+INSERT INTO dog (id, name, size, specifics, created_date, modified_date) VALUES (31, '잔디', 'SMALL', '산책을 좋아하지만 이동봉사 중에는 시키지 마세요', now(), now());
+INSERT INTO dog (id, name, size, specifics, created_date, modified_date) VALUES (32, '잔디', 'SMALL', '산책을 좋아하지만 이동봉사 중에는 시키지 마세요', now(), now());
 
 -- INSERT DOG (post status 2 - 진행중)
-INSERT INTO dog (id, name, size, specifics, created_date, modified_date) VALUES (33, '동글이', 2, '켄넬 교육을 완료했습니다.', now(), now());
-INSERT INTO dog (id, name, size, specifics, created_date, modified_date) VALUES (34, '동글이', 2, '켄넬 교육을 완료했습니다.', now(), now());
-INSERT INTO dog (id, name, size, specifics, created_date, modified_date) VALUES (35, '동글이', 2, '켄넬 교육을 완료했습니다.', now(), now());
-INSERT INTO dog (id, name, size, specifics, created_date, modified_date) VALUES (36, '동글이', 2, '켄넬 교육을 완료했습니다.', now(), now());
+INSERT INTO dog (id, name, size, specifics, created_date, modified_date) VALUES (33, '동글이', 'SMALL', '켄넬 교육을 완료했습니다.', now(), now());
+INSERT INTO dog (id, name, size, specifics, created_date, modified_date) VALUES (34, '동글이', 'SMALL', '켄넬 교육을 완료했습니다.', now(), now());
+INSERT INTO dog (id, name, size, specifics, created_date, modified_date) VALUES (35, '동글이', 'SMALL', '켄넬 교육을 완료했습니다.', now(), now());
+INSERT INTO dog (id, name, size, specifics, created_date, modified_date) VALUES (36, '동글이', 'SMALL', '켄넬 교육을 완료했습니다.', now(), now());
 
 
 -- INSERT DOG (post status 3 - 봉사완료)
-INSERT INTO dog (id, name, size, specifics, created_date, modified_date) VALUES (37, '몽이', 2, null, now(), now());
-INSERT INTO dog (id, name, size, specifics, created_date, modified_date) VALUES (38, '코코', 2, '겁이 조금 많지만 순해요.', now(), now());
-INSERT INTO dog (id, name, size, specifics, created_date, modified_date) VALUES (39, '율무', 1, '켄넬 교육을 완료했습니다.', now(), now());
-INSERT INTO dog (id, name, size, specifics, created_date, modified_date) VALUES (40, '찹쌀이', 2, null, now(), now());
-INSERT INTO dog (id, name, size, specifics, created_date, modified_date) VALUES (41, '수수', 1, null, now(), now());
-INSERT INTO dog (id, name, size, specifics, created_date, modified_date) VALUES (42, '호두', 1, null, now(), now());
-INSERT INTO dog (id, name, size, specifics, created_date, modified_date) VALUES (43, '감자', 2, '사람들을 좋아해서 순해요.', now(), now());
-INSERT INTO dog (id, name, size, specifics, created_date, modified_date) VALUES (44, '베키', 2, '조금 심하게 짖을 수 있어요.', now(), now());
+INSERT INTO dog (id, name, size, specifics, created_date, modified_date) VALUES (37, '몽이', 'SMALL', null, now(), now());
+INSERT INTO dog (id, name, size, specifics, created_date, modified_date) VALUES (38, '코코', 'SMALL', '겁이 조금 많지만 순해요.', now(), now());
+INSERT INTO dog (id, name, size, specifics, created_date, modified_date) VALUES (39, '율무', 'SMALL', '켄넬 교육을 완료했습니다.', now(), now());
+INSERT INTO dog (id, name, size, specifics, created_date, modified_date) VALUES (40, '찹쌀이', 'SMALL', null, now(), now());
+INSERT INTO dog (id, name, size, specifics, created_date, modified_date) VALUES (41, '수수', 'SMALL', null, now(), now());
+INSERT INTO dog (id, name, size, specifics, created_date, modified_date) VALUES (42, '호두', 'SMALL', null, now(), now());
+INSERT INTO dog (id, name, size, specifics, created_date, modified_date) VALUES (43, '감자', 'SMALL', '사람들을 좋아해서 순해요.', now(), now());
+INSERT INTO dog (id, name, size, specifics, created_date, modified_date) VALUES (44, '베키', 'SMALL', '조금 심하게 짖을 수 있어요.', now(), now());
 
 
 
 -- INSERT POST (status 0 - 모집중)
-INSERT INTO post (id, status, departure_loc, arrival_loc, start_date, end_date, pick_up_time, is_kennel, content, intermediary_id, dog_id, created_date, modified_date) VALUES (17, 0, '서울 중량구', '서울 서초구', '2023-12-19', '2023-12-19', '10:30', true, '비키가 좋은 가족을 찾았습니다!\n\n임보자님이 스케쥴 때문에 직접 픽업을 하지 못해 비키가 무사히 가족의 집인 서초구로 이동할 수 있도록 도와주실 수 있는 분을 찾습니다.', 4, 17, now(), now());
+INSERT INTO post (id, status, departure_loc, arrival_loc, start_date, end_date, pick_up_time, is_kennel, content, intermediary_id, dog_id, created_date, modified_date) VALUES (17, 'RECRUITING', '서울 중량구', '서울 서초구', '2023-12-19', '2023-12-19', '10:30', true, '비키가 좋은 가족을 찾았습니다!\n\n임보자님이 스케쥴 때문에 직접 픽업을 하지 못해 비키가 무사히 가족의 집인 서초구로 이동할 수 있도록 도와주실 수 있는 분을 찾습니다.', 4, 17, now(), now());
 
-INSERT INTO post (id, status, departure_loc, arrival_loc, start_date, end_date, pick_up_time, is_kennel, content, intermediary_id, dog_id, created_date, modified_date) VALUES (18, 0, '서울 중구', '서울 노원구', '2023-11-29', '2023-11-29', '10:00', true, '푸딩이가 단기 임보처를 구해 단기 임보처로의 이동이 필요합니다. 사람보다는 강아지랑 더 친한 푸딩이기에 사람하고 더 가까워지기 위한 연습을 위해 임시보호처로 이동합니다~', 4, 18, now(), now());
+INSERT INTO post (id, status, departure_loc, arrival_loc, start_date, end_date, pick_up_time, is_kennel, content, intermediary_id, dog_id, created_date, modified_date) VALUES (18, 'RECRUITING', '서울 중구', '서울 노원구', '2023-11-29', '2023-11-29', '10:00', true, '푸딩이가 단기 임보처를 구해 단기 임보처로의 이동이 필요합니다. 사람보다는 강아지랑 더 친한 푸딩이기에 사람하고 더 가까워지기 위한 연습을 위해 임시보호처로 이동합니다~', 4, 18, now(), now());
 
-INSERT INTO post (id, status, departure_loc, arrival_loc, start_date, end_date, pick_up_time, is_kennel, content, intermediary_id, dog_id, created_date, modified_date) VALUES (19, 0, '경기 화성시', '경기 안산시', '2023-12-24', '2023-12-24', '08:00', true, '우리 귀여운 포포가 드디어 새로운 가족을 찾아서 떠납니다! 포포의 이동을 도와주실 분을 찾습니다!', 4, 19, now(), now());
+INSERT INTO post (id, status, departure_loc, arrival_loc, start_date, end_date, pick_up_time, is_kennel, content, intermediary_id, dog_id, created_date, modified_date) VALUES (19, 'RECRUITING', '경기 화성시', '경기 안산시', '2023-12-24', '2023-12-24', '08:00', true, '우리 귀여운 포포가 드디어 새로운 가족을 찾아서 떠납니다! 포포의 이동을 도와주실 분을 찾습니다!', 4, 19, now(), now());
 
-INSERT INTO post (id, status, departure_loc, arrival_loc, start_date, end_date, pick_up_time, is_kennel, content, intermediary_id, dog_id, created_date, modified_date) VALUES (20, 0, '인천 연수구', '인천 미추홀구', '2023-12-31', '2023-12-31', '06:00', true, '안녕하세요^^~ 꿈돌이가 감사하게도 입양처로 이동하게 되었습니다. 따뜻한 입양처로 가게 될 꿈돌이의 이동을 도와주실 이동봉사자분을 찾습니다.\n\n꿈돌이가 겁이 좀 많아도 사람과 친해지면 잘 치대는 우리 꿈돌이와 함께 미추홀구으로 이동해 주실 봉사자분을 애타게 찾아봅니다 ㅎㅎ', 5, 20, now(), now());
+INSERT INTO post (id, status, departure_loc, arrival_loc, start_date, end_date, pick_up_time, is_kennel, content, intermediary_id, dog_id, created_date, modified_date) VALUES (20, 'RECRUITING', '인천 연수구', '인천 미추홀구', '2023-12-31', '2023-12-31', '06:00', true, '안녕하세요^^~ 꿈돌이가 감사하게도 입양처로 이동하게 되었습니다. 따뜻한 입양처로 가게 될 꿈돌이의 이동을 도와주실 이동봉사자분을 찾습니다.\n\n꿈돌이가 겁이 좀 많아도 사람과 친해지면 잘 치대는 우리 꿈돌이와 함께 미추홀구으로 이동해 주실 봉사자분을 애타게 찾아봅니다 ㅎㅎ', 5, 20, now(), now());
 
-INSERT INTO post (id, status, departure_loc, arrival_loc, start_date, end_date, pick_up_time, is_kennel, content, intermediary_id, dog_id, created_date, modified_date) VALUES (21, 0, '서울 은평구', '경기 의정부시', '2024-01-24', '2024-01-24', '14:00', false, '우리 귀여운 별님이가 드디어 입양갑니다!! 소중한 입양처로 이동해 주실 이동봉사자 분을 찾아요.\n\n별님이는 저희 보호소에서 제일 순하고 사람을 좋아하는 아이로, 처음 이동봉사를 하시는 분이더라도 쉽게 이동봉사를 진행해 보실 수 있을 거예요.', 5, 21, now(), now());
+INSERT INTO post (id, status, departure_loc, arrival_loc, start_date, end_date, pick_up_time, is_kennel, content, intermediary_id, dog_id, created_date, modified_date) VALUES (21, 'RECRUITING', '서울 은평구', '경기 의정부시', '2024-01-24', '2024-01-24', '14:00', false, '우리 귀여운 별님이가 드디어 입양갑니다!! 소중한 입양처로 이동해 주실 이동봉사자 분을 찾아요.\n\n별님이는 저희 보호소에서 제일 순하고 사람을 좋아하는 아이로, 처음 이동봉사를 하시는 분이더라도 쉽게 이동봉사를 진행해 보실 수 있을 거예요.', 5, 21, now(), now());
 
-INSERT INTO post (id, status, departure_loc, arrival_loc, start_date, end_date, pick_up_time, is_kennel, content, intermediary_id, dog_id, created_date, modified_date) VALUES (22, 0, '서울 잠실구', '경기 양주시', '2024-01-03', '2024-01-03', '11:00', true, '서울 잠실구부터 경기 양주까지 먼 길이지만 이동봉사 해주실 분을 찾습니다. 햇님이가 급하게 이동해야 할 사정이 생겨 이동봉사자를 구하게 되었습니다. 햇님이는 조용한 강아지로 이동봉사를 할 때 쉽게 진행하실 수 있으실 거예요.', 5, 22, now(), now());
+INSERT INTO post (id, status, departure_loc, arrival_loc, start_date, end_date, pick_up_time, is_kennel, content, intermediary_id, dog_id, created_date, modified_date) VALUES (22, 'RECRUITING', '서울 잠실구', '경기 양주시', '2024-01-03', '2024-01-03', '11:00', true, '서울 잠실구부터 경기 양주까지 먼 길이지만 이동봉사 해주실 분을 찾습니다. 햇님이가 급하게 이동해야 할 사정이 생겨 이동봉사자를 구하게 되었습니다. 햇님이는 조용한 강아지로 이동봉사를 할 때 쉽게 진행하실 수 있으실 거예요.', 5, 22, now(), now());
 
-INSERT INTO post (id, status, departure_loc, arrival_loc, start_date, end_date, pick_up_time, is_kennel, content, intermediary_id, dog_id, created_date, modified_date) VALUES (23, 0, '경기 화성시', '서울 잠실구', '2024-01-12', '2024-01-12', '10:00', true, '달님이가 건강이 악화되어 서울 잠실에 있는 병원으로 급하게 이동이 필요한 상황입니다.\n\n최대한 빨리 이동이 필요한 상황으로 달님이의 컨디션이 좋지 않아 그 부분을 이해해 주실 수 있는 봉사자분이셨으면 좋겠습니다.', 6, 23, now(), now());
+INSERT INTO post (id, status, departure_loc, arrival_loc, start_date, end_date, pick_up_time, is_kennel, content, intermediary_id, dog_id, created_date, modified_date) VALUES (23, 'RECRUITING', '경기 화성시', '서울 잠실구', '2024-01-12', '2024-01-12', '10:00', true, '달님이가 건강이 악화되어 서울 잠실에 있는 병원으로 급하게 이동이 필요한 상황입니다.\n\n최대한 빨리 이동이 필요한 상황으로 달님이의 컨디션이 좋지 않아 그 부분을 이해해 주실 수 있는 봉사자분이셨으면 좋겠습니다.', 6, 23, now(), now());
 
-INSERT INTO post (id, status, departure_loc, arrival_loc, start_date, end_date, pick_up_time, is_kennel, content, intermediary_id, dog_id, created_date, modified_date) VALUES (24, 0, '경기 수원시', '경기 용인시', '2024-01-14', '2024-01-14', '11:00', false, '병원에서 위탁처 이동입니다. 켄넬이 없어 개인 켄넬 준비가 필요합니다.', 6, 24, now(), now());
+INSERT INTO post (id, status, departure_loc, arrival_loc, start_date, end_date, pick_up_time, is_kennel, content, intermediary_id, dog_id, created_date, modified_date) VALUES (24, 'RECRUITING', '경기 수원시', '경기 용인시', '2024-01-14', '2024-01-14', '11:00', false, '병원에서 위탁처 이동입니다. 켄넬이 없어 개인 켄넬 준비가 필요합니다.', 6, 24, now(), now());
 
-INSERT INTO post (id, status, departure_loc, arrival_loc, start_date, end_date, pick_up_time, is_kennel, content, intermediary_id, dog_id, created_date, modified_date) VALUES (25, 0, '서울 서대문구', '경기 평택시', '2023-11-29', '2023-11-29', '09:00', false, '안녕하세요^^~ 따뜻한 입양처로 가게 될 바다의 이동을 도와주실 이동봉사자분을 찾습니다.\n\n바다가 겁이 좀 많아도 사람과 친해지면 잘 치대는 우리 바다와 함께 평택시로 이동해 주실 봉사자분을 애타게 찾아봅니다 ㅎㅎ', 6, 25, now(), now());
+INSERT INTO post (id, status, departure_loc, arrival_loc, start_date, end_date, pick_up_time, is_kennel, content, intermediary_id, dog_id, created_date, modified_date) VALUES (25, 'RECRUITING', '서울 서대문구', '경기 평택시', '2023-11-29', '2023-11-29', '09:00', false, '안녕하세요^^~ 따뜻한 입양처로 가게 될 바다의 이동을 도와주실 이동봉사자분을 찾습니다.\n\n바다가 겁이 좀 많아도 사람과 친해지면 잘 치대는 우리 바다와 함께 평택시로 이동해 주실 봉사자분을 애타게 찾아봅니다 ㅎㅎ', 6, 25, now(), now());
 
-INSERT INTO post (id, status, departure_loc, arrival_loc, start_date, end_date, pick_up_time, is_kennel, content, intermediary_id, dog_id, created_date, modified_date) VALUES (26, 0, '서울 강남구', '서울 서초구', '2023-11-30', '2023-11-30', '06:00', false, '우리 귀여운 윤슬이 드디어 입양갑니다!! 소중한 입양처로 이동해 주실 이동봉사자 분을 찾아요. \n\n윤슬이는 저희 보호소에서 제일 순하고 사람을 좋아하는 아이로, 처음 이동봉사를 하시는 분이더라도 쉽게 이동봉사를 진행해보실 수 있을 거예요.', 7, 26, now(), now());
+INSERT INTO post (id, status, departure_loc, arrival_loc, start_date, end_date, pick_up_time, is_kennel, content, intermediary_id, dog_id, created_date, modified_date) VALUES (26, 'RECRUITING', '서울 강남구', '서울 서초구', '2023-11-30', '2023-11-30', '06:00', false, '우리 귀여운 윤슬이 드디어 입양갑니다!! 소중한 입양처로 이동해 주실 이동봉사자 분을 찾아요. \n\n윤슬이는 저희 보호소에서 제일 순하고 사람을 좋아하는 아이로, 처음 이동봉사를 하시는 분이더라도 쉽게 이동봉사를 진행해보실 수 있을 거예요.', 7, 26, now(), now());
 
-INSERT INTO post (id, status, departure_loc, arrival_loc, start_date, end_date, pick_up_time, is_kennel, content, intermediary_id, dog_id, created_date, modified_date) VALUES (27, 0, '서울 동대문구', '경기 파주시', '2024-01-23', '2024-01-23', '11:00', true, '용인에서 성남까지 이동봉사 해주실 분을 찾습니다. 슬기가 급하게 이동해야 할 사정이 생겨 이동봉사자를 구하게 되었습니다. 슬기는 조용한 강아지로 이동봉사를 할 때 쉽게 진행하실 수 있으실 거예요.', 7, 27, now(), now());
+INSERT INTO post (id, status, departure_loc, arrival_loc, start_date, end_date, pick_up_time, is_kennel, content, intermediary_id, dog_id, created_date, modified_date) VALUES (27, 'RECRUITING', '서울 동대문구', '경기 파주시', '2024-01-23', '2024-01-23', '11:00', true, '용인에서 성남까지 이동봉사 해주실 분을 찾습니다. 슬기가 급하게 이동해야 할 사정이 생겨 이동봉사자를 구하게 되었습니다. 슬기는 조용한 강아지로 이동봉사를 할 때 쉽게 진행하실 수 있으실 거예요.', 7, 27, now(), now());
 
-INSERT INTO post (id, status, departure_loc, arrival_loc, start_date, end_date, pick_up_time, is_kennel, content, intermediary_id, dog_id, created_date, modified_date) VALUES (28, 0, '서울 성동구', '부산 소래포구', '2023-11-26', '2023-11-26', '09:00', false, '슬구가 건강이 악화되어 파주에 있는 병원으로 급하게 이동이 필요한 상황입니다.\n\n최대한 빨리 이동이 필요한 상황으로 슬구의 컨디션이 좋지 않아 그 부분을 이해해 주실 수 있는 봉사자분이셨으면 좋겠습니다.', 7, 28, now(), now());
+INSERT INTO post (id, status, departure_loc, arrival_loc, start_date, end_date, pick_up_time, is_kennel, content, intermediary_id, dog_id, created_date, modified_date) VALUES (28, 'RECRUITING', '서울 성동구', '부산 소래포구', '2023-11-26', '2023-11-26', '09:00', false, '슬구가 건강이 악화되어 파주에 있는 병원으로 급하게 이동이 필요한 상황입니다.\n\n최대한 빨리 이동이 필요한 상황으로 슬구의 컨디션이 좋지 않아 그 부분을 이해해 주실 수 있는 봉사자분이셨으면 좋겠습니다.', 7, 28, now(), now());
 
 
 -- INSERT POST (status 1 - 승인대기중)
-INSERT INTO post (id, status, departure_loc, arrival_loc, start_date, end_date, pick_up_time, is_kennel, content, intermediary_id, dog_id, created_date, modified_date) VALUES (29, 1, '경기 오산시', '경기 화성시', '2023-11-28', '2023-11-28', '10:30', true, '겁이 많은 우리 잔디가 가족을 찾게 되었습니다. 오산부터 화성까지 짧은 거리지만 겁이 많은 우리 잔디가 짖을 수도 있어 잔디를 잘 데리고 가주실 이동봉사자 분을 구합니다.', 4, 29, now(), now());
-INSERT INTO post (id, status, departure_loc, arrival_loc, start_date, end_date, pick_up_time, is_kennel, content, intermediary_id, dog_id, created_date, modified_date) VALUES (30, 1, '경기 오산시', '경기 화성시', '2023-11-28', '2023-11-28', '10:30', true, '겁이 많은 우리 잔디가 가족을 찾게 되었습니다. 오산부터 화성까지 짧은 거리지만 겁이 많은 우리 잔디가 짖을 수도 있어 잔디를 잘 데리고 가주실 이동봉사자 분을 구합니다.', 5, 30, now(), now());
-INSERT INTO post (id, status, departure_loc, arrival_loc, start_date, end_date, pick_up_time, is_kennel, content, intermediary_id, dog_id, created_date, modified_date) VALUES (31, 1, '경기 오산시', '경기 화성시', '2023-11-28', '2023-11-28', '10:30', true, '겁이 많은 우리 잔디가 가족을 찾게 되었습니다. 오산부터 화성까지 짧은 거리지만 겁이 많은 우리 잔디가 짖을 수도 있어 잔디를 잘 데리고 가주실 이동봉사자 분을 구합니다.', 6, 31, now(), now());
-INSERT INTO post (id, status, departure_loc, arrival_loc, start_date, end_date, pick_up_time, is_kennel, content, intermediary_id, dog_id, created_date, modified_date) VALUES (32, 1, '경기 오산시', '경기 화성시', '2023-11-28', '2023-11-28', '10:30', true, '겁이 많은 우리 잔디가 가족을 찾게 되었습니다. 오산부터 화성까지 짧은 거리지만 겁이 많은 우리 잔디가 짖을 수도 있어 잔디를 잘 데리고 가주실 이동봉사자 분을 구합니다.', 7, 32, now(), now());
+INSERT INTO post (id, status, departure_loc, arrival_loc, start_date, end_date, pick_up_time, is_kennel, content, intermediary_id, dog_id, created_date, modified_date) VALUES (29, 'WAITING', '경기 오산시', '경기 화성시', '2023-11-28', '2023-11-28', '10:30', true, '겁이 많은 우리 잔디가 가족을 찾게 되었습니다. 오산부터 화성까지 짧은 거리지만 겁이 많은 우리 잔디가 짖을 수도 있어 잔디를 잘 데리고 가주실 이동봉사자 분을 구합니다.', 4, 29, now(), now());
+INSERT INTO post (id, status, departure_loc, arrival_loc, start_date, end_date, pick_up_time, is_kennel, content, intermediary_id, dog_id, created_date, modified_date) VALUES (30, 'WAITING', '경기 오산시', '경기 화성시', '2023-11-28', '2023-11-28', '10:30', true, '겁이 많은 우리 잔디가 가족을 찾게 되었습니다. 오산부터 화성까지 짧은 거리지만 겁이 많은 우리 잔디가 짖을 수도 있어 잔디를 잘 데리고 가주실 이동봉사자 분을 구합니다.', 5, 30, now(), now());
+INSERT INTO post (id, status, departure_loc, arrival_loc, start_date, end_date, pick_up_time, is_kennel, content, intermediary_id, dog_id, created_date, modified_date) VALUES (31, 'WAITING', '경기 오산시', '경기 화성시', '2023-11-28', '2023-11-28', '10:30', true, '겁이 많은 우리 잔디가 가족을 찾게 되었습니다. 오산부터 화성까지 짧은 거리지만 겁이 많은 우리 잔디가 짖을 수도 있어 잔디를 잘 데리고 가주실 이동봉사자 분을 구합니다.', 6, 31, now(), now());
+INSERT INTO post (id, status, departure_loc, arrival_loc, start_date, end_date, pick_up_time, is_kennel, content, intermediary_id, dog_id, created_date, modified_date) VALUES (32, 'WAITING', '경기 오산시', '경기 화성시', '2023-11-28', '2023-11-28', '10:30', true, '겁이 많은 우리 잔디가 가족을 찾게 되었습니다. 오산부터 화성까지 짧은 거리지만 겁이 많은 우리 잔디가 짖을 수도 있어 잔디를 잘 데리고 가주실 이동봉사자 분을 구합니다.', 7, 32, now(), now());
 
 
 -- INSERT POST (status 2 - 진행중)
-INSERT INTO post (id, status, departure_loc, arrival_loc, start_date, end_date, pick_up_time, is_kennel, content, intermediary_id, dog_id, created_date, modified_date)VALUES (33, 2, '서울 도봉구', ' 서울 노원구', '2023-11-26', '2023-11-26', '10:40', true, '동글이가 급하게 병원을 가야합니다. 동글이의 눈 주위 염증이 심해서 급하게 수술을 진행하기 위해 도봉구에서 노원구로 이동이 필요해 빠르게 이동시켜주실 수 있는 봉사자분을 찾습니다.',4, 33, now(), now());
-INSERT INTO post (id, status, departure_loc, arrival_loc, start_date, end_date, pick_up_time, is_kennel, content, intermediary_id, dog_id, created_date, modified_date)VALUES (34, 2, '서울 도봉구', ' 서울 노원구', '2023-11-26', '2023-11-26', '10:40', true, '동글이가 급하게 병원을 가야합니다. 동글이의 눈 주위 염증이 심해서 급하게 수술을 진행하기 위해 도봉구에서 노원구로 이동이 필요해 빠르게 이동시켜주실 수 있는 봉사자분을 찾습니다.',5, 34, now(), now());
-INSERT INTO post (id, status, departure_loc, arrival_loc, start_date, end_date, pick_up_time, is_kennel, content, intermediary_id, dog_id, created_date, modified_date)VALUES (35, 2, '서울 도봉구', ' 서울 노원구', '2023-11-26', '2023-11-26', '10:40', true, '동글이가 급하게 병원을 가야합니다. 동글이의 눈 주위 염증이 심해서 급하게 수술을 진행하기 위해 도봉구에서 노원구로 이동이 필요해 빠르게 이동시켜주실 수 있는 봉사자분을 찾습니다.',6, 35, now(), now());
-INSERT INTO post (id, status, departure_loc, arrival_loc, start_date, end_date, pick_up_time, is_kennel, content, intermediary_id, dog_id, created_date, modified_date)VALUES (36, 2, '서울 도봉구', ' 서울 노원구', '2023-11-26', '2023-11-26', '10:40', true, '동글이가 급하게 병원을 가야합니다. 동글이의 눈 주위 염증이 심해서 급하게 수술을 진행하기 위해 도봉구에서 노원구로 이동이 필요해 빠르게 이동시켜주실 수 있는 봉사자분을 찾습니다.',7, 36, now(), now());
+INSERT INTO post (id, status, departure_loc, arrival_loc, start_date, end_date, pick_up_time, is_kennel, content, intermediary_id, dog_id, created_date, modified_date)VALUES (33, 'PROGRESSING', '서울 도봉구', ' 서울 노원구', '2023-11-26', '2023-11-26', '10:40', true, '동글이가 급하게 병원을 가야합니다. 동글이의 눈 주위 염증이 심해서 급하게 수술을 진행하기 위해 도봉구에서 노원구로 이동이 필요해 빠르게 이동시켜주실 수 있는 봉사자분을 찾습니다.',4, 33, now(), now());
+INSERT INTO post (id, status, departure_loc, arrival_loc, start_date, end_date, pick_up_time, is_kennel, content, intermediary_id, dog_id, created_date, modified_date)VALUES (34, 'PROGRESSING', '서울 도봉구', ' 서울 노원구', '2023-11-26', '2023-11-26', '10:40', true, '동글이가 급하게 병원을 가야합니다. 동글이의 눈 주위 염증이 심해서 급하게 수술을 진행하기 위해 도봉구에서 노원구로 이동이 필요해 빠르게 이동시켜주실 수 있는 봉사자분을 찾습니다.',5, 34, now(), now());
+INSERT INTO post (id, status, departure_loc, arrival_loc, start_date, end_date, pick_up_time, is_kennel, content, intermediary_id, dog_id, created_date, modified_date)VALUES (35, 'PROGRESSING', '서울 도봉구', ' 서울 노원구', '2023-11-26', '2023-11-26', '10:40', true, '동글이가 급하게 병원을 가야합니다. 동글이의 눈 주위 염증이 심해서 급하게 수술을 진행하기 위해 도봉구에서 노원구로 이동이 필요해 빠르게 이동시켜주실 수 있는 봉사자분을 찾습니다.',6, 35, now(), now());
+INSERT INTO post (id, status, departure_loc, arrival_loc, start_date, end_date, pick_up_time, is_kennel, content, intermediary_id, dog_id, created_date, modified_date)VALUES (36, 'PROGRESSING', '서울 도봉구', ' 서울 노원구', '2023-11-26', '2023-11-26', '10:40', true, '동글이가 급하게 병원을 가야합니다. 동글이의 눈 주위 염증이 심해서 급하게 수술을 진행하기 위해 도봉구에서 노원구로 이동이 필요해 빠르게 이동시켜주실 수 있는 봉사자분을 찾습니다.',7, 36, now(), now());
 
 
 -- INSERT POST (status 3 - 봉사완료)
-INSERT INTO post (id, status, departure_loc, arrival_loc, start_date, end_date, pick_up_time, is_kennel, content, intermediary_id, dog_id, created_date, modified_date)VALUES (37, 3, '경기 수원시', '경기 용인시', '2023-10-25', '2023-10-25', '11:00', true, '몽이와 함께 이동해 주실 분을 찾습니다~~^^ 몽이가 드디어 4개월만에 입양처가 결정되어 이동봉사가 필요하게 되었습니다.\n\n수원에서 용인까지 몽이의 새 가족을 찾기 위해 도와주실 수 있는 분이셨으면 좋겠습니다.',4, 37, now(), now());
+INSERT INTO post (id, status, departure_loc, arrival_loc, start_date, end_date, pick_up_time, is_kennel, content, intermediary_id, dog_id, created_date, modified_date)VALUES (37, 'COMPLETED', '경기 수원시', '경기 용인시', '2023-10-25', '2023-10-25', '11:00', true, '몽이와 함께 이동해 주실 분을 찾습니다~~^^ 몽이가 드디어 4개월만에 입양처가 결정되어 이동봉사가 필요하게 되었습니다.\n\n수원에서 용인까지 몽이의 새 가족을 찾기 위해 도와주실 수 있는 분이셨으면 좋겠습니다.',4, 37, now(), now());
 
-INSERT INTO post (id, status, departure_loc, arrival_loc, start_date, end_date, pick_up_time, is_kennel, content, intermediary_id, dog_id, created_date, modified_date)VALUES (38, 3, '서울 서대문구', '경기 평택시', '2023-04-14', '2023-04-14', '16:00', true, '코코가 겁이 좀 많아도 사람과 친해지면 잘 치대는 우리 먕이와 함께 평택으로 이동해주실 봉사자분을 애타게 찾아봅니다 ㅎㅎ',4, 38, now(), now());
+INSERT INTO post (id, status, departure_loc, arrival_loc, start_date, end_date, pick_up_time, is_kennel, content, intermediary_id, dog_id, created_date, modified_date)VALUES (38, 'COMPLETED', '서울 서대문구', '경기 평택시', '2023-04-14', '2023-04-14', '16:00', true, '코코가 겁이 좀 많아도 사람과 친해지면 잘 치대는 우리 먕이와 함께 평택으로 이동해주실 봉사자분을 애타게 찾아봅니다 ㅎㅎ',4, 38, now(), now());
 
-INSERT INTO post (id, status, departure_loc, arrival_loc, start_date, end_date, pick_up_time, is_kennel, content, intermediary_id, dog_id, created_date, modified_date)VALUES (39, 3, '서울 강남구', '서울 서초구', '2023-05-17', '2023-05-17', '12:00', true, '우리 귀여운 율무가 드디어 입양갑니다!! 소중한 입양처로 이동해 주실 이동봉사자 분을 찾아요. \n\n율무는 저희 보호소에서 제일 순하고 사람을 좋아하는 아이로, 처음 이동봉사를 하시는 분이더라도 쉽게 이동봉사를 진행해 보실 수 있을 거예요.',5, 39, now(), now());
+INSERT INTO post (id, status, departure_loc, arrival_loc, start_date, end_date, pick_up_time, is_kennel, content, intermediary_id, dog_id, created_date, modified_date)VALUES (39, 'COMPLETED', '서울 강남구', '서울 서초구', '2023-05-17', '2023-05-17', '12:00', true, '우리 귀여운 율무가 드디어 입양갑니다!! 소중한 입양처로 이동해 주실 이동봉사자 분을 찾아요. \n\n율무는 저희 보호소에서 제일 순하고 사람을 좋아하는 아이로, 처음 이동봉사를 하시는 분이더라도 쉽게 이동봉사를 진행해 보실 수 있을 거예요.',5, 39, now(), now());
 
-INSERT INTO post (id, status, departure_loc, arrival_loc, start_date, end_date, pick_up_time, is_kennel, content, intermediary_id, dog_id, created_date, modified_date)VALUES (40, 3, '경기 용인시', '경기 성남시', '2023-09-09', '2023-09-09', '14:00', true, '용인부터 성남까지 이동봉사 해주실 분을 찾습니다. 찹쌀이가 급하게 이동해야 할 사정이 생겨 이동봉사자를 구하게 되었습니다. 찹쌀이는 조용한 강아지로 이동봉사를 할 때 쉽게 진행하실 수 있을 거예요.',5, 40, now(), now());
+INSERT INTO post (id, status, departure_loc, arrival_loc, start_date, end_date, pick_up_time, is_kennel, content, intermediary_id, dog_id, created_date, modified_date)VALUES (40, 'COMPLETED', '경기 용인시', '경기 성남시', '2023-09-09', '2023-09-09', '14:00', true, '용인부터 성남까지 이동봉사 해주실 분을 찾습니다. 찹쌀이가 급하게 이동해야 할 사정이 생겨 이동봉사자를 구하게 되었습니다. 찹쌀이는 조용한 강아지로 이동봉사를 할 때 쉽게 진행하실 수 있을 거예요.',5, 40, now(), now());
 
-INSERT INTO post (id, status, departure_loc, arrival_loc, start_date, end_date, pick_up_time, is_kennel, content, intermediary_id, dog_id, created_date, modified_date)VALUES (41, 3, '서울 동대문구', '경기 파주시', '2023-07-08', '2023-07-08', '16:00', true, '수수가 건강이 악화되어 경기 파주에 있는 병원으로 급하게 이동이 필요한 상황입니다.\n\n최대한 빨리 이동이 필요한 상황으로 수수의 컨디션이 좋지 않아 그 부분을 이해해주실 수 있는 봉사자분이셨으면 좋겠습니다.',6, 41, now(), now());
+INSERT INTO post (id, status, departure_loc, arrival_loc, start_date, end_date, pick_up_time, is_kennel, content, intermediary_id, dog_id, created_date, modified_date)VALUES (41, 'COMPLETED', '서울 동대문구', '경기 파주시', '2023-07-08', '2023-07-08', '16:00', true, '수수가 건강이 악화되어 경기 파주에 있는 병원으로 급하게 이동이 필요한 상황입니다.\n\n최대한 빨리 이동이 필요한 상황으로 수수의 컨디션이 좋지 않아 그 부분을 이해해주실 수 있는 봉사자분이셨으면 좋겠습니다.',6, 41, now(), now());
 
-INSERT INTO post (id, status, departure_loc, arrival_loc, start_date, end_date, pick_up_time, is_kennel, content, intermediary_id, dog_id, created_date, modified_date)VALUES (42, 3, '경기 오산시', '경기 화성시', '2023-09-24', '2023-09-24', '16:00', true, '겁이 많은 우리 호두가 가족을 찾게 되었습니다. 오산에서 화성까지 짧은 거리지만 겁이 많은 우리 호두가 짖을 수도 있어 호두를 잘 데리고 가주실 이동봉사자 분을 구합니다.',6, 42, now(), now());
+INSERT INTO post (id, status, departure_loc, arrival_loc, start_date, end_date, pick_up_time, is_kennel, content, intermediary_id, dog_id, created_date, modified_date)VALUES (42, 'COMPLETED', '경기 오산시', '경기 화성시', '2023-09-24', '2023-09-24', '16:00', true, '겁이 많은 우리 호두가 가족을 찾게 되었습니다. 오산에서 화성까지 짧은 거리지만 겁이 많은 우리 호두가 짖을 수도 있어 호두를 잘 데리고 가주실 이동봉사자 분을 구합니다.',6, 42, now(), now());
 
-INSERT INTO post (id, status, departure_loc, arrival_loc, start_date, end_date, pick_up_time, is_kennel, content, intermediary_id, dog_id, created_date, modified_date)VALUES (43, 3, '경기 양주시', '경기 의정부시', '2023-11-01', '2023-11-01', '18:00', false, '감자가 급하게 병원을 가야합니다. 감자의 눈 주위 염증이 심해서 급하게 수술을 진행하기 위해 양주시에서 의정부시로 이동이 필요해 빠르게 이동시켜주실 수 있는 봉사자분을 찾습니다.',7, 43, now(), now());
+INSERT INTO post (id, status, departure_loc, arrival_loc, start_date, end_date, pick_up_time, is_kennel, content, intermediary_id, dog_id, created_date, modified_date)VALUES (43, 'COMPLETED', '경기 양주시', '경기 의정부시', '2023-11-01', '2023-11-01', '18:00', false, '감자가 급하게 병원을 가야합니다. 감자의 눈 주위 염증이 심해서 급하게 수술을 진행하기 위해 양주시에서 의정부시로 이동이 필요해 빠르게 이동시켜주실 수 있는 봉사자분을 찾습니다.',7, 43, now(), now());
 
-INSERT INTO post (id, status, departure_loc, arrival_loc, start_date, end_date, pick_up_time, is_kennel, content, intermediary_id, dog_id, created_date, modified_date)VALUES (44, 3, '경기 안산시', '서울 강남구', '2023-11-20', '2023-11-20', '11:00', false, '병원에서 위탁처 이동입니다. 켄넬이 없어 개인 켄넬 준비가 필요합니다.',7, 44, now(), now());
+INSERT INTO post (id, status, departure_loc, arrival_loc, start_date, end_date, pick_up_time, is_kennel, content, intermediary_id, dog_id, created_date, modified_date)VALUES (44, 'COMPLETED', '경기 안산시', '서울 강남구', '2023-11-20', '2023-11-20', '11:00', false, '병원에서 위탁처 이동입니다. 켄넬이 없어 개인 켄넬 준비가 필요합니다.',7, 44, now(), now());
 
 
 -- INSERT POST_IMAGE
@@ -372,27 +372,27 @@ INSERT INTO volunteer (id, email, password, nickname, profile_image_num, name, p
 
 
 -- INSERT APPLICATION (status 0 - 승인대기중)
-INSERT INTO application (id, status, volunteer_name, phone, content, post_id, intermediary_id, volunteer_id, created_date, modified_date) VALUES (7, 0, '이시윤', '01047391908', '이동봉사 신청합니다!', 29, 4, 3, now(), now());
-INSERT INTO application (id, status, volunteer_name, phone, content, post_id, intermediary_id, volunteer_id, created_date, modified_date) VALUES (8, 0, '권예인', '01047391908', '이동봉사 신청합니다!', 30, 5, 4, now(), now());
-INSERT INTO application (id, status, volunteer_name, phone, content, post_id, intermediary_id, volunteer_id, created_date, modified_date) VALUES (9, 0, '강승구', '01047391908', '이동봉사 신청합니다!', 31, 6, 5, now(), now());
-INSERT INTO application (id, status, volunteer_name, phone, content, post_id, intermediary_id, volunteer_id, created_date, modified_date) VALUES (10, 0, '김민주', '01047391908', '이동봉사 신청합니다!', 32, 7, 6, now(), now());
+INSERT INTO application (id, status, volunteer_name, phone, content, post_id, intermediary_id, volunteer_id, created_date, modified_date) VALUES (7, 'WAITING', '이시윤', '01047391908', '이동봉사 신청합니다!', 29, 4, 3, now(), now());
+INSERT INTO application (id, status, volunteer_name, phone, content, post_id, intermediary_id, volunteer_id, created_date, modified_date) VALUES (8, 'WAITING', '권예인', '01047391908', '이동봉사 신청합니다!', 30, 5, 4, now(), now());
+INSERT INTO application (id, status, volunteer_name, phone, content, post_id, intermediary_id, volunteer_id, created_date, modified_date) VALUES (9, 'WAITING', '강승구', '01047391908', '이동봉사 신청합니다!', 31, 6, 5, now(), now());
+INSERT INTO application (id, status, volunteer_name, phone, content, post_id, intermediary_id, volunteer_id, created_date, modified_date) VALUES (10, 'WAITING', '김민주', '01047391908', '이동봉사 신청합니다!', 32, 7, 6, now(), now());
 
 -- INSERT APPLICATION (status 1 - 진행중)
-INSERT INTO application (id, status, volunteer_name, phone, content, post_id, intermediary_id, volunteer_id, created_date, modified_date) VALUES (11, 1, '이시윤', '01047391908', '이동봉사 신청합니다!', 33, 4, 3, now(), now());
-INSERT INTO application (id, status, volunteer_name, phone, content, post_id, intermediary_id, volunteer_id, created_date, modified_date) VALUES (12, 1, '권예인', '01047391908', '이동봉사 신청합니다!', 34, 5, 4, now(), now());
-INSERT INTO application (id, status, volunteer_name, phone, content, post_id, intermediary_id, volunteer_id, created_date, modified_date) VALUES (13, 1, '강승구', '01047391908', '이동봉사 신청합니다!', 35, 6, 5, now(), now());
-INSERT INTO application (id, status, volunteer_name, phone, content, post_id, intermediary_id, volunteer_id, created_date, modified_date) VALUES (14, 1, '김민주', '01047391908', '이동봉사 신청합니다!', 36, 7, 6, now(), now());
+INSERT INTO application (id, status, volunteer_name, phone, content, post_id, intermediary_id, volunteer_id, created_date, modified_date) VALUES (11, 'PROGRESSING', '이시윤', '01047391908', '이동봉사 신청합니다!', 33, 4, 3, now(), now());
+INSERT INTO application (id, status, volunteer_name, phone, content, post_id, intermediary_id, volunteer_id, created_date, modified_date) VALUES (12, 'PROGRESSING', '권예인', '01047391908', '이동봉사 신청합니다!', 34, 5, 4, now(), now());
+INSERT INTO application (id, status, volunteer_name, phone, content, post_id, intermediary_id, volunteer_id, created_date, modified_date) VALUES (13, 'PROGRESSING', '강승구', '01047391908', '이동봉사 신청합니다!', 35, 6, 5, now(), now());
+INSERT INTO application (id, status, volunteer_name, phone, content, post_id, intermediary_id, volunteer_id, created_date, modified_date) VALUES (14, 'PROGRESSING', '김민주', '01047391908', '이동봉사 신청합니다!', 36, 7, 6, now(), now());
 
 
 -- INSERT APPLICATION (status 2 - 봉사완료)
-INSERT INTO application (id, status, volunteer_name, phone, content, post_id, intermediary_id, volunteer_id, created_date, modified_date) VALUES (15, 2, '이시윤', '01047391908', '이동봉사 신청합니다!', 37, 4, 3, now(), now());
-INSERT INTO application (id, status, volunteer_name, phone, content, post_id, intermediary_id, volunteer_id, created_date, modified_date) VALUES (16, 2, '이시윤', '01047391908', '이동봉사 신청합니다!', 38, 4, 3, now(), now());
-INSERT INTO application (id, status, volunteer_name, phone, content, post_id, intermediary_id, volunteer_id, created_date, modified_date) VALUES (17, 2, '권예인', '01047391908', '이동봉사 신청합니다!', 39, 5, 4, now(), now());
-INSERT INTO application (id, status, volunteer_name, phone, content, post_id, intermediary_id, volunteer_id, created_date, modified_date) VALUES (18, 2, '권예인', '01047391908', '이동봉사 신청합니다!', 40, 5, 4, now(), now());
-INSERT INTO application (id, status, volunteer_name, phone, content, post_id, intermediary_id, volunteer_id, created_date, modified_date) VALUES (19, 2, '강승구', '01047391908', '이동봉사 신청합니다!', 41, 6, 5, now(), now());
-INSERT INTO application (id, status, volunteer_name, phone, content, post_id, intermediary_id, volunteer_id, created_date, modified_date) VALUES (20, 2, '강승구', '01047391908', '이동봉사 신청합니다!', 42, 6, 5, now(), now());
-INSERT INTO application (id, status, volunteer_name, phone, content, post_id, intermediary_id, volunteer_id, created_date, modified_date) VALUES (21, 2, '김민주', '01047391908', '이동봉사 신청합니다!', 43, 7, 6, now(), now());
-INSERT INTO application (id, status, volunteer_name, phone, content, post_id, intermediary_id, volunteer_id, created_date, modified_date) VALUES (22, 2, '김민주', '01047391908', '이동봉사 신청합니다!', 44, 7, 6, now(), now());
+INSERT INTO application (id, status, volunteer_name, phone, content, post_id, intermediary_id, volunteer_id, created_date, modified_date) VALUES (15, 'COMPLETED', '이시윤', '01047391908', '이동봉사 신청합니다!', 37, 4, 3, now(), now());
+INSERT INTO application (id, status, volunteer_name, phone, content, post_id, intermediary_id, volunteer_id, created_date, modified_date) VALUES (16, 'COMPLETED', '이시윤', '01047391908', '이동봉사 신청합니다!', 38, 4, 3, now(), now());
+INSERT INTO application (id, status, volunteer_name, phone, content, post_id, intermediary_id, volunteer_id, created_date, modified_date) VALUES (17, 'COMPLETED', '권예인', '01047391908', '이동봉사 신청합니다!', 39, 5, 4, now(), now());
+INSERT INTO application (id, status, volunteer_name, phone, content, post_id, intermediary_id, volunteer_id, created_date, modified_date) VALUES (18, 'COMPLETED', '권예인', '01047391908', '이동봉사 신청합니다!', 40, 5, 4, now(), now());
+INSERT INTO application (id, status, volunteer_name, phone, content, post_id, intermediary_id, volunteer_id, created_date, modified_date) VALUES (19, 'COMPLETED', '강승구', '01047391908', '이동봉사 신청합니다!', 41, 6, 5, now(), now());
+INSERT INTO application (id, status, volunteer_name, phone, content, post_id, intermediary_id, volunteer_id, created_date, modified_date) VALUES (20, 'COMPLETED', '강승구', '01047391908', '이동봉사 신청합니다!', 42, 6, 5, now(), now());
+INSERT INTO application (id, status, volunteer_name, phone, content, post_id, intermediary_id, volunteer_id, created_date, modified_date) VALUES (21, 'COMPLETED', '김민주', '01047391908', '이동봉사 신청합니다!', 43, 7, 6, now(), now());
+INSERT INTO application (id, status, volunteer_name, phone, content, post_id, intermediary_id, volunteer_id, created_date, modified_date) VALUES (22, 'COMPLETED', '김민주', '01047391908', '이동봉사 신청합니다!', 44, 7, 6, now(), now());
 
 
 -- INSERT REVIEW
