@@ -120,7 +120,7 @@ INSERT INTO volunteer (id, email, password, nickname, profile_image_num, name, p
 INSERT INTO application (id, status, volunteer_name, phone, content, post_id, intermediary_id, volunteer_id, created_date, modified_date) VALUES (1, 'COMPLETED', '민경혁', '01047391908', '이동봉사 신청합니다1!', 11, 2, 2, now(), now());
 INSERT INTO application (id, status, volunteer_name, phone, content, post_id, intermediary_id, volunteer_id, created_date, modified_date) VALUES (2, 'COMPLETED', '민경혁', '01047391908', '이동봉사 신청합니다2!', 12, 2, 2, now(), now());
 INSERT INTO application (id, status, volunteer_name, phone, content, post_id, intermediary_id, volunteer_id, created_date, modified_date) VALUES (3, 'COMPLETED', '민경혁', '01047391908', '이동봉사 신청합니다3!', 13, 2, 2, now(), now());
-INSERT INTO application (id, status, volunteer_name, phone, content, post_id, intermediary_id, volunteer_id, created_date, modified_date) VALUES (4, 'COMPLETED', '민경혁', '01047391908', '이동봉사 신청합니다4!', 14, 2, 2, now(), now());
+INSERT INTO application (id, status, volunteer_name, phone, content, post_id, intermediary_id, volunteer_id, created_date, modified_date) VALUES (4, 'PROGRESSING', '민경혁', '01047391908', '이동봉사 신청합니다4!', 14, 2, 2, now(), now());
 INSERT INTO application (id, status, volunteer_name, phone, content, post_id, intermediary_id, volunteer_id, created_date, modified_date) VALUES (5, 'COMPLETED', '민경혁', '01047391908', '이동봉사 신청합니다5!', 15, 2, 2, now(), now());
 INSERT INTO application (id, status, volunteer_name, phone, content, post_id, intermediary_id, volunteer_id, created_date, modified_date) VALUES (6, 'COMPLETED', '한호정', '01047391908', '이동봉사 신청합니다6!', 16, 3, 1, now(), now());
 
