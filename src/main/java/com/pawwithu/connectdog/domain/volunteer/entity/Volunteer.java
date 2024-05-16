@@ -54,7 +54,9 @@ public class Volunteer extends BaseTimeEntity {
         this.password = passwordEncoder.encode(this.password);
     }
 
-    public void updateSocialVolunteer(String nickname, VolunteerRole role, Integer profileImageNum, Boolean isOptionAgr) {
+    public void updateSocialVolunteer(String name, String phone, String nickname, VolunteerRole role, Integer profileImageNum, Boolean isOptionAgr) {
+        this.name = name;
+        this.phone = phone;
         this.nickname = nickname;
         this.role = role;
         this.profileImageNum = profileImageNum;
