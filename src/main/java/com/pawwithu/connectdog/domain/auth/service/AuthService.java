@@ -83,6 +83,9 @@ public class AuthService {
 
     public void volunteerSocialSignUp(String email, SocialSignUpRequest socialSignUpRequest) {
 
+        if (volunteerRepository.existsByPhone(socialSignUpRequest.phone())) {
+            throw new BadRequestException(ALREADY_EXIST_PHONE);
+        }
         if (volunteerRepository.existsByNickname(socialSignUpRequest.nickname())) {
             throw new BadRequestException(ALREADY_EXIST_NICKNAME);
         }
@@ -90,10 +93,12 @@ public class AuthService {
         Volunteer volunteer = volunteerRepository.findByEmail(email).orElseThrow(() -> new BadRequestException(VOLUNTEER_NOT_FOUND));
 
         // 추가 정보 업데이트
+        String name = socialSignUpRequest.name();
+        String phone = socialSignUpRequest.phone();
         String nickname = socialSignUpRequest.nickname();
         Integer profileImageNum = socialSignUpRequest.profileImageNum();
         Boolean isOptionAgr = socialSignUpRequest.isOptionAgr();
-        volunteer.updateSocialVolunteer(nickname, VolunteerRole.VOLUNTEER, profileImageNum, isOptionAgr); // GUEST -> VOLUNTEER
+        volunteer.updateSocialVolunteer(name, phone, nickname, VolunteerRole.VOLUNTEER, profileImageNum, isOptionAgr); // GUEST -> VOLUNTEER
     }
 
     public void volunteersLogout(HttpServletRequest request, String email) {
@@ -141,7 +146,7 @@ public class AuthService {
             Intermediary intermediary = intermediaryRepository.findByPhone(request.phone()).orElseThrow(() -> new BadRequestException(INTERMEDIARY_NOT_FOUND));
             email = intermediary.getEmail();
         }
-        
+
         IntermediaryPhoneResponse response = IntermediaryPhoneResponse.of(isDuplicated, email);
         return response;
     }
