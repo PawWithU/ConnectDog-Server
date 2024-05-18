@@ -3,6 +3,7 @@ package com.pawwithu.connectdog.domain.post.repository;
 import com.pawwithu.connectdog.domain.intermediary.dto.response.IntermediaryGetPostsResponse;
 import com.pawwithu.connectdog.domain.post.dto.request.PostSearchRequest;
 import com.pawwithu.connectdog.domain.post.dto.response.*;
+import com.pawwithu.connectdog.domain.post.entity.Post;
 import com.pawwithu.connectdog.domain.post.entity.PostStatus;
 import org.springframework.data.domain.Pageable;
 
@@ -27,4 +28,6 @@ public interface CustomPostRepository {
     PostIntermediaryGetOneResponse getIntermediaryOnePost(Long postId);
     Map<PostStatus, Long> getCountOfPostStatus(Long intermediaryId, PostStatus status);
     void updateExpiredPosts(LocalDate date);
+    List<Post> getBeforeExpiredRecruitingPosts(LocalDate date);
+    List<Post> getBeforeExpiredWaitingPosts(LocalDate date);
 }

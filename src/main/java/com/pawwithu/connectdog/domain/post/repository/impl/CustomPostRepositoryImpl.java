@@ -4,6 +4,7 @@ import com.pawwithu.connectdog.domain.dog.entity.DogSize;
 import com.pawwithu.connectdog.domain.intermediary.dto.response.IntermediaryGetPostsResponse;
 import com.pawwithu.connectdog.domain.post.dto.request.PostSearchRequest;
 import com.pawwithu.connectdog.domain.post.dto.response.*;
+import com.pawwithu.connectdog.domain.post.entity.Post;
 import com.pawwithu.connectdog.domain.post.entity.PostStatus;
 import com.pawwithu.connectdog.domain.post.repository.CustomPostRepository;
 import com.querydsl.core.types.Order;
@@ -278,5 +279,23 @@ public class CustomPostRepositoryImpl implements CustomPostRepository {
 
         em.flush();
         em.clear();
+    }
+
+    // 모집 마감 하루 전 모집중 공고 가져오기
+    @Override
+    public List<Post> getBeforeExpiredRecruitingPosts(LocalDate date) {
+        return queryFactory.selectFrom(post)
+                .where(post.status.eq(PostStatus.RECRUITING)
+                        .and(post.endDate.eq(date)))
+                .fetch();
+    }
+
+    // 모집 마감 하루 전 승인대기중 공고 가져오기
+    @Override
+    public List<Post> getBeforeExpiredWaitingPosts(LocalDate date) {
+        return queryFactory.selectFrom(post)
+                .where(post.status.eq(PostStatus.WAITING)
+                        .and(post.endDate.eq(date)))
+                .fetch();
     }
 }

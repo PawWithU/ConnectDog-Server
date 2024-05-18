@@ -17,7 +17,8 @@ public enum NotificationMessage {
     CANCELED("이동봉사 신청 취소", "님이 이동봉사를 취소하셨어요.\n해당 공고는 모집중 상태로 변경됩니다."),
     REVIEW_REGISTERED("이동봉사 후기 등록", "봉사 후기가 등록되었습니다.\n지금 확인해 보세요!"),
     EXPIRED("이동봉사 모집 기간 만료", "모집 기간 만료로 공고가 마감되었습니다.\n아직 봉사자를 구하지 못했다면 기간을 조정해 보세요!"),
-    COMPLETED_REQUEST("이동봉사 진행 완료", "이동봉사 진행이 완료되었나요?\n봉사 완료 버튼을 눌러주세요!");
+    COMPLETED_REQUEST("이동봉사 진행 완료", "이동봉사 진행이 완료되었나요?\n봉사 완료 버튼을 눌러주세요!"),
+    BEFORE_EXPIRED("공고 마감", "공고 마감이 12시간 남았어요.");
 
     private final String title;
     private final String body;
@@ -28,6 +29,10 @@ public enum NotificationMessage {
 
     public String getBodyWithName(String nickname) {
         return nickname + body;
+    }
+
+    public String getBodyWithContent(String content) {
+        return body + content;
     }
 
 }
