@@ -43,11 +43,12 @@ public class SchedulerService {
         customApplicationRepository.updateExpiredApplications(today);
     }
 
-    // 매일 9시 - 모집 마감된 공고를 신청했던 봉사자에게 반려 알림 전송
+    // 매일 9시 - 모집 마감된 공고를 신청했던 봉사자에게 반려 알림 전송 및 모집자에게 공고 모집 기간 만료 알림 전송
     @Scheduled(cron = "0 0 9 * * *")
     public void sendRejectNotification() {
         LocalDate today = LocalDate.now();
         LocalDate yesterday = today.minusDays(1);
+        // 모집 마감된 공고를 신청했던 봉사자에게 반려 알림 전송
         List<Application> applications = customApplicationRepository.getYesterdayExpiredApplications(yesterday);
         for (Application application : applications) {
             VolunteerFcm volunteerFcm = volunteerFcmRepository.findByVolunteerId(application.getVolunteer().getId()).orElse(null);
@@ -58,6 +59,18 @@ public class SchedulerService {
                 log.info("----------모집 마감 공고 신청 반려 알림 전송 실패----------");
             }
         }
+        // 모집자에게 모집 기간 만료 알림 전송
+        List<Post> posts = customPostRepository.getYesterdayExpiredPosts(yesterday);
+        for (Post post : posts) {
+            IntermediaryFcm intermediaryFcm = intermediaryFcmRepository.findByIntermediaryId(post.getIntermediary().getId()).orElse(null);
+            if (intermediaryFcm != null) {
+                fcmService.sendMessageToIntermediary(intermediaryFcm.getFcmToken(), post.getIntermediary(), post.getMainImage().getImage(),
+                        NotificationType.EXPIRED, EXPIRED.getTitle(), EXPIRED.getBody());
+            } else {
+                log.info("----------공고 마감 사전 알림 전송 실패----------");
+            }
+        }
+
     }
 
     // 매일 오후 12시 - 공고 모집 마감 알림 12시간 전 알림
@@ -67,7 +80,6 @@ public class SchedulerService {
         // 모집 마감 하루 전 모집중 공고 알림 전송
         List<Post> recruitingPosts = customPostRepository.getBeforeExpiredRecruitingPosts(today);
         for (Post post : recruitingPosts) {
-            log.info("모집중 {}", post.getId());
             IntermediaryFcm intermediaryFcm = intermediaryFcmRepository.findByIntermediaryId(post.getIntermediary().getId()).orElse(null);
             if (intermediaryFcm != null) {
                 fcmService.sendMessageToIntermediary(intermediaryFcm.getFcmToken(), post.getIntermediary(), post.getMainImage().getImage(),
@@ -79,7 +91,6 @@ public class SchedulerService {
         // 모집 마감 하루 전 승인대기중 공고 알림 전송
         List<Post> waitingPosts = customPostRepository.getBeforeExpiredWaitingPosts(today);
         for (Post post : waitingPosts) {
-            log.info("승인대기중 {}", post.getId());
             IntermediaryFcm intermediaryFcm = intermediaryFcmRepository.findByIntermediaryId(post.getIntermediary().getId()).orElse(null);
             if (intermediaryFcm != null) {
                 fcmService.sendMessageToIntermediary(intermediaryFcm.getFcmToken(), post.getIntermediary(), post.getMainImage().getImage(),

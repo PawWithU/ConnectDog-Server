@@ -298,4 +298,12 @@ public class CustomPostRepositoryImpl implements CustomPostRepository {
                         .and(post.endDate.eq(date)))
                 .fetch();
     }
+
+    @Override
+    public List<Post> getYesterdayExpiredPosts(LocalDate date) {
+        return queryFactory.selectFrom(post)
+                .where(post.status.eq(PostStatus.EXPIRED)
+                        .and(post.endDate.eq(date)))
+                .fetch();
+    }
 }

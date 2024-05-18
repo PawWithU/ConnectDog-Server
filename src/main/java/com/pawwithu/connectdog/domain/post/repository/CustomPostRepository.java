@@ -30,4 +30,5 @@ public interface CustomPostRepository {
     void updateExpiredPosts(LocalDate date);
     List<Post> getBeforeExpiredRecruitingPosts(LocalDate date);
     List<Post> getBeforeExpiredWaitingPosts(LocalDate date);
+    List<Post> getYesterdayExpiredPosts(LocalDate yesterday);
 }
