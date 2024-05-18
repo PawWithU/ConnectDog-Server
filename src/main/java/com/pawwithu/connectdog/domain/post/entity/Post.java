@@ -64,4 +64,14 @@ public class Post extends BaseTimeEntity {
     public void updateStatus(PostStatus status) {
         this.status = status;
     }
+
+    public void updatePost(String departureLoc, String arrivalLoc, LocalDate startDate, LocalDate endDate, String pickUpTime, Boolean isKennel, String content) {
+        this.departureLoc = departureLoc;
+        this.arrivalLoc = arrivalLoc;
+        this.startDate = startDate;
+        this.endDate = endDate;
+        this.pickUpTime = pickUpTime;
+        this.isKennel = isKennel;
+        this.content = content;
+    }
 }
