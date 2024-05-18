@@ -27,4 +27,10 @@ public class Dog extends BaseTimeEntity {
         this.size = size;
         this.specifics = specifics;
     }
+
+    public void updateDog(String name, DogSize size, String specifics) {
+        this.name = name;
+        this.size = size;
+        this.specifics = specifics;
+    }
 }

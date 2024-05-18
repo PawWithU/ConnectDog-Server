@@ -2,6 +2,7 @@ package com.pawwithu.connectdog.domain.post.controller;
 
 import com.pawwithu.connectdog.domain.post.dto.request.PostCreateRequest;
 import com.pawwithu.connectdog.domain.post.dto.request.PostSearchRequest;
+import com.pawwithu.connectdog.domain.post.dto.request.PostUpdateRequest;
 import com.pawwithu.connectdog.domain.post.dto.response.*;
 import com.pawwithu.connectdog.domain.post.service.PostService;
 import com.pawwithu.connectdog.error.dto.ErrorResponse;
@@ -34,7 +35,7 @@ public class PostController {
                     , @ApiResponse(responseCode = "400"
                     , description = "V1, 출발 지역은 필수 입력 값입니다. \t\n V1, 도착 지역은 필수 입력 값입니다. \t\n " +
                     "V1, 이동봉사가 필요한 날짜는 필수 입력 값입니다. \t\n V1, 켄넬 제공 여부는 필수 입력 값입니다. \t\n V1, 이동봉사에 대한 설명은 필수 입력 값입니다. \t\n " +
-                    "V1, 강아지 이름은 필수 입력 값입니다. \t\n V1, 강아지 사이즈는 필수 입력 값입니다. \t\n V1, 강아지 성별은 필수 입력 값입니다. \t\n " +
+                    "V1, 강아지 이름은 필수 입력 값입니다. \t\n V1, 강아지 사이즈는 필수 입력 값입니다. \t\n " +
                     "F1, 파일이 존재하지 않습니다. \t\n F2, 파일 업로드에 실패했습니다. \t\n M2, 해당 이동봉사 중개를 찾을 수 없습니다."
                     , content = @Content(schema = @Schema(implementation = ErrorResponse.class)))
             })
@@ -43,6 +44,24 @@ public class PostController {
                                            @RequestPart @Valid PostCreateRequest request,
                                            @RequestPart(name = "files", required = false) List<MultipartFile> files) {
         postService.createPost(loginUser.getUsername(), request, files);
+        return ResponseEntity.noContent().build();
+    }
+
+    @Operation(summary = "공고 수정", description = "공고를 수정합니다.",
+            responses = {@ApiResponse(responseCode = "204", description = "공고 수정 성공")
+                    , @ApiResponse(responseCode = "400"
+                    , description = "V1, 출발 지역은 필수 입력 값입니다. \t\n V1, 도착 지역은 필수 입력 값입니다. \t\n " +
+                    "V1, 이동봉사가 필요한 날짜는 필수 입력 값입니다. \t\n V1, 켄넬 제공 여부는 필수 입력 값입니다. \t\n V1, 이동봉사에 대한 설명은 필수 입력 값입니다. \t\n " +
+                    "V1, 강아지 이름은 필수 입력 값입니다. \t\n V1, 강아지 사이즈는 필수 입력 값입니다. \t\n " +
+                    "F1, 파일이 존재하지 않습니다. \t\n F2, 파일 업로드에 실패했습니다. \t\n M2, 해당 이동봉사 중개를 찾을 수 없습니다."
+                    , content = @Content(schema = @Schema(implementation = ErrorResponse.class)))
+            })
+    @PatchMapping(value = "/intermediaries/posts/{postId}", consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.MULTIPART_FORM_DATA_VALUE})
+    public ResponseEntity<Void> updatePost(@AuthenticationPrincipal UserDetails loginUser,
+                                           @PathVariable Long postId,
+                                           @RequestPart @Valid PostUpdateRequest request,
+                                           @RequestPart(name = "files", required = false) List<MultipartFile> files) {
+        postService.updatePost(loginUser.getUsername(), postId, request, files);
         return ResponseEntity.noContent().build();
     }
 
