@@ -6,6 +6,7 @@ import com.pawwithu.connectdog.domain.post.dto.response.*;
 import com.pawwithu.connectdog.domain.post.entity.PostStatus;
 import org.springframework.data.domain.Pageable;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
 
@@ -25,4 +26,5 @@ public interface CustomPostRepository {
     Long getCountOfCompletedPosts(Long intermediaryId);
     PostIntermediaryGetOneResponse getIntermediaryOnePost(Long postId);
     Map<PostStatus, Long> getCountOfPostStatus(Long intermediaryId, PostStatus status);
+    void updateExpiredPosts(LocalDate date);
 }

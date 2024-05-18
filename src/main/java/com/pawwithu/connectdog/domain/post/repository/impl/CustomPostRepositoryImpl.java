@@ -11,6 +11,7 @@ import com.querydsl.core.types.OrderSpecifier;
 import com.querydsl.core.types.Projections;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
+import jakarta.persistence.EntityManager;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Pageable;
@@ -33,6 +34,7 @@ import static com.pawwithu.connectdog.domain.post.entity.QPostImage.postImage;
 public class CustomPostRepositoryImpl implements CustomPostRepository {
 
     private final JPAQueryFactory queryFactory;
+    private final EntityManager em;
 
     // 홈 화면 공고 6개 조회
     @Override
@@ -263,5 +265,18 @@ public class CustomPostRepositoryImpl implements CustomPostRepository {
                 new OrderSpecifier(Order.ASC, post.endDate),
                 new OrderSpecifier(Order.DESC, post.createdDate)}
                 : defaultOrder;
+    }
+
+    // 모집 마감 공고 업데이트
+    @Override
+    public void updateExpiredPosts(LocalDate date) {
+        queryFactory.update(post)
+                .set(post.status, PostStatus.EXPIRED)
+                .where(post.status.in(PostStatus.RECRUITING, PostStatus.WAITING)
+                        .and(post.endDate.before(date)))
+                .execute();
+
+        em.flush();
+        em.clear();
     }
 }
