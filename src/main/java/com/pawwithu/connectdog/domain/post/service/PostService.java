@@ -8,6 +8,7 @@ import com.pawwithu.connectdog.domain.intermediary.entity.Intermediary;
 import com.pawwithu.connectdog.domain.intermediary.repository.IntermediaryRepository;
 import com.pawwithu.connectdog.domain.post.dto.request.PostCreateRequest;
 import com.pawwithu.connectdog.domain.post.dto.request.PostSearchRequest;
+import com.pawwithu.connectdog.domain.post.dto.request.PostUpdateRequest;
 import com.pawwithu.connectdog.domain.post.dto.response.*;
 import com.pawwithu.connectdog.domain.post.entity.Post;
 import com.pawwithu.connectdog.domain.post.entity.PostImage;
@@ -67,6 +68,40 @@ public class PostService {
                 .map(f -> PostImage.builder()
                         .image(fileService.uploadFile(f, "intermediary/post"))
                         .post(savePost)
+                        .build())
+                .collect(Collectors.toList());
+        postImageRepository.saveAll(postImages);
+
+        // 공고 대표 이미지 업데이트
+        post.updateMainImage(postImages.get(0));
+
+    }
+
+    public void updatePost(String email, Long postId, PostUpdateRequest request, List<MultipartFile> fileList) {
+
+        // 파일이 존재하지 않을 경우
+        if (fileList.isEmpty())
+            throw new BadRequestException(FILE_NOT_FOUND);
+
+        Intermediary intermediary = intermediaryRepository.findByEmail(email).orElseThrow(() -> new BadRequestException(INTERMEDIARY_NOT_FOUND));
+        Post post = postRepository.findByIdAndIntermediaryId(postId, intermediary.getId()).orElseThrow(() -> new BadRequestException(POST_NOT_FOUND));
+
+        // 강아지 정보 수정
+        Dog dog = post.getDog();
+        dog.updateDog(request.dogName(), request.dogSize(), request.specifics());
+
+        // 공고 수정 (대표 이미지 제외)
+        post.updatePost(request.departureLoc(), request.arrivalLoc(), request.startDate(), request.endDate(),
+                request.pickUpTime(), request.isKennel(), request.content());
+
+        // 공고 이미지 삭제
+        postImageRepository.deleteAllByPostId(postId);
+
+        // 공고 이미지 저장
+        List<PostImage> postImages = fileList.stream()
+                .map(f -> PostImage.builder()
+                        .image(fileService.uploadFile(f, "intermediary/post"))
+                        .post(post)
                         .build())
                 .collect(Collectors.toList());
         postImageRepository.saveAll(postImages);
