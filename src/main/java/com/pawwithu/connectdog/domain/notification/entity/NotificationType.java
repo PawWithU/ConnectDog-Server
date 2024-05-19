@@ -12,7 +12,7 @@ public enum NotificationType {
 
     // 모집자
     APPLICATION("신청 확인"), CANCELED("봉사 취소"), REVIEW_REGISTERED("후기 확인"), EXPIRED("모집 마감"),
-    COMPLETED_REQUEST("봉사 완료 요청"), BEFORE_EXPIRED("공고 마감");
+    COMPLETED_REQUEST("이동봉사 진행 완료"), BEFORE_EXPIRED("공고 마감");
 
     private final String key;
 }

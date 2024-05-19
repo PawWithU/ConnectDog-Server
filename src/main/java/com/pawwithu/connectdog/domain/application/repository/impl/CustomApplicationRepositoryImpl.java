@@ -4,6 +4,7 @@ import com.pawwithu.connectdog.domain.application.dto.response.*;
 import com.pawwithu.connectdog.domain.application.entity.Application;
 import com.pawwithu.connectdog.domain.application.entity.ApplicationStatus;
 import com.pawwithu.connectdog.domain.application.repository.CustomApplicationRepository;
+import com.pawwithu.connectdog.domain.post.entity.Post;
 import com.querydsl.core.Tuple;
 import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.impl.JPAQueryFactory;
@@ -214,6 +215,16 @@ public class CustomApplicationRepositoryImpl implements CustomApplicationReposit
 
         em.flush();
         em.clear();
+    }
+
+    // 어제 일정이 종료된 진행중인 봉사 신청 가져오기
+    @Override
+    public List<Application> getExpiredProgressingPosts(LocalDate date) {
+        return queryFactory.selectFrom(application)
+                .join(application.post, post)
+                .where(application.status.eq(ApplicationStatus.PROGRESSING)
+                        .and(post.endDate.eq(date)))
+                .fetch();
     }
 
 }

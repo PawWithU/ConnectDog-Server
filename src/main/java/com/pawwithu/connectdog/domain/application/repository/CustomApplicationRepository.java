@@ -24,4 +24,5 @@ public interface CustomApplicationRepository {
     boolean existsByPostIdAndPostStatus(Long postId);
     void updateExpiredApplications(LocalDate today);
     List<Application> getYesterdayExpiredApplications(LocalDate date);
+    List<Application> getExpiredProgressingPosts(LocalDate date);
 }
