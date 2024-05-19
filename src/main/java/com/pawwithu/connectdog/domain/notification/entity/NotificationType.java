@@ -9,6 +9,7 @@ public enum NotificationType {
 
     // 봉사자
     REJECTED("반려 확인"), CONFIRMED("승인 확인"), COMPLETED("봉사 완료"), BADGE("배지 확득"),
+    GUIDE("이동봉사 시작하기"),
 
     // 모집자
     APPLICATION("신청 확인"), CANCELED("봉사 취소"), REVIEW_REGISTERED("후기 확인"), EXPIRED("모집 마감"),

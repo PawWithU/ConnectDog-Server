@@ -10,6 +10,8 @@ import com.pawwithu.connectdog.domain.fcm.service.FcmService;
 import com.pawwithu.connectdog.domain.notification.entity.NotificationType;
 import com.pawwithu.connectdog.domain.post.entity.Post;
 import com.pawwithu.connectdog.domain.post.repository.CustomPostRepository;
+import com.pawwithu.connectdog.domain.volunteer.entity.Volunteer;
+import com.pawwithu.connectdog.domain.volunteer.repository.CustomVolunteerRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -32,6 +34,7 @@ public class SchedulerService {
     private final FcmService fcmService;
     private final VolunteerFcmRepository volunteerFcmRepository;
     private final IntermediaryFcmRepository intermediaryFcmRepository;
+    private final CustomVolunteerRepository customVolunteerRepository;
 
     // 매일 00시 - 공고 모집 마감 업데이트, 신청 자동 반려
     @Scheduled(cron = "0 0 0 * * *")
@@ -114,6 +117,23 @@ public class SchedulerService {
                         NotificationType.COMPLETED_REQUEST, COMPLETED_REQUEST.getTitle(), COMPLETED_REQUEST.getBody());
             } else {
                 log.info("----------이동봉사 진행 완료 요청 알림 전송 실패----------");
+            }
+        }
+    }
+
+    // 매일 15시 - 이동봉사 가이드 알림
+    @Scheduled(cron = "0 0 15 * * *")
+    public void sendGuideNotification() {
+        LocalDate today = LocalDate.now();
+        LocalDate yesterday = today.minusDays(1);
+        List<Volunteer> volunteers = customVolunteerRepository.getYesterdaySignUpVolunteers(yesterday);
+        for (Volunteer volunteer : volunteers) {
+            VolunteerFcm volunteerFcm = volunteerFcmRepository.findByVolunteerId(volunteer.getId()).orElse(null);
+            if (volunteerFcm != null) {
+                fcmService.sendMessageToVolunteer(volunteerFcm.getFcmToken(), volunteer,
+                        volunteer.getProfileImageNum() + "", NotificationType.GUIDE, GUIDE.getTitle(), GUIDE.getBody());
+            } else {
+                log.info("----------이동봉사 가이드 알림 전송 실패----------");
             }
         }
     }
