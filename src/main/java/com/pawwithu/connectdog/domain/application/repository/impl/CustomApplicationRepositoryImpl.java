@@ -4,14 +4,17 @@ import com.pawwithu.connectdog.domain.application.dto.response.*;
 import com.pawwithu.connectdog.domain.application.entity.Application;
 import com.pawwithu.connectdog.domain.application.entity.ApplicationStatus;
 import com.pawwithu.connectdog.domain.application.repository.CustomApplicationRepository;
+import com.pawwithu.connectdog.domain.post.entity.Post;
 import com.querydsl.core.Tuple;
 import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.impl.JPAQueryFactory;
+import jakarta.persistence.EntityManager;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -30,6 +33,7 @@ import static com.pawwithu.connectdog.domain.volunteer.entity.QVolunteer.volunte
 public class CustomApplicationRepositoryImpl implements CustomApplicationRepository {
 
     private final JPAQueryFactory queryFactory;
+    private final EntityManager em;
 
     @Override
     public List<ApplicationVolunteerWaitingResponse> getVolunteerWaitingApplications(Long volunteerId, Pageable pageable) {
@@ -189,6 +193,38 @@ public class CustomApplicationRepositoryImpl implements CustomApplicationReposit
                 .where(application.post.id.eq(postId)
                         .and(application.status.ne(ApplicationStatus.REJECTED)))
                 .fetchOne() != null;
+    }
+
+    // 어제 모집 마감된 신청 가져오기
+    @Override
+    public List<Application> getYesterdayExpiredApplications(LocalDate date) {
+        return queryFactory.selectFrom(application)
+                .where(application.status.eq(ApplicationStatus.REJECTED)
+                        .and(application.post.endDate.eq(date)))
+                .fetch();
+    }
+
+    // 모집 마감 시 신청 자동 반려
+    @Override
+    public void updateExpiredApplications(LocalDate date) {
+        queryFactory.update(application)
+                .set(application.status, ApplicationStatus.REJECTED)
+                .where(application.status.eq(ApplicationStatus.WAITING)
+                        .and(application.post.endDate.before(date)))
+                .execute();
+
+        em.flush();
+        em.clear();
+    }
+
+    // 어제 일정이 종료된 진행중인 봉사 신청 가져오기
+    @Override
+    public List<Application> getExpiredProgressingPosts(LocalDate date) {
+        return queryFactory.selectFrom(application)
+                .join(application.post, post)
+                .where(application.status.eq(ApplicationStatus.PROGRESSING)
+                        .and(post.endDate.eq(date)))
+                .fetch();
     }
 
 }
