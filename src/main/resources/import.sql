@@ -138,6 +138,26 @@ INSERT INTO review_image (id, image, review_id, created_date, modified_date) VAL
 INSERT INTO review_image (id, image, review_id, created_date, modified_date) VALUES (3, 'https://connectdog-image.s3.ap-northeast-2.amazonaws.com/review/review14.png', 3, now(), now());
 INSERT INTO review_image (id, image, review_id, created_date, modified_date) VALUES (4, 'https://connectdog-image.s3.ap-northeast-2.amazonaws.com/review/review15.png', 4, now(), now());
 INSERT INTO review_image (id, image, review_id, created_date, modified_date) VALUES (5, 'https://connectdog-image.s3.ap-northeast-2.amazonaws.com/review/review16.png', 5, now(), now());
+INSERT INTO review_image (id, image, review_id, created_date, modified_date) VALUES (6, 'https://connectdog-image.s3.ap-northeast-2.amazonaws.com/review/review12.png', 1, now(), now());
+INSERT INTO review_image (id, image, review_id, created_date, modified_date) VALUES (7, 'https://connectdog-image.s3.ap-northeast-2.amazonaws.com/review/review13.png', 2, now(), now());
+INSERT INTO review_image (id, image, review_id, created_date, modified_date) VALUES (8, 'https://connectdog-image.s3.ap-northeast-2.amazonaws.com/review/review14.png', 3, now(), now());
+INSERT INTO review_image (id, image, review_id, created_date, modified_date) VALUES (9, 'https://connectdog-image.s3.ap-northeast-2.amazonaws.com/review/review15.png', 4, now(), now());
+INSERT INTO review_image (id, image, review_id, created_date, modified_date) VALUES (10, 'https://connectdog-image.s3.ap-northeast-2.amazonaws.com/review/review16.png', 5, now(), now());
+INSERT INTO review_image (id, image, review_id, created_date, modified_date) VALUES (11, 'https://connectdog-image.s3.ap-northeast-2.amazonaws.com/review/review12.png', 1, now(), now());
+INSERT INTO review_image (id, image, review_id, created_date, modified_date) VALUES (12, 'https://connectdog-image.s3.ap-northeast-2.amazonaws.com/review/review13.png', 2, now(), now());
+INSERT INTO review_image (id, image, review_id, created_date, modified_date) VALUES (13, 'https://connectdog-image.s3.ap-northeast-2.amazonaws.com/review/review14.png', 3, now(), now());
+INSERT INTO review_image (id, image, review_id, created_date, modified_date) VALUES (14, 'https://connectdog-image.s3.ap-northeast-2.amazonaws.com/review/review15.png', 4, now(), now());
+INSERT INTO review_image (id, image, review_id, created_date, modified_date) VALUES (15, 'https://connectdog-image.s3.ap-northeast-2.amazonaws.com/review/review16.png', 5, now(), now());
+INSERT INTO review_image (id, image, review_id, created_date, modified_date) VALUES (16, 'https://connectdog-image.s3.ap-northeast-2.amazonaws.com/review/review12.png', 1, now(), now());
+INSERT INTO review_image (id, image, review_id, created_date, modified_date) VALUES (17, 'https://connectdog-image.s3.ap-northeast-2.amazonaws.com/review/review13.png', 2, now(), now());
+INSERT INTO review_image (id, image, review_id, created_date, modified_date) VALUES (18, 'https://connectdog-image.s3.ap-northeast-2.amazonaws.com/review/review14.png', 3, now(), now());
+INSERT INTO review_image (id, image, review_id, created_date, modified_date) VALUES (19, 'https://connectdog-image.s3.ap-northeast-2.amazonaws.com/review/review15.png', 4, now(), now());
+INSERT INTO review_image (id, image, review_id, created_date, modified_date) VALUES (20, 'https://connectdog-image.s3.ap-northeast-2.amazonaws.com/review/review16.png', 5, now(), now());
+INSERT INTO review_image (id, image, review_id, created_date, modified_date) VALUES (21, 'https://connectdog-image.s3.ap-northeast-2.amazonaws.com/review/review12.png', 1, now(), now());
+INSERT INTO review_image (id, image, review_id, created_date, modified_date) VALUES (22, 'https://connectdog-image.s3.ap-northeast-2.amazonaws.com/review/review13.png', 2, now(), now());
+INSERT INTO review_image (id, image, review_id, created_date, modified_date) VALUES (23, 'https://connectdog-image.s3.ap-northeast-2.amazonaws.com/review/review14.png', 3, now(), now());
+INSERT INTO review_image (id, image, review_id, created_date, modified_date) VALUES (24, 'https://connectdog-image.s3.ap-northeast-2.amazonaws.com/review/review15.png', 4, now(), now());
+INSERT INTO review_image (id, image, review_id, created_date, modified_date) VALUES (25, 'https://connectdog-image.s3.ap-northeast-2.amazonaws.com/review/review16.png', 5, now(), now());
 
 
 -- UPDATE REVIEW MAIN IMAGE
@@ -407,14 +427,46 @@ INSERT INTO review (id, content, post_id, volunteer_id, created_date, modified_d
 
 
 -- INSERT REVIEW_IMAGE
-INSERT INTO review_image (id, image, review_id, created_date, modified_date) VALUES (6, 'https://connectdog-image.s3.ap-northeast-2.amazonaws.com/review/review17.png', 6, now(), now());
-INSERT INTO review_image (id, image, review_id, created_date, modified_date) VALUES (7, 'https://connectdog-image.s3.ap-northeast-2.amazonaws.com/review/review18.png', 7, now(), now());
-INSERT INTO review_image (id, image, review_id, created_date, modified_date) VALUES (8, 'https://connectdog-image.s3.ap-northeast-2.amazonaws.com/review/review19.png', 8, now(), now());
-INSERT INTO review_image (id, image, review_id, created_date, modified_date) VALUES (9, 'https://connectdog-image.s3.ap-northeast-2.amazonaws.com/review/review20.png', 9, now(), now());
-INSERT INTO review_image (id, image, review_id, created_date, modified_date) VALUES (10, 'https://connectdog-image.s3.ap-northeast-2.amazonaws.com/review/review21.png', 10, now(), now());
-INSERT INTO review_image (id, image, review_id, created_date, modified_date) VALUES (11, 'https://connectdog-image.s3.ap-northeast-2.amazonaws.com/review/review22.png', 11, now(), now());
-INSERT INTO review_image (id, image, review_id, created_date, modified_date) VALUES (12, 'https://connectdog-image.s3.ap-northeast-2.amazonaws.com/review/review23.png', 12, now(), now());
-INSERT INTO review_image (id, image, review_id, created_date, modified_date) VALUES (13, 'https://connectdog-image.s3.ap-northeast-2.amazonaws.com/review/review24.png', 13, now(), now());
+INSERT INTO review_image (id, image, review_id, created_date, modified_date) VALUES (26, 'https://connectdog-image.s3.ap-northeast-2.amazonaws.com/review/review17.png', 6, now(), now());
+INSERT INTO review_image (id, image, review_id, created_date, modified_date) VALUES (27, 'https://connectdog-image.s3.ap-northeast-2.amazonaws.com/review/review18.png', 7, now(), now());
+INSERT INTO review_image (id, image, review_id, created_date, modified_date) VALUES (28, 'https://connectdog-image.s3.ap-northeast-2.amazonaws.com/review/review19.png', 8, now(), now());
+INSERT INTO review_image (id, image, review_id, created_date, modified_date) VALUES (29, 'https://connectdog-image.s3.ap-northeast-2.amazonaws.com/review/review20.png', 9, now(), now());
+INSERT INTO review_image (id, image, review_id, created_date, modified_date) VALUES (30, 'https://connectdog-image.s3.ap-northeast-2.amazonaws.com/review/review21.png', 10, now(), now());
+INSERT INTO review_image (id, image, review_id, created_date, modified_date) VALUES (31, 'https://connectdog-image.s3.ap-northeast-2.amazonaws.com/review/review22.png', 11, now(), now());
+INSERT INTO review_image (id, image, review_id, created_date, modified_date) VALUES (32, 'https://connectdog-image.s3.ap-northeast-2.amazonaws.com/review/review23.png', 12, now(), now());
+INSERT INTO review_image (id, image, review_id, created_date, modified_date) VALUES (33, 'https://connectdog-image.s3.ap-northeast-2.amazonaws.com/review/review24.png', 13, now(), now());
+INSERT INTO review_image (id, image, review_id, created_date, modified_date) VALUES (34, 'https://connectdog-image.s3.ap-northeast-2.amazonaws.com/review/review17.png', 6, now(), now());
+INSERT INTO review_image (id, image, review_id, created_date, modified_date) VALUES (35, 'https://connectdog-image.s3.ap-northeast-2.amazonaws.com/review/review18.png', 7, now(), now());
+INSERT INTO review_image (id, image, review_id, created_date, modified_date) VALUES (36, 'https://connectdog-image.s3.ap-northeast-2.amazonaws.com/review/review19.png', 8, now(), now());
+INSERT INTO review_image (id, image, review_id, created_date, modified_date) VALUES (37, 'https://connectdog-image.s3.ap-northeast-2.amazonaws.com/review/review20.png', 9, now(), now());
+INSERT INTO review_image (id, image, review_id, created_date, modified_date) VALUES (38, 'https://connectdog-image.s3.ap-northeast-2.amazonaws.com/review/review21.png', 10, now(), now());
+INSERT INTO review_image (id, image, review_id, created_date, modified_date) VALUES (39, 'https://connectdog-image.s3.ap-northeast-2.amazonaws.com/review/review22.png', 11, now(), now());
+INSERT INTO review_image (id, image, review_id, created_date, modified_date) VALUES (40, 'https://connectdog-image.s3.ap-northeast-2.amazonaws.com/review/review23.png', 12, now(), now());
+INSERT INTO review_image (id, image, review_id, created_date, modified_date) VALUES (41, 'https://connectdog-image.s3.ap-northeast-2.amazonaws.com/review/review24.png', 13, now(), now());
+INSERT INTO review_image (id, image, review_id, created_date, modified_date) VALUES (42, 'https://connectdog-image.s3.ap-northeast-2.amazonaws.com/review/review17.png', 6, now(), now());
+INSERT INTO review_image (id, image, review_id, created_date, modified_date) VALUES (43, 'https://connectdog-image.s3.ap-northeast-2.amazonaws.com/review/review18.png', 7, now(), now());
+INSERT INTO review_image (id, image, review_id, created_date, modified_date) VALUES (44, 'https://connectdog-image.s3.ap-northeast-2.amazonaws.com/review/review19.png', 8, now(), now());
+INSERT INTO review_image (id, image, review_id, created_date, modified_date) VALUES (45, 'https://connectdog-image.s3.ap-northeast-2.amazonaws.com/review/review20.png', 9, now(), now());
+INSERT INTO review_image (id, image, review_id, created_date, modified_date) VALUES (46, 'https://connectdog-image.s3.ap-northeast-2.amazonaws.com/review/review21.png', 10, now(), now());
+INSERT INTO review_image (id, image, review_id, created_date, modified_date) VALUES (47, 'https://connectdog-image.s3.ap-northeast-2.amazonaws.com/review/review22.png', 11, now(), now());
+INSERT INTO review_image (id, image, review_id, created_date, modified_date) VALUES (48, 'https://connectdog-image.s3.ap-northeast-2.amazonaws.com/review/review23.png', 12, now(), now());
+INSERT INTO review_image (id, image, review_id, created_date, modified_date) VALUES (49, 'https://connectdog-image.s3.ap-northeast-2.amazonaws.com/review/review24.png', 13, now(), now());
+INSERT INTO review_image (id, image, review_id, created_date, modified_date) VALUES (51, 'https://connectdog-image.s3.ap-northeast-2.amazonaws.com/review/review17.png', 6, now(), now());
+INSERT INTO review_image (id, image, review_id, created_date, modified_date) VALUES (52, 'https://connectdog-image.s3.ap-northeast-2.amazonaws.com/review/review18.png', 7, now(), now());
+INSERT INTO review_image (id, image, review_id, created_date, modified_date) VALUES (53, 'https://connectdog-image.s3.ap-northeast-2.amazonaws.com/review/review19.png', 8, now(), now());
+INSERT INTO review_image (id, image, review_id, created_date, modified_date) VALUES (54, 'https://connectdog-image.s3.ap-northeast-2.amazonaws.com/review/review20.png', 9, now(), now());
+INSERT INTO review_image (id, image, review_id, created_date, modified_date) VALUES (55, 'https://connectdog-image.s3.ap-northeast-2.amazonaws.com/review/review21.png', 10, now(), now());
+INSERT INTO review_image (id, image, review_id, created_date, modified_date) VALUES (56, 'https://connectdog-image.s3.ap-northeast-2.amazonaws.com/review/review22.png', 11, now(), now());
+INSERT INTO review_image (id, image, review_id, created_date, modified_date) VALUES (57, 'https://connectdog-image.s3.ap-northeast-2.amazonaws.com/review/review23.png', 12, now(), now());
+INSERT INTO review_image (id, image, review_id, created_date, modified_date) VALUES (58, 'https://connectdog-image.s3.ap-northeast-2.amazonaws.com/review/review24.png', 13, now(), now());
+INSERT INTO review_image (id, image, review_id, created_date, modified_date) VALUES (59, 'https://connectdog-image.s3.ap-northeast-2.amazonaws.com/review/review17.png', 6, now(), now());
+INSERT INTO review_image (id, image, review_id, created_date, modified_date) VALUES (60, 'https://connectdog-image.s3.ap-northeast-2.amazonaws.com/review/review18.png', 7, now(), now());
+INSERT INTO review_image (id, image, review_id, created_date, modified_date) VALUES (61, 'https://connectdog-image.s3.ap-northeast-2.amazonaws.com/review/review19.png', 8, now(), now());
+INSERT INTO review_image (id, image, review_id, created_date, modified_date) VALUES (62, 'https://connectdog-image.s3.ap-northeast-2.amazonaws.com/review/review20.png', 9, now(), now());
+INSERT INTO review_image (id, image, review_id, created_date, modified_date) VALUES (63, 'https://connectdog-image.s3.ap-northeast-2.amazonaws.com/review/review21.png', 10, now(), now());
+INSERT INTO review_image (id, image, review_id, created_date, modified_date) VALUES (64, 'https://connectdog-image.s3.ap-northeast-2.amazonaws.com/review/review22.png', 11, now(), now());
+INSERT INTO review_image (id, image, review_id, created_date, modified_date) VALUES (65, 'https://connectdog-image.s3.ap-northeast-2.amazonaws.com/review/review23.png', 12, now(), now());
+INSERT INTO review_image (id, image, review_id, created_date, modified_date) VALUES (66, 'https://connectdog-image.s3.ap-northeast-2.amazonaws.com/review/review24.png', 13, now(), now());
 
 
 -- UPDATE REVIEW MAIN IMAGE
