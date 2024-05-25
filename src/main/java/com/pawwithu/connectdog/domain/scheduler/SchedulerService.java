@@ -39,16 +39,19 @@ public class SchedulerService {
     // 매일 00시 - 공고 모집 마감 업데이트, 신청 자동 반려
     @Scheduled(cron = "0 0 0 * * *")
     public void updateExpiredPostsAndApplications() {
+        log.info("----------00시 [공고 모집 마감 스케줄링] start----------");
         LocalDate today = LocalDate.now();
         // 공고 모집 마감 업데이트
         customPostRepository.updateExpiredPosts(today);
         // 신청 자동 반려
         customApplicationRepository.updateExpiredApplications(today);
+        log.info("----------00시 [공고 모집 마감 스케줄링] end----------");
     }
 
     // 매일 9시 - 모집 마감된 공고를 신청했던 봉사자에게 반려 알림 전송 및 모집자에게 공고 모집 기간 만료 알림 전송
     @Scheduled(cron = "0 0 9 * * *")
     public void sendRejectNotification() {
+        log.info("----------9시 [공고 모집 마감 알림 전송] start----------");
         LocalDate today = LocalDate.now();
         LocalDate yesterday = today.minusDays(1);
         // 모집 마감된 공고를 신청했던 봉사자에게 반려 알림 전송
@@ -73,12 +76,14 @@ public class SchedulerService {
                 log.info("----------공고 마감 사전 알림 전송 실패----------");
             }
         }
+        log.info("----------9시 [공고 모집 마감 알림 전송] end----------");
 
     }
 
     // 매일 오후 12시 - 공고 모집 마감 알림 12시간 전 알림
     @Scheduled(cron = "0 0 12 * * *")
     public void sendBeforeExpiredNotification() {
+        log.info("----------12시 [공고 모집 마감 12시간 전 알림 전송] start----------");
         LocalDate today = LocalDate.now();
         // 모집 마감 하루 전 모집중 공고 알림 전송
         List<Post> recruitingPosts = customPostRepository.getBeforeExpiredRecruitingPosts(today);
@@ -102,11 +107,13 @@ public class SchedulerService {
                 log.info("----------공고 마감 사전 알림 전송 실패----------");
             }
         }
+        log.info("----------12시 [공고 모집 마감 12시간 전 알림 전송] end----------");
     }
 
     // 매일 오전 10시 - 이동봉사 진행 완료 요청 알림
     @Scheduled(cron = "0 0 10 * * *")
     public void sendCompleteRequestNotification() {
+        log.info("----------10시 [이동봉사 진행 완료 요청 알림 전송] start----------");
         LocalDate today = LocalDate.now();
         LocalDate yesterday = today.minusDays(1);
         List<Application> applications = customApplicationRepository.getExpiredProgressingPosts(yesterday);
@@ -119,11 +126,13 @@ public class SchedulerService {
                 log.info("----------이동봉사 진행 완료 요청 알림 전송 실패----------");
             }
         }
+        log.info("----------10시 [이동봉사 진행 완료 요청 알림 전송] end----------");
     }
 
     // 매일 15시 - 이동봉사 가이드 알림
     @Scheduled(cron = "0 0 15 * * *")
     public void sendGuideNotification() {
+        log.info("----------15시 [이동봉사 가이드 알림 전송] start----------");
         LocalDate today = LocalDate.now();
         LocalDate yesterday = today.minusDays(1);
         List<Volunteer> volunteers = customVolunteerRepository.getYesterdaySignUpVolunteers(yesterday);
@@ -136,5 +145,6 @@ public class SchedulerService {
                 log.info("----------이동봉사 가이드 알림 전송 실패----------");
             }
         }
+        log.info("----------15시 [이동봉사 가이드 알림 전송] end----------");
     }
 }
