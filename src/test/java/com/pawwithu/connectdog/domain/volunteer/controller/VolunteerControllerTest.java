@@ -195,6 +195,34 @@ class VolunteerControllerTest {
         // then
         result.andExpect(status().isNoContent());
         verify(volunteerService, times(1)).changePassword(anyString(), any());
+    }
 
+    @Test
+    void 이동봉사자_알림_설정() throws Exception {
+        // given, when
+        ResultActions result = mockMvc.perform(
+                patch("/volunteers/my/notification")
+        );
+
+        // then
+        result.andExpect(status().isNoContent());
+        verify(volunteerService, times(1)).changeNotification(anyString());
+    }
+
+    @Test
+    void 이동봉사자_알림_설정_조회() throws Exception {
+        // given
+        VolunteerGetNotificationResponse request = new VolunteerGetNotificationResponse(false);
+
+        // when
+        ResultActions result = mockMvc.perform(
+                get("/volunteers/my/notification")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(request))
+        );
+
+        // then
+        result.andExpect(status().isOk());
+        verify(volunteerService, times(1)).getNotification(anyString());
     }
 }
