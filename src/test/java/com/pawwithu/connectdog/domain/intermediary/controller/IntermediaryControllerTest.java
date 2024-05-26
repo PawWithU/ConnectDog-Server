@@ -302,4 +302,33 @@ class IntermediaryControllerTest {
         verify(intermediaryService, times(1)).changePassword(anyString(), any());
 
     }
+
+    @Test
+    void 모집자_알림_설정() throws Exception {
+        // given, when
+        ResultActions result = mockMvc.perform(
+                patch("/intermediaries/my/notification")
+        );
+
+        // then
+        result.andExpect(status().isNoContent());
+        verify(intermediaryService, times(1)).changeNotification(anyString());
+    }
+
+    @Test
+    void 모집자_알림_설정_조회() throws Exception {
+        // given
+        IntermediaryGetNotificationResponse request = new IntermediaryGetNotificationResponse(false);
+
+        // when
+        ResultActions result = mockMvc.perform(
+                get("/intermediaries/my/notification")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(request))
+        );
+
+        // then
+        result.andExpect(status().isOk());
+        verify(intermediaryService, times(1)).getNotification(anyString());
+    }
 }
