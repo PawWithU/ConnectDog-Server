@@ -1,7 +1,7 @@
 package com.pawwithu.connectdog.domain.notification.repository.impl;
 
-import com.pawwithu.connectdog.domain.notification.dto.response.NotificationIntermediaryGetResponse;
-import com.pawwithu.connectdog.domain.notification.dto.response.NotificationVolunteerGetResponse;
+import com.pawwithu.connectdog.domain.notification.dto.response.NotificationsIntermediaryGetResponse;
+import com.pawwithu.connectdog.domain.notification.dto.response.NotificationsVolunteerGetResponse;
 import com.pawwithu.connectdog.domain.notification.repository.CustomNotificationRepository;
 import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.impl.JPAQueryFactory;
@@ -12,7 +12,6 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
-import static com.pawwithu.connectdog.domain.application.dto.response.ApplicationIntermediaryGetOneResponse.from;
 import static com.pawwithu.connectdog.domain.notification.entity.QIntermediaryNotification.intermediaryNotification;
 import static com.pawwithu.connectdog.domain.notification.entity.QVolunteerNotification.volunteerNotification;
 
@@ -24,9 +23,9 @@ public class CustomNotificationRepositoryImpl implements CustomNotificationRepos
     private final JPAQueryFactory queryFactory;
 
     @Override
-    public List<NotificationVolunteerGetResponse> getVolunteerNotifications(Long volunteerId, Pageable pageable) {
+    public List<NotificationsVolunteerGetResponse> getVolunteerNotifications(Long volunteerId, Pageable pageable) {
         return queryFactory
-                .select(Projections.constructor(NotificationVolunteerGetResponse.class,
+                .select(Projections.constructor(NotificationsVolunteerGetResponse.class,
                         volunteerNotification.id, volunteerNotification.image, volunteerNotification.notificationType,
                         volunteerNotification.title, volunteerNotification.body, volunteerNotification.isRead, volunteerNotification.volunteer.id))
                 .from(volunteerNotification)
@@ -38,9 +37,9 @@ public class CustomNotificationRepositoryImpl implements CustomNotificationRepos
     }
 
     @Override
-    public List<NotificationIntermediaryGetResponse> getIntermediaryNotifications(Long intermediaryId, Pageable pageable) {
+    public List<NotificationsIntermediaryGetResponse> getIntermediaryNotifications(Long intermediaryId, Pageable pageable) {
         return queryFactory
-                .select(Projections.constructor(NotificationIntermediaryGetResponse.class,
+                .select(Projections.constructor(NotificationsIntermediaryGetResponse.class,
                         intermediaryNotification.id, intermediaryNotification.image, intermediaryNotification.notificationType,
                         intermediaryNotification.title, intermediaryNotification.body, intermediaryNotification.isRead, intermediaryNotification.intermediary.id))
                 .from(intermediaryNotification)

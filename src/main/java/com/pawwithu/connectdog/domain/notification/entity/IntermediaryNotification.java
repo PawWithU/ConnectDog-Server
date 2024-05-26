@@ -37,4 +37,6 @@ public class IntermediaryNotification extends BaseTimeEntity {
         this.intermediary = intermediary;
         this.isRead = isRead;
     }
+
+    public void updateIsRead() { this.isRead = true; }
 }
