@@ -1,9 +1,6 @@
 package com.pawwithu.connectdog.domain.volunteer.controller;
 
-import com.pawwithu.connectdog.domain.volunteer.dto.request.AdditionalAuthRequest;
-import com.pawwithu.connectdog.domain.volunteer.dto.request.NicknameRequest;
-import com.pawwithu.connectdog.domain.volunteer.dto.request.VolunteerMyProfileRequest;
-import com.pawwithu.connectdog.domain.volunteer.dto.request.VolunteerPasswordRequest;
+import com.pawwithu.connectdog.domain.volunteer.dto.request.*;
 import com.pawwithu.connectdog.domain.volunteer.dto.response.*;
 import com.pawwithu.connectdog.domain.volunteer.service.VolunteerService;
 import com.pawwithu.connectdog.error.dto.ErrorResponse;
@@ -41,7 +38,7 @@ public class VolunteerController {
     }
 
     @Operation(summary = "이름, 전화번호 추가 인증", description = "이름과 전화번호를 추가로 인증합니다.",
-            security = { @SecurityRequirement(name = "bearer-key") },
+            security = {@SecurityRequirement(name = "bearer-key")},
             responses = {
                     @ApiResponse(responseCode = "204", description = "이름, 전화번호 추가 인증 성공")
                     , @ApiResponse(responseCode = "400", description = "V1, 이름은 필수 입력 값입니다. \t\n V1, 휴대전화 번호는 필수 입력 값입니다. \t\n V1, 유효하지 않은 휴대전화 번호입니다.",
@@ -90,7 +87,7 @@ public class VolunteerController {
     }
 
     @Operation(summary = "마이페이지 프로필 수정", description = "마이페이지 프로필을 수정합니다.",
-            security = { @SecurityRequirement(name = "bearer-key") },
+            security = {@SecurityRequirement(name = "bearer-key")},
             responses = {@ApiResponse(responseCode = "204", description = "마이페이지 프로필 수정 성공")
                     , @ApiResponse(responseCode = "400"
                     , description = "V1, 닉네임은 한글, 숫자만 사용 가능합니다. \t\n V1, 닉네임은 필수 입력 값입니다. \t\n V1, 닉네임은 2~10자로 입력해 주세요. \t\n A2, 이미 사용 중인 닉네임입니다. \t\n M1, 해당 이동봉사자를 찾을 수 없습니다."
@@ -124,6 +121,18 @@ public class VolunteerController {
     public ResponseEntity<Void> changePassword(@AuthenticationPrincipal UserDetails loginUser, @RequestBody VolunteerPasswordRequest request) {
         volunteerService.changePassword(loginUser.getUsername(), request.password());
         return ResponseEntity.noContent().build();
+    }
+
+    @Operation(summary = "비밀번호 변경 - 이동봉사자 기존 비밀번호 확인", description = "이동봉사자 기존 비밀번호를 확인합니다.",
+            responses = {@ApiResponse(responseCode = "204", description = "기존 비밀번호 확인 성공")
+                    , @ApiResponse(responseCode = "400"
+                    , description = "M1, 해당 이동봉사자를 찾을 수 없습니다. \t\n V1, 영문+숫자 10자 이상 또는 영문+숫자+특수기호 8자 이상을 입력해 주세요."
+                    , content = @Content(schema = @Schema(implementation = Boolean.class)))
+            })
+    @PostMapping("/password/check")
+    public ResponseEntity<VolunteerPasswordCheckResponse> checkPassword(@AuthenticationPrincipal UserDetails loginUser, @RequestBody VolunteerPasswordCheckRequest request) {
+        VolunteerPasswordCheckResponse response = volunteerService.checkPassword(loginUser.getUsername(), request.password());
+        return ResponseEntity.ok(response);
     }
 
     @Operation(summary = "설정 - 이동봉사자 알림 설정", description = "이동봉사자 알림을 설정합니다.",

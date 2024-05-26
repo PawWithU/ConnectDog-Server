@@ -125,6 +125,12 @@ public class VolunteerService {
         volunteer.passwordEncode(passwordEncoder);
     }
 
+    public VolunteerPasswordCheckResponse checkPassword(String email, String password) {
+        Volunteer volunteer = volunteerRepository.findByEmail(email).orElseThrow(() -> new BadRequestException(VOLUNTEER_NOT_FOUND));
+        boolean isChecked =  passwordEncoder.matches(password, volunteer.getPassword());
+        return VolunteerPasswordCheckResponse.of(isChecked);
+    }
+
     public void changeNotification(String email) {
         Volunteer volunteer = volunteerRepository.findByEmail(email).orElseThrow(() -> new BadRequestException(VOLUNTEER_NOT_FOUND));
         volunteer.updateNotification();
@@ -136,4 +142,5 @@ public class VolunteerService {
         VolunteerGetNotificationResponse response = VolunteerGetNotificationResponse.of(volunteer.getNotification());
         return response;
     }
+
 }
