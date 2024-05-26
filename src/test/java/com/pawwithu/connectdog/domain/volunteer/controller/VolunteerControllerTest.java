@@ -4,10 +4,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.pawwithu.connectdog.domain.dog.entity.DogSize;
 import com.pawwithu.connectdog.domain.post.dto.response.PostGetHomeResponse;
-import com.pawwithu.connectdog.domain.volunteer.dto.request.AdditionalAuthRequest;
-import com.pawwithu.connectdog.domain.volunteer.dto.request.NicknameRequest;
-import com.pawwithu.connectdog.domain.volunteer.dto.request.VolunteerMyProfileRequest;
-import com.pawwithu.connectdog.domain.volunteer.dto.request.VolunteerPasswordRequest;
+import com.pawwithu.connectdog.domain.volunteer.dto.request.*;
 import com.pawwithu.connectdog.domain.volunteer.dto.response.*;
 import com.pawwithu.connectdog.domain.volunteer.service.VolunteerService;
 import com.pawwithu.connectdog.utils.TestUserArgumentResolver;
@@ -196,6 +193,24 @@ class VolunteerControllerTest {
         result.andExpect(status().isNoContent());
         verify(volunteerService, times(1)).changePassword(anyString(), any());
     }
+
+    @Test
+    void 이동봉사자_기존_비밀번호_확인() throws Exception {
+        // given
+        VolunteerPasswordCheckRequest request = new VolunteerPasswordCheckRequest("oldPassword");
+
+        // when
+        ResultActions result = mockMvc.perform(
+                post("/volunteers/password/check")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(request))
+        );
+
+        // then
+        result.andExpect(status().isOk());
+        verify(volunteerService, times(1)).checkPassword(anyString(), anyString());
+    }
+
 
     @Test
     void 이동봉사자_알림_설정() throws Exception {
