@@ -1,7 +1,8 @@
 package com.pawwithu.connectdog.domain.notification.controller;
 
-import com.pawwithu.connectdog.domain.notification.dto.response.NotificationIntermediaryGetResponse;
-import com.pawwithu.connectdog.domain.notification.dto.response.NotificationVolunteerGetResponse;
+import com.pawwithu.connectdog.domain.notification.dto.response.NotificationIntermediaryGetOneResponse;
+import com.pawwithu.connectdog.domain.notification.dto.response.NotificationsIntermediaryGetResponse;
+import com.pawwithu.connectdog.domain.notification.dto.response.NotificationsVolunteerGetResponse;
 import com.pawwithu.connectdog.domain.notification.service.NotificationService;
 import com.pawwithu.connectdog.error.dto.ErrorResponse;
 import io.swagger.v3.oas.annotations.Operation;
@@ -15,6 +16,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
@@ -33,8 +35,8 @@ public class NotificationController {
                     , content = @Content(schema = @Schema(implementation = ErrorResponse.class)))
             })
     @GetMapping("/volunteers/notifications/my")
-    public ResponseEntity<List<NotificationVolunteerGetResponse>> getVolunteerNotification(@AuthenticationPrincipal UserDetails loginUser, Pageable pageable) {
-        List<NotificationVolunteerGetResponse> response = notificationService.getVolunteerNotifications(loginUser.getUsername(), pageable);
+    public ResponseEntity<List<NotificationsVolunteerGetResponse>> getVolunteerNotifications(@AuthenticationPrincipal UserDetails loginUser, Pageable pageable) {
+        List<NotificationsVolunteerGetResponse> response = notificationService.getVolunteerNotifications(loginUser.getUsername(), pageable);
         return ResponseEntity.ok(response);
     }
 
@@ -45,9 +47,20 @@ public class NotificationController {
                     , content = @Content(schema = @Schema(implementation = ErrorResponse.class)))
             })
     @GetMapping("/intermediaries/notifications/my")
-    public ResponseEntity<List<NotificationIntermediaryGetResponse>> getIntermediaryNotification(@AuthenticationPrincipal UserDetails loginUser, Pageable pageable) {
-        List<NotificationIntermediaryGetResponse> response = notificationService.getIntermediaryNotification(loginUser.getUsername(), pageable);
+    public ResponseEntity<List<NotificationsIntermediaryGetResponse>> getIntermediaryNotifications(@AuthenticationPrincipal UserDetails loginUser, Pageable pageable) {
+        List<NotificationsIntermediaryGetResponse> response = notificationService.getIntermediaryNotifications(loginUser.getUsername(), pageable);
         return ResponseEntity.ok(response);
     }
 
+    @Operation(summary = "모집자 - 알림 단건 조회", description = "모집자의 알림 단건을 조회합니다.",
+            responses = {@ApiResponse(responseCode = "200", description = "알림 단건 조회 성공")
+                    , @ApiResponse(responseCode = "400"
+                    , description = "M1, 해당 이동봉사 중개를 찾을 수 없습니다. \t\n N2, 해당 알림을 찾을 수 없습니다."
+                    , content = @Content(schema = @Schema(implementation = ErrorResponse.class)))
+            })
+    @GetMapping("/intermediaries/notifications/{notificationId}")
+    public ResponseEntity<NotificationIntermediaryGetOneResponse> getIntermediaryOneNotification(@AuthenticationPrincipal UserDetails loginUser, @PathVariable Long notificationId) {
+        NotificationIntermediaryGetOneResponse response = notificationService.getIntermediaryOneNotification(loginUser.getUsername(), notificationId);
+        return ResponseEntity.ok(response);
+    }
 }
