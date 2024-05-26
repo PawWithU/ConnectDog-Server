@@ -177,4 +177,15 @@ public class IntermediaryController {
         return ResponseEntity.noContent().build();
     }
 
+    @Operation(summary = "설정 - 모집자 알림 설정 조회", description = "모집자 알림 설정을 조회합니다.",
+            responses = {@ApiResponse(responseCode = "204", description = "모집자 알림 설정 조회 성공")
+                    , @ApiResponse(responseCode = "400"
+                    , description = "M1, 해당 이동봉사 중개를 찾을 수 없습니다."
+                    , content = @Content(schema = @Schema(implementation = ErrorResponse.class)))
+            })
+    @GetMapping("/intermediaries/my/notification")
+    public ResponseEntity<IntermediaryGetNotificationResponse> getNotification(@AuthenticationPrincipal UserDetails loginUser) {
+        IntermediaryGetNotificationResponse response = intermediaryService.getNotification(loginUser.getUsername());
+        return ResponseEntity.ok(response);
+    }
 }

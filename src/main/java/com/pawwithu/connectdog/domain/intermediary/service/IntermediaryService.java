@@ -159,4 +159,11 @@ public class IntermediaryService {
         Intermediary intermediary = intermediaryRepository.findByEmail(email).orElseThrow(() -> new BadRequestException(INTERMEDIARY_NOT_FOUND));
         intermediary.updateNotification();
     }
+
+    @Transactional(readOnly = true)
+    public IntermediaryGetNotificationResponse getNotification(String email) {
+        Intermediary intermediary = intermediaryRepository.findByEmail(email).orElseThrow(() -> new BadRequestException(INTERMEDIARY_NOT_FOUND));
+        IntermediaryGetNotificationResponse response = IntermediaryGetNotificationResponse.of(intermediary.getNotification());
+        return response;
+    }
 }
