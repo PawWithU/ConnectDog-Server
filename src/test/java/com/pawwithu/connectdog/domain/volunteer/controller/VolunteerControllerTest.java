@@ -201,7 +201,7 @@ class VolunteerControllerTest {
     void 이동봉사자_알림_설정() throws Exception {
         // given, when
         ResultActions result = mockMvc.perform(
-                patch("/volunteers/my/notification")
+                patch("/volunteers/notification/setting")
         );
 
         // then
@@ -216,7 +216,7 @@ class VolunteerControllerTest {
 
         // when
         ResultActions result = mockMvc.perform(
-                get("/volunteers/my/notification")
+                get("/volunteers/notification/setting")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(request))
         );

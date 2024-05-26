@@ -171,7 +171,7 @@ public class IntermediaryController {
                     , description = "M1, 해당 이동봉사 중개를 찾을 수 없습니다."
                     , content = @Content(schema = @Schema(implementation = ErrorResponse.class)))
             })
-    @PatchMapping("/intermediaries/my/notification")
+    @PatchMapping("/intermediaries/notification/setting")
     public ResponseEntity<Void> changeNotification(@AuthenticationPrincipal UserDetails loginUser) {
         intermediaryService.changeNotification(loginUser.getUsername());
         return ResponseEntity.noContent().build();
@@ -183,7 +183,7 @@ public class IntermediaryController {
                     , description = "M1, 해당 이동봉사 중개를 찾을 수 없습니다."
                     , content = @Content(schema = @Schema(implementation = ErrorResponse.class)))
             })
-    @GetMapping("/intermediaries/my/notification")
+    @GetMapping("/intermediaries/notification/setting")
     public ResponseEntity<IntermediaryGetNotificationResponse> getNotification(@AuthenticationPrincipal UserDetails loginUser) {
         IntermediaryGetNotificationResponse response = intermediaryService.getNotification(loginUser.getUsername());
         return ResponseEntity.ok(response);

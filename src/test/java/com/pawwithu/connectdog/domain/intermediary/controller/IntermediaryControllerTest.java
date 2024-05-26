@@ -307,7 +307,7 @@ class IntermediaryControllerTest {
     void 모집자_알림_설정() throws Exception {
         // given, when
         ResultActions result = mockMvc.perform(
-                patch("/intermediaries/my/notification")
+                patch("/intermediaries/notification/setting")
         );
 
         // then
@@ -322,7 +322,7 @@ class IntermediaryControllerTest {
 
         // when
         ResultActions result = mockMvc.perform(
-                get("/intermediaries/my/notification")
+                get("/intermediaries/notification/setting")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(request))
         );

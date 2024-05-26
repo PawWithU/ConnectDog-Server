@@ -132,7 +132,7 @@ public class VolunteerController {
                     , description = "M1, 해당 이동봉사자를 찾을 수 없습니다."
                     , content = @Content(schema = @Schema(implementation = ErrorResponse.class)))
             })
-    @PatchMapping("/my/notification")
+    @PatchMapping("/notification/setting")
     public ResponseEntity<Void> changeNotification(@AuthenticationPrincipal UserDetails loginUser) {
         volunteerService.changeNotification(loginUser.getUsername());
         return ResponseEntity.noContent().build();
@@ -144,7 +144,7 @@ public class VolunteerController {
                     , description = "M1, 해당 이동봉사자를 찾을 수 없습니다."
                     , content = @Content(schema = @Schema(implementation = ErrorResponse.class)))
             })
-    @GetMapping("/my/notification")
+    @GetMapping("/notification/setting")
     public ResponseEntity<VolunteerGetNotificationResponse> getNotification(@AuthenticationPrincipal UserDetails loginUser) {
         VolunteerGetNotificationResponse response = volunteerService.getNotification(loginUser.getUsername());
         return ResponseEntity.ok(response);
