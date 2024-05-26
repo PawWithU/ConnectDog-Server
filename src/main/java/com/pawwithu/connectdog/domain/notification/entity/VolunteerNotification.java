@@ -37,4 +37,6 @@ public class VolunteerNotification extends BaseTimeEntity {
         this.volunteer = volunteer;
         this.isRead = isRead;
     }
+
+    public void updateIsRead() { this.isRead = true; }
 }
