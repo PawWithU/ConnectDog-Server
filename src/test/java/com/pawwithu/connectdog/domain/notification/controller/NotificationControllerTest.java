@@ -1,8 +1,10 @@
 package com.pawwithu.connectdog.domain.notification.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.pawwithu.connectdog.domain.notification.dto.response.NotificationIntermediaryGetResponse;
-import com.pawwithu.connectdog.domain.notification.dto.response.NotificationVolunteerGetResponse;
+import com.pawwithu.connectdog.domain.notification.dto.response.NotificationIntermediaryGetOneResponse;
+import com.pawwithu.connectdog.domain.notification.dto.response.NotificationVolunteerGetOneResponse;
+import com.pawwithu.connectdog.domain.notification.dto.response.NotificationsIntermediaryGetResponse;
+import com.pawwithu.connectdog.domain.notification.dto.response.NotificationsVolunteerGetResponse;
 import com.pawwithu.connectdog.domain.notification.entity.NotificationType;
 import com.pawwithu.connectdog.domain.notification.service.NotificationService;
 import com.pawwithu.connectdog.utils.TestUserArgumentResolver;
@@ -21,8 +23,7 @@ import org.springframework.web.filter.CharacterEncodingFilter;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -50,10 +51,10 @@ class NotificationControllerTest {
     @Test
     void 봉사자_알림_목록_조회() throws Exception {
         //given
-        List<NotificationVolunteerGetResponse> response = new ArrayList<>();
-        response.add(new NotificationVolunteerGetResponse(1L, "image1", NotificationType.CONFIRMED, "제목", "내용",
+        List<NotificationsVolunteerGetResponse> response = new ArrayList<>();
+        response.add(new NotificationsVolunteerGetResponse(1L, "image1", NotificationType.CONFIRMED, "제목", "내용",
                 false, 1L));
-        response.add(new NotificationVolunteerGetResponse(2L, "image2", NotificationType.REJECTED, "제목", "내용",
+        response.add(new NotificationsVolunteerGetResponse(2L, "image2", NotificationType.REJECTED, "제목", "내용",
                 false, 2L));
 
         //when
@@ -70,20 +71,54 @@ class NotificationControllerTest {
     @Test
     void 모집자_알림_목록_조회() throws Exception {
         //given
-        List<NotificationIntermediaryGetResponse> response = new ArrayList<>();
-        response.add(new NotificationIntermediaryGetResponse(1L, "image1", NotificationType.CONFIRMED, "제목", "내용",
+        List<NotificationsIntermediaryGetResponse> response = new ArrayList<>();
+        response.add(new NotificationsIntermediaryGetResponse(1L, "image1", NotificationType.CONFIRMED, "제목", "내용",
                 false, 1L));
-        response.add(new NotificationIntermediaryGetResponse(2L, "image2", NotificationType.REJECTED, "제목", "내용",
+        response.add(new NotificationsIntermediaryGetResponse(2L, "image2", NotificationType.REJECTED, "제목", "내용",
                 false, 2L));
 
         //when
-        given(notificationService.getIntermediaryNotification(anyString(), any())).willReturn(response);
+        given(notificationService.getIntermediaryNotifications(anyString(), any())).willReturn(response);
         ResultActions result = mockMvc.perform(
                 get("/intermediaries/notifications/my")
         );
 
         //then
         result.andExpect(status().isOk());
-        verify(notificationService, times(1)).getIntermediaryNotification(anyString(), any());
+        verify(notificationService, times(1)).getIntermediaryNotifications(anyString(), any());
+    }
+
+    @Test
+    void 모집자_알림_단건_조회() throws Exception {
+        //given
+        Long notificationId = 1L;
+        NotificationIntermediaryGetOneResponse response = new NotificationIntermediaryGetOneResponse(1L, "mainImage", NotificationType.COMPLETED.getKey(), "T1", "B1", false);
+
+        //when
+        given(notificationService.getIntermediaryOneNotification(anyString(), anyLong())).willReturn(response);
+        ResultActions result = mockMvc.perform(
+                get("/intermediaries/notifications/{notificationId}", notificationId)
+        );
+
+        //then
+        result.andExpect(status().isOk());
+        verify(notificationService, times(1)).getIntermediaryOneNotification(anyString(), anyLong());
+    }
+
+    @Test
+    void 봉사자_알림_단건_조회() throws Exception {
+        //given
+        Long notificationId = 1L;
+        NotificationVolunteerGetOneResponse response = new NotificationVolunteerGetOneResponse(1L, "mainImage", NotificationType.COMPLETED.getKey(), "T1", "B1", false);
+
+        //when
+        given(notificationService.getVolunteerOneNotification(anyString(), anyLong())).willReturn(response);
+        ResultActions result = mockMvc.perform(
+                get("/volunteers/notifications/{notificationId}", notificationId)
+        );
+
+        //then
+        result.andExpect(status().isOk());
+        verify(notificationService, times(1)).getVolunteerOneNotification(anyString(), anyLong());
     }
 }
