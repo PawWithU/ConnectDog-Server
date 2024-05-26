@@ -126,7 +126,7 @@ public class VolunteerController {
     @Operation(summary = "비밀번호 변경 - 이동봉사자 기존 비밀번호 확인", description = "이동봉사자 기존 비밀번호를 확인합니다.",
             responses = {@ApiResponse(responseCode = "204", description = "기존 비밀번호 확인 성공")
                     , @ApiResponse(responseCode = "400"
-                    , description = "M1, 해당 이동봉사자를 찾을 수 없습니다. \t\n V1, 영문+숫자 10자 이상 또는 영문+숫자+특수기호 8자 이상을 입력해 주세요."
+                    , description = "M1, 해당 이동봉사자를 찾을 수 없습니다."
                     , content = @Content(schema = @Schema(implementation = Boolean.class)))
             })
     @PostMapping("/password/check")
