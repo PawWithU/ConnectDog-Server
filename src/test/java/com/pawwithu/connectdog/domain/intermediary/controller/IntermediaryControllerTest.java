@@ -4,9 +4,11 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.pawwithu.connectdog.domain.dog.entity.DogSize;
 import com.pawwithu.connectdog.domain.intermediary.dto.request.IntermediaryMyProfileRequest;
+import com.pawwithu.connectdog.domain.intermediary.dto.request.IntermediaryPasswordCheckRequest;
 import com.pawwithu.connectdog.domain.intermediary.dto.request.IntermediaryPasswordRequest;
 import com.pawwithu.connectdog.domain.intermediary.dto.response.*;
 import com.pawwithu.connectdog.domain.intermediary.service.IntermediaryService;
+import com.pawwithu.connectdog.domain.volunteer.dto.request.VolunteerPasswordCheckRequest;
 import com.pawwithu.connectdog.utils.TestUserArgumentResolver;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -36,8 +38,7 @@ import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.patch;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @ExtendWith(MockitoExtension.class)
@@ -300,7 +301,23 @@ class IntermediaryControllerTest {
         // then
         result.andExpect(status().isNoContent());
         verify(intermediaryService, times(1)).changePassword(anyString(), any());
+    }
 
+    @Test
+    void 모집자_기존_비밀번호_확인() throws Exception {
+        // given
+        IntermediaryPasswordCheckRequest request = new IntermediaryPasswordCheckRequest("oldPassword");
+
+        // when
+        ResultActions result = mockMvc.perform(
+                post("/intermediaries/password/check")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(request))
+        );
+
+        // then
+        result.andExpect(status().isOk());
+        verify(intermediaryService, times(1)).checkPassword(anyString(), anyString());
     }
 
     @Test

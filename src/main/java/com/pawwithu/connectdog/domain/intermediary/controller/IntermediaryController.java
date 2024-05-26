@@ -1,9 +1,12 @@
 package com.pawwithu.connectdog.domain.intermediary.controller;
 
 import com.pawwithu.connectdog.domain.intermediary.dto.request.IntermediaryMyProfileRequest;
+import com.pawwithu.connectdog.domain.intermediary.dto.request.IntermediaryPasswordCheckRequest;
 import com.pawwithu.connectdog.domain.intermediary.dto.request.IntermediaryPasswordRequest;
 import com.pawwithu.connectdog.domain.intermediary.dto.response.*;
 import com.pawwithu.connectdog.domain.intermediary.service.IntermediaryService;
+import com.pawwithu.connectdog.domain.volunteer.dto.request.VolunteerPasswordCheckRequest;
+import com.pawwithu.connectdog.domain.volunteer.dto.response.VolunteerPasswordCheckResponse;
 import com.pawwithu.connectdog.error.dto.ErrorResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -163,6 +166,18 @@ public class IntermediaryController {
     public ResponseEntity<Void> changePassword(@AuthenticationPrincipal UserDetails loginUser, @RequestBody IntermediaryPasswordRequest request) {
         intermediaryService.changePassword(loginUser.getUsername(), request.password());
         return ResponseEntity.noContent().build();
+    }
+
+    @Operation(summary = "비밀번호 변경 - 모집자 기존 비밀번호 확인", description = "모집자 기존 비밀번호를 확인합니다.",
+            responses = {@ApiResponse(responseCode = "204", description = "기존 비밀번호 확인 성공")
+                    , @ApiResponse(responseCode = "400"
+                    , description = "M2, 해당 이동봉사 중개를 찾을 수 없습니다."
+                    , content = @Content(schema = @Schema(implementation = Boolean.class)))
+            })
+    @PostMapping("/intermediaries/password/check")
+    public ResponseEntity<IntermediaryPasswordCheckResponse> checkPassword(@AuthenticationPrincipal UserDetails loginUser, @RequestBody IntermediaryPasswordCheckRequest request) {
+        IntermediaryPasswordCheckResponse response = intermediaryService.checkPassword(loginUser.getUsername(), request.password());
+        return ResponseEntity.ok(response);
     }
 
     @Operation(summary = "설정 - 모집자 알림 설정", description = "모집자 알림을 설정합니다.",
