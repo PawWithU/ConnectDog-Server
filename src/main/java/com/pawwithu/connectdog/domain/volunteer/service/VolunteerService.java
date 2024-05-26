@@ -129,4 +129,11 @@ public class VolunteerService {
         Volunteer volunteer = volunteerRepository.findByEmail(email).orElseThrow(() -> new BadRequestException(VOLUNTEER_NOT_FOUND));
         volunteer.updateNotification();
     }
+
+    @Transactional(readOnly = true)
+    public VolunteerGetNotificationResponse getNotification(String email) {
+        Volunteer volunteer = volunteerRepository.findByEmail(email).orElseThrow(() -> new BadRequestException(VOLUNTEER_NOT_FOUND));
+        VolunteerGetNotificationResponse response = VolunteerGetNotificationResponse.of(volunteer.getNotification());
+        return response;
+    }
 }

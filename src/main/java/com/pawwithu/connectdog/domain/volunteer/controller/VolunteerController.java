@@ -137,4 +137,16 @@ public class VolunteerController {
         volunteerService.changeNotification(loginUser.getUsername());
         return ResponseEntity.noContent().build();
     }
+
+    @Operation(summary = "설정 - 이동봉사자 알림 설정 조회", description = "이동봉사자 알림 설정을 조회합니다.",
+            responses = {@ApiResponse(responseCode = "204", description = "이동봉사자 알림 설정 조회 성공")
+                    , @ApiResponse(responseCode = "400"
+                    , description = "M1, 해당 이동봉사자를 찾을 수 없습니다."
+                    , content = @Content(schema = @Schema(implementation = ErrorResponse.class)))
+            })
+    @GetMapping("/my/notification")
+    public ResponseEntity<VolunteerGetNotificationResponse> getNotification(@AuthenticationPrincipal UserDetails loginUser) {
+        VolunteerGetNotificationResponse response = volunteerService.getNotification(loginUser.getUsername());
+        return ResponseEntity.ok(response);
+    }
 }
