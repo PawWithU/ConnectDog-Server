@@ -101,81 +101,85 @@ public class FcmService {
     public void sendMessageToVolunteer(String targetToken, Volunteer volunteer, String image,
                                        NotificationType notificationType, String title, String body) {
 
-        try {
-            String message = makeMessage(targetToken, title, body);
+        if (volunteer.getNotification()) {
+            try {
+                String message = makeMessage(targetToken, title, body);
 
-            OkHttpClient client = new OkHttpClient();
-            RequestBody requestBody = RequestBody.create(message, MediaType.get("application/json; charset=utf-8"));
+                OkHttpClient client = new OkHttpClient();
+                RequestBody requestBody = RequestBody.create(message, MediaType.get("application/json; charset=utf-8"));
 
-            Request request = new Request.Builder()
-                    .url(FIREBASE_API_URL)
-                    .post(requestBody)
-                    .addHeader(HttpHeaders.AUTHORIZATION, "Bearer " + getAccessToken())
-                    .addHeader(HttpHeaders.CONTENT_TYPE, "application/json; UTF-8")
-                    .build();
+                Request request = new Request.Builder()
+                        .url(FIREBASE_API_URL)
+                        .post(requestBody)
+                        .addHeader(HttpHeaders.AUTHORIZATION, "Bearer " + getAccessToken())
+                        .addHeader(HttpHeaders.CONTENT_TYPE, "application/json; UTF-8")
+                        .build();
 
-            Response response = client.newCall(request).execute();
+                Response response = client.newCall(request).execute();
 
-            // 알림 저장
-            volunteerNotificationRepository.save(
-                    VolunteerNotification.builder()
-                            .image(image)
-                            .notificationType(notificationType)
-                            .title(title)
-                            .body(body)
-                            .volunteer(volunteer)
-                            .isRead(false)
-                            .build()
-            );
-
-            if (!response.isSuccessful()) {
-                log.error("FCM 푸시 알람 전송이 실패했습니다. 응답 코드: {}\n{}", response.code(), response.body().string());
+                if (!response.isSuccessful()) {
+                    log.error("FCM 푸시 알람 전송이 실패했습니다. 응답 코드: {}\n{}", response.code(), response.body().string());
+                }
+            } catch (Exception e) {
+                log.error("Fcm 푸시 알람을 전송하는 도중에 에러가 발생했습니다. {}", e.getMessage());
+                throw new BadRequestException(NOTIFICATION_SEND_ERROR);
             }
         }
-        catch (Exception e) {
-            log.error("Fcm 푸시 알람을 전송하는 도중에 에러가 발생했습니다. {}", e.getMessage());
-            throw new BadRequestException(NOTIFICATION_SEND_ERROR);
-        }
+
+        // 알림 저장
+        volunteerNotificationRepository.save(
+                VolunteerNotification.builder()
+                        .image(image)
+                        .notificationType(notificationType)
+                        .title(title)
+                        .body(body)
+                        .volunteer(volunteer)
+                        .isRead(false)
+                        .build()
+        );
+
     }
 
     public void sendMessageToIntermediary(String targetToken, Intermediary intermediary, String image,
                                           NotificationType notificationType, String title, String body) {
 
-        try {
-            String message = makeMessage(targetToken, title, body);
+        if (intermediary.getNotification()) {
+            try {
+                String message = makeMessage(targetToken, title, body);
 
-            OkHttpClient client = new OkHttpClient();
-            RequestBody requestBody = RequestBody.create(message, MediaType.get("application/json; charset=utf-8"));
+                OkHttpClient client = new OkHttpClient();
+                RequestBody requestBody = RequestBody.create(message, MediaType.get("application/json; charset=utf-8"));
 
-            Request request = new Request.Builder()
-                    .url(FIREBASE_API_URL)
-                    .post(requestBody)
-                    .addHeader(HttpHeaders.AUTHORIZATION, "Bearer " + getAccessToken())
-                    .addHeader(HttpHeaders.CONTENT_TYPE, "application/json; UTF-8")
-                    .build();
+                Request request = new Request.Builder()
+                        .url(FIREBASE_API_URL)
+                        .post(requestBody)
+                        .addHeader(HttpHeaders.AUTHORIZATION, "Bearer " + getAccessToken())
+                        .addHeader(HttpHeaders.CONTENT_TYPE, "application/json; UTF-8")
+                        .build();
 
-            Response response = client.newCall(request).execute();
+                Response response = client.newCall(request).execute();
 
-            // 알림 저장
-            intermediaryNotificationRepository.save(
-                    IntermediaryNotification.builder()
-                            .image(image)
-                            .notificationType(notificationType)
-                            .title(title)
-                            .body(body)
-                            .intermediary(intermediary)
-                            .isRead(false)
-                            .build()
-            );
-
-            if (!response.isSuccessful()) {
-                log.error("FCM 푸시 알람 전송이 실패했습니다. 응답 코드: {}\n{}", response.code(), response.body().string());
+                if (!response.isSuccessful()) {
+                    log.error("FCM 푸시 알람 전송이 실패했습니다. 응답 코드: {}\n{}", response.code(), response.body().string());
+                }
+            } catch (Exception e) {
+                log.error("Fcm 푸시 알람을 전송하는 도중에 에러가 발생했습니다. {}", e.getMessage());
+                throw new BadRequestException(NOTIFICATION_SEND_ERROR);
             }
         }
-        catch (Exception e) {
-            log.error("Fcm 푸시 알람을 전송하는 도중에 에러가 발생했습니다. {}", e.getMessage());
-            throw new BadRequestException(NOTIFICATION_SEND_ERROR);
-        }
+
+        // 알림 저장
+        intermediaryNotificationRepository.save(
+                IntermediaryNotification.builder()
+                        .image(image)
+                        .notificationType(notificationType)
+                        .title(title)
+                        .body(body)
+                        .intermediary(intermediary)
+                        .isRead(false)
+                        .build()
+        );
+
     }
 
     public void saveVolunteerFcm(String email, VolunteerFcmRequest request) {
