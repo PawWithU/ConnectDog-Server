@@ -73,4 +73,6 @@ public class Intermediary extends BaseTimeEntity {
     public void updatePassword(String password) {
         this.password = password;
     }
+
+    public void updateNotification() { this.notification = !this.notification; }
 }

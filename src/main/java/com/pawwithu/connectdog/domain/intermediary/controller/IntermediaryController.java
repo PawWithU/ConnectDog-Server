@@ -165,4 +165,27 @@ public class IntermediaryController {
         return ResponseEntity.noContent().build();
     }
 
+    @Operation(summary = "설정 - 모집자 알림 설정", description = "모집자 알림을 설정합니다.",
+            responses = {@ApiResponse(responseCode = "204", description = "모집자 알림 설정 성공")
+                    , @ApiResponse(responseCode = "400"
+                    , description = "M1, 해당 이동봉사 중개를 찾을 수 없습니다."
+                    , content = @Content(schema = @Schema(implementation = ErrorResponse.class)))
+            })
+    @PatchMapping("/intermediaries/notification/setting")
+    public ResponseEntity<Void> changeNotification(@AuthenticationPrincipal UserDetails loginUser) {
+        intermediaryService.changeNotification(loginUser.getUsername());
+        return ResponseEntity.noContent().build();
+    }
+
+    @Operation(summary = "설정 - 모집자 알림 설정 조회", description = "모집자 알림 설정을 조회합니다.",
+            responses = {@ApiResponse(responseCode = "204", description = "모집자 알림 설정 조회 성공")
+                    , @ApiResponse(responseCode = "400"
+                    , description = "M1, 해당 이동봉사 중개를 찾을 수 없습니다."
+                    , content = @Content(schema = @Schema(implementation = ErrorResponse.class)))
+            })
+    @GetMapping("/intermediaries/notification/setting")
+    public ResponseEntity<IntermediaryGetNotificationResponse> getNotification(@AuthenticationPrincipal UserDetails loginUser) {
+        IntermediaryGetNotificationResponse response = intermediaryService.getNotification(loginUser.getUsername());
+        return ResponseEntity.ok(response);
+    }
 }

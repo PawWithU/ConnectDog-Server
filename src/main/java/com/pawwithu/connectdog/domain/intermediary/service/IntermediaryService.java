@@ -154,4 +154,16 @@ public class IntermediaryService {
         intermediary.updatePassword(password);
         intermediary.passwordEncode(passwordEncoder);
     }
+
+    public void changeNotification(String email) {
+        Intermediary intermediary = intermediaryRepository.findByEmail(email).orElseThrow(() -> new BadRequestException(INTERMEDIARY_NOT_FOUND));
+        intermediary.updateNotification();
+    }
+
+    @Transactional(readOnly = true)
+    public IntermediaryGetNotificationResponse getNotification(String email) {
+        Intermediary intermediary = intermediaryRepository.findByEmail(email).orElseThrow(() -> new BadRequestException(INTERMEDIARY_NOT_FOUND));
+        IntermediaryGetNotificationResponse response = IntermediaryGetNotificationResponse.of(intermediary.getNotification());
+        return response;
+    }
 }
