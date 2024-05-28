@@ -1,6 +1,8 @@
 package com.pawwithu.connectdog.domain.auth.service;
 
 import com.pawwithu.connectdog.common.s3.FileService;
+import com.pawwithu.connectdog.domain.application.entity.Application;
+import com.pawwithu.connectdog.domain.application.repository.ApplicationRepository;
 import com.pawwithu.connectdog.domain.auth.dto.request.*;
 import com.pawwithu.connectdog.domain.auth.dto.response.IntermediaryPhoneResponse;
 import com.pawwithu.connectdog.domain.auth.dto.response.VolunteerPhoneResponse;
@@ -8,6 +10,8 @@ import com.pawwithu.connectdog.domain.fcm.repository.IntermediaryFcmRepository;
 import com.pawwithu.connectdog.domain.fcm.repository.VolunteerFcmRepository;
 import com.pawwithu.connectdog.domain.intermediary.entity.Intermediary;
 import com.pawwithu.connectdog.domain.intermediary.repository.IntermediaryRepository;
+import com.pawwithu.connectdog.domain.review.entity.Review;
+import com.pawwithu.connectdog.domain.review.repository.ReviewRepository;
 import com.pawwithu.connectdog.domain.volunteer.entity.SocialType;
 import com.pawwithu.connectdog.domain.volunteer.entity.Volunteer;
 import com.pawwithu.connectdog.domain.volunteer.entity.VolunteerRole;
@@ -23,6 +27,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.List;
+
 import static com.pawwithu.connectdog.error.ErrorCode.*;
 
 @Slf4j
@@ -33,6 +39,8 @@ public class AuthService {
 
     private final VolunteerRepository volunteerRepository;
     private final IntermediaryRepository intermediaryRepository;
+    private final ReviewRepository reviewRepository;
+    private final ApplicationRepository applicationRepository;
     private final PasswordEncoder passwordEncoder;
     private final FileService fileService;
     private final JwtService jwtService;
@@ -149,5 +157,35 @@ public class AuthService {
 
         IntermediaryPhoneResponse response = IntermediaryPhoneResponse.of(isDuplicated, email);
         return response;
+    }
+
+    public void volunteersWithdraw(HttpServletRequest request, String email) {
+        String accessToken = jwtService.extractAccessToken(request).orElseThrow(() -> new BadRequestException(TOKEN_NOT_EXIST));
+        Volunteer volunteer = volunteerRepository.findByEmail(email).orElseThrow(() -> new BadRequestException(VOLUNTEER_NOT_FOUND));
+        String roleName = jwtService.extractRoleName(accessToken).orElseThrow(() -> new BadRequestException(NOT_FOUND_ROLE_NAME));
+
+        try {
+            redisUtil.delete(roleName, volunteer.getId());
+            volunteerFcmRepository.deleteByVolunteerId(volunteer.getId());
+            redisUtil.setBlackList(accessToken, "accessToken", jwtService.getAccessTokenExpirationPeriod());
+
+            Volunteer deletedVolunteer = volunteerRepository.findByEmail("deleted@connectdog.com").orElseThrow(() -> new BadRequestException(VOLUNTEER_NOT_FOUND));
+            List<Review> reviews = reviewRepository.findByVolunteer(volunteer);
+            for (Review review : reviews) {
+                review.updateDeletedVolunteer(deletedVolunteer);
+                reviewRepository.save(review);
+            }
+
+            List<Application> applications = applicationRepository.findByVolunteer(volunteer);
+            for (Application application : applications) {
+                application.updateDeletedVolunteer(deletedVolunteer);
+                applicationRepository.save(application);
+            }
+
+            volunteerRepository.delete(volunteer);
+        } catch (Exception e) {
+            log.error("봉사자 탈퇴 도중에 에러가 발생했습니다. {}", e.getMessage());
+            throw new BadRequestException(VOLUNTEER_WITHDRAW_FAILED);
+        }
     }
 }
