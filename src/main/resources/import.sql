@@ -111,10 +111,11 @@ UPDATE post SET main_image_id = 15 WHERE id = 15;
 UPDATE post SET main_image_id = 16 WHERE id = 16;
 
 -- INSERT VOLUNTEER
+INSERT INTO volunteer (id, email, password, nickname, profile_image_num, name, phone, role, is_option_agr, notification, created_date, modified_date) VALUES (7, 'deleted@connectdog.com', '{bcrypt}$2a$10$wkmYUG/qvZFThCzq19yHredRc6u8nAhlAopbDE9p7n6JF6NgtLs8y', '탈퇴한 사용자', 1, '탈퇴한 사용자', '01000000000', 'AUTH_VOLUNTEER', false, true, now(), now());
+
 INSERT INTO volunteer (id, email, password, nickname, profile_image_num, name, phone, role, is_option_agr, notification, created_date, modified_date) VALUES (1, 'abc@naver.com', '{bcrypt}$2a$10$VieltvcRaI/rJnaRHuRPju9rqM9BvmKRkmn./oOninx7fOGT/q2De', '이동봉사자', 2, '한호정', '01047391901', 'AUTH_VOLUNTEER', false, true, now(), now());
 
 INSERT INTO volunteer (id, email, password, nickname, profile_image_num, name, phone, role, is_option_agr, notification, created_date, modified_date) VALUES (2, 'v1@naver.com', '{bcrypt}$2a$10$wkmYUG/qvZFThCzq19yHredRc6u8nAhlAopbDE9p7n6JF6NgtLs8y', '하얀마음', 1, '민경혁', '01047391902', 'AUTH_VOLUNTEER', false, true, now(), now());
-
 
 -- INSERT APPLICATION (status 2 - 봉사완료)
 INSERT INTO application (id, status, volunteer_name, phone, content, post_id, intermediary_id, volunteer_id, created_date, modified_date) VALUES (1, 'PROGRESSING', '민경혁', '01047391908', '이동봉사 신청합니다1!', 11, 2, 2, now(), now());
