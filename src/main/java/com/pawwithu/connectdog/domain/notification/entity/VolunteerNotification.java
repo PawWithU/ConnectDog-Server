@@ -22,7 +22,7 @@ public class VolunteerNotification extends BaseTimeEntity {
     private String title;
     @Column(nullable = false)
     private String body;
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "volunteer_id", nullable = false)
     private Volunteer volunteer;  // 이동봉사자 id
     @Column(nullable = false)
