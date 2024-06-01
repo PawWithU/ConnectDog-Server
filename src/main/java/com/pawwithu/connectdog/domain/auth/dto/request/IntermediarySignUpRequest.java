@@ -27,7 +27,7 @@ public record IntermediarySignUpRequest(Boolean isOptionAgr,
                                         @Size(max=100, message = "문의 받을 연락처는 100자 이하로 입력해 주세요.")
                                         String contact) {
 
-    public static Intermediary toEntity(IntermediarySignUpRequest request, String authImage, String profileImage) {
+    public static Intermediary toEntity(IntermediarySignUpRequest request, String profileImage) {
         return Intermediary.builder()
                 .isOptionAgr(request.isOptionAgr)
                 .realName(request.realName)
@@ -36,7 +36,6 @@ public record IntermediarySignUpRequest(Boolean isOptionAgr,
                 .password(request.password)
                 .name(request.name)
                 .url(request.url)
-                .authImage(authImage)
                 .profileImage(profileImage)
                 .intro(request.intro)
                 .contact(request.contact)

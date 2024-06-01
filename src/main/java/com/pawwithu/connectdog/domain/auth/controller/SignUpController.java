@@ -55,9 +55,8 @@ public class SignUpController {
             })
     @PostMapping(value = "/intermediaries/sign-up", consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.MULTIPART_FORM_DATA_VALUE})
     public ResponseEntity<Void> intermediarySignUp(@RequestPart @Valid IntermediarySignUpRequest request,
-                                                   @RequestPart(name = "authImage", required = false) MultipartFile authImage,
                                                    @RequestPart(name = "profileImage", required = false) MultipartFile profileImage) {
-        authService.intermediarySignUp(request, authImage, profileImage);
+        authService.intermediarySignUp(request, profileImage);
         return ResponseEntity.noContent().build();
     }
 
