@@ -50,4 +50,10 @@ public class Application extends BaseTimeEntity {
     public void updateStatus(ApplicationStatus status) {
         this.status = status;
     }
+
+    public void updateDeletedVolunteer(Volunteer deletedVolunteer) {
+        this.volunteer = deletedVolunteer;
+        this.volunteerName = deletedVolunteer.getName();
+        this.phone = deletedVolunteer.getPhone();
+    }
 }
