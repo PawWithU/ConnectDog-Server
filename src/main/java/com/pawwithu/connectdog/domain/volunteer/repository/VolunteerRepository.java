@@ -3,6 +3,9 @@ package com.pawwithu.connectdog.domain.volunteer.repository;
 import com.pawwithu.connectdog.domain.volunteer.entity.Volunteer;
 import com.pawwithu.connectdog.domain.volunteer.entity.SocialType;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
 import java.util.Optional;
 
@@ -15,4 +18,9 @@ public interface VolunteerRepository extends JpaRepository<Volunteer, Long> {
     Optional<Volunteer> findByEmail(String email);
     Boolean existsByPhone(String phone);
     Optional<Volunteer> findByPhone(String phone);
+
+    @Modifying
+    @Query("DELETE FROM Bookmark b WHERE b.volunteer.id = :volunteerId")
+    void deleteByVolunteerId(@Param("volunteerId") Long volunteerId);
+
 }

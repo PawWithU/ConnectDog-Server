@@ -6,6 +6,7 @@ import com.pawwithu.connectdog.domain.application.repository.ApplicationReposito
 import com.pawwithu.connectdog.domain.auth.dto.request.*;
 import com.pawwithu.connectdog.domain.auth.dto.response.IntermediaryPhoneResponse;
 import com.pawwithu.connectdog.domain.auth.dto.response.VolunteerPhoneResponse;
+import com.pawwithu.connectdog.domain.bookmark.repository.BookmarkRepository;
 import com.pawwithu.connectdog.domain.fcm.repository.IntermediaryFcmRepository;
 import com.pawwithu.connectdog.domain.fcm.repository.VolunteerFcmRepository;
 import com.pawwithu.connectdog.domain.intermediary.entity.Intermediary;
@@ -47,6 +48,7 @@ public class AuthService {
     private final RedisUtil redisUtil;
     private final VolunteerFcmRepository volunteerFcmRepository;
     private final IntermediaryFcmRepository intermediaryFcmRepository;
+    private final BookmarkRepository bookmarkRepository;
 
     public void volunteerSignUp(VolunteerSignUpRequest request) {
 
@@ -173,15 +175,15 @@ public class AuthService {
             List<Review> reviews = reviewRepository.findByVolunteer(volunteer);
             for (Review review : reviews) {
                 review.updateDeletedVolunteer(deletedVolunteer);
-                reviewRepository.save(review);
             }
 
             List<Application> applications = applicationRepository.findByVolunteer(volunteer);
             for (Application application : applications) {
                 application.updateDeletedVolunteer(deletedVolunteer);
-                applicationRepository.save(application);
             }
 
+            bookmarkRepository.deleteByVolunteerId(volunteer.getId());
+            volunteerRepository.deleteByVolunteerId(volunteer.getId());
             volunteerRepository.delete(volunteer);
         } catch (Exception e) {
             log.error("봉사자 탈퇴 도중에 에러가 발생했습니다. {}", e.getMessage());
