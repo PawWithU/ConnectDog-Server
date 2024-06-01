@@ -17,7 +17,7 @@ public class VolunteerBadge extends BaseTimeEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "volunteer_id", nullable = false)
     private Volunteer volunteer; // 이동봉사자 id
     @ManyToOne(fetch = FetchType.LAZY)
