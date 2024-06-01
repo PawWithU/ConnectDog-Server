@@ -31,6 +31,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.io.IOException;
 import java.util.Arrays;
+import java.util.Optional;
 
 import static com.pawwithu.connectdog.error.ErrorCode.*;
 
@@ -184,12 +185,14 @@ public class FcmService {
 
     public void saveVolunteerFcm(String email, VolunteerFcmRequest request) {
         Volunteer volunteer = volunteerRepository.findByEmail(email).orElseThrow(() -> new BadRequestException(VOLUNTEER_NOT_FOUND));
+        volunteerFcmRepository.deleteByVolunteerId(volunteer.getId());
         VolunteerFcm volunteerFcm = VolunteerFcmRequest.volunteerToEntity(volunteer, request);
         volunteerFcmRepository.save(volunteerFcm);
     }
 
     public void saveIntermediaryFcm(String email, IntermediaryFcmRequest request) {
         Intermediary intermediary = intermediaryRepository.findByEmail(email).orElseThrow(() -> new BadRequestException(INTERMEDIARY_NOT_FOUND));
+        intermediaryFcmRepository.deleteByIntermediaryId(intermediary.getId());
         IntermediaryFcm intermediaryFcm = IntermediaryFcmRequest.IntermediaryToEntity(intermediary, request);
         intermediaryFcmRepository.save(intermediaryFcm);
     }
