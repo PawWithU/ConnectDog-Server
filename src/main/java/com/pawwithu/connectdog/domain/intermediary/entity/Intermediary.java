@@ -19,7 +19,6 @@ public class Intermediary extends BaseTimeEntity {
     @Column(length = 20, nullable = false)
     private String name; // 중개자 이름/중개 단체명
     private String url; // 이동봉사 계정 링크
-    private String authImage;   // 인증 사진
     private String profileImage;   // 프로필 사진
     @Column(length = 50)
     private String intro;   // 한줄 소개
@@ -35,14 +34,13 @@ public class Intermediary extends BaseTimeEntity {
     private String phone;
 
     @Builder
-    public Intermediary(String realName, String phone, String email, String password, String name, String url, String authImage, String profileImage, String intro, String contact, IntermediaryRole role, Boolean isOptionAgr, Boolean notification) {
+    public Intermediary(String realName, String phone, String email, String password, String name, String url, String profileImage, String intro, String contact, IntermediaryRole role, Boolean isOptionAgr, Boolean notification) {
         this.realName = realName;
         this.phone = phone;
         this.email = email;
         this.password = password;
         this.name = name;
         this.url = url;
-        this.authImage = authImage;
         this.profileImage = profileImage;
         this.intro = intro;
         this.contact = contact;
