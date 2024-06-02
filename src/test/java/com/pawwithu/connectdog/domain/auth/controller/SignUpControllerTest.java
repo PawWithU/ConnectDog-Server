@@ -96,14 +96,12 @@ class SignUpControllerTest {
                 "https://connectdog.site",
                 "인스타그램");
 
-        MockMultipartFile authImage = new MockMultipartFile("authImage", "authImage.png", "multipart/form-data", "uploadFile".getBytes(StandardCharsets.UTF_8));
         MockMultipartFile profileImage = new MockMultipartFile("profileImage", "profileImage.png", "multipart/form-data", "uploadFile".getBytes(StandardCharsets.UTF_8));
         MockMultipartFile intermediarySignUpRequest = new MockMultipartFile("request", null, "application/json", objectMapper.writeValueAsString(request).getBytes(StandardCharsets.UTF_8));
 
         //when
         ResultActions result = mockMvc.perform(MockMvcRequestBuilders
                 .multipart(HttpMethod.POST, "/intermediaries/sign-up")
-                        .file(authImage)
                         .file(profileImage)
                         .file(intermediarySignUpRequest)
                         .accept(MediaType.APPLICATION_JSON)
@@ -111,7 +109,7 @@ class SignUpControllerTest {
 
         //then
         result.andExpect(status().isNoContent());
-        verify(authService, times(1)).intermediarySignUp(any(), any(), any());
+        verify(authService, times(1)).intermediarySignUp(any(), any());
     }
 
     @Test
