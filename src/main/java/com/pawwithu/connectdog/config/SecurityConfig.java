@@ -62,6 +62,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests(request ->
                         request.requestMatchers(mvcMatcherBuilder.pattern("/volunteers/login")).permitAll()
                                 .requestMatchers(mvcMatcherBuilder.pattern("/intermediaries/login")).permitAll()
+                                .requestMatchers(mvcMatcherBuilder.pattern("/intermediaries/name/isDuplicated")).permitAll()
                                 .requestMatchers(mvcMatcherBuilder.pattern("/volunteers/login/social")).permitAll()
                                 .requestMatchers(mvcMatcherBuilder.pattern("/volunteers/sign-up")).permitAll()
                                 .requestMatchers(mvcMatcherBuilder.pattern("/volunteers/sign-up/email")).permitAll()
