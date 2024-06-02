@@ -158,4 +158,18 @@ public class VolunteerController {
         VolunteerGetNotificationResponse response = volunteerService.getNotification(loginUser.getUsername());
         return ResponseEntity.ok(response);
     }
+
+    @Operation(summary = "봉사자 - 설정 - 내 정보 관리", description = "봉사자 설정에서 자신의 정보를 조회합니다.",
+            security = { @SecurityRequirement(name = "bearer-key") },
+            responses = {@ApiResponse(responseCode = "200", description = "봉사자 설정 내 정보 관리 조회 성공")
+                    , @ApiResponse(responseCode = "400"
+                    , description = "M2, 해당 이동봉사자를 찾을 수 없습니다."
+                    , content = @Content(schema = @Schema(implementation = ErrorResponse.class)))
+            })
+    @GetMapping("/setting/my/info")
+    public ResponseEntity<VolunteerGetMySettingInfoResponse> getMySettingInfo(@AuthenticationPrincipal UserDetails loginUser) {
+        VolunteerGetMySettingInfoResponse response = volunteerService.getMySettingInfo(loginUser.getUsername());
+        return ResponseEntity.ok(response);
+    }
+
 }
