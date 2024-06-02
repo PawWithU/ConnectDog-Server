@@ -111,7 +111,7 @@ public class AuthService {
         String nickname = socialSignUpRequest.nickname();
         Integer profileImageNum = socialSignUpRequest.profileImageNum();
         Boolean isOptionAgr = socialSignUpRequest.isOptionAgr();
-        volunteer.updateSocialVolunteer(name, phone, nickname, VolunteerRole.VOLUNTEER, profileImageNum, isOptionAgr); // GUEST -> VOLUNTEER
+        volunteer.updateSocialVolunteer(name, phone, nickname, VolunteerRole.AUTH_VOLUNTEER, profileImageNum, isOptionAgr); // GUEST -> AUTH_VOLUNTEER
     }
 
     public void volunteersLogout(HttpServletRequest request, String email) {
