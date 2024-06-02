@@ -2,6 +2,7 @@ package com.pawwithu.connectdog.domain.auth.controller;
 
 import com.pawwithu.connectdog.domain.auth.dto.request.*;
 import com.pawwithu.connectdog.domain.auth.dto.response.EmailResponse;
+import com.pawwithu.connectdog.domain.auth.dto.response.IntermediaryNameResponse;
 import com.pawwithu.connectdog.domain.auth.dto.response.IntermediaryPhoneResponse;
 import com.pawwithu.connectdog.domain.auth.dto.response.VolunteerPhoneResponse;
 import com.pawwithu.connectdog.domain.auth.service.AuthService;
@@ -107,6 +108,18 @@ public class SignUpController {
     @PostMapping("/intermediaries/phone/isDuplicated")
     public ResponseEntity<IntermediaryPhoneResponse> isIntermediaryPhoneDuplicated(@RequestBody @Valid IntermediaryPhoneRequest request) {
         IntermediaryPhoneResponse response = authService.isIntermediaryPhoneDuplicated(request);
+        return ResponseEntity.ok(response);
+    }
+
+    @Operation(summary = "모집자명 중복 여부 검사", description = "모집자명 중복 여부를 검사합니다.",
+            responses = {@ApiResponse(responseCode = "200", description = "모집자명 중복 여부 검사 성공")
+                    , @ApiResponse(responseCode = "400"
+                    , description = "V1, 모집자명은 필수 입력 값입니다. \t\n M2, 해당 이동봉사 중개를 찾을 수 없습니다."
+                    , content = @Content(schema = @Schema(implementation = ErrorResponse.class)))
+            })
+    @PostMapping("/intermediaries/name/isDuplicated")
+    public ResponseEntity<IntermediaryNameResponse> isIntermediaryNameDuplicated(@RequestBody @Valid IntermediaryNameRequest request) {
+        IntermediaryNameResponse response = authService.isIntermediaryNameDuplicated(request);
         return ResponseEntity.ok(response);
     }
 }

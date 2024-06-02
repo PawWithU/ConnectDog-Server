@@ -9,8 +9,6 @@ import com.pawwithu.connectdog.domain.intermediary.repository.IntermediaryReposi
 import com.pawwithu.connectdog.domain.post.entity.PostStatus;
 import com.pawwithu.connectdog.domain.post.repository.CustomPostRepository;
 import com.pawwithu.connectdog.domain.review.repository.CustomReviewRepository;
-import com.pawwithu.connectdog.domain.volunteer.dto.response.VolunteerPasswordCheckResponse;
-import com.pawwithu.connectdog.domain.volunteer.entity.Volunteer;
 import com.pawwithu.connectdog.error.exception.custom.BadRequestException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -25,7 +23,6 @@ import java.util.List;
 import java.util.Map;
 
 import static com.pawwithu.connectdog.error.ErrorCode.INTERMEDIARY_NOT_FOUND;
-import static com.pawwithu.connectdog.error.ErrorCode.VOLUNTEER_NOT_FOUND;
 
 @Slf4j
 @Service
@@ -177,4 +174,10 @@ public class IntermediaryService {
         return response;
     }
 
+    @Transactional(readOnly = true)
+    public IntermediaryGetMySettingInfoResponse getMySettingInfo(String email) {
+        Intermediary intermediary = intermediaryRepository.findByEmail(email).orElseThrow(() -> new BadRequestException(INTERMEDIARY_NOT_FOUND));
+        IntermediaryGetMySettingInfoResponse response = IntermediaryGetMySettingInfoResponse.from(intermediary);
+        return response;
+    }
 }

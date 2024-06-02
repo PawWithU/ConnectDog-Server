@@ -5,8 +5,6 @@ import com.pawwithu.connectdog.domain.intermediary.dto.request.IntermediaryPassw
 import com.pawwithu.connectdog.domain.intermediary.dto.request.IntermediaryPasswordRequest;
 import com.pawwithu.connectdog.domain.intermediary.dto.response.*;
 import com.pawwithu.connectdog.domain.intermediary.service.IntermediaryService;
-import com.pawwithu.connectdog.domain.volunteer.dto.request.VolunteerPasswordCheckRequest;
-import com.pawwithu.connectdog.domain.volunteer.dto.response.VolunteerPasswordCheckResponse;
 import com.pawwithu.connectdog.error.dto.ErrorResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -203,4 +201,18 @@ public class IntermediaryController {
         IntermediaryGetNotificationResponse response = intermediaryService.getNotification(loginUser.getUsername());
         return ResponseEntity.ok(response);
     }
+
+    @Operation(summary = "모집자 - 설정 - 내 정보 관리", description = "모집자 설정에서 자신의 정보를 조회합니다.",
+            security = { @SecurityRequirement(name = "bearer-key") },
+            responses = {@ApiResponse(responseCode = "200", description = "모집자 설정 내 정보 관리 조회 성공")
+                    , @ApiResponse(responseCode = "400"
+                    , description = "M2, 해당 이동봉사 중개를 찾을 수 없습니다."
+                    , content = @Content(schema = @Schema(implementation = ErrorResponse.class)))
+            })
+    @GetMapping("/intermediaries/setting/my/info")
+    public ResponseEntity<IntermediaryGetMySettingInfoResponse> getMySettingInfo(@AuthenticationPrincipal UserDetails loginUser) {
+        IntermediaryGetMySettingInfoResponse response = intermediaryService.getMySettingInfo(loginUser.getUsername());
+        return ResponseEntity.ok(response);
+    }
+
 }

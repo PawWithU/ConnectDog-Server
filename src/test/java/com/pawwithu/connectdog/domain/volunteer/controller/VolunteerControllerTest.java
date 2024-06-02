@@ -1,9 +1,7 @@
 package com.pawwithu.connectdog.domain.volunteer.controller;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.pawwithu.connectdog.domain.dog.entity.DogSize;
-import com.pawwithu.connectdog.domain.post.dto.response.PostGetHomeResponse;
 import com.pawwithu.connectdog.domain.volunteer.dto.request.*;
 import com.pawwithu.connectdog.domain.volunteer.dto.response.*;
 import com.pawwithu.connectdog.domain.volunteer.service.VolunteerService;
@@ -24,7 +22,8 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.mockito.ArgumentMatchers.*;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -239,5 +238,21 @@ class VolunteerControllerTest {
         // then
         result.andExpect(status().isOk());
         verify(volunteerService, times(1)).getNotification(anyString());
+    }
+
+    @Test
+    void 봉사자_설정_내_정보_조회() throws Exception {
+        // given
+        VolunteerGetMySettingInfoResponse response = new VolunteerGetMySettingInfoResponse("한호정", "01011112222", null, "abc@naver.com");
+
+        // when
+        given(volunteerService.getMySettingInfo(anyString())).willReturn(response);
+        ResultActions result = mockMvc.perform(
+                get("/volunteers/setting/my/info")
+        );
+
+        // then
+        result.andExpect(status().isOk());
+        verify(volunteerService, times(1)).getMySettingInfo(anyString());
     }
 }

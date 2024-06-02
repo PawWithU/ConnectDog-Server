@@ -4,6 +4,7 @@ import com.pawwithu.connectdog.common.s3.FileService;
 import com.pawwithu.connectdog.domain.application.entity.Application;
 import com.pawwithu.connectdog.domain.application.repository.ApplicationRepository;
 import com.pawwithu.connectdog.domain.auth.dto.request.*;
+import com.pawwithu.connectdog.domain.auth.dto.response.IntermediaryNameResponse;
 import com.pawwithu.connectdog.domain.auth.dto.response.IntermediaryPhoneResponse;
 import com.pawwithu.connectdog.domain.auth.dto.response.VolunteerPhoneResponse;
 import com.pawwithu.connectdog.domain.badge.repository.VolunteerBadgeRepository;
@@ -194,5 +195,12 @@ public class AuthService {
             log.error("봉사자 탈퇴 도중에 에러가 발생했습니다. {}", e.getMessage());
             throw new BadRequestException(VOLUNTEER_WITHDRAW_FAILED);
         }
+    }
+
+    @Transactional(readOnly = true)
+    public IntermediaryNameResponse isIntermediaryNameDuplicated(IntermediaryNameRequest request) {
+        Boolean isDuplicated = intermediaryRepository.existsByName(request.name());
+        IntermediaryNameResponse response = IntermediaryNameResponse.of(isDuplicated);
+        return response;
     }
 }

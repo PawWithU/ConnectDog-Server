@@ -3,6 +3,7 @@ package com.pawwithu.connectdog.domain.auth.controller;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.pawwithu.connectdog.domain.auth.dto.request.*;
 import com.pawwithu.connectdog.domain.auth.dto.response.EmailResponse;
+import com.pawwithu.connectdog.domain.auth.dto.response.IntermediaryNameResponse;
 import com.pawwithu.connectdog.domain.auth.dto.response.IntermediaryPhoneResponse;
 import com.pawwithu.connectdog.domain.auth.dto.response.VolunteerPhoneResponse;
 import com.pawwithu.connectdog.domain.auth.service.AuthService;
@@ -150,4 +151,22 @@ class SignUpControllerTest {
         verify(authService, times(1)).isIntermediaryPhoneDuplicated(request);
     }
 
+    @Test
+    void 모집자명_중복검사() throws Exception {
+        //given
+        IntermediaryNameRequest request = new IntermediaryNameRequest("생명사랑");
+        IntermediaryNameResponse response = new IntermediaryNameResponse(true);
+
+        //when
+        given(authService.isIntermediaryNameDuplicated(request)).willReturn(response);
+        ResultActions result = mockMvc.perform(
+                post("/intermediaries/name/isDuplicated")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(request))
+        );
+
+        //then
+        result.andExpect(status().isOk());
+        verify(authService, times(1)).isIntermediaryNameDuplicated(request);
+    }
 }

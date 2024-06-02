@@ -10,6 +10,7 @@ import com.pawwithu.connectdog.domain.volunteer.dto.request.AdditionalAuthReques
 import com.pawwithu.connectdog.domain.volunteer.dto.request.NicknameRequest;
 import com.pawwithu.connectdog.domain.volunteer.dto.request.VolunteerMyProfileRequest;
 import com.pawwithu.connectdog.domain.volunteer.dto.response.*;
+import com.pawwithu.connectdog.domain.volunteer.entity.SocialType;
 import com.pawwithu.connectdog.domain.volunteer.entity.Volunteer;
 import com.pawwithu.connectdog.domain.volunteer.repository.VolunteerRepository;
 import com.pawwithu.connectdog.error.ErrorCode;
@@ -143,4 +144,19 @@ public class VolunteerService {
         return response;
     }
 
+    @Transactional(readOnly = true)
+    public VolunteerGetMySettingInfoResponse getMySettingInfo(String email) {
+        Volunteer volunteer = volunteerRepository.findByEmail(email).orElseThrow(() -> new BadRequestException(VOLUNTEER_NOT_FOUND));
+        String volunteerEmail = null;
+        SocialType socialType = null;
+
+        if (volunteer.getSocialType() != null) {
+            socialType = volunteer.getSocialType();
+        } else {
+            volunteerEmail = volunteer.getEmail();
+        }
+
+        VolunteerGetMySettingInfoResponse response = VolunteerGetMySettingInfoResponse.of(volunteer.getName(), volunteer.getPhone(), socialType, volunteerEmail);
+        return response;
+    }
 }

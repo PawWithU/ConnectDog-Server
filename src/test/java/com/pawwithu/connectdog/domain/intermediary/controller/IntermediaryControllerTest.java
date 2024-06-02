@@ -8,7 +8,6 @@ import com.pawwithu.connectdog.domain.intermediary.dto.request.IntermediaryPassw
 import com.pawwithu.connectdog.domain.intermediary.dto.request.IntermediaryPasswordRequest;
 import com.pawwithu.connectdog.domain.intermediary.dto.response.*;
 import com.pawwithu.connectdog.domain.intermediary.service.IntermediaryService;
-import com.pawwithu.connectdog.domain.volunteer.dto.request.VolunteerPasswordCheckRequest;
 import com.pawwithu.connectdog.utils.TestUserArgumentResolver;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -347,5 +346,21 @@ class IntermediaryControllerTest {
         // then
         result.andExpect(status().isOk());
         verify(intermediaryService, times(1)).getNotification(anyString());
+    }
+
+    @Test
+    void 모집자_설정_내_정보_조회() throws Exception {
+        // given
+        IntermediaryGetMySettingInfoResponse response = new IntermediaryGetMySettingInfoResponse("한호정", "01011112222", "abc@naver.com");
+
+        // when
+        given(intermediaryService.getMySettingInfo(anyString())).willReturn(response);
+        ResultActions result = mockMvc.perform(
+                get("/intermediaries/setting/my/info")
+        );
+
+        // then
+        result.andExpect(status().isOk());
+        verify(intermediaryService, times(1)).getMySettingInfo(anyString());
     }
 }
