@@ -16,8 +16,8 @@ public interface BookmarkRepository extends JpaRepository<Bookmark, Long> {
 
     Boolean existsByVolunteerIdAndPostId(Long volunteerId, Long postId);
 
-    @Modifying
-    @Query("DELETE FROM VolunteerBadge vb WHERE vb.volunteer.id = :volunteerId")
+    @Modifying(clearAutomatically = true)
+    @Query("DELETE FROM Bookmark b WHERE b.volunteer.id = :volunteerId")
     void deleteByVolunteerId(@Param("volunteerId") Long volunteerId);
 
 }

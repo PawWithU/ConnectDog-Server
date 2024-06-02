@@ -6,6 +6,7 @@ import com.pawwithu.connectdog.domain.application.repository.ApplicationReposito
 import com.pawwithu.connectdog.domain.auth.dto.request.*;
 import com.pawwithu.connectdog.domain.auth.dto.response.IntermediaryPhoneResponse;
 import com.pawwithu.connectdog.domain.auth.dto.response.VolunteerPhoneResponse;
+import com.pawwithu.connectdog.domain.badge.repository.VolunteerBadgeRepository;
 import com.pawwithu.connectdog.domain.bookmark.repository.BookmarkRepository;
 import com.pawwithu.connectdog.domain.fcm.repository.IntermediaryFcmRepository;
 import com.pawwithu.connectdog.domain.fcm.repository.VolunteerFcmRepository;
@@ -20,6 +21,7 @@ import com.pawwithu.connectdog.domain.volunteer.repository.VolunteerRepository;
 import com.pawwithu.connectdog.error.exception.custom.BadRequestException;
 import com.pawwithu.connectdog.jwt.service.JwtService;
 import com.pawwithu.connectdog.util.RedisUtil;
+import jakarta.persistence.EntityManager;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -37,6 +39,7 @@ import static com.pawwithu.connectdog.error.ErrorCode.*;
 @Transactional
 @RequiredArgsConstructor
 public class AuthService {
+    private final EntityManager entityManager;
 
     private final VolunteerRepository volunteerRepository;
     private final IntermediaryRepository intermediaryRepository;
@@ -49,6 +52,7 @@ public class AuthService {
     private final VolunteerFcmRepository volunteerFcmRepository;
     private final IntermediaryFcmRepository intermediaryFcmRepository;
     private final BookmarkRepository bookmarkRepository;
+    private final VolunteerBadgeRepository volunteerBadgeRepository;
 
     public void volunteerSignUp(VolunteerSignUpRequest request) {
 
@@ -182,8 +186,10 @@ public class AuthService {
                 application.updateDeletedVolunteer(deletedVolunteer);
             }
 
+            entityManager.flush();
+
             bookmarkRepository.deleteByVolunteerId(volunteer.getId());
-            volunteerRepository.deleteByVolunteerId(volunteer.getId());
+            volunteerBadgeRepository.deleteByVolunteerId(volunteer.getId());
             volunteerRepository.delete(volunteer);
         } catch (Exception e) {
             log.error("봉사자 탈퇴 도중에 에러가 발생했습니다. {}", e.getMessage());

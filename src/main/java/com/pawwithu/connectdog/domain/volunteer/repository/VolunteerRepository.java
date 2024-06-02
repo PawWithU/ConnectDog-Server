@@ -19,8 +19,4 @@ public interface VolunteerRepository extends JpaRepository<Volunteer, Long> {
     Boolean existsByPhone(String phone);
     Optional<Volunteer> findByPhone(String phone);
 
-    @Modifying
-    @Query("DELETE FROM Bookmark b WHERE b.volunteer.id = :volunteerId")
-    void deleteByVolunteerId(@Param("volunteerId") Long volunteerId);
-
 }
