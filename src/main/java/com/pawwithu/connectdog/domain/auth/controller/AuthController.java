@@ -70,4 +70,17 @@ public class AuthController {
         return ResponseEntity.noContent().build();
     }
 
+    @Operation(summary = "이동봉사자 - 탈퇴", description = "이동봉사자가 탈퇴를 합니다.",
+            security = {@SecurityRequirement(name = "bearer-key") },
+            responses = {@ApiResponse(responseCode = "200", description = "이동봉사자 탈퇴 성공")
+                    , @ApiResponse(responseCode = "400"
+                    , description = "T1, 토큰이 존재하지 않습니다. \t\n M1, 해당 이동봉사자를 찾을 수 없습니다."
+                    , content = @Content(schema = @Schema(implementation = ErrorResponse.class)))
+            })
+    @DeleteMapping("/volunteers/my")
+    public ResponseEntity<Void> volunteersWithdraw(HttpServletRequest request, @AuthenticationPrincipal UserDetails loginUser) {
+        authService.volunteersWithdraw(request, loginUser.getUsername());
+        return ResponseEntity.noContent().build();
+    }
+
 }

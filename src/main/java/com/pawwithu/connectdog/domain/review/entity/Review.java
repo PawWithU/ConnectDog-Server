@@ -37,4 +37,8 @@ public class Review extends BaseTimeEntity {
     public void updateMainImage(ReviewImage mainImage) {
         this.mainImage = mainImage;
     }
+
+    public void updateDeletedVolunteer(Volunteer deletedVolunteer) {
+        this.volunteer = deletedVolunteer;
+    }
 }
