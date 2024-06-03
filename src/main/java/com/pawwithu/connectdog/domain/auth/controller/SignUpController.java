@@ -143,4 +143,16 @@ public class SignUpController {
         IntermediaryEmailResponse response = authService.findIntermediaryEmail(request);
         return ResponseEntity.ok(response);
     }
+
+    @Operation(summary = "비밀번호 찾기 - 이메일 인증번호 전송", description = "입력한 이메일로 인증번호를 전송합니다.",
+            responses = {@ApiResponse(responseCode = "200", description = "이메일 인증번호 전송 성공")
+                    , @ApiResponse(responseCode = "400"
+                    , description = "V1, 이메일 형식에 맞지 않습니다. \t\n V1, 이메일은 필수 입력 값입니다. \t\n A1, 이미 존재하는 이메일입니다. \t\n A4, 이메일 인증 코드 전송을 실패했습니다."
+                    , content = @Content(schema = @Schema(implementation = ErrorResponse.class)))
+            })
+    @PostMapping(value = {"/volunteers/search/send-email", "/intermediaries/search/send-email"})
+    public ResponseEntity<EmailResponse> sendEmail(@RequestBody @Valid EmailRequest request){
+        EmailResponse emailResponse = emailService.sendEmailWithoutAuth(request);
+        return ResponseEntity.ok(emailResponse);
+    }
 }
