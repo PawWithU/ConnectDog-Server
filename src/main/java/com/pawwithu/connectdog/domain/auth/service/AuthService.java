@@ -4,10 +4,7 @@ import com.pawwithu.connectdog.common.s3.FileService;
 import com.pawwithu.connectdog.domain.application.entity.Application;
 import com.pawwithu.connectdog.domain.application.repository.ApplicationRepository;
 import com.pawwithu.connectdog.domain.auth.dto.request.*;
-import com.pawwithu.connectdog.domain.auth.dto.response.IntermediaryNameResponse;
-import com.pawwithu.connectdog.domain.auth.dto.response.IntermediaryPhoneResponse;
-import com.pawwithu.connectdog.domain.auth.dto.response.VolunteerEmailResponse;
-import com.pawwithu.connectdog.domain.auth.dto.response.VolunteerPhoneResponse;
+import com.pawwithu.connectdog.domain.auth.dto.response.*;
 import com.pawwithu.connectdog.domain.badge.repository.VolunteerBadgeRepository;
 import com.pawwithu.connectdog.domain.bookmark.repository.BookmarkRepository;
 import com.pawwithu.connectdog.domain.fcm.repository.IntermediaryFcmRepository;
@@ -209,6 +206,13 @@ public class AuthService {
     public VolunteerEmailResponse findVolunteerEmail(VolunteerPhoneRequest request) {
         Volunteer volunteer = volunteerRepository.findByPhone(request.phone()).orElseThrow(() -> new BadRequestException(VOLUNTEER_NOT_FOUND));
         VolunteerEmailResponse response = VolunteerEmailResponse.of(volunteer.getEmail());
+        return response;
+    }
+
+    @Transactional(readOnly = true)
+    public IntermediaryEmailResponse findIntermediaryEmail(IntermediaryPhoneRequest request) {
+        Intermediary intermediary = intermediaryRepository.findByPhone(request.phone()).orElseThrow(() -> new BadRequestException(INTERMEDIARY_NOT_FOUND));
+        IntermediaryEmailResponse response = IntermediaryEmailResponse.of(intermediary.getEmail());
         return response;
     }
 }

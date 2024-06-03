@@ -123,12 +123,24 @@ public class SignUpController {
     @Operation(summary = "이메일 찾기 - 봉사자 휴대폰 번호로 이메일 찾기", description = "봉사자 휴대폰 번호로 이메일을 찾습니다.",
             responses = {@ApiResponse(responseCode = "200", description = "봉사자 휴대폰 번호로 이메일 찾기 성공")
                     , @ApiResponse(responseCode = "400"
-                    , description = "V1, 휴대폰 번호는 필수 입력 값입니다. \t\n M2, 해당 이동봉사 중개를 찾을 수 없습니다."
+                    , description = "V1, 휴대폰 번호는 필수 입력 값입니다. \t\n M1, 해당 이동봉사자를 찾을 수 없습니다."
                     , content = @Content(schema = @Schema(implementation = ErrorResponse.class)))
             })
     @PostMapping("/volunteers/search/email")
     public ResponseEntity<VolunteerEmailResponse> findVolunteerEmail(@RequestBody @Valid VolunteerPhoneRequest request) {
         VolunteerEmailResponse response = authService.findVolunteerEmail(request);
+        return ResponseEntity.ok(response);
+    }
+
+    @Operation(summary = "이메일 찾기 - 모집자 휴대폰 번호로 이메일 찾기", description = "모집자 휴대폰 번호로 이메일을 찾습니다.",
+            responses = {@ApiResponse(responseCode = "200", description = "모집자 휴대폰 번호로 이메일 찾기 성공")
+                    , @ApiResponse(responseCode = "400"
+                    , description = "V1, 휴대폰 번호는 필수 입력 값입니다. \t\n M2, 해당 이동봉사 중개를 찾을 수 없습니다."
+                    , content = @Content(schema = @Schema(implementation = ErrorResponse.class)))
+            })
+    @PostMapping("/intermediaries/search/email")
+    public ResponseEntity<IntermediaryEmailResponse> findIntermediaryEmail(@RequestBody @Valid IntermediaryPhoneRequest request) {
+        IntermediaryEmailResponse response = authService.findIntermediaryEmail(request);
         return ResponseEntity.ok(response);
     }
 }
