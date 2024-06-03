@@ -6,6 +6,7 @@ import com.pawwithu.connectdog.domain.application.repository.ApplicationReposito
 import com.pawwithu.connectdog.domain.auth.dto.request.*;
 import com.pawwithu.connectdog.domain.auth.dto.response.IntermediaryNameResponse;
 import com.pawwithu.connectdog.domain.auth.dto.response.IntermediaryPhoneResponse;
+import com.pawwithu.connectdog.domain.auth.dto.response.VolunteerEmailResponse;
 import com.pawwithu.connectdog.domain.auth.dto.response.VolunteerPhoneResponse;
 import com.pawwithu.connectdog.domain.badge.repository.VolunteerBadgeRepository;
 import com.pawwithu.connectdog.domain.bookmark.repository.BookmarkRepository;
@@ -201,6 +202,13 @@ public class AuthService {
     public IntermediaryNameResponse isIntermediaryNameDuplicated(IntermediaryNameRequest request) {
         Boolean isDuplicated = intermediaryRepository.existsByName(request.name());
         IntermediaryNameResponse response = IntermediaryNameResponse.of(isDuplicated);
+        return response;
+    }
+
+    @Transactional(readOnly = true)
+    public VolunteerEmailResponse findVolunteerEmail(VolunteerPhoneRequest request) {
+        Volunteer volunteer = volunteerRepository.findByPhone(request.phone()).orElseThrow(() -> new BadRequestException(VOLUNTEER_NOT_FOUND));
+        VolunteerEmailResponse response = VolunteerEmailResponse.of(volunteer.getEmail());
         return response;
     }
 }
