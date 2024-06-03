@@ -103,4 +103,15 @@ public class EmailService {
         context.setVariable("code", code);
         return templateEngine.process("mail", context);
     }
+
+    public EmailResponse sendEmailWithoutAuth(EmailRequest request) throws BadRequestException {
+        try{
+            // 메일전송에 필요한 정보 설정
+            MimeMessage emailForm = createEmailForm(request.email());
+            emailSender.send(emailForm);
+            return new EmailResponse(authNum);
+        }catch (UnsupportedEncodingException | MessagingException e){
+            throw new BadRequestException(EMAIL_SEND_ERROR);
+        }
+    }
 }
