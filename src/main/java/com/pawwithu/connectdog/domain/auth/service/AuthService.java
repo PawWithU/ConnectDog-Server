@@ -9,10 +9,16 @@ import com.pawwithu.connectdog.domain.auth.dto.response.IntermediaryPhoneRespons
 import com.pawwithu.connectdog.domain.auth.dto.response.VolunteerPhoneResponse;
 import com.pawwithu.connectdog.domain.badge.repository.VolunteerBadgeRepository;
 import com.pawwithu.connectdog.domain.bookmark.repository.BookmarkRepository;
+import com.pawwithu.connectdog.domain.dogStatus.repository.DogStatusImageRepository;
+import com.pawwithu.connectdog.domain.dogStatus.repository.DogStatusRepository;
 import com.pawwithu.connectdog.domain.fcm.repository.IntermediaryFcmRepository;
 import com.pawwithu.connectdog.domain.fcm.repository.VolunteerFcmRepository;
 import com.pawwithu.connectdog.domain.intermediary.entity.Intermediary;
 import com.pawwithu.connectdog.domain.intermediary.repository.IntermediaryRepository;
+import com.pawwithu.connectdog.domain.notification.repository.IntermediaryNotificationRepository;
+import com.pawwithu.connectdog.domain.notification.repository.VolunteerNotificationRepository;
+import com.pawwithu.connectdog.domain.post.entity.Post;
+import com.pawwithu.connectdog.domain.post.repository.PostRepository;
 import com.pawwithu.connectdog.domain.review.entity.Review;
 import com.pawwithu.connectdog.domain.review.repository.ReviewRepository;
 import com.pawwithu.connectdog.domain.volunteer.entity.SocialType;
@@ -54,6 +60,11 @@ public class AuthService {
     private final IntermediaryFcmRepository intermediaryFcmRepository;
     private final BookmarkRepository bookmarkRepository;
     private final VolunteerBadgeRepository volunteerBadgeRepository;
+    private final PostRepository postRepository;
+    private final IntermediaryNotificationRepository intermediaryNotificationRepository;
+    private final VolunteerNotificationRepository volunteerNotificationRepository;
+    private final DogStatusRepository dogStatusRepository;
+    private final DogStatusImageRepository dogStatusImageRepository;
 
     public void volunteerSignUp(VolunteerSignUpRequest request) {
 
@@ -175,7 +186,7 @@ public class AuthService {
             volunteerFcmRepository.deleteByVolunteerId(volunteer.getId());
             redisUtil.setBlackList(accessToken, "accessToken", jwtService.getAccessTokenExpirationPeriod());
 
-            Volunteer deletedVolunteer = volunteerRepository.findByEmail("deleted@connectdog.com").orElseThrow(() -> new BadRequestException(VOLUNTEER_NOT_FOUND));
+            Volunteer deletedVolunteer = volunteerRepository.findByEmail("deletedVolunteer@connectdog.com").orElseThrow(() -> new BadRequestException(VOLUNTEER_NOT_FOUND));
             List<Review> reviews = reviewRepository.findByVolunteer(volunteer);
             for (Review review : reviews) {
                 review.updateDeletedVolunteer(deletedVolunteer);
@@ -190,10 +201,45 @@ public class AuthService {
 
             bookmarkRepository.deleteByVolunteerId(volunteer.getId());
             volunteerBadgeRepository.deleteByVolunteerId(volunteer.getId());
+            volunteerNotificationRepository.deleteByVolunteerId(volunteer.getId());
+            volunteerFcmRepository.deleteByVolunteerId(volunteer.getId());
             volunteerRepository.delete(volunteer);
         } catch (Exception e) {
             log.error("봉사자 탈퇴 도중에 에러가 발생했습니다. {}", e.getMessage());
             throw new BadRequestException(VOLUNTEER_WITHDRAW_FAILED);
+        }
+    }
+
+    public void intermediariesWithdraw(HttpServletRequest request, String email) {
+        String accessToken = jwtService.extractAccessToken(request).orElseThrow(() -> new BadRequestException(TOKEN_NOT_EXIST));
+        Intermediary intermediary = intermediaryRepository.findByEmail(email).orElseThrow(() -> new BadRequestException(INTERMEDIARY_NOT_FOUND));
+        String roleName = jwtService.extractRoleName(accessToken).orElseThrow(() -> new BadRequestException(NOT_FOUND_ROLE_NAME));
+
+        try {
+            redisUtil.delete(roleName, intermediary.getId());
+            volunteerFcmRepository.deleteByVolunteerId(intermediary.getId());
+            redisUtil.setBlackList(accessToken, "accessToken", jwtService.getAccessTokenExpirationPeriod());
+
+            Intermediary deletedIntermediary = intermediaryRepository.findByEmail("deletedIntermediary@connectdog.com").orElseThrow(() -> new BadRequestException(INTERMEDIARY_NOT_FOUND));
+
+            List<Post> posts = postRepository.findByIntermediary(intermediary);
+            for (Post post : posts) {
+                post.updateDeletedIntermediary(deletedIntermediary);
+            }
+
+            List<Application> applications = applicationRepository.findByIntermediary(intermediary);
+            for (Application application : applications) {
+                application.updateDeletedIntermediary(deletedIntermediary);
+            }
+
+            entityManager.flush();
+
+            intermediaryNotificationRepository.deleteByIntermediaryId(intermediary.getId());
+            intermediaryFcmRepository.deleteByIntermediaryId(intermediary.getId());
+            intermediaryRepository.delete(intermediary);
+        } catch (Exception e) {
+            log.error("모집자 탈퇴 도중에 에러가 발생했습니다. {}", e.getMessage());
+            throw new BadRequestException(INTERMEDIARY_WITHDRAW_FAILED);
         }
     }
 

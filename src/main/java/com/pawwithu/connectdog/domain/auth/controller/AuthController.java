@@ -83,4 +83,17 @@ public class AuthController {
         return ResponseEntity.noContent().build();
     }
 
+    @Operation(summary = "모집자 - 탈퇴", description = "모집자가 탈퇴를 합니다.",
+            security = {@SecurityRequirement(name = "bearer-key") },
+            responses = {@ApiResponse(responseCode = "200", description = "모집자 탈퇴 성공")
+                    , @ApiResponse(responseCode = "400"
+                    , description = "T1, 토큰이 존재하지 않습니다. \t\n M2, 해당 이동봉사 중개를 찾을 수 없습니다."
+                    , content = @Content(schema = @Schema(implementation = ErrorResponse.class)))
+            })
+    @DeleteMapping("/intermediaries/my")
+    public ResponseEntity<Void> intermediariesWithdraw(HttpServletRequest request, @AuthenticationPrincipal UserDetails loginUser) {
+        authService.intermediariesWithdraw(request, loginUser.getUsername());
+        return ResponseEntity.noContent().build();
+    }
+
 }
