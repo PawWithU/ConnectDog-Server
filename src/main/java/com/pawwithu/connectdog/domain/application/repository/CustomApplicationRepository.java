@@ -21,7 +21,6 @@ public interface CustomApplicationRepository {
     List<ApplicationVolunteerCompletedResponse> getVolunteerCompletedApplications(Long volunteerId, Pageable pageable);
     List<ApplicationIntermediaryCompletedResponse> getIntermediaryCompletedApplications(Long intermediaryId, Pageable pageable);
     List<Tuple> getCountOfApplicationsByStatus(Long id);
-    boolean existsByPostIdAndPostStatus(Long postId);
     void updateExpiredApplications(LocalDate today);
     List<Application> getYesterdayExpiredApplications(LocalDate date);
     List<Application> getExpiredProgressingPosts(LocalDate date);

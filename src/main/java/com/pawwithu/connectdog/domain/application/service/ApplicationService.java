@@ -50,13 +50,14 @@ public class ApplicationService {
         // 이동봉사자
         Volunteer volunteer = volunteerRepository.findByEmail(email).orElseThrow(() -> new BadRequestException(VOLUNTEER_NOT_FOUND));
         // 공고
-        Post post = postRepository.findById(postId).orElseThrow(() -> new BadRequestException(POST_NOT_FOUND));
+        Post post = postRepository.findByIdAndStatus(postId, PostStatus.RECRUITING).orElseThrow(() -> new BadRequestException(POST_NOT_FOUND));
         // 이동봉사 중개
         Intermediary intermediary = post.getIntermediary();
-        // 해당 공고에 대한 신청이 이미 존재할 경우 - 신청 상태가 반려가 아닐 경우
-        if (customApplicationRepository.existsByPostIdAndPostStatus(postId)) {
-            throw new BadRequestException(ALREADY_EXIST_APPLICATION);
-        }
+        // 해당 공고에 대한 신청이 이미 존재할 경우 예외 처리 - 신청 상태가 반려가 아닐 경우
+        applicationRepository.findByPostIdAndStatusNot(postId, ApplicationStatus.REJECTED)
+                .ifPresent(application -> {
+                    throw new BadRequestException(ALREADY_EXIST_APPLICATION);
+                });
         // 공고 신청 저장
         Application application = request.toEntity(post, intermediary, volunteer);
         applicationRepository.save(application);

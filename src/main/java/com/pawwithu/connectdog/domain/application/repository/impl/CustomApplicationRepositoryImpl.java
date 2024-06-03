@@ -5,6 +5,7 @@ import com.pawwithu.connectdog.domain.application.entity.Application;
 import com.pawwithu.connectdog.domain.application.entity.ApplicationStatus;
 import com.pawwithu.connectdog.domain.application.repository.CustomApplicationRepository;
 import com.pawwithu.connectdog.domain.post.entity.Post;
+import com.pawwithu.connectdog.domain.post.entity.PostStatus;
 import com.querydsl.core.Tuple;
 import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.impl.JPAQueryFactory;
@@ -183,16 +184,6 @@ public class CustomApplicationRepositoryImpl implements CustomApplicationReposit
                 .where(application.volunteer.id.eq(id))
                 .groupBy(application.status)
                 .fetch();
-    }
-
-    @Override
-    public boolean existsByPostIdAndPostStatus(Long postId) {
-        return queryFactory
-                .select(application)
-                .from(application)
-                .where(application.post.id.eq(postId)
-                        .and(application.status.ne(ApplicationStatus.REJECTED)))
-                .fetchOne() != null;
     }
 
     // 어제 모집 마감된 신청 가져오기
