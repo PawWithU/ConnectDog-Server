@@ -66,6 +66,8 @@ public class SecurityConfig {
                                 .requestMatchers(mvcMatcherBuilder.pattern("/volunteers/login/social")).permitAll()
                                 .requestMatchers(mvcMatcherBuilder.pattern("/volunteers/sign-up")).permitAll()
                                 .requestMatchers(mvcMatcherBuilder.pattern("/volunteers/sign-up/email")).permitAll()
+                                .requestMatchers(mvcMatcherBuilder.pattern("/volunteers/search/**")).permitAll()
+                                .requestMatchers(mvcMatcherBuilder.pattern("/intermediaries/search/**")).permitAll()
                                 .requestMatchers(mvcMatcherBuilder.pattern("/intermediaries/phone/isDuplicated")).permitAll()
                                 .requestMatchers(mvcMatcherBuilder.pattern("/intermediaries/sign-up/**")).permitAll()
                                 .requestMatchers(mvcMatcherBuilder.pattern("/reissue-token")).permitAll()
