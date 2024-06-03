@@ -26,7 +26,7 @@ public class Application extends BaseTimeEntity {
     private String phone; // 전화번호
     @Column(length = 200, nullable = false)
     private String content; // 전달 및 문의사항
-    @OneToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "post_id", nullable = false)
     private Post post;  // 공고 id
     @ManyToOne(fetch = FetchType.LAZY)
