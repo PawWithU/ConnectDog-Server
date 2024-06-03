@@ -2,10 +2,7 @@ package com.pawwithu.connectdog.domain.auth.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.pawwithu.connectdog.domain.auth.dto.request.*;
-import com.pawwithu.connectdog.domain.auth.dto.response.EmailResponse;
-import com.pawwithu.connectdog.domain.auth.dto.response.IntermediaryNameResponse;
-import com.pawwithu.connectdog.domain.auth.dto.response.IntermediaryPhoneResponse;
-import com.pawwithu.connectdog.domain.auth.dto.response.VolunteerPhoneResponse;
+import com.pawwithu.connectdog.domain.auth.dto.response.*;
 import com.pawwithu.connectdog.domain.auth.service.AuthService;
 import com.pawwithu.connectdog.domain.auth.service.EmailService;
 import com.pawwithu.connectdog.domain.volunteer.entity.SocialType;
@@ -168,5 +165,43 @@ class SignUpControllerTest {
         //then
         result.andExpect(status().isOk());
         verify(authService, times(1)).isIntermediaryNameDuplicated(request);
+    }
+
+    @Test
+    void 이동봉사자_이메일_찾기() throws Exception {
+        //given
+        VolunteerPhoneRequest request = new VolunteerPhoneRequest("01000001111");
+        VolunteerEmailResponse response = new VolunteerEmailResponse("abc@naver.com");
+
+        //when
+        given(authService.findVolunteerEmail(request)).willReturn(response);
+        ResultActions result = mockMvc.perform(
+                post("/volunteers/search/email")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(request))
+        );
+
+        //then
+        result.andExpect(status().isOk());
+        verify(authService, times(1)).findVolunteerEmail(request);
+    }
+
+    @Test
+    void 모집자_이메일_찾기() throws Exception {
+        //given
+        IntermediaryPhoneRequest request = new IntermediaryPhoneRequest("01000001111");
+        IntermediaryEmailResponse response = new IntermediaryEmailResponse("abc@naver.com");
+
+        //when
+        given(authService.findIntermediaryEmail(request)).willReturn(response);
+        ResultActions result = mockMvc.perform(
+                post("/intermediaries/search/email")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(request))
+        );
+
+        //then
+        result.andExpect(status().isOk());
+        verify(authService, times(1)).findIntermediaryEmail(request);
     }
 }
