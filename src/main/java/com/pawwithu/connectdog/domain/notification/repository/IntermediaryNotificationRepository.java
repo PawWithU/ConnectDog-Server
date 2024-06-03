@@ -8,4 +8,6 @@ import java.util.Optional;
 public interface IntermediaryNotificationRepository extends JpaRepository<IntermediaryNotification, Long> {
 
     Optional<IntermediaryNotification> findByIdAndIntermediaryId(Long id, Long intermediaryId);
+
+    void deleteByIntermediaryId(Long id);
 }

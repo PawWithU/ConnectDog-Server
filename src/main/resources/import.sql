@@ -111,7 +111,7 @@ UPDATE post SET main_image_id = 15 WHERE id = 15;
 UPDATE post SET main_image_id = 16 WHERE id = 16;
 
 -- INSERT VOLUNTEER
-INSERT INTO volunteer (id, email, password, nickname, profile_image_num, name, phone, role, is_option_agr, notification, created_date, modified_date) VALUES (7, 'deleted@connectdog.com', '{bcrypt}$2a$10$wkmYUG/qvZFThCzq19yHredRc6u8nAhlAopbDE9p7n6JF6NgtLs8y', '탈퇴한 사용자', 1, '탈퇴한 사용자', '01000000000', 'AUTH_VOLUNTEER', false, true, now(), now());
+INSERT INTO volunteer (id, email, password, nickname, profile_image_num, name, phone, role, is_option_agr, notification, created_date, modified_date) VALUES (7, 'deletedVolunteer@connectdog.com', '{bcrypt}$2a$10$wkmYUG/qvZFThCzq19yHredRc6u8nAhlAopbDE9p7n6JF6NgtLs8y', '탈퇴한 사용자', 1, '탈퇴한 사용자', '01000000000', 'AUTH_VOLUNTEER', false, true, now(), now());
 
 INSERT INTO volunteer (id, email, password, nickname, profile_image_num, name, phone, role, is_option_agr, notification, created_date, modified_date) VALUES (1, 'abc@naver.com', '{bcrypt}$2a$10$VieltvcRaI/rJnaRHuRPju9rqM9BvmKRkmn./oOninx7fOGT/q2De', '이동봉사자', 2, '한호정', '01047391901', 'AUTH_VOLUNTEER', false, true, now(), now());
 
@@ -170,19 +170,19 @@ UPDATE review SET main_image_id = 5 WHERE id = 5;
 
 
 -- INSERT DOG_STATUS
-INSERT INTO dog_status (id, content, post_id, intermediary_id, created_date, modified_date) VALUES (1, '우리 여름이 집 가서 활짝 웃고있는 거 보세요! 귀여운 여름이와 함께 이동봉사 진행해 주셔서 감사합니다 ^^', 12, 2, now(), now());
-INSERT INTO dog_status (id, content, post_id, intermediary_id, created_date, modified_date) VALUES (2, '겨울이의 점점 살과 털이 찌고있어요 ㅎㅎ 겨울이는 잘 먹고 잘 지낸답니다. ', 13, 2, now(), now());
-INSERT INTO dog_status (id, content, post_id, intermediary_id, created_date, modified_date) VALUES (3, '짱구는 모래 운동장에서 노는 걸 요즘 즐겨서 흰 털이 노래질 때까지 놀고있대요^^~', 14, 2, now(), now());
-INSERT INTO dog_status (id, content, post_id, intermediary_id, created_date, modified_date) VALUES (4, '로지는 이제 사람들 손을 무서워하지 않고 사람들과 함께 잘 노는 강아지가 되어가고 있답니다', 15, 2, now(), now());
-INSERT INTO dog_status (id, content, post_id, intermediary_id, created_date, modified_date) VALUES (5, '가을이는 다 나아서 잘 지내고 있답니다 :)', 16, 3, now(), now());
+--INSERT INTO dog_status (id, content, post_id, intermediary_id, created_date, modified_date) VALUES (1, '우리 여름이 집 가서 활짝 웃고있는 거 보세요! 귀여운 여름이와 함께 이동봉사 진행해 주셔서 감사합니다 ^^', 12, 2, now(), now());
+--INSERT INTO dog_status (id, content, post_id, intermediary_id, created_date, modified_date) VALUES (2, '겨울이의 점점 살과 털이 찌고있어요 ㅎㅎ 겨울이는 잘 먹고 잘 지낸답니다. ', 13, 2, now(), now());
+--INSERT INTO dog_status (id, content, post_id, intermediary_id, created_date, modified_date) VALUES (3, '짱구는 모래 운동장에서 노는 걸 요즘 즐겨서 흰 털이 노래질 때까지 놀고있대요^^~', 14, 2, now(), now());
+--INSERT INTO dog_status (id, content, post_id, intermediary_id, created_date, modified_date) VALUES (4, '로지는 이제 사람들 손을 무서워하지 않고 사람들과 함께 잘 노는 강아지가 되어가고 있답니다', 15, 2, now(), now());
+--INSERT INTO dog_status (id, content, post_id, intermediary_id, created_date, modified_date) VALUES (5, '가을이는 다 나아서 잘 지내고 있답니다 :)', 16, 3, now(), now());
 
 
 -- INSERT DOG_STATUS_IMAGE
-INSERT INTO dog_status_image (id, image, dog_status_id, created_date, modified_date) VALUES (1, 'https://connectdog-image.s3.ap-northeast-2.amazonaws.com/dogStatus/dogStatus1.png', 1, now(), now());
-INSERT INTO dog_status_image (id, image, dog_status_id, created_date, modified_date) VALUES (2, 'https://connectdog-image.s3.ap-northeast-2.amazonaws.com/dogStatus/dogStatus2.png', 2, now(), now());
-INSERT INTO dog_status_image (id, image, dog_status_id, created_date, modified_date) VALUES (3, 'https://connectdog-image.s3.ap-northeast-2.amazonaws.com/dogStatus/dogStatus3.png', 3, now(), now());
-INSERT INTO dog_status_image (id, image, dog_status_id, created_date, modified_date) VALUES (4, 'https://connectdog-image.s3.ap-northeast-2.amazonaws.com/dogStatus/dogStatus4.png', 4, now(), now());
-INSERT INTO dog_status_image (id, image, dog_status_id, created_date, modified_date) VALUES (5, 'https://connectdog-image.s3.ap-northeast-2.amazonaws.com/dogStatus/dogStatus5.png', 5, now(), now());
+--INSERT INTO dog_status_image (id, image, dog_status_id, created_date, modified_date) VALUES (1, 'https://connectdog-image.s3.ap-northeast-2.amazonaws.com/dogStatus/dogStatus1.png', 1, now(), now());
+--INSERT INTO dog_status_image (id, image, dog_status_id, created_date, modified_date) VALUES (2, 'https://connectdog-image.s3.ap-northeast-2.amazonaws.com/dogStatus/dogStatus2.png', 2, now(), now());
+--INSERT INTO dog_status_image (id, image, dog_status_id, created_date, modified_date) VALUES (3, 'https://connectdog-image.s3.ap-northeast-2.amazonaws.com/dogStatus/dogStatus3.png', 3, now(), now());
+--INSERT INTO dog_status_image (id, image, dog_status_id, created_date, modified_date) VALUES (4, 'https://connectdog-image.s3.ap-northeast-2.amazonaws.com/dogStatus/dogStatus4.png', 4, now(), now());
+--INSERT INTO dog_status_image (id, image, dog_status_id, created_date, modified_date) VALUES (5, 'https://connectdog-image.s3.ap-northeast-2.amazonaws.com/dogStatus/dogStatus5.png', 5, now(), now());
 
 
 -- UPDATE DOG_STATUS_IMAGE
@@ -225,6 +225,7 @@ INSERT INTO bookmark(id, post_id, volunteer_id, created_date, modified_date) VAL
 -- v2
 -- INSERT INTERMEDIARY
 INSERT INTO intermediary (id, email, password, name, url, profile_image, intro, contact, role, is_option_agr, notification, guide, real_name, phone, created_date, modified_date) VALUES (7, 'i7@naver.com', '{bcrypt}$2a$10$wkmYUG/qvZFThCzq19yHredRc6u8nAhlAopbDE9p7n6JF6NgtLs8y', '감귤시보호소', 'https://connectdog7.site', 'https://connectdog-image.s3.ap-northeast-2.amazonaws.com/intermediary/intermediary6.png','감귤시가 운영중인 유기견 보호소입니다', '인스타그램 @gamgull_helper', 'AUTH_INTERMEDIARY', false, true, '감귤시에서 운영하는 감귤시보호소 공식계정입니다. 직원들이 상주하는 평일 9:00~19:0에만 응답이 가능합니다. ', '강승구', '01011112222', now(), now());
+INSERT INTO intermediary (id, email, password, name, url, profile_image, intro, contact, role, is_option_agr, notification, guide, real_name, phone, created_date, modified_date) VALUES (8, 'deletedIntermediary@connectdog.com', '{bcrypt}$2a$10$wkmYUG/qvZFThCzq19yHredRc6u8nAhlAopbDE9p7n6JF6NgtLs8y', '탈퇴한 사용자', null, null, null, null, 'AUTH_INTERMEDIARY', false, true, '탈퇴한 사용자입니다.', '탈퇴한 사용자', '01000000000', now(), now());
 
 
 -- INSERT DOG (post status 0 - 모집중)
@@ -482,25 +483,25 @@ UPDATE review SET main_image_id = 13 WHERE id = 13;
 
 
 -- INSERT DOG_STATUS
-INSERT INTO dog_status (id, content, post_id, intermediary_id, created_date, modified_date) VALUES (6, '몽이는 새로운 집에서 잘 놀구 있어요!! 너무 귀엽지 않나요..?', 37, 4, now(), now());
-INSERT INTO dog_status (id, content, post_id, intermediary_id, created_date, modified_date) VALUES (7, '요즘 1일 1산책 한대요!', 38, 4, now(), now());
-INSERT INTO dog_status (id, content, post_id, intermediary_id, created_date, modified_date) VALUES (8, '율무는 새로운 집에서 친구와 잘 지내고 있대요.', 39, 5, now(), now());
-INSERT INTO dog_status (id, content, post_id, intermediary_id, created_date, modified_date) VALUES (9, '찹쌀이는 이동 후에도 잘 지내고 있대요.', 40, 5, now(), now());
-INSERT INTO dog_status (id, content, post_id, intermediary_id, created_date, modified_date) VALUES (10, '수수의 건강이 많이 좋아져서 다시 건강하게 산책하며 돌아다니고 있어요.', 41, 6, now(), now());
-INSERT INTO dog_status (id, content, post_id, intermediary_id, created_date, modified_date) VALUES (11, '루시는 새 가족을 만나고 겁이 많이 없어졌대요. 이제는 먼저 사람을 보면 다가가서 부빈답니다', 42, 6, now(), now());
-INSERT INTO dog_status (id, content, post_id, intermediary_id, created_date, modified_date) VALUES (12, '감자는 병원 다녀와서 몸이 많이 좋아졌어요', 43, 7, now(), now());
-INSERT INTO dog_status (id, content, post_id, intermediary_id, created_date, modified_date) VALUES (13, '베키가 새로운 가족과 잘 지내고있대요!', 44, 7, now(), now());
+--INSERT INTO dog_status (id, content, post_id, intermediary_id, created_date, modified_date) VALUES (6, '몽이는 새로운 집에서 잘 놀구 있어요!! 너무 귀엽지 않나요..?', 37, 4, now(), now());
+--INSERT INTO dog_status (id, content, post_id, intermediary_id, created_date, modified_date) VALUES (7, '요즘 1일 1산책 한대요!', 38, 4, now(), now());
+--INSERT INTO dog_status (id, content, post_id, intermediary_id, created_date, modified_date) VALUES (8, '율무는 새로운 집에서 친구와 잘 지내고 있대요.', 39, 5, now(), now());
+--INSERT INTO dog_status (id, content, post_id, intermediary_id, created_date, modified_date) VALUES (9, '찹쌀이는 이동 후에도 잘 지내고 있대요.', 40, 5, now(), now());
+--INSERT INTO dog_status (id, content, post_id, intermediary_id, created_date, modified_date) VALUES (10, '수수의 건강이 많이 좋아져서 다시 건강하게 산책하며 돌아다니고 있어요.', 41, 6, now(), now());
+--INSERT INTO dog_status (id, content, post_id, intermediary_id, created_date, modified_date) VALUES (11, '루시는 새 가족을 만나고 겁이 많이 없어졌대요. 이제는 먼저 사람을 보면 다가가서 부빈답니다', 42, 6, now(), now());
+--INSERT INTO dog_status (id, content, post_id, intermediary_id, created_date, modified_date) VALUES (12, '감자는 병원 다녀와서 몸이 많이 좋아졌어요', 43, 7, now(), now());
+--INSERT INTO dog_status (id, content, post_id, intermediary_id, created_date, modified_date) VALUES (13, '베키가 새로운 가족과 잘 지내고있대요!', 44, 7, now(), now());
 
 
 -- INSERT DOG_STATUS_IMAGE
-INSERT INTO dog_status_image (id, image, dog_status_id, created_date, modified_date) VALUES (6, 'https://connectdog-image.s3.ap-northeast-2.amazonaws.com/dogStatus/dogStatus6.png', 6, now(), now());
-INSERT INTO dog_status_image (id, image, dog_status_id, created_date, modified_date) VALUES (7, 'https://connectdog-image.s3.ap-northeast-2.amazonaws.com/dogStatus/dogStatus7.png', 7, now(), now());
-INSERT INTO dog_status_image (id, image, dog_status_id, created_date, modified_date) VALUES (8, 'https://connectdog-image.s3.ap-northeast-2.amazonaws.com/dogStatus/dogStatus8.png', 8, now(), now());
-INSERT INTO dog_status_image (id, image, dog_status_id, created_date, modified_date) VALUES (9, 'https://connectdog-image.s3.ap-northeast-2.amazonaws.com/dogStatus/dogStatus9.png', 9, now(), now());
-INSERT INTO dog_status_image (id, image, dog_status_id, created_date, modified_date) VALUES (10, 'https://connectdog-image.s3.ap-northeast-2.amazonaws.com/dogStatus/dogStatus10.png', 10, now(), now());
-INSERT INTO dog_status_image (id, image, dog_status_id, created_date, modified_date) VALUES (11, 'https://connectdog-image.s3.ap-northeast-2.amazonaws.com/dogStatus/dogStatus11.png', 11, now(), now());
-INSERT INTO dog_status_image (id, image, dog_status_id, created_date, modified_date) VALUES (12, 'https://connectdog-image.s3.ap-northeast-2.amazonaws.com/dogStatus/dogStatus12.png', 12, now(), now());
-INSERT INTO dog_status_image (id, image, dog_status_id, created_date, modified_date) VALUES (13, 'https://connectdog-image.s3.ap-northeast-2.amazonaws.com/dogStatus/dogStatus13.png', 13, now(), now());
+--INSERT INTO dog_status_image (id, image, dog_status_id, created_date, modified_date) VALUES (6, 'https://connectdog-image.s3.ap-northeast-2.amazonaws.com/dogStatus/dogStatus6.png', 6, now(), now());
+--INSERT INTO dog_status_image (id, image, dog_status_id, created_date, modified_date) VALUES (7, 'https://connectdog-image.s3.ap-northeast-2.amazonaws.com/dogStatus/dogStatus7.png', 7, now(), now());
+--INSERT INTO dog_status_image (id, image, dog_status_id, created_date, modified_date) VALUES (8, 'https://connectdog-image.s3.ap-northeast-2.amazonaws.com/dogStatus/dogStatus8.png', 8, now(), now());
+--INSERT INTO dog_status_image (id, image, dog_status_id, created_date, modified_date) VALUES (9, 'https://connectdog-image.s3.ap-northeast-2.amazonaws.com/dogStatus/dogStatus9.png', 9, now(), now());
+--INSERT INTO dog_status_image (id, image, dog_status_id, created_date, modified_date) VALUES (10, 'https://connectdog-image.s3.ap-northeast-2.amazonaws.com/dogStatus/dogStatus10.png', 10, now(), now());
+--INSERT INTO dog_status_image (id, image, dog_status_id, created_date, modified_date) VALUES (11, 'https://connectdog-image.s3.ap-northeast-2.amazonaws.com/dogStatus/dogStatus11.png', 11, now(), now());
+--INSERT INTO dog_status_image (id, image, dog_status_id, created_date, modified_date) VALUES (12, 'https://connectdog-image.s3.ap-northeast-2.amazonaws.com/dogStatus/dogStatus12.png', 12, now(), now());
+--INSERT INTO dog_status_image (id, image, dog_status_id, created_date, modified_date) VALUES (13, 'https://connectdog-image.s3.ap-northeast-2.amazonaws.com/dogStatus/dogStatus13.png', 13, now(), now());
 
 
 -- UPDATE DOG_STATUS_IMAGE

@@ -74,4 +74,8 @@ public class Post extends BaseTimeEntity {
         this.isKennel = isKennel;
         this.content = content;
     }
+
+    public void updateDeletedIntermediary(Intermediary deletedIntermediary) {
+        this.intermediary = deletedIntermediary;
+    }
 }

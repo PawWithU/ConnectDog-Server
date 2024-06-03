@@ -8,4 +8,6 @@ import java.util.Optional;
 public interface VolunteerNotificationRepository extends JpaRepository<VolunteerNotification, Long> {
 
     Optional<VolunteerNotification> findByIdAndVolunteerId(Long id, Long intermediaryId);
+
+    void deleteByVolunteerId(Long id);
 }

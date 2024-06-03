@@ -56,4 +56,8 @@ public class Application extends BaseTimeEntity {
         this.volunteerName = deletedVolunteer.getName();
         this.phone = deletedVolunteer.getPhone();
     }
+
+    public void updateDeletedIntermediary(Intermediary deletedIntermediary) {
+        this.intermediary = deletedIntermediary;
+    }
 }

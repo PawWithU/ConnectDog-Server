@@ -2,6 +2,7 @@ package com.pawwithu.connectdog.domain.application.repository;
 
 import com.pawwithu.connectdog.domain.application.entity.Application;
 import com.pawwithu.connectdog.domain.application.entity.ApplicationStatus;
+import com.pawwithu.connectdog.domain.intermediary.entity.Intermediary;
 import com.pawwithu.connectdog.domain.volunteer.entity.Volunteer;
 import org.springframework.data.jpa.repository.JpaRepository;
 
@@ -17,5 +18,7 @@ public interface ApplicationRepository extends JpaRepository<Application, Long> 
     Long countAllByPostId(Long id);
     List<Application> findByVolunteer(Volunteer volunteer);
     Optional<Application> findByPostIdAndStatusNot(Long postId, ApplicationStatus status);
+
+    List<Application> findByIntermediary(Intermediary intermediary);
 
 }
