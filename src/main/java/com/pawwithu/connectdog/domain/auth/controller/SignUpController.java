@@ -1,7 +1,10 @@
 package com.pawwithu.connectdog.domain.auth.controller;
 
 import com.pawwithu.connectdog.domain.auth.dto.request.*;
-import com.pawwithu.connectdog.domain.auth.dto.response.*;
+import com.pawwithu.connectdog.domain.auth.dto.response.EmailResponse;
+import com.pawwithu.connectdog.domain.auth.dto.response.IntermediaryNameResponse;
+import com.pawwithu.connectdog.domain.auth.dto.response.IntermediaryPhoneResponse;
+import com.pawwithu.connectdog.domain.auth.dto.response.VolunteerPhoneResponse;
 import com.pawwithu.connectdog.domain.auth.service.AuthService;
 import com.pawwithu.connectdog.domain.auth.service.EmailService;
 import com.pawwithu.connectdog.error.dto.ErrorResponse;
@@ -120,39 +123,4 @@ public class SignUpController {
         return ResponseEntity.ok(response);
     }
 
-    @Operation(summary = "이메일 찾기 - 봉사자 휴대폰 번호로 이메일 찾기", description = "봉사자 휴대폰 번호로 이메일을 찾습니다.",
-            responses = {@ApiResponse(responseCode = "200", description = "봉사자 휴대폰 번호로 이메일 찾기 성공")
-                    , @ApiResponse(responseCode = "400"
-                    , description = "V1, 휴대폰 번호는 필수 입력 값입니다. \t\n M1, 해당 이동봉사자를 찾을 수 없습니다."
-                    , content = @Content(schema = @Schema(implementation = ErrorResponse.class)))
-            })
-    @PostMapping("/volunteers/search/email")
-    public ResponseEntity<VolunteerEmailResponse> findVolunteerEmail(@RequestBody @Valid VolunteerPhoneRequest request) {
-        VolunteerEmailResponse response = authService.findVolunteerEmail(request);
-        return ResponseEntity.ok(response);
-    }
-
-    @Operation(summary = "이메일 찾기 - 모집자 휴대폰 번호로 이메일 찾기", description = "모집자 휴대폰 번호로 이메일을 찾습니다.",
-            responses = {@ApiResponse(responseCode = "200", description = "모집자 휴대폰 번호로 이메일 찾기 성공")
-                    , @ApiResponse(responseCode = "400"
-                    , description = "V1, 휴대폰 번호는 필수 입력 값입니다. \t\n M2, 해당 이동봉사 중개를 찾을 수 없습니다."
-                    , content = @Content(schema = @Schema(implementation = ErrorResponse.class)))
-            })
-    @PostMapping("/intermediaries/search/email")
-    public ResponseEntity<IntermediaryEmailResponse> findIntermediaryEmail(@RequestBody @Valid IntermediaryPhoneRequest request) {
-        IntermediaryEmailResponse response = authService.findIntermediaryEmail(request);
-        return ResponseEntity.ok(response);
-    }
-
-    @Operation(summary = "비밀번호 찾기 - 이메일 인증번호 전송", description = "입력한 이메일로 인증번호를 전송합니다.",
-            responses = {@ApiResponse(responseCode = "200", description = "이메일 인증번호 전송 성공")
-                    , @ApiResponse(responseCode = "400"
-                    , description = "V1, 이메일 형식에 맞지 않습니다. \t\n V1, 이메일은 필수 입력 값입니다. \t\n A1, 이미 존재하는 이메일입니다. \t\n A4, 이메일 인증 코드 전송을 실패했습니다."
-                    , content = @Content(schema = @Schema(implementation = ErrorResponse.class)))
-            })
-    @PostMapping(value = {"/volunteers/search/send-email", "/intermediaries/search/send-email"})
-    public ResponseEntity<EmailResponse> sendEmail(@RequestBody @Valid EmailRequest request){
-        EmailResponse emailResponse = emailService.sendEmailWithoutAuth(request);
-        return ResponseEntity.ok(emailResponse);
-    }
 }
