@@ -2,7 +2,9 @@ package com.pawwithu.connectdog.domain.auth.service;
 
 import com.pawwithu.connectdog.domain.auth.dto.request.EmailRequest;
 import com.pawwithu.connectdog.domain.auth.dto.response.EmailResponse;
+import com.pawwithu.connectdog.domain.auth.dto.response.IntermediaryEmailWithAuthResponse;
 import com.pawwithu.connectdog.domain.auth.dto.response.VolunteerEmailWithAuthResponse;
+import com.pawwithu.connectdog.domain.intermediary.entity.Intermediary;
 import com.pawwithu.connectdog.domain.intermediary.repository.IntermediaryRepository;
 import com.pawwithu.connectdog.domain.volunteer.entity.Volunteer;
 import com.pawwithu.connectdog.domain.volunteer.repository.VolunteerRepository;
@@ -107,7 +109,7 @@ public class EmailService {
         return templateEngine.process("mail", context);
     }
 
-    public VolunteerEmailWithAuthResponse sendEmailWithoutAuth(EmailRequest request) throws BadRequestException {
+    public VolunteerEmailWithAuthResponse sendEmailToVolunteerWithoutAuth(EmailRequest request) throws BadRequestException {
         try{
             Long id = volunteerRepository.findByEmail(request.email())
                     .map(Volunteer::getId)
@@ -121,6 +123,26 @@ public class EmailService {
             emailSender.send(emailForm);
 
             VolunteerEmailWithAuthResponse response = VolunteerEmailWithAuthResponse.of(authNum, accessToken);
+            return response;
+        } catch (UnsupportedEncodingException | MessagingException e){
+            throw new BadRequestException(EMAIL_SEND_ERROR);
+        }
+    }
+
+    public IntermediaryEmailWithAuthResponse sendEmailToIntermediaryWithoutAuth(EmailRequest request) {
+        try{
+            Long id = intermediaryRepository.findByEmail(request.email())
+                    .map(Intermediary::getId)
+                    .orElseThrow(() -> new BadRequestException(INTERMEDIARY_NOT_FOUND));
+
+            String roleName = "INTERMEDIARY";
+            String accessToken = jwtService.createAccessToken(id, roleName);
+
+            // 메일전송에 필요한 정보 설정
+            MimeMessage emailForm = createEmailForm(request.email());
+            emailSender.send(emailForm);
+
+            IntermediaryEmailWithAuthResponse response = IntermediaryEmailWithAuthResponse.of(authNum, accessToken);
             return response;
         }catch (UnsupportedEncodingException | MessagingException e){
             throw new BadRequestException(EMAIL_SEND_ERROR);
