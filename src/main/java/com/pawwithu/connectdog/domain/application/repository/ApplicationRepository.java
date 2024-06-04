@@ -18,7 +18,7 @@ public interface ApplicationRepository extends JpaRepository<Application, Long> 
     Long countAllByPostId(Long id);
     List<Application> findByVolunteer(Volunteer volunteer);
     Optional<Application> findByPostIdAndStatusNot(Long postId, ApplicationStatus status);
-
+    void deleteAllByPostId(Long postId);
     List<Application> findByIntermediary(Intermediary intermediary);
 
 }

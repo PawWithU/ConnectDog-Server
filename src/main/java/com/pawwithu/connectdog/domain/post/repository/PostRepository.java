@@ -12,6 +12,6 @@ public interface PostRepository extends JpaRepository<Post, Long> {
 
     Optional<Post> findByIdAndIntermediaryId(Long id, Long intermediaryId);
     Optional<Post> findByIdAndStatus(Long id, PostStatus postStatus);
-
+    Optional<Post> findByIdAndIntermediaryIdAndStatus(Long id, Long intermediaryId, PostStatus status);
     List<Post> findByIntermediary(Intermediary intermediary);
 }

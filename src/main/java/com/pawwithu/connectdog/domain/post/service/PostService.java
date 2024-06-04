@@ -1,6 +1,7 @@
 package com.pawwithu.connectdog.domain.post.service;
 
 import com.pawwithu.connectdog.common.s3.FileService;
+import com.pawwithu.connectdog.domain.application.repository.ApplicationRepository;
 import com.pawwithu.connectdog.domain.bookmark.repository.BookmarkRepository;
 import com.pawwithu.connectdog.domain.dog.entity.Dog;
 import com.pawwithu.connectdog.domain.dog.repository.DogRepository;
@@ -12,6 +13,7 @@ import com.pawwithu.connectdog.domain.post.dto.request.PostUpdateRequest;
 import com.pawwithu.connectdog.domain.post.dto.response.*;
 import com.pawwithu.connectdog.domain.post.entity.Post;
 import com.pawwithu.connectdog.domain.post.entity.PostImage;
+import com.pawwithu.connectdog.domain.post.entity.PostStatus;
 import com.pawwithu.connectdog.domain.post.repository.CustomPostRepository;
 import com.pawwithu.connectdog.domain.post.repository.PostImageRepository;
 import com.pawwithu.connectdog.domain.post.repository.PostRepository;
@@ -46,6 +48,7 @@ public class PostService {
     private final PostImageRepository postImageRepository;
     private final CustomPostRepository customPostRepository;
     private final BookmarkRepository bookmarkRepository;
+    private final ApplicationRepository applicationRepository;
 
     @CacheEvict(value = "homePosts", key = "'volunteer'", cacheManager = "redisCacheManager")    // 공고 등록 시 홈 화면 공고 조회 캐시 삭제
     public void createPost(String email, PostCreateRequest request, List<MultipartFile> fileList) {
@@ -153,8 +156,9 @@ public class PostService {
         // 이동봉사 중개
         Intermediary intermediary = intermediaryRepository.findByEmail(email).orElseThrow(() -> new BadRequestException(INTERMEDIARY_NOT_FOUND));
         // 공고
-        Post post = postRepository.findByIdAndIntermediaryId(postId, intermediary.getId()).orElseThrow(() -> new BadRequestException(POST_NOT_FOUND));
-        // 공고 이미지, 공고, 강아지 삭제
+        Post post = postRepository.findByIdAndIntermediaryIdAndStatus(postId, intermediary.getId(), PostStatus.RECRUITING).orElseThrow(() -> new BadRequestException(POST_NOT_FOUND));
+        // 신청, 공고 이미지, 공고, 강아지 삭제
+        applicationRepository.deleteAllByPostId(postId);
         postImageRepository.deleteAllByPostId(postId);
         postRepository.deleteById(post.getId());
         dogRepository.deleteById(post.getDog().getId());
