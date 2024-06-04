@@ -7,6 +7,7 @@ import com.pawwithu.connectdog.domain.auth.dto.request.VolunteerPhoneRequest;
 import com.pawwithu.connectdog.domain.auth.dto.response.EmailResponse;
 import com.pawwithu.connectdog.domain.auth.dto.response.IntermediaryEmailResponse;
 import com.pawwithu.connectdog.domain.auth.dto.response.VolunteerEmailResponse;
+import com.pawwithu.connectdog.domain.auth.dto.response.VolunteerEmailWithAuthResponse;
 import com.pawwithu.connectdog.domain.auth.service.AuthService;
 import com.pawwithu.connectdog.domain.auth.service.EmailService;
 import com.pawwithu.connectdog.domain.oauth.dto.response.LoginResponse;
@@ -134,10 +135,10 @@ public class AuthController {
                     , description = "V1, 이메일 형식에 맞지 않습니다. \t\n V1, 이메일은 필수 입력 값입니다. \t\n A1, 이미 존재하는 이메일입니다. \t\n A4, 이메일 인증 코드 전송을 실패했습니다."
                     , content = @Content(schema = @Schema(implementation = ErrorResponse.class)))
             })
-    @PostMapping(value = {"/volunteers/search/send-email", "/intermediaries/search/send-email"})
-    public ResponseEntity<EmailResponse> sendEmail(@RequestBody @Valid EmailRequest request){
-        EmailResponse emailResponse = emailService.sendEmailWithoutAuth(request);
-        return ResponseEntity.ok(emailResponse);
+    @PostMapping("/volunteers/search/send-email")
+    public ResponseEntity<VolunteerEmailWithAuthResponse> sendEmail(@RequestBody @Valid EmailRequest request){
+        VolunteerEmailWithAuthResponse response = emailService.sendEmailWithoutAuth(request);
+        return ResponseEntity.ok(response);
     }
 
 }

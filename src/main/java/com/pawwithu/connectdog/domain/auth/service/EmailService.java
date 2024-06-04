@@ -2,9 +2,12 @@ package com.pawwithu.connectdog.domain.auth.service;
 
 import com.pawwithu.connectdog.domain.auth.dto.request.EmailRequest;
 import com.pawwithu.connectdog.domain.auth.dto.response.EmailResponse;
+import com.pawwithu.connectdog.domain.auth.dto.response.VolunteerEmailWithAuthResponse;
 import com.pawwithu.connectdog.domain.intermediary.repository.IntermediaryRepository;
+import com.pawwithu.connectdog.domain.volunteer.entity.Volunteer;
 import com.pawwithu.connectdog.domain.volunteer.repository.VolunteerRepository;
 import com.pawwithu.connectdog.error.exception.custom.BadRequestException;
+import com.pawwithu.connectdog.jwt.service.JwtService;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
 import lombok.RequiredArgsConstructor;
@@ -16,8 +19,7 @@ import org.thymeleaf.spring6.SpringTemplateEngine;
 import java.io.UnsupportedEncodingException;
 import java.util.Random;
 
-import static com.pawwithu.connectdog.error.ErrorCode.ALREADY_EXIST_EMAIL;
-import static com.pawwithu.connectdog.error.ErrorCode.EMAIL_SEND_ERROR;
+import static com.pawwithu.connectdog.error.ErrorCode.*;
 
 @Service
 @RequiredArgsConstructor
@@ -28,6 +30,7 @@ public class EmailService {
     private String authNum; //랜덤 인증 코드
     private final VolunteerRepository volunteerRepository;
     private final IntermediaryRepository intermediaryRepository;
+    private final JwtService jwtService;
 
     /**
      * 랜덤 인증 코드 생성
@@ -104,12 +107,21 @@ public class EmailService {
         return templateEngine.process("mail", context);
     }
 
-    public EmailResponse sendEmailWithoutAuth(EmailRequest request) throws BadRequestException {
+    public VolunteerEmailWithAuthResponse sendEmailWithoutAuth(EmailRequest request) throws BadRequestException {
         try{
+            Long id = volunteerRepository.findByEmail(request.email())
+                    .map(Volunteer::getId)
+                    .orElseThrow(() -> new BadRequestException(VOLUNTEER_NOT_FOUND));
+
+            String roleName = "VOLUNTEER";
+            String accessToken = jwtService.createAccessToken(id, roleName);
+
             // 메일전송에 필요한 정보 설정
             MimeMessage emailForm = createEmailForm(request.email());
             emailSender.send(emailForm);
-            return new EmailResponse(authNum);
+
+            VolunteerEmailWithAuthResponse response = VolunteerEmailWithAuthResponse.of(authNum, accessToken);
+            return response;
         }catch (UnsupportedEncodingException | MessagingException e){
             throw new BadRequestException(EMAIL_SEND_ERROR);
         }
