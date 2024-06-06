@@ -61,6 +61,7 @@ public class Volunteer extends BaseTimeEntity {
         this.role = role;
         this.profileImageNum = profileImageNum;
         this.isOptionAgr = isOptionAgr;
+        this.notification = true;
     }
 
     public void updateNameAndPhone(String name, String phone) {
