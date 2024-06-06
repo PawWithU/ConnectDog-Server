@@ -81,20 +81,33 @@ public class EmailService {
     /**
      * 메일 전송
      */
-    public EmailResponse sendEmail(EmailRequest request) throws BadRequestException {
+    public EmailResponse sendEmailToVolunteer(EmailRequest request) throws BadRequestException {
         // 이메일 중복 검사
         if (volunteerRepository.existsByEmail(request.email())) {
             throw new BadRequestException(ALREADY_EXIST_EMAIL);
         }
-        if (intermediaryRepository.existsByEmail(request.email())) {
-            throw new BadRequestException(ALREADY_EXIST_EMAIL);
-        }
-        try{
+        try {
             // 메일전송에 필요한 정보 설정
             MimeMessage emailForm = createEmailForm(request.email());
             emailSender.send(emailForm);
             return new EmailResponse(authNum);
-        }catch (UnsupportedEncodingException | MessagingException e){
+        } catch (UnsupportedEncodingException | MessagingException e){
+            throw new BadRequestException(EMAIL_SEND_ERROR);
+        }
+
+    }
+
+    public EmailResponse sendEmailToIntermediary(EmailRequest request) {
+        // 이메일 중복 검사
+        if (intermediaryRepository.existsByEmail(request.email())) {
+            throw new BadRequestException(ALREADY_EXIST_EMAIL);
+        }
+        try {
+            // 메일전송에 필요한 정보 설정
+            MimeMessage emailForm = createEmailForm(request.email());
+            emailSender.send(emailForm);
+            return new EmailResponse(authNum);
+        } catch (UnsupportedEncodingException | MessagingException e){
             throw new BadRequestException(EMAIL_SEND_ERROR);
         }
 

@@ -62,17 +62,31 @@ public class SignUpController {
         return ResponseEntity.noContent().build();
     }
 
-    @Operation(summary = "이메일 인증번호 전송", description = "입력한 이메일로 인증번호를 전송합니다.",
+    @Operation(summary = "봉사자 - 이메일 인증번호 전송", description = "입력한 이메일로 인증번호를 전송합니다.",
             responses = {@ApiResponse(responseCode = "200", description = "이메일 인증번호 전송 성공")
                     , @ApiResponse(responseCode = "400"
                     , description = "V1, 이메일 형식에 맞지 않습니다. \t\n V1, 이메일은 필수 입력 값입니다. \t\n A1, 이미 존재하는 이메일입니다. \t\n A4, 이메일 인증 코드 전송을 실패했습니다."
                     , content = @Content(schema = @Schema(implementation = ErrorResponse.class)))
             })
-    @PostMapping(value = {"/volunteers/sign-up/email", "/intermediaries/sign-up/email"})
-    public ResponseEntity<EmailResponse> mailConfirm(@RequestBody @Valid EmailRequest request){
-        EmailResponse emailResponse = emailService.sendEmail(request);
+    @PostMapping("/volunteers/sign-up/email")
+    public ResponseEntity<EmailResponse> sendEmailToVolunteer(@RequestBody @Valid EmailRequest request){
+        EmailResponse emailResponse = emailService.sendEmailToVolunteer(request);
         return ResponseEntity.ok(emailResponse);
     }
+
+    @Operation(summary = "모집자 - 이메일 인증번호 전송", description = "입력한 이메일로 인증번호를 전송합니다.",
+            responses = {@ApiResponse(responseCode = "200", description = "이메일 인증번호 전송 성공")
+                    , @ApiResponse(responseCode = "400"
+                    , description = "V1, 이메일 형식에 맞지 않습니다. \t\n V1, 이메일은 필수 입력 값입니다. \t\n A1, 이미 존재하는 이메일입니다. \t\n A4, 이메일 인증 코드 전송을 실패했습니다."
+                    , content = @Content(schema = @Schema(implementation = ErrorResponse.class)))
+            })
+    @PostMapping("/intermediaries/sign-up/email")
+    public ResponseEntity<EmailResponse> sendEmailToIntermediary(@RequestBody @Valid EmailRequest request){
+        EmailResponse emailResponse = emailService.sendEmailToIntermediary(request);
+        return ResponseEntity.ok(emailResponse);
+    }
+
+
 
     @Operation(summary = "이동봉사자 소셜 로그인 추가 회원가입", description = "소셜 로그인하는 이동봉사자 추가 회원가입을 합니다.",
             security = { @SecurityRequirement(name = "bearer-key") },
