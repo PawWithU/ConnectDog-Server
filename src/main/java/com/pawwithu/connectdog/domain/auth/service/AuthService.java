@@ -72,9 +72,6 @@ public class AuthService {
         if (volunteerRepository.existsByEmail(request.email())) {
             throw new BadRequestException(ALREADY_EXIST_EMAIL);
         }
-        if (intermediaryRepository.existsByEmail(request.email())) {
-            throw new BadRequestException(ALREADY_EXIST_EMAIL);
-        }
         if (volunteerRepository.existsByNickname(request.nickname())) {
             throw new BadRequestException(ALREADY_EXIST_NICKNAME);
         }
@@ -92,8 +89,8 @@ public class AuthService {
         if (intermediaryRepository.existsByEmail(request.email())) {
             throw new BadRequestException(ALREADY_EXIST_EMAIL);
         }
-        if (volunteerRepository.existsByEmail(request.email())) {
-            throw new BadRequestException(ALREADY_EXIST_EMAIL);
+        if (intermediaryRepository.existsByName(request.name())) {
+            throw new BadRequestException(ALREADY_EXIST_NAME);
         }
         String profileImage = fileService.uploadFile(profileFile, "intermediary/profileImage");
         if (profileImage == null) {

@@ -51,7 +51,8 @@ public class SignUpController {
                     , description = "V1, 이름은 필수 입력 값입니다 \t\n V1, 휴대전화 번호는 필수 입력 값입니다. \t\n V1, 유효하지 않은 휴대전화 번호입니다. \t\n " +
                     "V1, 이메일 형식에 맞지 않습니다. \t\n V1, 이메일은 필수 입력 값입니다. \t\n V1 문의 받을 연락처는 100자 이하로 입력해 주세요. \t\n " +
                     "V1, 영문+숫자 10자 이상 또는 영문+숫자+특수기호 8자 이상을 입력해 주세요. \t\n V1, 모집자명은 필수 입력 값입니다. \t\n " +
-                    "V1, 한줄 소개는 50자 이하로 입력해 주세요. \t\n A1, 이미 등록된 이메일입니다. \t\n F1, 파일이 존재하지 않습니다. \t\n F2, 파일 업로드에 실패했습니다."
+                    "V1, 한줄 소개는 50자 이하로 입력해 주세요. \t\n A1, 이미 등록된 이메일입니다. \t\n F1, 파일이 존재하지 않습니다. \t\n F2, 파일 업로드에 실패했습니다. \t\n " +
+                    "A9, 이미 등록된 모집자명입니다."
                     , content = @Content(schema = @Schema(implementation = ErrorResponse.class)))
             })
     @PostMapping(value = "/intermediaries/sign-up", consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.MULTIPART_FORM_DATA_VALUE})
@@ -61,17 +62,31 @@ public class SignUpController {
         return ResponseEntity.noContent().build();
     }
 
-    @Operation(summary = "이메일 인증번호 전송", description = "입력한 이메일로 인증번호를 전송합니다.",
+    @Operation(summary = "봉사자 - 이메일 인증번호 전송", description = "입력한 이메일로 인증번호를 전송합니다.",
             responses = {@ApiResponse(responseCode = "200", description = "이메일 인증번호 전송 성공")
                     , @ApiResponse(responseCode = "400"
                     , description = "V1, 이메일 형식에 맞지 않습니다. \t\n V1, 이메일은 필수 입력 값입니다. \t\n A1, 이미 존재하는 이메일입니다. \t\n A4, 이메일 인증 코드 전송을 실패했습니다."
                     , content = @Content(schema = @Schema(implementation = ErrorResponse.class)))
             })
-    @PostMapping(value = {"/volunteers/sign-up/email", "/intermediaries/sign-up/email"})
-    public ResponseEntity<EmailResponse> mailConfirm(@RequestBody @Valid EmailRequest request){
-        EmailResponse emailResponse = emailService.sendEmail(request);
+    @PostMapping("/volunteers/sign-up/email")
+    public ResponseEntity<EmailResponse> sendEmailToVolunteer(@RequestBody @Valid EmailRequest request){
+        EmailResponse emailResponse = emailService.sendEmailToVolunteer(request);
         return ResponseEntity.ok(emailResponse);
     }
+
+    @Operation(summary = "모집자 - 이메일 인증번호 전송", description = "입력한 이메일로 인증번호를 전송합니다.",
+            responses = {@ApiResponse(responseCode = "200", description = "이메일 인증번호 전송 성공")
+                    , @ApiResponse(responseCode = "400"
+                    , description = "V1, 이메일 형식에 맞지 않습니다. \t\n V1, 이메일은 필수 입력 값입니다. \t\n A1, 이미 존재하는 이메일입니다. \t\n A4, 이메일 인증 코드 전송을 실패했습니다."
+                    , content = @Content(schema = @Schema(implementation = ErrorResponse.class)))
+            })
+    @PostMapping("/intermediaries/sign-up/email")
+    public ResponseEntity<EmailResponse> sendEmailToIntermediary(@RequestBody @Valid EmailRequest request){
+        EmailResponse emailResponse = emailService.sendEmailToIntermediary(request);
+        return ResponseEntity.ok(emailResponse);
+    }
+
+
 
     @Operation(summary = "이동봉사자 소셜 로그인 추가 회원가입", description = "소셜 로그인하는 이동봉사자 추가 회원가입을 합니다.",
             security = { @SecurityRequirement(name = "bearer-key") },

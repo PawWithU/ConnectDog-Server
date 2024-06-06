@@ -15,6 +15,7 @@ public enum ErrorCode {
     NOT_ALLOWED_MEMBER("A6", "해당 요청에 대한 권한이 없습니다."),
     NOT_AUTHENTICATED_REQUEST("A7", "유효한 JWT 토큰이 없습니다."),
     ALREADY_EXIST_PHONE("A8", "이미 등록된 전화번호입니다."),
+    ALREADY_EXIST_NAME("A9", "이미 등록된 모집자명입니다."),
 
 
     VOLUNTEER_NOT_FOUND("M1", "해당 이동봉사자를 찾을 수 없습니다."), // Member -> M (이동봉사자, 이동봉사 중개 통일)

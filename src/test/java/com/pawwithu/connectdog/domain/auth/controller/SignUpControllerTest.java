@@ -50,13 +50,13 @@ class SignUpControllerTest {
                 .build();
     }
     @Test
-    void 이메일_인증번호_전송() throws Exception{
+    void 봉사자_이메일_인증번호_전송() throws Exception{
         //given
         EmailRequest request = new EmailRequest("email@naver.com");
         EmailResponse response = new EmailResponse("authCode123");
 
         //when
-        when(emailService.sendEmail(any())).thenReturn(response);
+        when(emailService.sendEmailToVolunteer(any())).thenReturn(response);
         ResultActions result = mockMvc.perform(
                 post("/volunteers/sign-up/email")
                         .contentType(MediaType.APPLICATION_JSON)
@@ -64,7 +64,25 @@ class SignUpControllerTest {
         );
         //then
         result.andExpect(status().isOk());
-        verify(emailService, times(1)).sendEmail(any());
+        verify(emailService, times(1)).sendEmailToVolunteer(any());
+    }
+
+    @Test
+    void 모집자_이메일_인증번호_전송() throws Exception{
+        //given
+        EmailRequest request = new EmailRequest("email@naver.com");
+        EmailResponse response = new EmailResponse("authCode123");
+
+        //when
+        when(emailService.sendEmailToIntermediary(any())).thenReturn(response);
+        ResultActions result = mockMvc.perform(
+                post("/intermediaries/sign-up/email")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(request))
+        );
+        //then
+        result.andExpect(status().isOk());
+        verify(emailService, times(1)).sendEmailToIntermediary(any());
     }
 
 
