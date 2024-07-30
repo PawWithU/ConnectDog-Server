@@ -85,19 +85,19 @@ jobs:
           cp ./Dockerfile ./deploy/
           cp ./scripts/deploy.sh ./deploy/
           cp ./build/libs/*.jar ./deploy/
-          zip -r -qq -j ./connectdog-build.zip ./deploy
+          zip -r -qq -j ./pawwithu-build.zip ./deploy
 
       # S3에 zip 파일 업로드
       - name: Upload to S3
         run: |
           aws s3 cp \
             --region ap-northeast-2 \
-            ./connectdog-build.zip s3://connectdog-bucket 
+            ./pawwithu-build.zip s3://pawwithu-bucket 
 
       # CodeDeploy에 배포 요청
       - name: Code Deploy Deployment Request
         run: |
-          aws deploy create-deployment --application-name ConnectDog \
+          aws deploy create-deployment --application-name pawwithu \
             --deployment-config-name CodeDeployDefault.OneAtATime \
-            --deployment-group-name ConnectDog \
-            --s3-location bucket=connectdog-bucket,bundleType=zip,key=connectdog-build.zip
+            --deployment-group-name pawwithu \
+            --s3-location bucket=pawwithu-bucket,bundleType=zip,key=pawwithu-build.zip
