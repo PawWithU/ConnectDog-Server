@@ -12,7 +12,7 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 @EnableCaching
 @EnableScheduling
 @SpringBootApplication
-@OpenAPIDefinition(servers = {@Server(url = "/", description = "https://dev-api.connectdog.site")})
+@OpenAPIDefinition(servers = {@Server(url = "/", description = "https://dev-api.pawwithu.site")})
 public class ConnectdogApplication {
 
 	public static void main(String[] args) {
