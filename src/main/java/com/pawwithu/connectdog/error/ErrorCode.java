@@ -50,7 +50,9 @@ public enum ErrorCode {
     DOG_STATUS_NOT_FOUND("D1", "해당 근황을 찾을 수 없습니다."),
 
     NOTIFICATION_SEND_ERROR("N1", "알림 전송을 실패했습니다."),
-    NOTIFICATION_NOT_FOUND("N2", "해당 알림을 찾을 수 없습니다.");
+    NOTIFICATION_NOT_FOUND("N2", "해당 알림을 찾을 수 없습니다."),
+
+    INVALID_BOOST_REQUEST("B1", "잘못된 끌어올리기 요청입니다.");
 
 
     private final String code;

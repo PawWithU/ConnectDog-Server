@@ -81,4 +81,6 @@ public class Post extends BaseTimeEntity {
     public void updateDeletedIntermediary(Intermediary deletedIntermediary) {
         this.intermediary = deletedIntermediary;
     }
+
+    public void updateBoostDate() { this.boostDate = LocalDateTime.now(); }
 }
