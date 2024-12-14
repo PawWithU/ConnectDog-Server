@@ -11,6 +11,7 @@ import jakarta.validation.constraints.NotNull;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 public record PostCreateRequest(@NotBlank(message = "출발 지역은 필수 입력 값입니다.")
                                 String departureLoc,
@@ -45,6 +46,7 @@ public record PostCreateRequest(@NotBlank(message = "출발 지역은 필수 입
                         .status(PostStatus.RECRUITING)
                         .dog(dog)
                         .intermediary(intermediary)
+                        .boostDate(LocalDateTime.now())
                         .build();
         }
 
