@@ -181,6 +181,7 @@ public class PostService {
         return response;
     }
 
+    @CacheEvict(value = "homePosts", key = "'volunteer'", cacheManager = "redisCacheManager")    // 공고 끌어올리기 시 홈 화면 공고 조회 캐시 삭제
     public void boostPost(String email, Long postId) {
         // 이동봉사 중개
         Intermediary intermediary = intermediaryRepository.findByEmail(email).orElseThrow(() -> new BadRequestException(INTERMEDIARY_NOT_FOUND));

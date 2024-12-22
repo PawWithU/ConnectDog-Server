@@ -48,7 +48,7 @@ public class CustomPostRepositoryImpl implements CustomPostRepository {
                         .join(post.mainImage, postImage)
                         .join(post.dog, dog)
                         .where(post.status.eq(PostStatus.RECRUITING))
-                        .orderBy(post.createdDate.desc())
+                        .orderBy(post.boostDate.desc())
                         .limit(6)
                         .fetch();
     }
@@ -253,7 +253,7 @@ public class CustomPostRepositoryImpl implements CustomPostRepository {
     private OrderSpecifier[] createOrderSpecifierCE(String orderCondition) {
         // default = 최근 등록순 -> 마감 임박순
         OrderSpecifier[] defaultOrder = {
-                new OrderSpecifier(Order.DESC, post.createdDate),
+                new OrderSpecifier(Order.DESC, post.boostDate),
                 new OrderSpecifier(Order.ASC, post.endDate)
         };
         log.info("ordercondition {} :", orderCondition);
@@ -264,7 +264,7 @@ public class CustomPostRepositoryImpl implements CustomPostRepository {
         return orderCondition.equals("마감 임박순")
                 ? new OrderSpecifier[]{
                 new OrderSpecifier(Order.ASC, post.endDate),
-                new OrderSpecifier(Order.DESC, post.createdDate)}
+                new OrderSpecifier(Order.DESC, post.boostDate)}
                 : defaultOrder;
     }
 
