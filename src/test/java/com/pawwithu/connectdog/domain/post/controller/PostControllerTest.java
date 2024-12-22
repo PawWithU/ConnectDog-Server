@@ -241,4 +241,28 @@ class PostControllerTest {
         result.andExpect(status().isNoContent());
         verify(postService, times(1)).boostPost(anyString(), anyLong());
     }
+
+    @Test
+    void 이동봉사_공고_연장하기() throws Exception {
+        //given
+        Long postId = 1L;
+        String startDate = "2023-10-02"; // 문자열로 직접 정의
+        String endDate = "2023-11-07";  // 문자열로 직접 정의
+        String pickUpTime = "12:00";
+        String request = String.format(
+                "{\"startDate\":\"%s\",\"endDate\":\"%s\",\"pickUpTime\":\"%s\"}",
+                startDate, endDate, pickUpTime
+        );
+
+        //when
+        ResultActions result = mockMvc.perform(
+                patch("/intermediaries/posts/{postId}/extend", postId)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(request)
+        );
+
+        //then
+        result.andExpect(status().isNoContent());
+        verify(postService, times(1)).extendPost(anyString(), anyLong(), any());
+    }
 }

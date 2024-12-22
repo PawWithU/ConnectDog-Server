@@ -118,7 +118,7 @@ class ApplicationControllerTest {
     void 이동봉사자_신청내역_단건_조회() throws Exception {
         //given
         LocalDate date = LocalDate.of(2023, 10, 2);
-        ApplicationVolunteerGetOneResponse response = new ApplicationVolunteerGetOneResponse(1L, date, "하노정", "01022223333", "이동봉사 신청합니다.");
+        ApplicationVolunteerGetOneResponse response = new ApplicationVolunteerGetOneResponse(1L, date, "하노정", "한호정", "01022223333", "이동봉사 신청합니다.");
         Long applicationId = 1L;
 
         //when
@@ -283,7 +283,7 @@ class ApplicationControllerTest {
     void 이동봉사_중개_신청내역_단건_조회() throws Exception {
         //given
         LocalDate date = LocalDate.of(2023, 10, 2);
-        ApplicationIntermediaryGetOneResponse response = new ApplicationIntermediaryGetOneResponse(1L, date, "한호정", "01022223333", "이동봉사 신청합니다.");
+        ApplicationIntermediaryGetOneResponse response = new ApplicationIntermediaryGetOneResponse(1L, date, "한호정", "한호정", "01022223333", "이동봉사 신청합니다.");
         Long applicationId = 1L;
 
         //when
