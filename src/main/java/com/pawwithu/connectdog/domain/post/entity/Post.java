@@ -83,4 +83,11 @@ public class Post extends BaseTimeEntity {
     }
 
     public void updateBoostDate() { this.boostDate = LocalDateTime.now(); }
+
+    public void extendDate(LocalDate startDate, LocalDate endDate, String pickUpTime) {
+        this.startDate = startDate;
+        this.endDate = endDate;
+        this.pickUpTime = pickUpTime;
+        this.status = PostStatus.RECRUITING;
+    }
 }

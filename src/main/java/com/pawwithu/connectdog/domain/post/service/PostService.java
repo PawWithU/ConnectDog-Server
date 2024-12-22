@@ -8,6 +8,7 @@ import com.pawwithu.connectdog.domain.dog.repository.DogRepository;
 import com.pawwithu.connectdog.domain.intermediary.entity.Intermediary;
 import com.pawwithu.connectdog.domain.intermediary.repository.IntermediaryRepository;
 import com.pawwithu.connectdog.domain.post.dto.request.PostCreateRequest;
+import com.pawwithu.connectdog.domain.post.dto.request.PostExtendRequest;
 import com.pawwithu.connectdog.domain.post.dto.request.PostSearchRequest;
 import com.pawwithu.connectdog.domain.post.dto.request.PostUpdateRequest;
 import com.pawwithu.connectdog.domain.post.dto.response.*;
@@ -29,6 +30,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -190,5 +192,18 @@ public class PostService {
             throw new BadRequestException(INVALID_BOOST_REQUEST);
         }
         post.updateBoostDate();
+    }
+
+    public void extendPost(String email, Long postId, PostExtendRequest request) {
+        // 이동봉사 중개
+        Intermediary intermediary = intermediaryRepository.findByEmail(email).orElseThrow(() -> new BadRequestException(INTERMEDIARY_NOT_FOUND));
+        // 공고
+        Post post = postRepository.findByIdAndIntermediaryIdAndStatus(postId, intermediary.getId(), PostStatus.EXPIRED).orElseThrow(() -> new BadRequestException(POST_NOT_FOUND));
+        LocalDate now = LocalDate.now();
+        if (now.isAfter(request.endDate()) || request.endDate().isBefore(request.startDate())) {
+            throw new BadRequestException(INVALID_POST_DATE);
+        }
+        // startDate, endDate, pickUpTime 업데이트 및 공고 상태 모집 마감 -> 모집중 변경
+        post.extendDate(request.startDate(), request.endDate(), request.pickUpTime());
     }
 }

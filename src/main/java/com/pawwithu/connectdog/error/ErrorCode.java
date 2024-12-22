@@ -39,6 +39,7 @@ public enum ErrorCode {
 
     INVALID_POST_STATUS("P1", "잘못된 공고 상태입니다."),
     POST_NOT_FOUND("P2", "해당 공고를 찾을 수 없습니다."),
+    INVALID_POST_DATE("P3", "잘못된 공고 날짜입니다."),
 
     ALREADY_EXIST_BOOKMARK("B1", "이미 등록된 북마크입니다."),
     NOT_FOUND_BOOKMARK("B2", "등록되지 않은 북마크입니다."),

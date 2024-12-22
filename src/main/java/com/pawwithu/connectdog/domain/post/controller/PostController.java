@@ -1,6 +1,7 @@
 package com.pawwithu.connectdog.domain.post.controller;
 
 import com.pawwithu.connectdog.domain.post.dto.request.PostCreateRequest;
+import com.pawwithu.connectdog.domain.post.dto.request.PostExtendRequest;
 import com.pawwithu.connectdog.domain.post.dto.request.PostSearchRequest;
 import com.pawwithu.connectdog.domain.post.dto.request.PostUpdateRequest;
 import com.pawwithu.connectdog.domain.post.dto.response.*;
@@ -136,13 +137,28 @@ public class PostController {
     @Operation(summary = "공고 끌어올리기", description = "공고를 끌어올립니다.",
             responses = {@ApiResponse(responseCode = "204", description = "공고 끌어올리기 성공")
                     , @ApiResponse(responseCode = "400"
-                    , description = "M2, 해당 이동봉사 중개를 찾을 수 없습니다. \t\n P2, 해당 공고를 찾을 수 없습니다."
+                    , description = "M2, 해당 이동봉사 중개를 찾을 수 없습니다. \t\n P2, 해당 공고를 찾을 수 없습니다. \t\n " +
+                    "B1, 잘못된 끌어올리기 요청입니다."
                     , content = @Content(schema = @Schema(implementation = ErrorResponse.class)))
             })
     @PatchMapping(value = "/intermediaries/posts/{postId}/boost")
     public ResponseEntity<Void> boostPost(@AuthenticationPrincipal UserDetails loginUser,
                                            @PathVariable Long postId) {
         postService.boostPost(loginUser.getUsername(), postId);
+        return ResponseEntity.noContent().build();
+    }
+
+    @Operation(summary = "공고 연장하기", description = "공고를 연장합니다.",
+            responses = {@ApiResponse(responseCode = "204", description = "공고 연장하기 성공")
+                    , @ApiResponse(responseCode = "400"
+                    , description = "M2, 해당 이동봉사 중개를 찾을 수 없습니다. \t\n P2, 해당 공고를 찾을 수 없습니다. \t\n " +
+                    "P3, 잘못된 공고 날짜입니다."
+                    , content = @Content(schema = @Schema(implementation = ErrorResponse.class)))
+            })
+    @PatchMapping(value = "/intermediaries/posts/{postId}/extend")
+    public ResponseEntity<Void> extendPost(@AuthenticationPrincipal UserDetails loginUser, @RequestBody PostExtendRequest request,
+                                          @PathVariable Long postId) {
+        postService.extendPost(loginUser.getUsername(), postId, request);
         return ResponseEntity.noContent().build();
     }
 }
