@@ -1,7 +1,6 @@
 package com.pawwithu.connectdog.domain.post.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.pawwithu.connectdog.domain.dog.entity.DogGender;
 import com.pawwithu.connectdog.domain.dog.entity.DogSize;
 import com.pawwithu.connectdog.domain.post.dto.response.*;
 import com.pawwithu.connectdog.domain.post.entity.PostStatus;
@@ -16,6 +15,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableHandlerMethodArgumentResolver;
+import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
@@ -29,8 +29,7 @@ import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @ExtendWith(MockitoExtension.class)
@@ -225,5 +224,21 @@ class PostControllerTest {
         ResultActions result = mockMvc.perform(
                 get("/volunteers/posts/{postId}", postId)
         );
+    }
+
+    @Test
+    void 이동봉사_공고_끌어올리기() throws Exception {
+        //given
+        Long postId = 1L;
+
+        //when
+        ResultActions result = mockMvc.perform(
+                patch("/intermediaries/posts/{postId}/boost", postId)
+                        .contentType(MediaType.APPLICATION_JSON)
+        );
+
+        //then
+        result.andExpect(status().isNoContent());
+        verify(postService, times(1)).boostPost(anyString(), anyLong());
     }
 }

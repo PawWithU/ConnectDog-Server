@@ -133,4 +133,16 @@ public class PostController {
         return ResponseEntity.ok(onePost);
     }
 
+    @Operation(summary = "공고 끌어올리기", description = "공고를 끌어올립니다.",
+            responses = {@ApiResponse(responseCode = "204", description = "공고 끌어올리기 성공")
+                    , @ApiResponse(responseCode = "400"
+                    , description = "M2, 해당 이동봉사 중개를 찾을 수 없습니다. \t\n P2, 해당 공고를 찾을 수 없습니다."
+                    , content = @Content(schema = @Schema(implementation = ErrorResponse.class)))
+            })
+    @PatchMapping(value = "/intermediaries/posts/{postId}/boost")
+    public ResponseEntity<Void> boostPost(@AuthenticationPrincipal UserDetails loginUser,
+                                           @PathVariable Long postId) {
+        postService.boostPost(loginUser.getUsername(), postId);
+        return ResponseEntity.noContent().build();
+    }
 }

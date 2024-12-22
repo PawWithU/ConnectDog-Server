@@ -29,6 +29,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -176,5 +177,18 @@ public class PostService {
         List<String> onePostImages = customPostRepository.getOnePostImages(postId);
         PostIntermediaryGetOneResponse response = PostIntermediaryGetOneResponse.of(onePost, onePostImages);
         return response;
+    }
+
+    public void boostPost(String email, Long postId) {
+        // 이동봉사 중개
+        Intermediary intermediary = intermediaryRepository.findByEmail(email).orElseThrow(() -> new BadRequestException(INTERMEDIARY_NOT_FOUND));
+        // 공고
+        Post post = postRepository.findByIdAndIntermediaryIdAndStatus(postId, intermediary.getId(), PostStatus.RECRUITING).orElseThrow(() -> new BadRequestException(POST_NOT_FOUND));
+        LocalDateTime now = LocalDateTime.now();
+        // 공고 끌어올린 시점에서 48시간이 지나지 않았다면 exception
+        if (now.isBefore(post.getBoostDate().plusHours(48))) {
+            throw new BadRequestException(INVALID_BOOST_REQUEST);
+        }
+        post.updateBoostDate();
     }
 }

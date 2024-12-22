@@ -7,6 +7,7 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -42,9 +43,10 @@ public class Post extends BaseTimeEntity {
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "dog_id", nullable = false)
     private Dog dog; // 강아지 id
+    private LocalDateTime boostDate;  // 끌어올리기 날짜
 
     @Builder
-    public Post(PostStatus status, String departureLoc, String arrivalLoc, LocalDate startDate, LocalDate endDate, String pickUpTime, Boolean isKennel, String content, Intermediary intermediary, Dog dog) {
+    public Post(PostStatus status, String departureLoc, String arrivalLoc, LocalDate startDate, LocalDate endDate, String pickUpTime, Boolean isKennel, String content, Intermediary intermediary, Dog dog, LocalDateTime boostDate) {
         this.status = status;
         this.departureLoc = departureLoc;
         this.arrivalLoc = arrivalLoc;
@@ -55,6 +57,7 @@ public class Post extends BaseTimeEntity {
         this.content = content;
         this.intermediary = intermediary;
         this.dog = dog;
+        this.boostDate = boostDate;
     }
 
     public void updateMainImage(PostImage mainImage) {
@@ -78,4 +81,6 @@ public class Post extends BaseTimeEntity {
     public void updateDeletedIntermediary(Intermediary deletedIntermediary) {
         this.intermediary = deletedIntermediary;
     }
+
+    public void updateBoostDate() { this.boostDate = LocalDateTime.now(); }
 }
