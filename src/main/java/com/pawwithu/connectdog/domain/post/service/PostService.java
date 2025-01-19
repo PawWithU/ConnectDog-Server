@@ -30,8 +30,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -177,7 +179,13 @@ public class PostService {
         PostIntermediaryGetOneResponse onePost = customPostRepository.getIntermediaryOnePost(postId);
         // 공고 이미지 조회 (대표 이미지 제외)
         List<String> onePostImages = customPostRepository.getOnePostImages(postId);
-        PostIntermediaryGetOneResponse response = PostIntermediaryGetOneResponse.of(onePost, onePostImages);
+        // 끌어올리기 가능 여부, 끌어올리기 가능 시간 설정
+        LocalDateTime boostDate = LocalDateTime.parse(onePost.leftDate(), DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+        // 48시간 - (지금 날짜 - 이전 끌어올리기 날짜)
+        long diff = 2880 - Duration.between(boostDate, LocalDateTime.now()).toMinutes();
+        boolean boost = diff <= 0;
+        String HHMM = !boost ? String.format("%02d:%02d", diff / 60, diff % 60) : "";
+        PostIntermediaryGetOneResponse response = PostIntermediaryGetOneResponse.of(onePost, onePostImages, boost, HHMM);
         return response;
     }
 

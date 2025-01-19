@@ -172,7 +172,7 @@ public class CustomPostRepositoryImpl implements CustomPostRepository {
                         post.id, postImage.image, post.status, post.departureLoc, post.arrivalLoc,
                         post.startDate, post.endDate, post.pickUpTime, post.isKennel, post.content,
                         dog.name, dog.size, dog.specifics,
-                        intermediary.id, intermediary.profileImage, intermediary.name))
+                        intermediary.id, intermediary.profileImage, intermediary.name, post.boostDate))
                 .from(post)
                 .join(post.intermediary, intermediary)
                 .join(post.mainImage, postImage)
