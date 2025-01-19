@@ -21,7 +21,7 @@ public interface CustomPostRepository {
     List<String> getOnePostImages(Long postId);
     // 공고 상세 조회 (대표 이미지를 제외한 다른 이미지 포함 X)
     PostVolunteerGetOneResponse getVolunteerOnePost(Long postId);
-    List<PostRecruitingGetResponse> getRecruitingPosts(Long intermediaryId, Pageable pageable);
+    List<PostRecruitingGetResponseWithBoostDate> getRecruitingAndExpiredPosts(Long intermediaryId, Pageable pageable);
     List<IntermediaryGetPostsResponse> getIntermediaryPosts(Long intermediaryId, String orderCondition, Pageable pageable);
     // 봉사 완료 건수
     Long getCountOfCompletedPosts(Long intermediaryId);
