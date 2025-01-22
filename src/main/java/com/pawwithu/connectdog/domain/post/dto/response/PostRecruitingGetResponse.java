@@ -1,8 +1,6 @@
 package com.pawwithu.connectdog.domain.post.dto.response;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.pawwithu.connectdog.domain.dog.entity.DogSize;
-import com.pawwithu.connectdog.domain.post.entity.PostStatus;
 
 import java.time.LocalDate;
 
@@ -14,13 +12,14 @@ public record PostRecruitingGetResponse(Long postId, String postStatus, String m
                                         LocalDate endDate,
                                         String pickUpTime,
                                         String dogSize,
-                                        Boolean isKennel) {
+                                        Boolean isKennel,
+                                        Boolean boost) {
 
-    // 공고 이동봉사자 이름을 제외한 생성자
-    public PostRecruitingGetResponse(Long postId, PostStatus postStatus, String mainImage, String dogName,
-                                     String departureLoc, String arrivalLoc, LocalDate startDate, LocalDate endDate,
-                                     String pickUpTime, DogSize dogSize, Boolean isKennel) {
-        this(postId, postStatus.getKey(), mainImage, dogName, departureLoc, arrivalLoc,
-                startDate, endDate, pickUpTime, dogSize.getKey(), isKennel);
+    // 끌어올리기 가능 여부 포함
+    public static PostRecruitingGetResponse of(PostRecruitingGetResponseWithBoostDate response, Boolean boost) {
+        return new PostRecruitingGetResponse(response.postId(), response.postStatus(), response.mainImage(),
+                response.dogName(), response.departureLoc(), response.arrivalLoc(),
+                response.startDate(), response.endDate(), response.pickUpTime(), response.dogSize(),
+                response.isKennel(), boost);
     }
 }

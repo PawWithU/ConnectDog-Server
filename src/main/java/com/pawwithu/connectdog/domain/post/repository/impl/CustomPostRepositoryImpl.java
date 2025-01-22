@@ -101,11 +101,11 @@ public class CustomPostRepositoryImpl implements CustomPostRepository {
     }
 
     @Override
-    public List<PostRecruitingGetResponse> getRecruitingPosts(Long intermediaryId, Pageable pageable) {
+    public List<PostRecruitingGetResponseWithBoostDate> getRecruitingAndExpiredPosts(Long intermediaryId, Pageable pageable) {
         return queryFactory
-                .select(Projections.constructor(PostRecruitingGetResponse.class,
+                .select(Projections.constructor(PostRecruitingGetResponseWithBoostDate.class,
                         post.id, post.status, postImage.image, dog.name, post.departureLoc, post.arrivalLoc,
-                        post.startDate, post.endDate, post.pickUpTime, dog.size, post.isKennel))
+                        post.startDate, post.endDate, post.pickUpTime, dog.size, post.isKennel, post.boostDate))
                 .from(post)
                 .join(post.mainImage, postImage)
                 .join(post.dog, dog)
@@ -172,7 +172,7 @@ public class CustomPostRepositoryImpl implements CustomPostRepository {
                         post.id, postImage.image, post.status, post.departureLoc, post.arrivalLoc,
                         post.startDate, post.endDate, post.pickUpTime, post.isKennel, post.content,
                         dog.name, dog.size, dog.specifics,
-                        intermediary.id, intermediary.profileImage, intermediary.name))
+                        intermediary.id, intermediary.profileImage, intermediary.name, post.boostDate))
                 .from(post)
                 .join(post.intermediary, intermediary)
                 .join(post.mainImage, postImage)

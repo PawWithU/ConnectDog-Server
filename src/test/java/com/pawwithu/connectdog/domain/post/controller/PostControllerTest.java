@@ -152,7 +152,7 @@ class PostControllerTest {
         images.add("image2");
         PostIntermediaryGetOneResponse response = new PostIntermediaryGetOneResponse(1L, "mainImage", images, "모집중", "서울시 성북구", "서울시 중랑구",
                 startDate, endDate, "12:00", true, "이동봉사 공고", "봄이", DogSize.SMALL.getKey(),
-                "ㄱㅇㅇ", 1L, "profileImage", "이동봉사 중개");
+                "ㄱㅇㅇ", 1L, "profileImage", "이동봉사 중개", false, "28:-00");
 
 
         //when
@@ -174,9 +174,9 @@ class PostControllerTest {
         LocalDate startDate = LocalDate.of(2023, 10, 2);
         LocalDate endDate = LocalDate.of(2023, 11, 7);
         response.add(new PostRecruitingGetResponse(1L, PostStatus.RECRUITING.getKey(), "image1", "잔디", "서울시 성북구", "서울시 중랑구",
-                startDate, endDate, "13:00", DogSize.MEDIUM.getKey(), true));
+                startDate, endDate, "13:00", DogSize.MEDIUM.getKey(), true, false));
         response.add(new PostRecruitingGetResponse(2L, PostStatus.RECRUITING.getKey(), "image1", "잔디", "서울시 성북구", "서울시 중랑구",
-                startDate, endDate, "13:00", DogSize.MEDIUM.getKey(), true));
+                startDate, endDate, "13:00", DogSize.MEDIUM.getKey(), true, true));
 
 
         //when

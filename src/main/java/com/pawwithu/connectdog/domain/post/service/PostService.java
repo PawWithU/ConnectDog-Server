@@ -30,8 +30,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -150,8 +152,15 @@ public class PostService {
     @Transactional(readOnly = true)
     public List<PostRecruitingGetResponse> getRecruitingPosts(String email, Pageable pageable) {
         Intermediary intermediary = intermediaryRepository.findByEmail(email).orElseThrow(() -> new BadRequestException(INTERMEDIARY_NOT_FOUND));
-        List<PostRecruitingGetResponse> recruitingPosts = customPostRepository.getRecruitingPosts(intermediary.getId(), pageable);
-        return recruitingPosts;
+        List<PostRecruitingGetResponseWithBoostDate> recruitingPosts = customPostRepository.getRecruitingAndExpiredPosts(intermediary.getId(), pageable);
+        // 끌어올리기 가능 여부 포함해 응답값 설정
+        List<PostRecruitingGetResponse> response = recruitingPosts.stream().map(
+                post -> {
+                    if (post.postStatus().equals(PostStatus.RECRUITING.getKey()))
+                        return PostRecruitingGetResponse.of(post, Duration.between(post.boostDate(), LocalDateTime.now()).toHours() >= 48);
+                    return PostRecruitingGetResponse.of(post, false);
+                }).toList();
+        return response;
     }
 
     @CacheEvict(value = "homePosts", key = "'volunteer'", cacheManager = "redisCacheManager")    // 공고 삭제 시 홈 화면 공고 조회 캐시 삭제
@@ -177,7 +186,13 @@ public class PostService {
         PostIntermediaryGetOneResponse onePost = customPostRepository.getIntermediaryOnePost(postId);
         // 공고 이미지 조회 (대표 이미지 제외)
         List<String> onePostImages = customPostRepository.getOnePostImages(postId);
-        PostIntermediaryGetOneResponse response = PostIntermediaryGetOneResponse.of(onePost, onePostImages);
+        // 끌어올리기 가능 여부, 끌어올리기 가능 시간 설정
+        LocalDateTime boostDate = LocalDateTime.parse(onePost.leftDate(), DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+        // 48시간 - (지금 날짜 - 이전 끌어올리기 날짜)
+        long diff = 2880 - Duration.between(boostDate, LocalDateTime.now()).toMinutes();
+        boolean boost = diff <= 0;
+        String HHMM = !boost ? String.format("%02d:%02d", diff / 60, diff % 60) : "";
+        PostIntermediaryGetOneResponse response = PostIntermediaryGetOneResponse.of(onePost, onePostImages, boost, HHMM);
         return response;
     }
 
