@@ -72,10 +72,10 @@ class NotificationControllerTest {
     void 모집자_알림_목록_조회() throws Exception {
         //given
         List<NotificationsIntermediaryGetResponse> response = new ArrayList<>();
-        response.add(new NotificationsIntermediaryGetResponse(1L, "image1", NotificationType.CONFIRMED, "제목", "내용",
-                false, 1L));
-        response.add(new NotificationsIntermediaryGetResponse(2L, "image2", NotificationType.REJECTED, "제목", "내용",
-                false, 2L));
+        response.add(new NotificationsIntermediaryGetResponse(1L, NotificationType.CONFIRMED, "제목", "내용",
+                false, 1L, "2024-07-28"));
+        response.add(new NotificationsIntermediaryGetResponse(2L, NotificationType.REJECTED, "제목", "내용",
+                false, 2L, "2024-07-28"));
 
         //when
         given(notificationService.getIntermediaryNotifications(anyString(), any())).willReturn(response);
@@ -92,7 +92,7 @@ class NotificationControllerTest {
     void 모집자_알림_단건_조회() throws Exception {
         //given
         Long notificationId = 1L;
-        NotificationIntermediaryGetOneResponse response = new NotificationIntermediaryGetOneResponse(1L, "mainImage", NotificationType.COMPLETED.getKey(), "T1", "B1", false);
+        NotificationIntermediaryGetOneResponse response = new NotificationIntermediaryGetOneResponse(1L, NotificationType.COMPLETED.getKey(), "title", "body", false, "2024-07-28");
 
         //when
         given(notificationService.getIntermediaryOneNotification(anyString(), anyLong())).willReturn(response);

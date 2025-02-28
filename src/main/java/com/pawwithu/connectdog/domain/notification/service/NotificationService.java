@@ -2,10 +2,7 @@ package com.pawwithu.connectdog.domain.notification.service;
 
 import com.pawwithu.connectdog.domain.intermediary.entity.Intermediary;
 import com.pawwithu.connectdog.domain.intermediary.repository.IntermediaryRepository;
-import com.pawwithu.connectdog.domain.notification.dto.response.NotificationIntermediaryGetOneResponse;
-import com.pawwithu.connectdog.domain.notification.dto.response.NotificationVolunteerGetOneResponse;
-import com.pawwithu.connectdog.domain.notification.dto.response.NotificationsIntermediaryGetResponse;
-import com.pawwithu.connectdog.domain.notification.dto.response.NotificationsVolunteerGetResponse;
+import com.pawwithu.connectdog.domain.notification.dto.response.*;
 import com.pawwithu.connectdog.domain.notification.entity.IntermediaryNotification;
 import com.pawwithu.connectdog.domain.notification.entity.VolunteerNotification;
 import com.pawwithu.connectdog.domain.notification.repository.CustomNotificationRepository;
@@ -20,6 +17,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 import static com.pawwithu.connectdog.error.ErrorCode.*;
@@ -46,7 +44,8 @@ public class NotificationService {
     @Transactional(readOnly = true)
     public List<NotificationsIntermediaryGetResponse> getIntermediaryNotifications(String email, Pageable pageable) {
         Intermediary intermediary = intermediaryRepository.findByEmail(email).orElseThrow(() -> new BadRequestException(INTERMEDIARY_NOT_FOUND));
-        List<NotificationsIntermediaryGetResponse> response = customNotificationRepository.getIntermediaryNotifications(intermediary.getId(), pageable);
+        List<NotificationsIntermdiaryQueryResponse> queryResponses = customNotificationRepository.getIntermediaryNotifications(intermediary.getId(), pageable);
+        List<NotificationsIntermediaryGetResponse> response = queryResponses.stream().map(NotificationsIntermediaryGetResponse::of).toList();
         return response;
     }
 

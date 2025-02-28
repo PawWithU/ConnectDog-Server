@@ -70,7 +70,7 @@ public class SchedulerService {
         for (Post post : posts) {
             IntermediaryFcm intermediaryFcm = intermediaryFcmRepository.findByIntermediaryId(post.getIntermediary().getId()).orElse(null);
             if (intermediaryFcm != null) {
-                fcmService.sendMessageToIntermediary(intermediaryFcm.getFcmToken(), post.getIntermediary(), post.getMainImage().getImage(),
+                fcmService.sendMessageToIntermediary(intermediaryFcm.getFcmToken(), post.getIntermediary(),
                         NotificationType.EXPIRED, EXPIRED.getTitle(), EXPIRED.getBody());
             } else {
                 log.info("----------공고 마감 사전 알림 전송 실패----------");
@@ -90,8 +90,8 @@ public class SchedulerService {
         for (Post post : recruitingPosts) {
             IntermediaryFcm intermediaryFcm = intermediaryFcmRepository.findByIntermediaryId(post.getIntermediary().getId()).orElse(null);
             if (intermediaryFcm != null) {
-                fcmService.sendMessageToIntermediary(intermediaryFcm.getFcmToken(), post.getIntermediary(), post.getMainImage().getImage(),
-                        NotificationType.BEFORE_EXPIRED, BEFORE_EXPIRED.getTitle(), BEFORE_EXPIRED.getBodyWithContent(" 아직 봉사자를 구하지 못했다면 기간을 조정해보세요!"));
+                fcmService.sendMessageToIntermediary(intermediaryFcm.getFcmToken(), post.getIntermediary(),
+                        NotificationType.BEFORE_EXPIRED, BEFORE_EXPIRED.getTitle(), BEFORE_EXPIRED.getBodyWithContent("\n아직 봉사자를 구하지 못했다면 기간을 조정해보세요!"));
             } else {
                 log.info("----------공고 마감 사전 알림 전송 실패----------");
             }
@@ -101,8 +101,8 @@ public class SchedulerService {
         for (Post post : waitingPosts) {
             IntermediaryFcm intermediaryFcm = intermediaryFcmRepository.findByIntermediaryId(post.getIntermediary().getId()).orElse(null);
             if (intermediaryFcm != null) {
-                fcmService.sendMessageToIntermediary(intermediaryFcm.getFcmToken(), post.getIntermediary(), post.getMainImage().getImage(),
-                        NotificationType.BEFORE_EXPIRED, BEFORE_EXPIRED.getTitle(), BEFORE_EXPIRED.getBodyWithContent(" 신청자가 있으니 빠르게 확인해주세요!"));
+                fcmService.sendMessageToIntermediary(intermediaryFcm.getFcmToken(), post.getIntermediary(),
+                        NotificationType.BEFORE_EXPIRED, BEFORE_EXPIRED.getTitle(), BEFORE_EXPIRED.getBodyWithContent("\n신청자가 있으니 빠르게 확인해주세요!"));
             } else {
                 log.info("----------공고 마감 사전 알림 전송 실패----------");
             }
@@ -120,7 +120,7 @@ public class SchedulerService {
         for (Application application : applications) {
             IntermediaryFcm intermediaryFcm = intermediaryFcmRepository.findByIntermediaryId(application.getPost().getIntermediary().getId()).orElse(null);
             if (intermediaryFcm != null) {
-                fcmService.sendMessageToIntermediary(intermediaryFcm.getFcmToken(), application.getIntermediary(), application.getPost().getMainImage().getImage(),
+                fcmService.sendMessageToIntermediary(intermediaryFcm.getFcmToken(), application.getIntermediary(),
                         NotificationType.COMPLETED_REQUEST, COMPLETED_REQUEST.getTitle(), COMPLETED_REQUEST.getBody());
             } else {
                 log.info("----------이동봉사 진행 완료 요청 알림 전송 실패----------");

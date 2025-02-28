@@ -82,7 +82,7 @@ public class ReviewService {
         // 알림 전송
         IntermediaryFcm intermediaryFcm = intermediaryFcmRepository.findByIntermediaryId(post.getIntermediary().getId()).orElse(null);
         if (intermediaryFcm != null) {
-            fcmService.sendMessageToIntermediary(intermediaryFcm.getFcmToken(), post.getIntermediary(), post.getMainImage().getImage(),
+            fcmService.sendMessageToIntermediary(intermediaryFcm.getFcmToken(), post.getIntermediary(),
                     NotificationType.REVIEW_REGISTERED, REVIEW_REGISTERED.getTitle(), REVIEW_REGISTERED.getBody());
         } else {
             log.info("----------이동봉사 후기 등록 알림 전송 실패----------");

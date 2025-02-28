@@ -4,6 +4,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.auth.oauth2.GoogleCredentials;
 import com.google.common.net.HttpHeaders;
+import com.google.firebase.messaging.*;
 import com.pawwithu.connectdog.domain.fcm.dto.FcmMessage;
 import com.pawwithu.connectdog.domain.fcm.dto.request.IntermediaryFcmRequest;
 import com.pawwithu.connectdog.domain.fcm.dto.request.VolunteerFcmRequest;
@@ -30,8 +31,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Optional;
+import java.util.List;
 
 import static com.pawwithu.connectdog.error.ErrorCode.*;
 
@@ -141,7 +143,7 @@ public class FcmService {
 
     }
 
-    public void sendMessageToIntermediary(String targetToken, Intermediary intermediary, String image,
+    public void sendMessageToIntermediary(String targetToken, Intermediary intermediary,
                                           NotificationType notificationType, String title, String body) {
 
         if (intermediary.getNotification()) {
@@ -172,7 +174,6 @@ public class FcmService {
         // 알림 저장
         intermediaryNotificationRepository.save(
                 IntermediaryNotification.builder()
-                        .image(image)
                         .notificationType(notificationType)
                         .title(title)
                         .body(body)
@@ -181,6 +182,32 @@ public class FcmService {
                         .build()
         );
 
+    }
+
+    public void sendByTokenList(List<String> tokenList, String title, String body) {
+
+        // 여러 기기에 메세지 전송
+        MulticastMessage multicastMessage = MulticastMessage.builder()
+                .setNotification(new Notification(title, body))
+                .addAllTokens(tokenList)
+                .build();
+
+        try {
+            BatchResponse response = FirebaseMessaging.getInstance().sendMulticast(multicastMessage);
+            if (response.getFailureCount() > 0) {
+                List<SendResponse> responses = response.getResponses();
+                List<String> failedTokens = new ArrayList<>();
+                for (int i = 0; i < responses.size(); i++) {
+                    if (!responses.get(i).isSuccessful()) {
+                        failedTokens.add(tokenList.get(i));
+                    }
+                }
+                log.info("List of tokens that caused failures: {}", failedTokens);
+            }
+        } catch (FirebaseMessagingException e) {
+            log.info("FirebaseMessagingException: {}", e.getMessage());
+            e.printStackTrace();
+        }
     }
 
     public void saveVolunteerFcm(String email, VolunteerFcmRequest request) {

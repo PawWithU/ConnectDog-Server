@@ -1,6 +1,6 @@
 package com.pawwithu.connectdog.domain.notification.repository.impl;
 
-import com.pawwithu.connectdog.domain.notification.dto.response.NotificationsIntermediaryGetResponse;
+import com.pawwithu.connectdog.domain.notification.dto.response.NotificationsIntermdiaryQueryResponse;
 import com.pawwithu.connectdog.domain.notification.dto.response.NotificationsVolunteerGetResponse;
 import com.pawwithu.connectdog.domain.notification.repository.CustomNotificationRepository;
 import com.querydsl.core.types.Projections;
@@ -37,11 +37,12 @@ public class CustomNotificationRepositoryImpl implements CustomNotificationRepos
     }
 
     @Override
-    public List<NotificationsIntermediaryGetResponse> getIntermediaryNotifications(Long intermediaryId, Pageable pageable) {
+    public List<NotificationsIntermdiaryQueryResponse> getIntermediaryNotifications(Long intermediaryId, Pageable pageable) {
         return queryFactory
-                .select(Projections.constructor(NotificationsIntermediaryGetResponse.class,
-                        intermediaryNotification.id, intermediaryNotification.image, intermediaryNotification.notificationType,
-                        intermediaryNotification.title, intermediaryNotification.body, intermediaryNotification.isRead, intermediaryNotification.intermediary.id))
+                .select(Projections.constructor(NotificationsIntermdiaryQueryResponse.class,
+                        intermediaryNotification.id, intermediaryNotification.notificationType,
+                        intermediaryNotification.title, intermediaryNotification.body, intermediaryNotification.isRead, intermediaryNotification.intermediary.id,
+                        intermediaryNotification.createdDate))
                 .from(intermediaryNotification)
                 .where(intermediaryNotification.intermediary.id.eq(intermediaryId))
                 .orderBy(intermediaryNotification.createdDate.desc())   // 알림 최신순
