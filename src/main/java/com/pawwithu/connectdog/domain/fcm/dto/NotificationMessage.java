@@ -7,10 +7,10 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public enum NotificationMessage {
     // 봉사
-    GUIDE("이동봉사 시작하기", "이동봉사, 어떻게 하는 건가요?\n코넥독이 이동봉사 가이드를 준비했어요!"),
+    GUIDE("이동봉사 가이드", "이동봉사, 어떻게 하는 건가요?\n코넥독이 이동봉사 가이드를 준비했어요!"),
     CONFIRM("이동봉사 승인", "이동봉사가 승인되었어요🎉\n모집자의 연락을 기다려 주세요!"),
     REJECT("이동봉사 반려", "이동봉사가 반려되었어요😥\n다른 이동봉사를 찾아볼까요?"),
-    COMPLETED("이동봉사 완료", "이동봉사 진행이 완료되었어요🐾\n소중한 후기를 들려주세요!"),
+    COMPLETED("이동봉사 진행 완료", "이동봉사 진행이 완료되었어요🐾\n소중한 후기를 들려주세요!"),
     EXPIRED_REJECT("이동봉사 반려", "모집 기간이 마감되어 이동봉사가 반려되었어요😥"),
 
     // 모집자

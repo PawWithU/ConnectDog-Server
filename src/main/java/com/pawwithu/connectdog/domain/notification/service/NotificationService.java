@@ -37,7 +37,8 @@ public class NotificationService {
     @Transactional(readOnly = true)
     public List<NotificationsVolunteerGetResponse> getVolunteerNotifications(String email, Pageable pageable) {
         Volunteer volunteer = volunteerRepository.findByEmail(email).orElseThrow(() -> new BadRequestException(VOLUNTEER_NOT_FOUND));
-        List<NotificationsVolunteerGetResponse> response = customNotificationRepository.getVolunteerNotifications(volunteer.getId(), pageable);
+        List<NotificationVolunteerQueryResponse> queryResponses = customNotificationRepository.getVolunteerNotifications(volunteer.getId(), pageable);
+        List<NotificationsVolunteerGetResponse> response = queryResponses.stream().map(NotificationsVolunteerGetResponse::of).toList();
         return response;
     }
 

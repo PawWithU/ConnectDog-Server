@@ -52,10 +52,10 @@ class NotificationControllerTest {
     void 봉사자_알림_목록_조회() throws Exception {
         //given
         List<NotificationsVolunteerGetResponse> response = new ArrayList<>();
-        response.add(new NotificationsVolunteerGetResponse(1L, "image1", NotificationType.CONFIRMED, "제목", "내용",
-                false, 1L));
-        response.add(new NotificationsVolunteerGetResponse(2L, "image2", NotificationType.REJECTED, "제목", "내용",
-                false, 2L));
+        response.add(new NotificationsVolunteerGetResponse(1L, NotificationType.CONFIRMED, "제목", "내용",
+                false, 1L, "2024-07-28"));
+        response.add(new NotificationsVolunteerGetResponse(2L, NotificationType.REJECTED, "제목", "내용",
+                false, 2L, "2024-07-28"));
 
         //when
         given(notificationService.getVolunteerNotifications(anyString(), any())).willReturn(response);
@@ -109,7 +109,7 @@ class NotificationControllerTest {
     void 봉사자_알림_단건_조회() throws Exception {
         //given
         Long notificationId = 1L;
-        NotificationVolunteerGetOneResponse response = new NotificationVolunteerGetOneResponse(1L, "mainImage", NotificationType.COMPLETED.getKey(), "T1", "B1", false);
+        NotificationVolunteerGetOneResponse response = new NotificationVolunteerGetOneResponse(1L, NotificationType.COMPLETED.getKey(), "T1", "B1", false, "2024-07-28");
 
         //when
         given(notificationService.getVolunteerOneNotification(anyString(), anyLong())).willReturn(response);
