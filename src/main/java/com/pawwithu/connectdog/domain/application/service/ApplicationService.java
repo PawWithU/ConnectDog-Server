@@ -66,7 +66,7 @@ public class ApplicationService {
         // 알림 전송
         IntermediaryFcm intermediaryFcm = intermediaryFcmRepository.findByIntermediaryId(intermediary.getId()).orElse(null);
         if (intermediaryFcm != null) {
-            fcmService.sendMessageToIntermediary(intermediaryFcm.getFcmToken(), intermediary, volunteer.getProfileImageNum() + "",
+            fcmService.sendMessageToIntermediary(intermediaryFcm.getFcmToken(), intermediary,
                     NotificationType.APPLICATION, APPLICATION.getTitle(), APPLICATION.getBodyWithName(volunteer.getNickname()));
         } else {
             log.info("----------이동봉사 신청 알림 전송 실패----------");
@@ -111,7 +111,7 @@ public class ApplicationService {
         // 알림 전송
         IntermediaryFcm intermediaryFcm = intermediaryFcmRepository.findByIntermediaryId(application.getIntermediary().getId()).orElse(null);
         if (intermediaryFcm != null) {
-            fcmService.sendMessageToIntermediary(intermediaryFcm.getFcmToken(), application.getIntermediary(), volunteer.getProfileImageNum() + "",
+            fcmService.sendMessageToIntermediary(intermediaryFcm.getFcmToken(), application.getIntermediary(),
                     NotificationType.CANCELED, CANCELED.getTitle(), CANCELED.getBodyWithName(volunteer.getNickname()));
         } else {
             log.info("----------이동봉사 신청 취소 알림 전송 실패----------");

@@ -14,7 +14,6 @@ public class IntermediaryNotification extends BaseTimeEntity {
         @Id
         @GeneratedValue(strategy = GenerationType.IDENTITY)
         private Long id;
-        private String image;
         @Enumerated(EnumType.STRING)
         @Column(nullable = false)
         private NotificationType notificationType;
@@ -29,8 +28,7 @@ public class IntermediaryNotification extends BaseTimeEntity {
         private Boolean isRead;
 
         @Builder
-    public IntermediaryNotification(String image, NotificationType notificationType, String title, String body, Intermediary intermediary, Boolean isRead) {
-        this.image = image;
+    public IntermediaryNotification(NotificationType notificationType, String title, String body, Intermediary intermediary, Boolean isRead) {
         this.notificationType = notificationType;
         this.title = title;
         this.body = body;

@@ -1,7 +1,7 @@
 package com.pawwithu.connectdog.domain.notification.repository.impl;
 
-import com.pawwithu.connectdog.domain.notification.dto.response.NotificationsIntermediaryGetResponse;
-import com.pawwithu.connectdog.domain.notification.dto.response.NotificationsVolunteerGetResponse;
+import com.pawwithu.connectdog.domain.notification.dto.response.NotificationVolunteerQueryResponse;
+import com.pawwithu.connectdog.domain.notification.dto.response.NotificationsIntermdiaryQueryResponse;
 import com.pawwithu.connectdog.domain.notification.repository.CustomNotificationRepository;
 import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.impl.JPAQueryFactory;
@@ -23,11 +23,12 @@ public class CustomNotificationRepositoryImpl implements CustomNotificationRepos
     private final JPAQueryFactory queryFactory;
 
     @Override
-    public List<NotificationsVolunteerGetResponse> getVolunteerNotifications(Long volunteerId, Pageable pageable) {
+    public List<NotificationVolunteerQueryResponse> getVolunteerNotifications(Long volunteerId, Pageable pageable) {
         return queryFactory
-                .select(Projections.constructor(NotificationsVolunteerGetResponse.class,
-                        volunteerNotification.id, volunteerNotification.image, volunteerNotification.notificationType,
-                        volunteerNotification.title, volunteerNotification.body, volunteerNotification.isRead, volunteerNotification.volunteer.id))
+                .select(Projections.constructor(NotificationVolunteerQueryResponse.class,
+                        volunteerNotification.id, volunteerNotification.notificationType, volunteerNotification.title,
+                        volunteerNotification.body, volunteerNotification.isRead, volunteerNotification.volunteer.id,
+                        volunteerNotification.createdDate))
                 .from(volunteerNotification)
                 .where(volunteerNotification.volunteer.id.eq(volunteerId))
                 .orderBy(volunteerNotification.createdDate.desc())   // 알림 최신순
@@ -37,11 +38,12 @@ public class CustomNotificationRepositoryImpl implements CustomNotificationRepos
     }
 
     @Override
-    public List<NotificationsIntermediaryGetResponse> getIntermediaryNotifications(Long intermediaryId, Pageable pageable) {
+    public List<NotificationsIntermdiaryQueryResponse> getIntermediaryNotifications(Long intermediaryId, Pageable pageable) {
         return queryFactory
-                .select(Projections.constructor(NotificationsIntermediaryGetResponse.class,
-                        intermediaryNotification.id, intermediaryNotification.image, intermediaryNotification.notificationType,
-                        intermediaryNotification.title, intermediaryNotification.body, intermediaryNotification.isRead, intermediaryNotification.intermediary.id))
+                .select(Projections.constructor(NotificationsIntermdiaryQueryResponse.class,
+                        intermediaryNotification.id, intermediaryNotification.notificationType,
+                        intermediaryNotification.title, intermediaryNotification.body, intermediaryNotification.isRead, intermediaryNotification.intermediary.id,
+                        intermediaryNotification.createdDate))
                 .from(intermediaryNotification)
                 .where(intermediaryNotification.intermediary.id.eq(intermediaryId))
                 .orderBy(intermediaryNotification.createdDate.desc())   // 알림 최신순
