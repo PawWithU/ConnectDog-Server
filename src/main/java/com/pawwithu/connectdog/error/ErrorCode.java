@@ -11,12 +11,15 @@ public enum ErrorCode {
     ALREADY_EXIST_NICKNAME("A2", "이미 사용 중인 닉네임입니다."),
     ALREADY_LOGOUT_MEMBER("A3", "이미 로그아웃한 회원입니다"),
     EMAIL_SEND_ERROR("A4", "이메일 인증 코드 전송을 실패했습니다."),
-    UNKNOWN_PROVIDER("A5", "provider 값이 KAKAO 또는 NAVER가 아닙니다."),
+    UNKNOWN_PROVIDER("A5", "provider 값이 KAKAO/NAVER/APPLE 중에 없습니다."),
     NOT_ALLOWED_MEMBER("A6", "해당 요청에 대한 권한이 없습니다."),
     NOT_AUTHENTICATED_REQUEST("A7", "유효한 JWT 토큰이 없습니다."),
     ALREADY_EXIST_PHONE("A8", "이미 등록된 전화번호입니다."),
     ALREADY_EXIST_NAME("A9", "이미 등록된 모집자명입니다."),
-
+    NOT_FOUND_APPLE_PUBLIC_KEY("A10", "애플 공개 키를 찾을 수 없습니다."),
+    APPLE_VALIDATED_ERROR("A11", "애플 id_token 검증에 실패하였습니다."),
+    INVALID_ID_TOKEN_ISSUER("A12", "애플에서 발급된 토큰이 아닙니다."),
+    INVALID_ID_TOKEN_AUDIENCE("A13", "코넥독 앱에서 발급된 토큰이 아닙니다."),
 
     VOLUNTEER_NOT_FOUND("M1", "해당 이동봉사자를 찾을 수 없습니다."), // Member -> M (이동봉사자, 이동봉사 중개 통일)
     INTERMEDIARY_NOT_FOUND("M2", "해당 이동봉사 중개를 찾을 수 없습니다."),
