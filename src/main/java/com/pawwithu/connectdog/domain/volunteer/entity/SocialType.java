@@ -6,7 +6,7 @@ import com.pawwithu.connectdog.error.exception.custom.BadRequestException;
 import static com.pawwithu.connectdog.error.ErrorCode.UNKNOWN_PROVIDER;
 
 public enum SocialType {
-    KAKAO, NAVER;
+    KAKAO, NAVER, APPLE;
 
     @JsonCreator // 이 어노테이션은 Jackson이 JSON에서 객체로 변환할 때 사용
     public static SocialType fromString(String value) {
