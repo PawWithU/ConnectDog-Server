@@ -25,7 +25,7 @@ public class Volunteer extends BaseTimeEntity {
     @Enumerated(EnumType.STRING)
     private VolunteerRole role; // 권한
     @Enumerated(EnumType.STRING)
-    private SocialType socialType; // KAKAO, NAVER
+    private SocialType socialType; // KAKAO, NAVER, APPLE
     private String socialId; // 로그인한 소셜 타입 식별자 값 (일반 로그인의 경우 null)
     private Boolean isOptionAgr; // 선택 이용약관 체크 여부
     private Boolean notification;   // 알림 true, false
