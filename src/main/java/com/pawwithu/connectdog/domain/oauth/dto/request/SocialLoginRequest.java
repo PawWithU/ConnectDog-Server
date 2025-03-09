@@ -5,8 +5,8 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
 public record SocialLoginRequest(
-        @NotBlank(message = "AccessToken은 필수 입력 값입니다.")
-        String accessToken,
+        @NotBlank(message = "AccessToken/IdToken은 필수 입력 값입니다.")
+        String socialToken,
         @NotNull(message = "provider는 필수 입력 값입니다.")
         SocialType provider) {
 }

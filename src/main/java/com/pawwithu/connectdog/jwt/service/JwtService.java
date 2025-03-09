@@ -108,7 +108,7 @@ public class JwtService {
     public Map<String, String> sendAccessAndRefreshToken(String roleName, String accessToken, String refreshToken) {
         Map<String, String> tokens = new HashMap<>();
         tokens.put("roleName", roleName);
-        tokens.put("accessToken", accessToken);
+        tokens.put("socialToken", accessToken);
         tokens.put("refreshToken", refreshToken);
         return tokens;
     }

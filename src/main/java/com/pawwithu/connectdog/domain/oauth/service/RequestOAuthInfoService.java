@@ -23,7 +23,7 @@ public class RequestOAuthInfoService {
 
     public OAuthInfoResponse request(SocialLoginRequest request) {
         OAuthApiClient client = clients.get(request.provider());
-        String accessToken = request.accessToken();
+        String accessToken = request.socialToken();
         return client.requestOauthInfo(accessToken);
     }
 }
