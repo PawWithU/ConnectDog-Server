@@ -128,7 +128,7 @@ public class AuthService {
 
         redisUtil.delete(roleName, volunteer.getId());
         volunteerFcmRepository.deleteByVolunteerId(volunteer.getId());
-        redisUtil.setBlackList(accessToken, "socialToken", jwtService.getAccessTokenExpirationPeriod());
+        redisUtil.setBlackList(accessToken, "accessToken", jwtService.getAccessTokenExpirationPeriod());
     }
 
     public void intermediariesLogout(HttpServletRequest request, String email) {
@@ -138,7 +138,7 @@ public class AuthService {
 
         redisUtil.delete(roleName, intermediary.getId());
         intermediaryFcmRepository.deleteByIntermediaryId(intermediary.getId());
-        redisUtil.setBlackList(accessToken, "socialToken", jwtService.getAccessTokenExpirationPeriod());
+        redisUtil.setBlackList(accessToken, "accessToken", jwtService.getAccessTokenExpirationPeriod());
     }
 
     @Transactional(readOnly = true)
@@ -179,7 +179,7 @@ public class AuthService {
         try {
             redisUtil.delete(roleName, volunteer.getId());
             volunteerFcmRepository.deleteByVolunteerId(volunteer.getId());
-            redisUtil.setBlackList(accessToken, "socialToken", jwtService.getAccessTokenExpirationPeriod());
+            redisUtil.setBlackList(accessToken, "accessToken", jwtService.getAccessTokenExpirationPeriod());
 
             Volunteer deletedVolunteer = volunteerRepository.findByEmail("deletedVolunteer@connectdog.com").orElseThrow(() -> new BadRequestException(VOLUNTEER_NOT_FOUND));
             List<Review> reviews = reviewRepository.findByVolunteer(volunteer);
@@ -213,7 +213,7 @@ public class AuthService {
         try {
             redisUtil.delete(roleName, intermediary.getId());
             volunteerFcmRepository.deleteByVolunteerId(intermediary.getId());
-            redisUtil.setBlackList(accessToken, "socialToken", jwtService.getAccessTokenExpirationPeriod());
+            redisUtil.setBlackList(accessToken, "accessToken", jwtService.getAccessTokenExpirationPeriod());
 
             Intermediary deletedIntermediary = intermediaryRepository.findByEmail("deletedIntermediary@connectdog.com").orElseThrow(() -> new BadRequestException(INTERMEDIARY_NOT_FOUND));
 
