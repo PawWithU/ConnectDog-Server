@@ -26,7 +26,8 @@ public class OAuthController {
     @Operation(summary = "이동봉사자 소셜 로그인", description = "이동봉사자 소셜 로그인을 합니다.",
             responses = {@ApiResponse(responseCode = "204", description = "이동봉사자 소셜 로그인 성공")
                     , @ApiResponse(responseCode = "400"
-                    , description = "V1, AccessToken은 필수 입력 값입니다. \t\n V1, provider는 필수 입력 값입니다. \t\n M1, 해당 이동봉사자를 찾을 수 없습니다. \t\n A5, provider 값이 KAKAO 또는 NAVER가 아닙니다."
+                    , description = "V1, AccessToken/IdToken은 필수 입력 값입니다. \t\n V1, provider는 필수 입력 값입니다. \t\n M1, 해당 이동봉사자를 찾을 수 없습니다. \t\n A5, provider 값이 KAKAO/NAVER/APPLE 중에 없습니다." +
+                    " \t\n A10, 애플 공개 키를 찾을 수 없습니다. \t\n A11, 애플 id_token 검증에 실패하였습니다. \t\n A12, 애플에서 발급된 토큰이 아닙니다. \t\n A13 코넥독 앱에서 발급된 토큰이 아닙니다."
                     , content = @Content(schema = @Schema(implementation = ErrorResponse.class)))
             })
     @PostMapping("/volunteers/login/social")

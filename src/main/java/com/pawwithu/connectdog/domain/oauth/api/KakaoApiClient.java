@@ -24,12 +24,12 @@ public class KakaoApiClient implements OAuthApiClient {
     }
 
     @Override
-    public OAuthInfoResponse requestOauthInfo(String accessToken) {
+    public OAuthInfoResponse requestOauthInfo(String socialToken) {
         String url = apiUrl + "/v2/user/me";
 
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
-        httpHeaders.set("Authorization", "Bearer " + accessToken);
+        httpHeaders.set("Authorization", "Bearer " + socialToken);
 
         MultiValueMap<String, String> body = new LinkedMultiValueMap<>();
         body.add("property_keys", "[\"id\"]"); // id 값만 받아옴

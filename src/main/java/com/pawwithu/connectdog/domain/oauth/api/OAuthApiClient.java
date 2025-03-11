@@ -5,5 +5,5 @@ import com.pawwithu.connectdog.domain.volunteer.entity.SocialType;
 
 public interface OAuthApiClient {
     SocialType socialType();
-    OAuthInfoResponse requestOauthInfo(String accessToken);
+    OAuthInfoResponse requestOauthInfo(String socialToken);
 }

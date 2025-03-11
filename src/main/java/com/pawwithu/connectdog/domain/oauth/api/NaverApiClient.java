@@ -24,12 +24,12 @@ public class NaverApiClient implements OAuthApiClient {
     }
 
     @Override
-    public OAuthInfoResponse requestOauthInfo(String accessToken) {
+    public OAuthInfoResponse requestOauthInfo(String socialToken) {
         String url = apiUrl + "/v1/nid/me";
 
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
-        httpHeaders.set("Authorization", "Bearer " + accessToken);
+        httpHeaders.set("Authorization", "Bearer " + socialToken);
 
         MultiValueMap<String, String> body = new LinkedMultiValueMap<>();
 
