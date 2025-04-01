@@ -2,6 +2,7 @@ package com.pawwithu.connectdog.domain.auth.service;
 
 import com.pawwithu.connectdog.common.s3.FileService;
 import com.pawwithu.connectdog.domain.application.entity.Application;
+import com.pawwithu.connectdog.domain.application.entity.ApplicationStatus;
 import com.pawwithu.connectdog.domain.application.repository.ApplicationRepository;
 import com.pawwithu.connectdog.domain.auth.dto.request.*;
 import com.pawwithu.connectdog.domain.auth.dto.response.*;
@@ -256,6 +257,12 @@ public class AuthService {
     public IntermediaryEmailResponse findIntermediaryEmail(IntermediaryPhoneRequest request) {
         Intermediary intermediary = intermediaryRepository.findByPhone(request.phone()).orElseThrow(() -> new BadRequestException(INTERMEDIARY_NOT_FOUND));
         IntermediaryEmailResponse response = IntermediaryEmailResponse.of(intermediary.getEmail());
+        return response;
+    }
+
+    public Boolean checkVolunteerWithdraw(String email) {
+        Volunteer volunteer = volunteerRepository.findByEmail(email).orElseThrow(() -> new BadRequestException(VOLUNTEER_NOT_FOUND));
+        Boolean response = applicationRepository.existsByVolunteerAndStatusIn(volunteer, List.of(ApplicationStatus.WAITING, ApplicationStatus.PROGRESSING));
         return response;
     }
 }
