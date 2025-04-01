@@ -163,4 +163,16 @@ public class AuthController {
         Boolean response = authService.checkVolunteerWithdraw(loginUser.getUsername());
         return ResponseEntity.ok(response);
     }
+
+    @Operation(summary = "중개자 - 탈퇴 - 승인 대기중, 진행중 공고 존재 여부 확인", description = "승인 대기중, 진행중 공고 존재 여부를 확인합니다.",
+            responses = {@ApiResponse(responseCode = "200", description = "승인 대기중, 진행중 공고 존재 여부 확인 성공")
+                    , @ApiResponse(responseCode = "400"
+                    , description = "M2, 해당 이동봉사 중개를 찾을 수 없습니다."
+                    , content = @Content(schema = @Schema(implementation = ErrorResponse.class)))
+            })
+    @GetMapping( "/intermediaries/my/check")
+    public ResponseEntity<Boolean> checkIntermediaryWithdraw(@AuthenticationPrincipal UserDetails loginUser) {
+        Boolean response = authService.checkIntermediaryWithdraw(loginUser.getUsername());
+        return ResponseEntity.ok(response);
+    }
 }

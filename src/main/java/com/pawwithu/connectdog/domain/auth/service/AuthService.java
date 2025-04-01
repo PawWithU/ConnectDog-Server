@@ -260,9 +260,17 @@ public class AuthService {
         return response;
     }
 
+    @Transactional(readOnly = true)
     public Boolean checkVolunteerWithdraw(String email) {
         Volunteer volunteer = volunteerRepository.findByEmail(email).orElseThrow(() -> new BadRequestException(VOLUNTEER_NOT_FOUND));
         Boolean response = applicationRepository.existsByVolunteerAndStatusIn(volunteer, List.of(ApplicationStatus.WAITING, ApplicationStatus.PROGRESSING));
+        return response;
+    }
+
+    @Transactional(readOnly = true)
+    public Boolean checkIntermediaryWithdraw(String email) {
+        Intermediary intermediary = intermediaryRepository.findByEmail(email).orElseThrow(() -> new BadRequestException(INTERMEDIARY_NOT_FOUND));
+        Boolean response = applicationRepository.existsByIntermediaryAndStatusIn(intermediary, List.of(ApplicationStatus.WAITING, ApplicationStatus.PROGRESSING));
         return response;
     }
 }
