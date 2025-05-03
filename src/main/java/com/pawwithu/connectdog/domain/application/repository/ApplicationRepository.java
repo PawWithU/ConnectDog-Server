@@ -20,5 +20,6 @@ public interface ApplicationRepository extends JpaRepository<Application, Long> 
     Optional<Application> findByPostIdAndStatusNot(Long postId, ApplicationStatus status);
     void deleteAllByPostId(Long postId);
     List<Application> findByIntermediary(Intermediary intermediary);
-
+    Boolean existsByVolunteerAndStatusIn(Volunteer volunteer, List<ApplicationStatus> statuses);
+    Boolean existsByIntermediaryAndStatusIn(Intermediary intermediary, List<ApplicationStatus> statuses);
 }

@@ -25,10 +25,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @Tag(name = "Auth", description = "Auth API")
 @RestController
@@ -155,4 +152,27 @@ public class AuthController {
         return ResponseEntity.ok(response);
     }
 
+    @Operation(summary = "이동봉사자 - 탈퇴 - 승인 대기중, 진행중 공고 존재 여부 확인", description = "승인 대기중, 진행중 공고 존재 여부를 확인합니다.",
+            responses = {@ApiResponse(responseCode = "200", description = "승인 대기중, 진행중 공고 존재 여부 확인 성공")
+                    , @ApiResponse(responseCode = "400"
+                    , description = "M1, 해당 이동봉사자를 찾을 수 없습니다."
+                    , content = @Content(schema = @Schema(implementation = ErrorResponse.class)))
+            })
+    @GetMapping( "/volunteers/my/check")
+    public ResponseEntity<Boolean> checkVolunteerWithdraw(@AuthenticationPrincipal UserDetails loginUser) {
+        Boolean response = authService.checkVolunteerWithdraw(loginUser.getUsername());
+        return ResponseEntity.ok(response);
+    }
+
+    @Operation(summary = "중개자 - 탈퇴 - 승인 대기중, 진행중 공고 존재 여부 확인", description = "승인 대기중, 진행중 공고 존재 여부를 확인합니다.",
+            responses = {@ApiResponse(responseCode = "200", description = "승인 대기중, 진행중 공고 존재 여부 확인 성공")
+                    , @ApiResponse(responseCode = "400"
+                    , description = "M2, 해당 이동봉사 중개를 찾을 수 없습니다."
+                    , content = @Content(schema = @Schema(implementation = ErrorResponse.class)))
+            })
+    @GetMapping( "/intermediaries/my/check")
+    public ResponseEntity<Boolean> checkIntermediaryWithdraw(@AuthenticationPrincipal UserDetails loginUser) {
+        Boolean response = authService.checkIntermediaryWithdraw(loginUser.getUsername());
+        return ResponseEntity.ok(response);
+    }
 }

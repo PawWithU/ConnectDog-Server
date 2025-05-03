@@ -2,6 +2,7 @@ package com.pawwithu.connectdog.domain.auth.service;
 
 import com.pawwithu.connectdog.common.s3.FileService;
 import com.pawwithu.connectdog.domain.application.entity.Application;
+import com.pawwithu.connectdog.domain.application.entity.ApplicationStatus;
 import com.pawwithu.connectdog.domain.application.repository.ApplicationRepository;
 import com.pawwithu.connectdog.domain.auth.dto.request.*;
 import com.pawwithu.connectdog.domain.auth.dto.response.*;
@@ -257,5 +258,19 @@ public class AuthService {
         Intermediary intermediary = intermediaryRepository.findByPhone(request.phone()).orElseThrow(() -> new BadRequestException(INTERMEDIARY_NOT_FOUND));
         IntermediaryEmailResponse response = IntermediaryEmailResponse.of(intermediary.getEmail());
         return response;
+    }
+
+    @Transactional(readOnly = true)
+    public Boolean checkVolunteerWithdraw(String email) {
+        Volunteer volunteer = volunteerRepository.findByEmail(email).orElseThrow(() -> new BadRequestException(VOLUNTEER_NOT_FOUND));
+        Boolean response = applicationRepository.existsByVolunteerAndStatusIn(volunteer, List.of(ApplicationStatus.WAITING, ApplicationStatus.PROGRESSING));
+        return !response;
+    }
+
+    @Transactional(readOnly = true)
+    public Boolean checkIntermediaryWithdraw(String email) {
+        Intermediary intermediary = intermediaryRepository.findByEmail(email).orElseThrow(() -> new BadRequestException(INTERMEDIARY_NOT_FOUND));
+        Boolean response = applicationRepository.existsByIntermediaryAndStatusIn(intermediary, List.of(ApplicationStatus.WAITING, ApplicationStatus.PROGRESSING));
+        return !response;
     }
 }
