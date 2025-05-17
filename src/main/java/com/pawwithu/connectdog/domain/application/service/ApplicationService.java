@@ -132,7 +132,7 @@ public class ApplicationService {
         // 알림 전송
         VolunteerFcm volunteerFcm = volunteerFcmRepository.findByVolunteerId(application.getVolunteer().getId()).orElse(null);
         if (volunteerFcm != null) {
-            fcmService.sendMessageToVolunteer(volunteerFcm.getFcmToken(), application.getVolunteer(), post.getMainImage().getImage(),
+            fcmService.sendMessageToVolunteer(volunteerFcm.getFcmToken(), application.getVolunteer(), post.getId(),
                     NotificationType.CONFIRMED, CONFIRM.getTitle(), CONFIRM.getBody());
         } else {
             log.info("----------이동봉사 승인 알림 전송 실패----------");
@@ -153,7 +153,7 @@ public class ApplicationService {
         // 알림 전송
         VolunteerFcm volunteerFcm = volunteerFcmRepository.findByVolunteerId(application.getVolunteer().getId()).orElse(null);
         if (volunteerFcm != null) {
-            fcmService.sendMessageToVolunteer(volunteerFcm.getFcmToken(), application.getVolunteer(), post.getMainImage().getImage(),
+            fcmService.sendMessageToVolunteer(volunteerFcm.getFcmToken(), application.getVolunteer(), post.getId(),
                     NotificationType.REJECTED, REJECT.getTitle(), REJECT.getBody());
         } else {
             log.info("----------이동봉사 반려 알림 전송 실패----------");
@@ -224,7 +224,7 @@ public class ApplicationService {
         // 알림 전송
         VolunteerFcm volunteerFcm = volunteerFcmRepository.findByVolunteerId(application.getVolunteer().getId()).orElse(null);
         if (volunteerFcm != null) {
-            fcmService.sendMessageToVolunteer(volunteerFcm.getFcmToken(), application.getVolunteer(), post.getMainImage().getImage(),
+            fcmService.sendMessageToVolunteer(volunteerFcm.getFcmToken(), application.getVolunteer(), post.getId(),
                     NotificationType.COMPLETED, COMPLETED.getTitle(), COMPLETED.getBody());
         } else {
             log.info("----------이동봉사 완료 알림 전송 실패----------");

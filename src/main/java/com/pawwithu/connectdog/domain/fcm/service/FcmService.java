@@ -101,7 +101,7 @@ public class FcmService {
      * 알림 푸쉬를 보내는 역할을 하는 메서드
      * @param targetToken : 푸쉬 알림을 받을 클라이언트 앱의 식별 토큰
      * */
-    public void sendMessageToVolunteer(String targetToken, Volunteer volunteer, String image,
+    public void sendMessageToVolunteer(String targetToken, Volunteer volunteer, Long postId,
                                        NotificationType notificationType, String title, String body) {
 
         if (volunteer.getNotification()) {
@@ -132,7 +132,7 @@ public class FcmService {
         // 알림 저장
         volunteerNotificationRepository.save(
                 VolunteerNotification.builder()
-                        .image(image)
+                        .postId(postId)
                         .notificationType(notificationType)
                         .title(title)
                         .body(body)

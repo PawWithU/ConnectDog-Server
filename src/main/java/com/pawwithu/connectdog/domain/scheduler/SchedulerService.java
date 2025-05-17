@@ -60,7 +60,7 @@ public class SchedulerService {
             VolunteerFcm volunteerFcm = volunteerFcmRepository.findByVolunteerId(application.getVolunteer().getId()).orElse(null);
             if (volunteerFcm != null) {
                 fcmService.sendMessageToVolunteer(volunteerFcm.getFcmToken(), application.getVolunteer(),
-                        application.getPost().getMainImage().getImage(), NotificationType.REJECTED, EXPIRED_REJECT.getTitle(), EXPIRED_REJECT.getBody());
+                        application.getPost().getId(), NotificationType.REJECTED, EXPIRED_REJECT.getTitle(), EXPIRED_REJECT.getBody());
             } else {
                 log.info("----------모집 마감 공고 신청 반려 알림 전송 실패----------");
             }
@@ -140,7 +140,7 @@ public class SchedulerService {
             VolunteerFcm volunteerFcm = volunteerFcmRepository.findByVolunteerId(volunteer.getId()).orElse(null);
             if (volunteerFcm != null) {
                 fcmService.sendMessageToVolunteer(volunteerFcm.getFcmToken(), volunteer,
-                        volunteer.getProfileImageNum() + "", NotificationType.GUIDE, GUIDE.getTitle(), GUIDE.getBody());
+                        null, NotificationType.GUIDE, GUIDE.getTitle(), GUIDE.getBody());
             } else {
                 log.info("----------이동봉사 가이드 알림 전송 실패----------");
             }
