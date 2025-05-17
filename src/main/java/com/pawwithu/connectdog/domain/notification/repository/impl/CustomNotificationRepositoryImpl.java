@@ -28,7 +28,7 @@ public class CustomNotificationRepositoryImpl implements CustomNotificationRepos
                 .select(Projections.constructor(NotificationVolunteerQueryResponse.class,
                         volunteerNotification.id, volunteerNotification.notificationType, volunteerNotification.title,
                         volunteerNotification.body, volunteerNotification.isRead, volunteerNotification.volunteer.id,
-                        volunteerNotification.createdDate))
+                        volunteerNotification.postId, volunteerNotification.createdDate))
                 .from(volunteerNotification)
                 .where(volunteerNotification.volunteer.id.eq(volunteerId))
                 .orderBy(volunteerNotification.createdDate.desc())   // 알림 최신순
