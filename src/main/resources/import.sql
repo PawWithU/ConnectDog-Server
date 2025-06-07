@@ -549,7 +549,7 @@ INSERT INTO bookmark(id, post_id, volunteer_id, created_date, modified_date) VAL
 
 INSERT INTO volunteer_notification(id, notification_type, title, body, volunteer_id, is_read, created_date, modified_date) VALUES  (1, 'REJECTED', '이동봉사 반려', '모집 기간이 마감되어 이동봉사가 반려되었어요😥', 3, false, now(), now());
 INSERT INTO volunteer_notification(id, notification_type, title, body, volunteer_id, is_read, created_date, modified_date) VALUES  (2, 'CONFIRMED', '이동봉사 승인', '이동봉사가 승인되었어요🎉\n모집자의 연락을 기다려 주세요!', 3, false, now(), now());
-INSERT INTO volunteer_notification(id, notification_type, title, body, volunteer_id, is_read, created_date, modified_date) VALUES  (3, 'COMPLETED', '이동봉사 완료', '이동봉사 진행이 완료되었어요🐾\n소중한 후기를 들려주세요!', 3, false, now(), now());
+INSERT INTO volunteer_notification(id, notification_type, title, body, volunteer_id, is_read, post_id, created_date, modified_date) VALUES  (3, 'COMPLETED', '이동봉사 완료', '이동봉사 진행이 완료되었어요🐾\n소중한 후기를 들려주세요!', 3, false, 2, now(), now());
 
 INSERT INTO intermediary_notification(id, notification_type, title, body, intermediary_id, is_read, created_date, modified_date) VALUES  (1, 'APPLICATION', '이동봉사 신청', '승구님이 이동봉사를 신청하셨어요.\n지금 확인해 보세요!', 2, false, now(), now());
 INSERT INTO intermediary_notification(id, notification_type, title, body, intermediary_id, is_read, created_date, modified_date) VALUES  (2, 'CANCELED', '이동봉사 신청 취소', '호정님이 이동봉사를 취소하셨어요.\n해당 공고는 모집중 상태로 변경됩니다.', 2, false, now(), now());
