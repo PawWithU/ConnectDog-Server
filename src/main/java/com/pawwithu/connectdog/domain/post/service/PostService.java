@@ -99,7 +99,7 @@ public class PostService {
         dog.updateDog(request.dogName(), request.dogSize(), request.specifics());
 
         // 공고 수정 (대표 이미지 제외)
-        post.updatePost(request.departureLoc(), request.arrivalLoc(), request.startDate(), request.endDate(),
+        post.updatePost(request.departureLoc(), request.arrivalLoc(), request.startDate(), request.endDate(), request.isAdjust(),
                 request.pickUpTime(), request.isKennel(), request.content());
 
         // 공고 이미지 삭제
@@ -220,6 +220,6 @@ public class PostService {
             throw new BadRequestException(INVALID_POST_DATE);
         }
         // startDate, endDate, pickUpTime 업데이트 및 공고 상태 모집 마감 -> 모집중 변경
-        post.extendDate(request.startDate(), request.endDate(), request.pickUpTime());
+        post.extendDate(request.startDate(), request.endDate(), request.isAdjust(), request.pickUpTime());
     }
 }

@@ -43,7 +43,7 @@ public class CustomPostRepositoryImpl implements CustomPostRepository {
         return queryFactory
                         .select(Projections.constructor(PostGetHomeResponse.class,
                                 post.id, postImage.image, dog.name, post.departureLoc, post.arrivalLoc,
-                                post.startDate, post.endDate, post.pickUpTime))
+                                post.startDate, post.endDate, post.isAdjust, post.pickUpTime))
                         .from(post)
                         .join(post.mainImage, postImage)
                         .join(post.dog, dog)
@@ -60,7 +60,7 @@ public class CustomPostRepositoryImpl implements CustomPostRepository {
         return queryFactory
                 .select(Projections.constructor(PostSearchResponse.class,
                         post.id, postImage.image, dog.name, post.departureLoc, post.arrivalLoc,
-                        post.startDate, post.endDate, post.pickUpTime, dog.size, post.isKennel))
+                        post.startDate, post.endDate, post.isAdjust, post.pickUpTime, dog.size, post.isKennel))
                 .from(post)
                 .join(post.dog, dog)
                 .join(post.mainImage, postImage)
@@ -89,7 +89,7 @@ public class CustomPostRepositoryImpl implements CustomPostRepository {
         return queryFactory
                 .select(Projections.constructor(PostVolunteerGetOneResponse.class,
                         post.id, postImage.image, post.status, post.departureLoc, post.arrivalLoc,
-                        post.startDate, post.endDate, post.pickUpTime, post.isKennel, post.content,
+                        post.startDate, post.endDate, post.isAdjust, post.pickUpTime, post.isKennel, post.content,
                         dog.name, dog.size, dog.specifics,
                         intermediary.id, intermediary.profileImage, intermediary.name))
                 .from(post)
@@ -105,7 +105,7 @@ public class CustomPostRepositoryImpl implements CustomPostRepository {
         return queryFactory
                 .select(Projections.constructor(PostRecruitingGetResponseWithBoostDate.class,
                         post.id, post.status, postImage.image, dog.name, post.departureLoc, post.arrivalLoc,
-                        post.startDate, post.endDate, post.pickUpTime, dog.size, post.isKennel, post.boostDate))
+                        post.startDate, post.endDate, post.isAdjust, post.pickUpTime, dog.size, post.isKennel, post.boostDate))
                 .from(post)
                 .join(post.mainImage, postImage)
                 .join(post.dog, dog)
@@ -122,7 +122,7 @@ public class CustomPostRepositoryImpl implements CustomPostRepository {
         return queryFactory
                 .select(Projections.constructor(IntermediaryGetPostsResponse.class,
                         post.id, postImage.image, dog.name, post.departureLoc, post.arrivalLoc,
-                        post.startDate, post.endDate, post.pickUpTime,
+                        post.startDate, post.endDate, post.isAdjust, post.pickUpTime,
                         dog.size, post.isKennel))
                 .from(post)
                 .join(post.intermediary, intermediary)
@@ -170,7 +170,7 @@ public class CustomPostRepositoryImpl implements CustomPostRepository {
         return queryFactory
                 .select(Projections.constructor(PostIntermediaryGetOneResponse.class,
                         post.id, postImage.image, post.status, post.departureLoc, post.arrivalLoc,
-                        post.startDate, post.endDate, post.pickUpTime, post.isKennel, post.content,
+                        post.startDate, post.endDate, post.isAdjust, post.pickUpTime, post.isKennel, post.content,
                         dog.name, dog.size, dog.specifics,
                         intermediary.id, intermediary.profileImage, intermediary.name, post.boostDate))
                 .from(post)

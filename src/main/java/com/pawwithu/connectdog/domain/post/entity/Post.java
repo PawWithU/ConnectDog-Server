@@ -28,6 +28,8 @@ public class Post extends BaseTimeEntity {
     private LocalDate startDate; // 봉사 시작 가능 날짜
     @Column(nullable = false)
     private LocalDate endDate; // 봉사 마감 가능 날짜
+    @Column
+    private Boolean isAdjust; // 날짜 조정 가능 여부
     @Column(length = 10)
     private String pickUpTime; // 픽업 시간
     @Column(nullable = false)
@@ -46,12 +48,13 @@ public class Post extends BaseTimeEntity {
     private LocalDateTime boostDate;  // 끌어올리기 날짜
 
     @Builder
-    public Post(PostStatus status, String departureLoc, String arrivalLoc, LocalDate startDate, LocalDate endDate, String pickUpTime, Boolean isKennel, String content, Intermediary intermediary, Dog dog, LocalDateTime boostDate) {
+    public Post(PostStatus status, String departureLoc, String arrivalLoc, LocalDate startDate, LocalDate endDate, Boolean isAdjust, String pickUpTime, Boolean isKennel, String content, Intermediary intermediary, Dog dog, LocalDateTime boostDate) {
         this.status = status;
         this.departureLoc = departureLoc;
         this.arrivalLoc = arrivalLoc;
         this.startDate = startDate;
         this.endDate = endDate;
+        this.isAdjust = isAdjust;
         this.pickUpTime = pickUpTime;
         this.isKennel = isKennel;
         this.content = content;
@@ -68,11 +71,12 @@ public class Post extends BaseTimeEntity {
         this.status = status;
     }
 
-    public void updatePost(String departureLoc, String arrivalLoc, LocalDate startDate, LocalDate endDate, String pickUpTime, Boolean isKennel, String content) {
+    public void updatePost(String departureLoc, String arrivalLoc, LocalDate startDate, LocalDate endDate, Boolean isAdjust, String pickUpTime, Boolean isKennel, String content) {
         this.departureLoc = departureLoc;
         this.arrivalLoc = arrivalLoc;
         this.startDate = startDate;
         this.endDate = endDate;
+        this.isAdjust = isAdjust;
         this.pickUpTime = pickUpTime;
         this.isKennel = isKennel;
         this.content = content;
@@ -84,9 +88,10 @@ public class Post extends BaseTimeEntity {
 
     public void updateBoostDate() { this.boostDate = LocalDateTime.now(); }
 
-    public void extendDate(LocalDate startDate, LocalDate endDate, String pickUpTime) {
+    public void extendDate(LocalDate startDate, LocalDate endDate, Boolean isAdjust, String pickUpTime) {
         this.startDate = startDate;
         this.endDate = endDate;
+        this.isAdjust = isAdjust;
         this.pickUpTime = pickUpTime;
         this.status = PostStatus.RECRUITING;
     }

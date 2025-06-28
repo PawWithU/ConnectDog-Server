@@ -12,6 +12,7 @@ public record ApplicationIntermediaryProgressingResponse(Long postId, String mai
                                                          LocalDate startDate,
                                                          @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd", timezone = "Asia/Seoul")
                                                          LocalDate endDate,
+                                                         Boolean isAdjust,
                                                          String pickUpTime,
                                                          String dogSize,
                                                          Boolean isKennel,
@@ -19,8 +20,8 @@ public record ApplicationIntermediaryProgressingResponse(Long postId, String mai
 
     public ApplicationIntermediaryProgressingResponse(Long postId, String mainImage, String dogName,
                                                   String departureLoc, String arrivalLoc, LocalDate startDate, LocalDate endDate,
-                                                  String pickUpTime, DogSize dogSize, Boolean isKennel, Long applicationId) {
-        this(postId, mainImage, dogName, departureLoc, arrivalLoc, startDate, endDate, pickUpTime,
+                                                  Boolean isAdjust, String pickUpTime, DogSize dogSize, Boolean isKennel, Long applicationId) {
+        this(postId, mainImage, dogName, departureLoc, arrivalLoc, startDate, endDate, isAdjust, pickUpTime,
                 dogSize.getKey(), isKennel, applicationId);
     }
 }

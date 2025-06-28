@@ -11,9 +11,10 @@ import java.util.List;
 public record PostVolunteerGetOneResponse(Long postId, String mainImage, List<String> images, String postStatus,
                                           String departureLoc, String arrivalLoc,
                                           @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd", timezone = "Asia/Seoul")
-                                 LocalDate startDate,
+                                          LocalDate startDate,
                                           @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd", timezone = "Asia/Seoul")
-                                 LocalDate endDate,
+                                          LocalDate endDate,
+                                          Boolean isAdjust,
                                           String pickUpTime,
                                           Boolean isKennel, String content,
                                           String dogName, String dogSize, String specifics,
@@ -22,18 +23,18 @@ public record PostVolunteerGetOneResponse(Long postId, String mainImage, List<St
 
     // 공고 이미지 필드를 제외한 생성자
     public PostVolunteerGetOneResponse(Long postId, String mainImage, PostStatus postStatus, String departureLoc, String arrivalLoc,
-                                       LocalDate startDate, LocalDate endDate, String pickUpTime, Boolean isKennel, String content, String dogName,
+                                       LocalDate startDate, LocalDate endDate, Boolean isAdjust, String pickUpTime, Boolean isKennel, String content, String dogName,
                                        DogSize dogSize, String specifics, Long intermediaryId,
                                        String intermediaryProfileImage, String intermediaryName) {
         this(postId, mainImage, null, postStatus.getKey(), departureLoc, arrivalLoc, startDate, endDate,
-                pickUpTime, isKennel, content, dogName, dogSize.getKey(), specifics,
+                isAdjust, pickUpTime, isKennel, content, dogName, dogSize.getKey(), specifics,
                 intermediaryId, intermediaryProfileImage, intermediaryName, null);
     }
 
     // 공고 이미지, 북마크 여부를 포함한 생성자
     public static PostVolunteerGetOneResponse of(PostVolunteerGetOneResponse response, List<String> images, Boolean isBookmark) {
         return new PostVolunteerGetOneResponse(response.postId, response.mainImage, images, response.postStatus, response.departureLoc, response.arrivalLoc,
-                response.startDate, response.endDate, response.pickUpTime, response.isKennel, response.content,
+                response.startDate, response.endDate, response.isAdjust, response.pickUpTime, response.isKennel, response.content,
                 response.dogName, response.dogSize, response.specifics,
                 response.intermediaryId, response.intermediaryProfileImage, response.intermediaryName, isBookmark);
     }

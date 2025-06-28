@@ -9,5 +9,6 @@ public record PostGetHomeResponse(Long postId, String mainImage, String dogName,
                                   LocalDate startDate,
                                   @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd", timezone = "Asia/Seoul")
                                   LocalDate endDate,
+                                  Boolean isAdjust,
                                   String pickUpTime) {
 }
