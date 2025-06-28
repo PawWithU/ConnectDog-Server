@@ -91,9 +91,9 @@ class PostControllerTest {
         LocalDate startDate = LocalDate.of(2023, 10, 2);
         LocalDate endDate = LocalDate.of(2023, 11, 7);
         response.add(new PostGetHomeResponse(1L, "image1", "하늘이", "서울시 성북구", "서울시 중랑구",
-                startDate, endDate, "13:00"));
+                startDate, endDate, true, "13:00"));
         response.add(new PostGetHomeResponse(2L, "image2", "초코", "서울시 성북구", "서울시 중랑구",
-                startDate, endDate, "13:00"));
+                startDate, endDate, true, "13:00"));
 
         //when
         given(postService.getHomePosts()).willReturn(response);
@@ -114,9 +114,9 @@ class PostControllerTest {
         LocalDate startDate = LocalDate.of(2023, 10, 2);
         LocalDate endDate = LocalDate.of(2023, 11, 7);
         response.add(new PostSearchResponse(1L, "image1", "하늘이", "서울시 성북구", "서울시 중랑구",
-                startDate, endDate, "13:00", DogSize.MEDIUM, true));
+                startDate, endDate, true, "13:00", DogSize.MEDIUM, true));
         response.add(new PostSearchResponse(2L, "image2", "하늘이", "서울시 성북구", "서울시 중랑구",
-                startDate, endDate, "12:00", DogSize.SMALL, false));
+                startDate, endDate, true, "12:00", DogSize.SMALL, false));
 
 
         //when
@@ -151,7 +151,7 @@ class PostControllerTest {
         images.add("image1");
         images.add("image2");
         PostIntermediaryGetOneResponse response = new PostIntermediaryGetOneResponse(1L, "mainImage", images, "모집중", "서울시 성북구", "서울시 중랑구",
-                startDate, endDate, "12:00", true, "이동봉사 공고", "봄이", DogSize.SMALL.getKey(),
+                startDate, endDate, true, "12:00", true, "이동봉사 공고", "봄이", DogSize.SMALL.getKey(),
                 "ㄱㅇㅇ", 1L, "profileImage", "이동봉사 중개", false, "28:-00");
 
 
@@ -174,9 +174,9 @@ class PostControllerTest {
         LocalDate startDate = LocalDate.of(2023, 10, 2);
         LocalDate endDate = LocalDate.of(2023, 11, 7);
         response.add(new PostRecruitingGetResponse(1L, PostStatus.RECRUITING.getKey(), "image1", "잔디", "서울시 성북구", "서울시 중랑구",
-                startDate, endDate, "13:00", DogSize.MEDIUM.getKey(), true, false));
+                startDate, endDate, true, "13:00", DogSize.MEDIUM.getKey(), true, false));
         response.add(new PostRecruitingGetResponse(2L, PostStatus.RECRUITING.getKey(), "image1", "잔디", "서울시 성북구", "서울시 중랑구",
-                startDate, endDate, "13:00", DogSize.MEDIUM.getKey(), true, true));
+                startDate, endDate, true, "13:00", DogSize.MEDIUM.getKey(), true, true));
 
 
         //when
@@ -215,7 +215,7 @@ class PostControllerTest {
         images.add("image1");
         images.add("image2");
         PostVolunteerGetOneResponse response = new PostVolunteerGetOneResponse(1L, "mainImage", images, "모집중", "서울시 성북구", "서울시 중랑구",
-                startDate, endDate, "12:00", true, "이동봉사 공고", "봄이", DogSize.SMALL.getKey(),
+                startDate, endDate, false, "12:00", true, "이동봉사 공고", "봄이", DogSize.SMALL.getKey(),
                 "ㄱㅇㅇ", 1L, "profileImage", "이동봉사 중개", true);
 
 
