@@ -34,7 +34,7 @@ public class Post extends BaseTimeEntity {
     private String pickUpTime; // 픽업 시간
     @Column(nullable = false)
     private Boolean isKennel; // 컨넬 제공 여부
-    @Column(length = 200, nullable = false)
+    @Column(length = 200)
     private String content; // 이동봉사 설명
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "mainImage_id")

@@ -35,7 +35,7 @@ public class PostController {
             responses = {@ApiResponse(responseCode = "204", description = "공고 등록 성공")
                     , @ApiResponse(responseCode = "400"
                     , description = "V1, 출발 지역은 필수 입력 값입니다. \t\n V1, 도착 지역은 필수 입력 값입니다. \t\n " +
-                    "V1, 이동봉사가 필요한 날짜는 필수 입력 값입니다. \t\n V1, 켄넬 제공 여부는 필수 입력 값입니다. \t\n V1, 이동봉사에 대한 설명은 필수 입력 값입니다. \t\n " +
+                    "V1, 이동봉사가 필요한 날짜는 필수 입력 값입니다. \t\n V1, 켄넬 제공 여부는 필수 입력 값입니다. \t\n " +
                     "V1, 강아지 이름은 필수 입력 값입니다. \t\n V1, 강아지 사이즈는 필수 입력 값입니다. \t\n " +
                     "F1, 파일이 존재하지 않습니다. \t\n F2, 파일 업로드에 실패했습니다. \t\n M2, 해당 이동봉사 중개를 찾을 수 없습니다."
                     , content = @Content(schema = @Schema(implementation = ErrorResponse.class)))

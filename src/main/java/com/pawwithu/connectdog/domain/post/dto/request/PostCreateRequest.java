@@ -27,7 +27,6 @@ public record PostCreateRequest(@NotBlank(message = "출발 지역은 필수 입
                                 String pickUpTime,
                                 @NotNull(message = "켄넬 제공 여부는 필수 입력 값입니다.")
                                 Boolean isKennel,
-                                @NotBlank(message = "이동봉사에 대한 설명은 필수 입력 값입니다.")
                                 String content,
                                 @NotBlank(message = "강아지 이름은 필수 입력 값입니다.")
                                 String dogName,
