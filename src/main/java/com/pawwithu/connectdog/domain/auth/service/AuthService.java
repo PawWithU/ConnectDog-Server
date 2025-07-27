@@ -94,9 +94,6 @@ public class AuthService {
             throw new BadRequestException(ALREADY_EXIST_NAME);
         }
         String profileImage = fileService.uploadFile(profileFile, "intermediary/profileImage");
-        if (profileImage == null) {
-            throw new BadRequestException(FILE_NOT_FOUND);
-        }
         Intermediary intermediary = IntermediarySignUpRequest.toEntity(request, profileImage);
         intermediary.passwordEncode(passwordEncoder);
         intermediaryRepository.save(intermediary);
