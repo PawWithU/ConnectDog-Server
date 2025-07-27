@@ -27,7 +27,7 @@ public class CustomBookmarkRepositoryImpl implements CustomBookmarkRepository {
         return queryFactory
                 .select(Projections.constructor(VolunteerGetMyBookmarkResponse.class,
                         post.id, postImage.image, dog.name, post.departureLoc, post.arrivalLoc,
-                        post.startDate, post.endDate, post.pickUpTime, dog.size, post.isKennel))
+                        post.startDate, post.endDate, post.isAdjust, post.pickUpTime, dog.size, post.isKennel))
                 .from(post)
                 .join(post.mainImage, postImage)
                 .join(post.dog, dog)

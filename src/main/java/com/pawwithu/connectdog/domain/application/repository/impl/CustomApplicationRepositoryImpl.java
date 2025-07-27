@@ -41,7 +41,7 @@ public class CustomApplicationRepositoryImpl implements CustomApplicationReposit
         return queryFactory
                 .select(Projections.constructor(ApplicationVolunteerWaitingResponse.class,
                         post.id, postImage.image, dog.name, post.departureLoc, post.arrivalLoc,
-                        post.startDate, post.endDate, post.pickUpTime,
+                        post.startDate, post.endDate, post.isAdjust, post.pickUpTime,
                         dog.size, post.isKennel, application.id))
                 .from(application)
                 .join(application.post, post)
@@ -60,7 +60,7 @@ public class CustomApplicationRepositoryImpl implements CustomApplicationReposit
         return queryFactory
                 .select(Projections.constructor(ApplicationVolunteerProgressingResponse.class,
                         post.id, postImage.image, dog.name, post.departureLoc, post.arrivalLoc,
-                        post.startDate, post.endDate, post.pickUpTime,
+                        post.startDate, post.endDate, post.isAdjust, post.pickUpTime,
                         dog.size, post.isKennel, application.id))
                 .from(application)
                 .join(application.post, post)
@@ -102,7 +102,7 @@ public class CustomApplicationRepositoryImpl implements CustomApplicationReposit
         return queryFactory
                 .select(Projections.constructor(ApplicationIntermediaryWaitingResponse.class,
                         application.createdDate, post.id, postImage.image, dog.name,
-                        post.departureLoc, post.arrivalLoc, post.startDate, post.endDate, post.pickUpTime,
+                        post.departureLoc, post.arrivalLoc, post.startDate, post.endDate, post.isAdjust, post.pickUpTime,
                         dog.size, post.isKennel, application.id))
                 .from(application)
                 .join(application.post, post)
@@ -121,7 +121,7 @@ public class CustomApplicationRepositoryImpl implements CustomApplicationReposit
         return queryFactory
                 .select(Projections.constructor(ApplicationIntermediaryProgressingResponse.class,
                         post.id, postImage.image, dog.name, post.departureLoc, post.arrivalLoc,
-                        post.startDate, post.endDate, post.pickUpTime,
+                        post.startDate, post.endDate, post.isAdjust, post.pickUpTime,
                         dog.size, post.isKennel, application.id))
                 .from(application)
                 .join(application.post, post)
@@ -140,7 +140,7 @@ public class CustomApplicationRepositoryImpl implements CustomApplicationReposit
         return queryFactory
                 .select(Projections.constructor(ApplicationVolunteerCompletedResponse.class,
                         post.id, postImage.image, dog.name, post.departureLoc, post.arrivalLoc,
-                        post.startDate, post.endDate, post.pickUpTime,
+                        post.startDate, post.endDate, post.isAdjust, post.pickUpTime,
                         dog.size, post.isKennel, review.id))
                 .from(application)
                 .join(application.post, post)
@@ -160,7 +160,7 @@ public class CustomApplicationRepositoryImpl implements CustomApplicationReposit
         return queryFactory
                 .select(Projections.constructor(ApplicationIntermediaryCompletedResponse.class,
                         post.id, postImage.image, dog.name, post.departureLoc, post.arrivalLoc,
-                        post.startDate, post.endDate, post.pickUpTime,
+                        post.startDate, post.endDate, post.isAdjust, post.pickUpTime,
                         dog.size, post.isKennel, review.id))
                 .from(application)
                 .join(application.post, post)

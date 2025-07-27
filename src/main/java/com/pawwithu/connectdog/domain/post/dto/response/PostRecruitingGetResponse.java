@@ -10,6 +10,7 @@ public record PostRecruitingGetResponse(Long postId, String postStatus, String m
                                         LocalDate startDate,
                                         @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd", timezone = "Asia/Seoul")
                                         LocalDate endDate,
+                                        Boolean isAdjust,
                                         String pickUpTime,
                                         String dogSize,
                                         Boolean isKennel,
@@ -19,7 +20,7 @@ public record PostRecruitingGetResponse(Long postId, String postStatus, String m
     public static PostRecruitingGetResponse of(PostRecruitingGetResponseWithBoostDate response, Boolean boost) {
         return new PostRecruitingGetResponse(response.postId(), response.postStatus(), response.mainImage(),
                 response.dogName(), response.departureLoc(), response.arrivalLoc(),
-                response.startDate(), response.endDate(), response.pickUpTime(), response.dogSize(),
+                response.startDate(), response.endDate(), response.isAdjust(), response.pickUpTime(), response.dogSize(),
                 response.isKennel(), boost);
     }
 }

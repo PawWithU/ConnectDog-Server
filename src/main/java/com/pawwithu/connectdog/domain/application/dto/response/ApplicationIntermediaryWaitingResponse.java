@@ -15,15 +15,16 @@ public record ApplicationIntermediaryWaitingResponse(@JsonFormat(shape = JsonFor
                                                      LocalDate startDate,
                                                      @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd", timezone = "Asia/Seoul")
                                                      LocalDate endDate,
+                                                     Boolean isAdjust,
                                                      String pickUpTime,
                                                      String dogSize,
                                                      Boolean isKennel,
                                                      Long applicationId) {
 
     public ApplicationIntermediaryWaitingResponse(LocalDateTime applicationTime, Long postId, String mainImage, String dogName,
-                                                  String departureLoc, String arrivalLoc, LocalDate startDate, LocalDate endDate,
+                                                  String departureLoc, String arrivalLoc, LocalDate startDate, LocalDate endDate, Boolean isAdjust,
                                                   String pickUpTime, DogSize dogSize, Boolean isKennel, Long applicationId) {
-        this(applicationTime, postId, mainImage, dogName, departureLoc, arrivalLoc, startDate, endDate, pickUpTime,
+        this(applicationTime, postId, mainImage, dogName, departureLoc, arrivalLoc, startDate, endDate, isAdjust, pickUpTime,
                 dogSize.getKey(), isKennel, applicationId);
     }
 }

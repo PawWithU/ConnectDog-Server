@@ -108,9 +108,9 @@ class VolunteerControllerTest {
         LocalDate startDate = LocalDate.of(2023, 10, 2);
         LocalDate endDate = LocalDate.of(2023, 11, 7);
         response.add(new VolunteerGetMyBookmarkResponse(1L, "image1", "여름이", "서울시 성북구", "서울시 중랑구",
-                startDate, endDate, "이동봉사 중개", DogSize.MEDIUM.getKey(), true));
+                startDate, endDate, true, "이동봉사 중개", DogSize.MEDIUM.getKey(), true));
         response.add(new VolunteerGetMyBookmarkResponse(2L, "image2", "여름이", "서울시 성북구", "서울시 중랑구",
-                startDate, endDate, "이동봉사 중개", DogSize.MEDIUM.getKey(), false));
+                startDate, endDate, true, "13:00", DogSize.MEDIUM.getKey(), false));
 
         // when
         given(volunteerService.getMyBookmarks(any())).willReturn(response);

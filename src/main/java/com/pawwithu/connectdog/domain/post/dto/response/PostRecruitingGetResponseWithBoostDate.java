@@ -10,18 +10,19 @@ import java.time.LocalDateTime;
 public record PostRecruitingGetResponseWithBoostDate(Long postId, String postStatus, String mainImage, String dogName,
                                                      String departureLoc, String arrivalLoc,
                                                      @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd", timezone = "Asia/Seoul")
-                                                  LocalDate startDate,
+                                                     LocalDate startDate,
                                                      @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd", timezone = "Asia/Seoul")
-                                                  LocalDate endDate,
+                                                     LocalDate endDate,
+                                                     Boolean isAdjust,
                                                      String pickUpTime,
                                                      String dogSize,
                                                      Boolean isKennel,
                                                      LocalDateTime boostDate) {
     // 공고 이동봉사자 이름을 제외한 생성자
     public PostRecruitingGetResponseWithBoostDate(Long postId, PostStatus postStatus, String mainImage, String dogName,
-                                                  String departureLoc, String arrivalLoc, LocalDate startDate, LocalDate endDate,
+                                                  String departureLoc, String arrivalLoc, LocalDate startDate, LocalDate endDate, Boolean isAdjust,
                                                   String pickUpTime, DogSize dogSize, Boolean isKennel, LocalDateTime boostDate) {
         this(postId, postStatus.getKey(), mainImage, dogName, departureLoc, arrivalLoc,
-                startDate, endDate, pickUpTime, dogSize.getKey(), isKennel, boostDate);
+                startDate, endDate, isAdjust, pickUpTime, dogSize.getKey(), isKennel, boostDate);
     }
 }

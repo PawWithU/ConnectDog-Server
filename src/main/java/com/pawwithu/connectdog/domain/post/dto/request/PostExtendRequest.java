@@ -11,6 +11,7 @@ public record PostExtendRequest(@NotNull(message = "이동봉사가 필요한 �
                                 @NotNull(message = "이동봉사가 필요한 날짜는 필수 입력 값입니다.")
                                 @DateTimeFormat(pattern = "yyyy-MM-dd")
                                 LocalDate endDate,
+                                Boolean isAdjust,
                                 String pickUpTime) {
 
 }

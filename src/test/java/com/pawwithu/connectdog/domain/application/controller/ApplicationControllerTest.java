@@ -77,9 +77,9 @@ class ApplicationControllerTest {
         LocalDate startDate = LocalDate.of(2023, 10, 2);
         LocalDate endDate = LocalDate.of(2023, 11, 7);
         response.add(new ApplicationVolunteerWaitingResponse(1L, "image1", "잔디", "서울시 성북구", "서울시 중랑구",
-                startDate, endDate, "13:00", DogSize.MEDIUM.getKey(), true, 1L));
+                startDate, endDate, true, "13:00", DogSize.MEDIUM.getKey(), true, 1L));
         response.add(new ApplicationVolunteerWaitingResponse(2L, "image1", "잔디", "서울시 성북구", "서울시 중랑구",
-                startDate, endDate, "13:00", DogSize.MEDIUM.getKey(), true, 1L));
+                startDate, endDate, true, "13:00", DogSize.MEDIUM.getKey(), true, 1L));
 
         //when
         given(applicationService.getVolunteerWaitingApplications(anyString(), any())).willReturn(response);
@@ -99,9 +99,9 @@ class ApplicationControllerTest {
         LocalDate startDate = LocalDate.of(2023, 10, 2);
         LocalDate endDate = LocalDate.of(2023, 11, 7);
         response.add(new ApplicationVolunteerProgressingResponse(1L, "image1", "잔디", "서울시 성북구", "서울시 중랑구",
-                startDate, endDate, "13:00", DogSize.MEDIUM.getKey(), true, 1L));
+                startDate, endDate, false, "13:00", DogSize.MEDIUM.getKey(), true, 1L));
         response.add(new ApplicationVolunteerProgressingResponse(2L, "image1", "잔디", "서울시 성북구", "서울시 중랑구",
-                startDate, endDate, "13:00", DogSize.MEDIUM.getKey(), true, 1L));
+                startDate, endDate, false, "13:00", DogSize.MEDIUM.getKey(), true, 1L));
 
         //when
         given(applicationService.getVolunteerProgressingApplications(anyString(), any())).willReturn(response);
@@ -192,9 +192,9 @@ class ApplicationControllerTest {
         LocalDate startDate = LocalDate.of(2023, 10, 2);
         LocalDate endDate = LocalDate.of(2023, 11, 7);
         response.add(new ApplicationIntermediaryWaitingResponse(applicationTime, 1L, "image1", "포포1", "서울시 성북구", "서울시 중랑구",
-                startDate, endDate, "13:00", DogSize.MEDIUM.getKey(), true, 1L));
+                startDate, endDate, true, "13:00", DogSize.MEDIUM.getKey(), true, 1L));
         response.add(new ApplicationIntermediaryWaitingResponse(applicationTime, 2L, "image1", "포포1", "서울시 성북구", "서울시 중랑구",
-                startDate, endDate, "13:00", DogSize.MEDIUM.getKey(), true, 2L));
+                startDate, endDate, true, "13:00", DogSize.MEDIUM.getKey(), true, 2L));
 
 
         //when
@@ -216,9 +216,9 @@ class ApplicationControllerTest {
         LocalDate startDate = LocalDate.of(2023, 10, 2);
         LocalDate endDate = LocalDate.of(2023, 11, 7);
         response.add(new ApplicationIntermediaryProgressingResponse(1L, "image1", "포포1", "서울시 성북구", "서울시 중랑구",
-                startDate, endDate, "13:00", DogSize.MEDIUM.getKey(), true, 1L));
+                startDate, endDate, true, "13:00", DogSize.MEDIUM.getKey(), true, 1L));
         response.add(new ApplicationIntermediaryProgressingResponse(2L, "image1", "포포1", "서울시 성북구", "서울시 중랑구",
-                startDate, endDate, "13:00", DogSize.MEDIUM.getKey(), true, 2L));
+                startDate, endDate, true, "13:00", DogSize.MEDIUM.getKey(), true, 2L));
 
 
 
@@ -240,9 +240,9 @@ class ApplicationControllerTest {
         LocalDate startDate = LocalDate.of(2023, 10, 2);
         LocalDate endDate = LocalDate.of(2023, 11, 7);
         response.add(new ApplicationVolunteerCompletedResponse(1L, "image1", "잔디", "서울시 성북구", "서울시 중랑구",
-                startDate, endDate, "13:00", DogSize.MEDIUM.getKey(), true, 1L));
+                startDate, endDate, true, "13:00", DogSize.MEDIUM.getKey(), true, 1L));
         response.add(new ApplicationVolunteerCompletedResponse(2L, "image1", "잔디", "서울시 성북구", "서울시 중랑구",
-                startDate, endDate, "13:00", DogSize.MEDIUM.getKey(), true, 2L));
+                startDate, endDate, true, "13:00", DogSize.MEDIUM.getKey(), true, 2L));
 
         //when
         given(applicationService.getVolunteerCompletedApplications(anyString(), any())).willReturn(response);
@@ -262,9 +262,9 @@ class ApplicationControllerTest {
         LocalDate startDate = LocalDate.of(2023, 10, 2);
         LocalDate endDate = LocalDate.of(2023, 11, 7);
         response.add(new ApplicationIntermediaryCompletedResponse(1L, "image1", "잔디", "서울시 성북구", "서울시 중랑구",
-                startDate, endDate, "13:00", DogSize.MEDIUM.getKey(), true, 1L));
+                startDate, endDate, true, "13:00", DogSize.MEDIUM.getKey(), true, 1L));
         response.add(new ApplicationIntermediaryCompletedResponse(2L, "image1", "잔디", "서울시 성북구", "서울시 중랑구",
-                startDate, endDate, "13:00", DogSize.MEDIUM.getKey(), true, 2L));
+                startDate, endDate, true, "13:00", DogSize.MEDIUM.getKey(), true, 2L));
 
         //when
         given(applicationService.getIntermediaryCompletedApplications(anyString(), any())).willReturn(response);
