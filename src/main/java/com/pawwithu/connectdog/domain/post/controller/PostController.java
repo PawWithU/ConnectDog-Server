@@ -161,4 +161,16 @@ public class PostController {
         postService.extendPost(loginUser.getUsername(), postId, request);
         return ResponseEntity.noContent().build();
     }
+
+    @Operation(summary = "봉사 관리 - 모집중 - 봉사 완료하기", description = "모집중인 봉사를 완료합니다.",
+            responses = {@ApiResponse(responseCode = "204", description = "봉사 완료 처리 성공")
+                    , @ApiResponse(responseCode = "400"
+                    , description = "M2, 해당 이동봉사 중개를 찾을 수 없습니다. \t\n P2, 해당 공고를 찾을 수 없습니다."
+                    , content = @Content(schema = @Schema(implementation = ErrorResponse.class)))
+            })
+    @PatchMapping( "/intermediaries/posts/{postId}/completed")
+    public ResponseEntity<PostCompleteResponse> completePost(@AuthenticationPrincipal UserDetails loginUser, @PathVariable Long postId) {
+        PostCompleteResponse response = postService.completePost(loginUser.getUsername(), postId);
+        return ResponseEntity.ok(response);
+    }
 }
