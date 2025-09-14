@@ -265,4 +265,22 @@ class PostControllerTest {
         result.andExpect(status().isNoContent());
         verify(postService, times(1)).extendPost(anyString(), anyLong(), any());
     }
+
+    @Test
+    void 이동봉사_완료하기() throws Exception {
+        //given
+        Long postId = 1L;
+        PostCompleteResponse response = new PostCompleteResponse(true);
+
+        //when
+        given(postService.completePost(anyString(), anyLong())).willReturn(response);
+        ResultActions result = mockMvc.perform(
+                patch("/intermediaries/posts/{postId}/completed", postId)
+        );
+
+        //then
+        result.andExpect(status().isOk());
+        verify(postService, times(1)).completePost(anyString(), anyLong());
+    }
+
 }

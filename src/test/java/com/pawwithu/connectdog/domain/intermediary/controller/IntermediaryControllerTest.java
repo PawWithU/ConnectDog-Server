@@ -67,9 +67,9 @@ class IntermediaryControllerTest {
         LocalDate startDate = LocalDate.of(2023, 10, 2);
         LocalDate endDate = LocalDate.of(2023, 11, 7);
         response.add(new IntermediaryGetPostsResponse(1L, "image1", "잔디1", "서울시 성북구", "서울시 중랑구",
-                startDate, endDate, "13:00", true, DogSize.MEDIUM.getKey(), true));
+                startDate, endDate, true, "13:00", DogSize.MEDIUM.getKey(), true));
         response.add(new IntermediaryGetPostsResponse(2L, "image1", "잔디2", "서울시 성북구", "서울시 중랑구",
-                startDate, endDate, "13:00", true, DogSize.MEDIUM.getKey(), true));
+                startDate, endDate, true, "13:00", DogSize.MEDIUM.getKey(), true));
 
 
         //when
