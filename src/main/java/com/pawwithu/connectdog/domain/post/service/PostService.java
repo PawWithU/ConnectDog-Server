@@ -222,4 +222,15 @@ public class PostService {
         // startDate, endDate, pickUpTime 업데이트 및 공고 상태 모집 마감 -> 모집중 변경
         post.extendDate(request.startDate(), request.endDate(), request.isAdjust(), request.pickUpTime());
     }
+
+    public PostCompleteResponse completePost(String email, Long postId) {
+        // 이동봉사 중개
+        Intermediary intermediary = intermediaryRepository.findByEmail(email).orElseThrow(() -> new BadRequestException(INTERMEDIARY_NOT_FOUND));
+        // 공고
+        Post post = postRepository.findByIdAndIntermediaryIdAndStatus(postId, intermediary.getId(), PostStatus.RECRUITING).orElseThrow(() -> new BadRequestException(POST_NOT_FOUND));
+        // 상태 업데이트 (모집중 -> 봉사 완료)
+        post.updateStatus(PostStatus.COMPLETED);
+        PostCompleteResponse isSuccess = PostCompleteResponse.of(true);
+        return isSuccess;
+    }
 }
