@@ -92,7 +92,7 @@ jobs:
         run: |
           aws s3 cp \
             --region ap-northeast-2 \
-            ./pawwithu-build.zip s3://pawwithu-bucket 
+            ./pawwithu-build.zip s3://pawwithu-app-bucket 
 
       # CodeDeploy에 배포 요청
       - name: Code Deploy Deployment Request
@@ -100,4 +100,4 @@ jobs:
           aws deploy create-deployment --application-name pawwithu \
             --deployment-config-name CodeDeployDefault.OneAtATime \
             --deployment-group-name pawwithu \
-            --s3-location bucket=pawwithu-bucket,bundleType=zip,key=pawwithu-build.zip
+            --s3-location bucket=pawwithu-app-bucket,bundleType=zip,key=pawwithu-build.zip
