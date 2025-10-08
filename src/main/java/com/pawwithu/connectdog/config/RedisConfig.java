@@ -13,7 +13,10 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.cache.RedisCacheConfiguration;
 import org.springframework.data.redis.cache.RedisCacheManager;
+import org.springframework.data.redis.connection.RedisConfiguration;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
+import org.springframework.data.redis.connection.RedisStandaloneConfiguration;
+import org.springframework.data.redis.connection.lettuce.LettuceClientConfiguration;
 import org.springframework.data.redis.connection.lettuce.LettuceConnectionFactory;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.repository.configuration.EnableRedisRepositories;
@@ -31,9 +34,19 @@ public class RedisConfig extends CachingConfigurerSupport {
     @Value("${spring.data.redis.host}")
     private String host;
 
+    @Value("${spring.data.redis.ssl.enabled:false}")
+    private Boolean ssl;
+
     @Bean
     public RedisConnectionFactory redisConnectionFactory() {
-        return new LettuceConnectionFactory(host, port);
+        RedisConfiguration config = new RedisStandaloneConfiguration(host, port);
+        LettuceClientConfiguration.LettuceClientConfigurationBuilder clientConfigBuilder = LettuceClientConfiguration.builder();
+
+        if (Boolean.TRUE.equals(ssl)) {
+            clientConfigBuilder.useSsl();
+        }
+
+        return new LettuceConnectionFactory(config, clientConfigBuilder.build());
     }
 
     @Bean(name = "redisTemplate")
