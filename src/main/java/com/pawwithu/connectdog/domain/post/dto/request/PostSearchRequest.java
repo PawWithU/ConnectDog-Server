@@ -6,11 +6,13 @@ import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.time.LocalDate;
+import java.util.List;
 
 public record PostSearchRequest(@RequestParam(value = "postStatus", required = false) PostStatus postStatus,
-                                @RequestParam(value = "departureLoc", required = false) String departureLoc,
+                                @RequestParam(value = "departureLoc", required = false)
+                                List<String> departureLoc,
                                 @RequestParam(value = "arrivalLoc", required = false)
-                                String arrivalLoc,
+                                List<String> arrivalLoc,
                                 @RequestParam(value = "startDate", required = false, defaultValue = "")
                                 @DateTimeFormat(pattern = "yyyy-MM-dd")
                                 LocalDate startDate,

@@ -7,6 +7,7 @@ import com.pawwithu.connectdog.domain.post.dto.response.*;
 import com.pawwithu.connectdog.domain.post.entity.Post;
 import com.pawwithu.connectdog.domain.post.entity.PostStatus;
 import com.pawwithu.connectdog.domain.post.repository.CustomPostRepository;
+import com.querydsl.core.BooleanBuilder;
 import com.querydsl.core.types.Order;
 import com.querydsl.core.types.OrderSpecifier;
 import com.querydsl.core.types.Projections;
@@ -64,7 +65,7 @@ public class CustomPostRepositoryImpl implements CustomPostRepository {
                 .from(post)
                 .join(post.dog, dog)
                 .join(post.mainImage, postImage)
-                .where(allFilterSearch(request, pageable))
+                .where(allFilterSearch(request))
                 .orderBy(createOrderSpecifierCE(request.orderCondition()))
                 .offset(pageable.getOffset())   // 페이지 번호
                 .limit(pageable.getPageSize())  // 페이지 사이즈
@@ -182,14 +183,19 @@ public class CustomPostRepositoryImpl implements CustomPostRepository {
     }
 
     // 모든 필터 검색
-    private BooleanExpression allFilterSearch(PostSearchRequest request, Pageable pageable) {
-        return postStatusEq(request.postStatus())
-                .and(departureLocContains(request.departureLoc()))
-                .and(arrivalLocContains(request.arrivalLoc()))
-                .and(dateSearch(request.startDate(), request.endDate()))
-                .and(dogSizeEq(request.dogSize()))
-                .and(isKennelEq(request.isKennel()))
-                .and(intermediaryNameContains(request.intermediaryName()));
+    private BooleanBuilder allFilterSearch(PostSearchRequest request) {
+
+        BooleanBuilder builder = new BooleanBuilder();
+
+        builder.and(postStatusEq(request.postStatus()));
+        builder.and(departureLocContains(request.departureLoc()));
+        builder.and(arrivalLocContains(request.arrivalLoc()));
+        builder.and(dateSearch(request.startDate(), request.endDate()));
+        builder.and(dogSizeEq(request.dogSize()));
+        builder.and(isKennelEq(request.isKennel()));
+        builder.and(intermediaryNameContains(request.intermediaryName()));
+
+        return builder;
     }
 
     // 공고 상태 필터
@@ -198,13 +204,21 @@ public class CustomPostRepositoryImpl implements CustomPostRepository {
     }
 
     // 출발 지역 필터
-    private BooleanExpression departureLocContains(String departureLoc) {
-        return StringUtils.hasText(departureLoc) ? post.departureLoc.contains(departureLoc) : null;
+    private BooleanExpression departureLocContains(List<String> departureLocs) {
+        if (departureLocs == null || departureLocs.isEmpty()) { return null; }
+        return departureLocs.stream()
+                .map(post.departureLoc::contains)
+                .reduce(BooleanExpression::or)
+                .orElse(null);
     }
 
     // 도착 지역 필터
-    private BooleanExpression arrivalLocContains(String arrivalLoc) {
-        return StringUtils.hasText(arrivalLoc) ? post.arrivalLoc.contains(arrivalLoc) : null;
+    private BooleanExpression arrivalLocContains(List<String> arrivalLocs) {
+        if (arrivalLocs == null || arrivalLocs.isEmpty()) { return null; }
+        return arrivalLocs.stream()
+                .map(post.arrivalLoc::contains)
+                .reduce(BooleanExpression::or)
+                .orElse(null);
     }
 
     // 일정 필터
